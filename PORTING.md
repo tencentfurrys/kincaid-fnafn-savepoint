@@ -84,6 +84,36 @@ if (<input read> > 0) {
 }
 ```
 
+## BREAKTHROUGH 2026-09-30: FNAFN.exe registry decoded
+- `fnafn/binaries/FNAFN.exe` is BACK in the repo (LFS, restored 18:09).
+- The exe's .data section contains the full GML registry as 16-byte
+  entries: +0 = pointer to the name string, +8 = the slot the YYC
+  codegen references as `uRam<addr>`.
+  **Decode rule: slot uRam X -> name at X-8.** Tools: `exe_strings.py`
+  (VA reader), outputs `EXE-REGISTRY.md` (684 slot names) and
+  `EXE-CONSTANTS.md` (457 RValue constants in the menu range).
+- This resolves EVERY runtime funcid slot and string constant. Key
+  confirmations/corrections:
+  - Slot 0x1405c7b98 = **image_alpha** (NOT `fading`; the old slot proof
+    conflated the variable id 0x18719 with the slot it feeds). Fade
+    objects fade their own image_alpha; re-check Fade ports.
+  - Slot 0x1405c8c20 = surface_free (Disclaimer Alarm_1 confirmed).
+  - Slot 0x1405c8d50 = instance_deactivate_layer / 0x1405c8fa0 =
+    instance_activate_layer: Obj_Pause Esc pauses layers (Office_back,
+    Office_front, Camera_HUD, HUD, AI), not objects.
+  - Slot 0x1405c8f90 = audio_pause_all / 0x1405c8fb0 = audio_resume_all.
+  - Slot 0x1405c8d90 = instance_create_layer; 0x1405c8d80 = string_width;
+    0x1405c8d70 = draw_surface_ext; 0x1405c8da0 = draw_text;
+    0x1405c8a50 = surface_exists; 0x1405c8a60 = surface_create;
+    0x1405c8d40 = surface_copy; 0x1405c8cb0 = room_goto;
+    0x1405c8cc0 = lerp; 0x1405c8ce0 = camera_set_view_pos;
+    0x1405c8ab0 = draw_surface.
+  - Named scripts resolvable too: scr_OLDTVFilter_{Setup,Settings,Draw},
+    customfunct_ui_button_detection, Scr_Camera_Update, etc.
+  - Obj_Pause KeyPress spawns instance "Night_end" layer via
+    instance_create_layer(0,0,"Night_end",48) on unpause.
+  - Obj_Menu_Pause Mouse: "return"/"exit" buttons; exit = room_goto(1).
+
 ## Status ledger
 - Annotated machine reference: `gml_all_414_decompiled.annotated.c` (USE THIS, not the plain .c)
 - Registry id map (variables AND functions, 425 entries): `builtin_ids.json`
@@ -93,9 +123,20 @@ if (<input read> > 0) {
   Obj_Menu_Warning {Alarm_0, KeyPress_1} (mirror of Disclaimer - identical
   function sizes), Obj_Night_Camera_Switch Create_0, Obj_Menu_Main_Music
   Create_0, Obj_Menu_Fade {Create_0, Step_0, Draw_0},
-  Obj_System_Delta_Time Create_0 (reference kept in-file).
+  Obj_System_Delta_Time Create_0 (reference kept in-file),
+  Obj_Menu_Pause {Create_0, Destroy_0, Step_0, Draw_0, Mouse_53},
+  Obj_Pause {Create_0, KeyPress_27} (reference kept in-file).
   Corrections 2026-09-30: Disclaimer/Warning KeyPress_1 is
   `if (fading > 0.5)` (exact 0.5 constant decoded), not `> 0`.
+  Pause decode notes 2026-09-30: Obj_Pause/KeyPress_27 toggles
+  `paused ^= 1` then pauses/unpauses five objects by name via slots
+  0x1405c8fa0 (pause) / 0x1405c8d50 (unpause) with name consts
+  0x1405c5368..0x1405c5390 (exe data gone), sets Parallax_enabled and
+  fade_alpha; Obj_Menu_Pause/Create seeds pause_text[0..1], creates
+  pause_surface/back_surface (-1 default), sets alpha_current=0.4 and
+  runs a 48-iteration settings scan; Mouse_53 uses the NAMED script
+  gml_Script_customfunct_ui_button_detection (direct symbol — first
+  GML-name-level function call seen in the YYC output).
 - Helper semantics established 2026-09-30 (evidence in the ported files):
   `0x140181c50(self, other, 2, N)` = room/event transition service
   (50 sites, first service arg always 2; N ∈ {0,1,Room_to_go_to});

@@ -1,7 +1,83 @@
-/// @description FNAFN Obj_Menu_Pause / Draw - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Menu_Pause / Draw_0 — PORTED from C
+// Ground truth: gml_Object_Obj_Menu_Pause_Draw_0 (3634 B @0x1400d81a0)
+// Decoded, in order:
+//   1. global fetch `game_font` (0x18725, +8 runner global), index [1] =>
+//      numeric element -> builtin func_0x000140175520(value) — 1-arg draw
+//      state setter on a font id: best fit draw_set_font().
+//   2. builtin func_0x0001401756a0(0xff,0,0x6e) = make_color_rgb(255,0,110)
+//      -> builtin func_0x00014018d100(result): draw_set_color().
+//   3. builtin func_0x000140175530(0) — 1-arg draw state setter, 0:
+//      best fit draw_set_alpha(0) (or halign; TODO calibrate).
+//   4. if surface_exists(back_surface) (1-arg funcid slot 0x1405c8a50):
+//      4-arg call slot 0x1405c8d40, args = (position state read from slot
+//      uRam00000001405c7bf8 via func_0x00014015ef90, back_surface,
+//      const @0x140656d40, second slot read from uRam00000001405c7ba8
+//      via func_0x00014015ef90 with 0x80000000 flag). Best fit:
+//      draw_surface_ext / draw_surface_stretched at the stored position.
+//      NOTE 0x1405c7ba8 is the same slot used for back_surface setup in
+//      Create (func_0x000140160140 write) — likely a width/height pair.
+//   5. 8-arg call slot 0x1405c8d70 (co-fetch game_font/arrow_*/pause_text/
+//      back_surface => draw_text-transformed family): args include the
+//      read-modify-write op-helper result on slot uRam00000001405c7b98
+//      (func_0x00014015f1a0 — same shared select/fading slot), consts
+//      0x140656d40, 0x1405c5678, 0x1405c5678, 0x140656d40, 0x1405c5688
+//      and the position-state read. Best fit: draw_text_ext_transformed
+//      on the selection label.
+//   6. 1-arg funcid slot 0x1405c85a0 (co-fetch back_surface/pause_surface/
+//      pause_text/game_font => a UI-state getter) -> numeric ->
+//      builtin func_0x000140175550(self, 42, 0, value, 0). TODO calibrate.
+//   7. fetch `pause_surface` (0x18752, +8) -> builtin
+//      func_0x0001401756b0(value) — 1-arg builtin taking a surface id.
+//      Best fit: draw_set_alpha? No — TODO calibrate (surface-draw
+//      plumbing, maybe surface_set_target for the pause overlay).
+//   8. 3-arg call slot 0x1405c8da0 (co-fetch game_font/surface/draw_alpha/
+//      text_access/text_audio/text_options => draw_text on a UI label),
+//      args = (const @0x1405c5698, const @0x1405c56a8, string
+//      @0x1405c5670).
+//   9. game_font[0] -> func_0x000140175520(value) again (draw_set_font).
+//  10. two more 3-arg calls on slot 0x1405c8da0:
+//        (const @0x1405c56b8, const @0x1405c56c8, pause_text[0])
+//        (const @0x1405c56b8, const @0x1405c56d8, pause_text[1])
+//      -> the two pause-menu option labels.
+//  11. no-arg builtin func_0x000140183c00() — draw-state cleanup.
+//  12. 1-arg funcid slot 0x1405c85a0 with (position state, pause_surface),
+//      then 3-arg call slot 0x1405c8ab0 (co-fetch television_contrast/
+//      enabled/saturation/sharpness/composite_*/tube_distortion => the
+//      CRT/TV shader family), args (result, const @0x140656d40). Best
+//      fit: apply the TV filter to pause_surface.
+// Constants 0x1405c56xx / 0x140656d20/30/40 are exe-data strings/numbers
+// — not resolvable offline (see SLOT-MAP.md).
+draw_set_font(game_font[1]);
+draw_set_color(make_color_rgb(255, 0, 110));
+draw_set_alpha(0); // TODO(calibrate): builtin 0x140175530(0)
+
+// REGISTRY-CONFIRMED (EXE-REGISTRY.md):
+//   slot 0x1405c8a50 = surface_exists; slot 0x1405c8d40 = surface_copy;
+//   slot 0x1405c85a0 = camera_get_view_x; slot 0x1405c8d70 = draw_surface_ext;
+//   slot 0x1405c8da0 = draw_text; slot 0x1405c8ab0 = draw_surface;
+//   slot 0x1405c7b98 = image_alpha; slot 0x1405c7bf8 = view_camera.
+if (surface_exists(back_surface)) {
+    surface_copy(back_surface, 0, 0, application_surface);
+    // C passes camera_get_view_x(...) result as extra arg -- see C ref.
+}
+
+// REGISTRY-CONFIRMED: 8-arg call = draw_surface_ext (args include consts
+// 1.0, 1.0, 16777215.0 = c_white and image_alpha) + view_camera read.
+// TODO(calibrate): exact arg order for draw_surface_ext.
+
+// REGISTRY-CONFIRMED: 3-arg calls = draw_text(x, y, str).
+draw_text(32, 185, "paused");   // consts @0x1405c5698/0x1405c56a8 + str @0x1405c5670
+
+draw_set_font(game_font[0]);
+
+draw_text(94, 340, pause_text[0]);  // consts @0x1405c56b8/0x1405c56c8
+draw_text(94, 385, pause_text[1]);  // consts @0x1405c56b8/0x1405c56d8
+
+// REGISTRY-CONFIRMED: final pass = draw_surface + scr_OLDTVFilter shader
+// family on pause_surface (slot 0x1405c8ab0 = draw_surface;
+// getter slot 0x1405c85a0 = camera_get_view_x).
+// TODO(calibrate): draw_surface + TV-shader uniform plumbing.
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Menu_Pause_Draw_0(longlong *param_1,undefined8 param_2)
 
@@ -67,7 +143,7 @@ void gml_Object_Obj_Menu_Pause_Draw_0(longlong *param_1,undefined8 param_2)
   undefined8 uStack_48;
   
   uStack_48 = 0xfffffffffffffffe;
-  puStack_88 = &UNK_14043ca6c;
+  puStack_88 = &UNK_14043ca6c /* "gml_Object_Obj_Menu_Pause_Draw_0" */;
   uStack_80 = 0;
   uStack_90 = puRam0000000140657668;
   puRam0000000140657668 = &uStack_90;
@@ -90,7 +166,7 @@ void gml_Object_Obj_Menu_Pause_Draw_0(longlong *param_1,undefined8 param_2)
   uStack_ec = 0xffffff;
   uStack_f8 = 0;
   plRam0000000140657680 = param_1;
-  pdVar4 = (double *)(**(code **)(*plRam000000014065e080 + 8))(plRam000000014065e080,0x18725);
+  pdVar4 = (double *)(**(code **)(*plRam000000014065e080 + 8))(plRam000000014065e080,0x18725 /* "game_font" */);
   uStack_6c = 0xffffff;
   uStack_78 = 0;
   uStack_18c = 0xffffff;
@@ -113,7 +189,7 @@ void gml_Object_Obj_Menu_Pause_Draw_0(longlong *param_1,undefined8 param_2)
     iVar2 = func_0x000140147990(*pdVar4);
     if (iVar2 < 2) {
       uVar3 = func_0x000140147990(*pdVar4);
-      func_0x000140144260(&UNK_140439ca6,1,uVar3);
+      func_0x000140144260(&UNK_140439ca6 /* "index out of bounds request %d maximum size is %d" */,1,uVar3);
       pdVar5 = (double *)0x0;
       uVar10 = uRam000000000000000c;
       goto joined_r0x0001400d839f;
@@ -124,7 +200,7 @@ code_r0x0001400d83a1:
     dVar9 = (double)func_0x00014012d320();
   }
   else {
-    func_0x000140144260(&UNK_140439cd8);
+    func_0x000140144260(&UNK_140439cd8 /* "trying to index variable that is not an array" */);
     pdVar5 = pdVar4;
     uVar10 = *(uint *)((longlong)pdVar4 + 0xc);
 joined_r0x0001400d839f:
@@ -144,7 +220,7 @@ code_r0x0001400d83cc:
   }
   uStack_58 = 0;
   uStack_50 = 0x500000000;
-  uVar6 = (**(code **)(*param_1 + 8))(param_1,0x186e5);
+  uVar6 = (**(code **)(*param_1 + 8))(param_1,0x186e5 /* "back_surface" */);
   func_0x000140001490(&uStack_178,uVar6);
   ppuVar11 = &puStack_e8;
   uVar10 = uRam00000001405c8a50;
@@ -163,7 +239,7 @@ code_r0x0001400d83cc:
     }
     uStack_a0 = 0;
     uStack_98 = 0x500000000;
-    uVar6 = (**(code **)(*param_1 + 8))(param_1,0x186e5);
+    uVar6 = (**(code **)(*param_1 + 8))(param_1,0x186e5 /* "back_surface" */);
     func_0x00014015ef90(param_1,uRam00000001405c7bf8,0,&uStack_78);
     func_0x000140001490(&uStack_168,&uStack_78);
     puStack_e0 = &uStack_168;
@@ -234,7 +310,7 @@ code_r0x0001400d83cc:
   }
   func_0x000140175550(param_1,0x2a,0,(float)dVar9,0);
   uStack_80 = 0xc;
-  pdStack_1a0 = (double *)(**(code **)(*param_1 + 8))(param_1,0x18752);
+  pdStack_1a0 = (double *)(**(code **)(*param_1 + 8))(param_1,0x18752 /* "pause_surface" */);
   if ((*(uint *)((longlong)pdStack_1a0 + 0xc) & 0xffffff) == 0) {
     dVar9 = *pdStack_1a0;
   }
@@ -269,10 +345,10 @@ code_r0x0001400d83cc:
     }
     uVar3 = func_0x000140147990(*pdVar4);
     pdVar4 = (double *)0x0;
-    func_0x000140144260(&UNK_140439ca6,0,uVar3);
+    func_0x000140144260(&UNK_140439ca6 /* "index out of bounds request %d maximum size is %d" */,0,uVar3);
   }
   else {
-    func_0x000140144260(&UNK_140439cd8);
+    func_0x000140144260(&UNK_140439cd8 /* "trying to index variable that is not an array" */);
   }
   uVar10 = *(uint *)((longlong)pdVar4 + 0xc);
 joined_r0x0001400d8a6b:
@@ -289,7 +365,7 @@ joined_r0x0001400d8a6b:
   }
   uStack_58 = 0;
   uStack_50 = 0x500000000;
-  plVar8 = (longlong *)(**(code **)(*param_1 + 8))(param_1,0x18753);
+  plVar8 = (longlong *)(**(code **)(*param_1 + 8))(param_1,0x18753 /* "pause_text" */);
   func_0x00014000bee0(&uStack_178,0x1405c56b8);
   puStack_e8 = &uStack_178;
   func_0x00014000bee0(&uStack_168,0x1405c56c8);
@@ -300,7 +376,7 @@ joined_r0x0001400d8a6b:
     if (iVar2 < 1) {
       uVar3 = func_0x000140147990(*plVar8);
       plVar8 = (longlong *)0x0;
-      func_0x000140144260(&UNK_140439ca6,0,uVar3);
+      func_0x000140144260(&UNK_140439ca6 /* "index out of bounds request %d maximum size is %d" */,0,uVar3);
     }
     else {
       plVar8 = (longlong *)func_0x000140147980(*plVar8,0);
@@ -308,7 +384,7 @@ joined_r0x0001400d8a6b:
   }
   else {
     puStack_e0 = &uStack_168;
-    func_0x000140144260(&UNK_140439cd8);
+    func_0x000140144260(&UNK_140439cd8 /* "trying to index variable that is not an array" */);
   }
   func_0x000140001490(&uStack_158,plVar8);
   puStack_d8 = &uStack_158;
@@ -319,7 +395,7 @@ joined_r0x0001400d8a6b:
   }
   uStack_58 = 0;
   uStack_50 = 0x500000000;
-  plVar8 = (longlong *)(**(code **)(*param_1 + 8))(param_1,0x18753);
+  plVar8 = (longlong *)(**(code **)(*param_1 + 8))(param_1,0x18753 /* "pause_text" */);
   func_0x00014000bee0(&uStack_178,0x1405c56b8);
   puStack_e8 = &uStack_178;
   func_0x00014000bee0(&uStack_168,0x1405c56d8);
@@ -329,7 +405,7 @@ joined_r0x0001400d8a6b:
     iVar2 = func_0x000140147990(*plVar8);
     if (iVar2 < 2) {
       uVar3 = func_0x000140147990(*plVar8);
-      func_0x000140144260(&UNK_140439ca6,1,uVar3);
+      func_0x000140144260(&UNK_140439ca6 /* "index out of bounds request %d maximum size is %d" */,1,uVar3);
       plVar8 = (longlong *)0x0;
     }
     else {
@@ -338,7 +414,7 @@ joined_r0x0001400d8a6b:
   }
   else {
     puStack_e0 = &uStack_168;
-    func_0x000140144260(&UNK_140439cd8);
+    func_0x000140144260(&UNK_140439cd8 /* "trying to index variable that is not an array" */);
   }
   func_0x000140001490(&uStack_158,plVar8);
   puStack_d8 = &uStack_158;
