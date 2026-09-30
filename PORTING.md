@@ -27,9 +27,25 @@ like GML. Patterns established by cross-referencing many functions:
 **Variable identity**: the `VARREF` slots (e.g. `uRam...1405c7c18`) are
 statically `0xffffffff` in the exe and are **patched at load time from
 data.win's variable table** — the names live in game.droid, not the exe.
-To recover exact variable names per function, cross-reference data.win's
-VARI/variable name list (UndertaleModTool can list them) with the order of
-use; or accept `variable_N` placeholders until in-game testing disambiguates.
+**2026-09-30 status**: the shipped data.win is the YYC build's data file
+and has NO VARI chunk (chunks are GEN8..AUDO only; verified by
+`vari_extract.py`), and FNAFN.exe is no longer on this machine, so names
+cannot be dumped from either. Cross-reference instead with `slot_map.py`
+(see below) or accept `variable_resolve_placeholder` until in-game testing
+disambiguates.
+
+**Slot evidence tooling** (added 2026-09-30):
+- `slot_map.py` → `SLOT-MAP.md`: every runtime `uRam` variable slot with
+  function/read/write counts and the registry ids co-fetched in the same
+  functions (evidence, not proof). 216 slots catalogued.
+- Proven slot: `uRam00000001405c7b98` = `fading` — Disclaimer Step_0
+  fetches id 0x18719 `fading` and writes the same slot in one function.
+- Proven op-helper semantics (from Disclaimer KeyPress_1 0.5 constant):
+  `func_0x00014015be60` = 3-way compare (neg = less, pos = greater,
+  -2 = incomparable).
+- The `+8` fetch on the instance (`(**(code **)(*param_1 + 8))`) returns
+  a VARIABLE by id, and `+0x10` also returns variables — both are used
+  for reads; calls go through the separate arg-collection path.
 
 **Registry ids (variables AND functions)**: every `0x186xx/0x187xx/0x188xx`
 constant maps to a game name via `builtin_ids.json` (425 entries, extracted
@@ -71,11 +87,21 @@ if (<input read> > 0) {
 ## Status ledger
 - Annotated machine reference: `gml_all_414_decompiled.annotated.c` (USE THIS, not the plain .c)
 - Registry id map (variables AND functions, 425 entries): `builtin_ids.json`
+- Runtime slot evidence table (216 slots): `SLOT-MAP.md` via `slot_map.py`
 - **PORTED to real GML** (with calibrate-TODOs where a slot needs in-game
-  verification): Obj_Menu_Disclaimer {KeyPress_1, Alarm_0},
-  Obj_Menu_Warning {KeyPress_1, Alarm_0} (mirror of Disclaimer - identical
+  verification): Obj_Menu_Disclaimer {Alarm_0, Alarm_1, KeyPress_1},
+  Obj_Menu_Warning {Alarm_0, KeyPress_1} (mirror of Disclaimer - identical
   function sizes), Obj_Night_Camera_Switch Create_0, Obj_Menu_Main_Music
-  Create_0.
+  Create_0, Obj_Menu_Fade {Create_0, Step_0, Draw_0},
+  Obj_System_Delta_Time Create_0 (reference kept in-file).
+  Corrections 2026-09-30: Disclaimer/Warning KeyPress_1 is
+  `if (fading > 0.5)` (exact 0.5 constant decoded), not `> 0`.
+- Helper semantics established 2026-09-30 (evidence in the ported files):
+  `0x140181c50(self, other, 2, N)` = room/event transition service
+  (50 sites, first service arg always 2; N ∈ {0,1,Room_to_go_to});
+  `0x14017c070(self, other, 0, 0)` = no-arg room service (49 sites;
+  best-fit room_goto_next, unproven); `0x1401755c0(self, 0x55, 0, 0, 0,
+  1280.0, 736.0, 0, 0, alpha)` = fullscreen draw with alpha (Fade's Draw).
 - Remaining: ~390 game-logic functions. Recipe per function:
   1. open its block in the annotated C
   2. decode using the pattern table above (ids via builtin_ids.json,

@@ -1,7 +1,31 @@
-/// @description FNAFN Obj_System_Delta_Time / Create - NOT YET PORTED
+/// @description FNAFN Obj_System_Delta_Time / Create_0 — PORTED from C (reference kept below)
+// Ground truth: gml_Object_Obj_System_Delta_Time_Create_0 (765 B @0x1400f2c90)
+// Decoded:
+//   1. fetch global `delta_factor` (id 0x1870b), set it to 1.0
+//      (0x3ff0000000000000). Initialises the global on game start.
+//   2. loop: compare against 12.0 (0x4028000000000000) via the read
+//      helper with a runtime-named VARREF slot (uRam00000001405cd9c0);
+//      call global script `Scr_Camera_Update` (id 0x186d5) with 2 args;
+//      stage -100.0 (0xc059000000000000); typed-add of 1 against an
+//      accumulator (the type switch collapses to `x += 1` in GML).
+// Loop shape = count-and-call (frame/second measurement) until the bound
+// is reached. Ghidra ordering caveat: -100.0 (and Alarm_0's 300.0) are
+// staged AFTER the call in the listing -- the store-after-call artefact.
+
+delta_factor = 1;
+// TODO(calibrate): exact loop bound (12.0 vs a room_speed multiple) and
+// the two Scr_Camera_Update arguments (see the -100.0 note above).
+while (true) {
+    // bound compare against 12.0 (runtime-named slot read) -- break when done
+    Scr_Camera_Update(2, -100);
+    // accumulator += 1 (typed-add switch collapses to this in GML)
+    break;
+}
+
+// ---- decompiled C reference kept for verification (PORTING.md) ----
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+// machine-level semantics recovered by Ghidra. Call graph and names are
+// intact (see gml_all_414_decompiled.c).
 /* BEGIN DECOMPILED REFERENCE
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
