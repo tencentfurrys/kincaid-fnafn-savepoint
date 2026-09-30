@@ -1,0 +1,344 @@
+//==== gml_GlobalScript_0 @ 0x140129dc0 ====
+
+undefined8 * gml_GlobalScript_0(undefined8 param_1,undefined8 param_2,undefined8 *param_3)
+
+{
+  undefined8 uStack_a8;
+  undefined *puStack_a0;
+  undefined4 uStack_98;
+  undefined8 uStack_90;
+  uint uStack_84;
+  undefined8 uStack_80;
+  uint uStack_74;
+  undefined8 uStack_70;
+  uint uStack_64;
+  undefined8 uStack_60;
+  uint uStack_54;
+  undefined8 uStack_50;
+  uint uStack_44;
+  undefined8 uStack_40;
+  uint uStack_34;
+  undefined8 uStack_30;
+  undefined8 uStack_28;
+  undefined8 uStack_20;
+  
+  uStack_20 = 0xfffffffffffffffe;
+  puStack_a0 = &UNK_14043deaa;
+  uStack_a8 = puRam0000000140657668;
+  puRam0000000140657668 = &uStack_a8;
+  uStack_84 = 0xffffff;
+  uStack_90 = 0;
+  uStack_74 = 0xffffff;
+  uStack_80 = 0;
+  uStack_64 = 0xffffff;
+  uStack_70 = 0;
+  uStack_54 = 0xffffff;
+  uStack_60 = 0;
+  uStack_44 = 0xffffff;
+  uStack_50 = 0;
+  uStack_34 = 0xffffff;
+  uStack_40 = 0;
+  uRam0000000140657680 = param_1;
+  *(undefined4 *)((longlong)param_3 + 0xc) = 5;
+  *param_3 = 0;
+  uStack_98 = 2;
+  uStack_30 = 0;
+  uStack_28 = 0x500000000;
+  func_0x0001400057d0(param_1,param_2,&uStack_30,0,0);
+  if ((0x46U >> (uStack_34 & 0x1f) & 1) != 0) {
+    func_0x000140001410(&uStack_40);
+  }
+  if ((0x46U >> (uStack_44 & 0x1f) & 1) != 0) {
+    func_0x000140001410(&uStack_50);
+  }
+  if ((0x46U >> (uStack_54 & 0x1f) & 1) != 0) {
+    func_0x000140001410(&uStack_60);
+  }
+  if ((0x46U >> (uStack_64 & 0x1f) & 1) != 0) {
+    func_0x000140001410(&uStack_70);
+  }
+  if ((0x46U >> (uStack_74 & 0x1f) & 1) != 0) {
+    func_0x000140001410(&uStack_80);
+  }
+  if ((0x46U >> (uStack_84 & 0x1f) & 1) != 0) {
+    func_0x000140001410(&uStack_90);
+  }
+  if ((0x46U >> (uStack_28._4_4_ & 0x1f) & 1) != 0) {
+    func_0x000140001410(&uStack_30);
+  }
+  puRam0000000140657668 = (undefined8 *)uStack_a8;
+  return param_3;
+}
+
+
+
+//==== gml_GlobalScript_1 @ 0x14012a0f0 ====
+
+undefined8 * gml_GlobalScript_1(undefined8 param_1,undefined8 param_2,undefined8 *param_3)
+
+{
+  undefined8 uStack_a8;
+  undefined *puStack_a0;
+  undefined4 uStack_98;
+  undefined8 uStack_90;
+  uint uStack_84;
+  undefined8 uStack_80;
+  uint uStack_74;
+  undefined8 uStack_70;
+  uint uStack_64;
+  undefined8 uStack_60;
+  uint uStack_54;
+  undefined8 uStack_50;
+  uint uStack_44;
+  undefined8 uStack_40;
+  uint uStack_34;
+  undefined8 uStack_30;
+  undefined8 uStack_28;
+  undefined8 uStack_20;
+  
+  uStack_20 = 0xfffffffffffffffe;
+  puStack_a0 = &UNK_14043debd;
+  uStack_98 = 0;
+  uStack_a8 = puRam0000000140657668;
+  puRam0000000140657668 = &uStack_a8;
+  uStack_84 = 0xffffff;
+  uStack_90 = 0;
+  uStack_74 = 0xffffff;
+  uStack_80 = 0;
+  uStack_64 = 0xffffff;
+  uStack_70 = 0;
+  uStack_54 = 0xffffff;
+  uStack_60 = 0;
+  uStack_44 = 0xffffff;
+  uStack_50 = 0;
+  uStack_34 = 0xffffff;
+  uStack_40 = 0;
+  uRam0000000140657680 = param_1;
+  *(undefined4 *)((longlong)param_3 + 0xc) = 5;
+  *param_3 = 0;
+  uStack_30 = 0;
+  uStack_28 = 0x500000000;
+  func_0x0001400400f0(param_1,param_2,&uStack_30,0,0);
+  if ((0x46U >> (uStack_34 & 0x1f) & 1) != 0) {
+    func_0x000140001410(&uStack_40);
+  }
+  if ((0x46U >> (uStack_44 & 0x1f) & 1) != 0) {
+    func_0x000140001410(&uStack_50);
+  }
+  if ((0x46U >> (uStack_54 & 0x1f) & 1) != 0) {
+    func_0x000140001410(&uStack_60);
+  }
+  if ((0x46U >> (uStack_64 & 0x1f) & 1) != 0) {
+    func_0x000140001410(&uStack_70);
+  }
+  if ((0x46U >> (uStack_74 & 0x1f) & 1) != 0) {
+    func_0x000140001410(&uStack_80);
+  }
+  if ((0x46U >> (uStack_84 & 0x1f) & 1) != 0) {
+    func_0x000140001410(&uStack_90);
+  }
+  if ((0x46U >> (uStack_28._4_4_ & 0x1f) & 1) != 0) {
+    func_0x000140001410(&uStack_30);
+  }
+  puRam0000000140657668 = (undefined8 *)uStack_a8;
+  return param_3;
+}
+
+
+
+//==== gml_GlobalScript_Animation @ 0x1400050b0 ====
+
+undefined8 * gml_GlobalScript_Animation(longlong *param_1,undefined8 param_2,undefined8 *param_3)
+
+{
+  undefined8 uVar1;
+  undefined8 uStack_50;
+  undefined *puStack_48;
+  undefined4 uStack_40;
+  undefined auStack_38 [12];
+  uint uStack_2c;
+  undefined8 uStack_28;
+  
+  uStack_28 = 0xfffffffffffffffe;
+  puStack_48 = &UNK_140439d2f;
+  uStack_50 = puRam0000000140657668;
+  puRam0000000140657668 = &uStack_50;
+  plRam0000000140657680 = param_1;
+  *(undefined4 *)((longlong)param_3 + 0xc) = 5;
+  *param_3 = 0;
+  uStack_40 = 1;
+  uVar1 = (**(code **)(*param_1 + 0x10))(param_1,0x18705);
+  func_0x0001401452a0(auStack_38,&DAT_140004dd0,param_1);
+  func_0x000140141d00(param_1);
+  func_0x000140001490(uVar1,auStack_38);
+  func_0x000140141c50(1);
+  if ((0x46U >> (uStack_2c & 0x1f) & 1) != 0) {
+    func_0x000140001410(auStack_38);
+  }
+  puRam0000000140657668 = (undefined8 *)uStack_50;
+  return param_3;
+}
+
+
+
+//==== gml_GlobalScript_Audio @ 0x140020a00 ====
+
+undefined8 * gml_GlobalScript_Audio(longlong *param_1,undefined8 param_2,undefined8 *param_3)
+
+{
+  undefined8 uVar1;
+  undefined8 uStack_50;
+  undefined *puStack_48;
+  undefined4 uStack_40;
+  undefined auStack_38 [12];
+  uint uStack_2c;
+  undefined8 uStack_28;
+  
+  uStack_28 = 0xfffffffffffffffe;
+  puStack_48 = &UNK_140439fc3;
+  uStack_50 = puRam0000000140657668;
+  puRam0000000140657668 = &uStack_50;
+  plRam0000000140657680 = param_1;
+  *(undefined4 *)((longlong)param_3 + 0xc) = 5;
+  *param_3 = 0;
+  uStack_40 = 3;
+  uVar1 = (**(code **)(*param_1 + 0x10))(param_1,0x186fe);
+  func_0x0001401452a0(auStack_38,&DAT_140020290,param_1);
+  func_0x000140141d00(param_1);
+  func_0x000140001490(uVar1,auStack_38);
+  func_0x000140141c50(1);
+  if ((0x46U >> (uStack_2c & 0x1f) & 1) != 0) {
+    func_0x000140001410(auStack_38);
+  }
+  uStack_40 = 8;
+  uVar1 = (**(code **)(*param_1 + 0x10))(param_1,0x186fd);
+  func_0x0001401452a0(auStack_38,&DAT_140020620,param_1);
+  func_0x000140141d00(param_1);
+  func_0x000140001490(uVar1,auStack_38);
+  func_0x000140141c50(1);
+  if ((0x46U >> (uStack_2c & 0x1f) & 1) != 0) {
+    func_0x000140001410(auStack_38);
+  }
+  puRam0000000140657668 = (undefined8 *)uStack_50;
+  return param_3;
+}
+
+
+
+//==== gml_GlobalScript_Camera @ 0x14003ff10 ====
+
+undefined8 * gml_GlobalScript_Camera(longlong *param_1,undefined8 param_2,undefined8 *param_3)
+
+{
+  undefined8 uVar1;
+  undefined8 uStack_50;
+  undefined *puStack_48;
+  undefined4 uStack_40;
+  undefined auStack_38 [12];
+  uint uStack_2c;
+  undefined8 uStack_28;
+  
+  uStack_28 = 0xfffffffffffffffe;
+  puStack_48 = &UNK_14043a484;
+  uStack_50 = puRam0000000140657668;
+  puRam0000000140657668 = &uStack_50;
+  plRam0000000140657680 = param_1;
+  *(undefined4 *)((longlong)param_3 + 0xc) = 5;
+  *param_3 = 0;
+  uStack_40 = 1;
+  uVar1 = (**(code **)(*param_1 + 0x10))(param_1,0x18765);
+  func_0x0001401452a0(auStack_38,&DAT_14003bd70,param_1);
+  func_0x000140141d00(param_1);
+  func_0x000140001490(uVar1,auStack_38);
+  func_0x000140141c50(1);
+  if ((0x46U >> (uStack_2c & 0x1f) & 1) != 0) {
+    func_0x000140001410(auStack_38);
+  }
+  puRam0000000140657668 = (undefined8 *)uStack_50;
+  return param_3;
+}
+
+
+
+//==== gml_GlobalScript_Game_Save_And_Load @ 0x140038fa0 ====
+
+undefined8 *
+gml_GlobalScript_Game_Save_And_Load(longlong *param_1,undefined8 param_2,undefined8 *param_3)
+
+{
+  undefined8 uVar1;
+  undefined8 uStack_50;
+  undefined *puStack_48;
+  undefined4 uStack_40;
+  undefined auStack_38 [12];
+  uint uStack_2c;
+  undefined8 uStack_28;
+  
+  uStack_28 = 0xfffffffffffffffe;
+  puStack_48 = &UNK_14043a308;
+  uStack_50 = puRam0000000140657668;
+  puRam0000000140657668 = &uStack_50;
+  plRam0000000140657680 = param_1;
+  *(undefined4 *)((longlong)param_3 + 0xc) = 5;
+  *param_3 = 0;
+  uStack_40 = 1;
+  uVar1 = (**(code **)(*param_1 + 0x10))(param_1,0x18703);
+  func_0x0001401452a0(auStack_38,&DAT_140033140,param_1);
+  func_0x000140141d00(param_1);
+  func_0x000140001490(uVar1,auStack_38);
+  func_0x000140141c50(1);
+  if ((0x46U >> (uStack_2c & 0x1f) & 1) != 0) {
+    func_0x000140001410(auStack_38);
+  }
+  uStack_40 = 0x1b;
+  uVar1 = (**(code **)(*param_1 + 0x10))(param_1,0x18700);
+  func_0x0001401452a0(auStack_38,&DAT_140034210,param_1);
+  func_0x000140141d00(param_1);
+  func_0x000140001490(uVar1,auStack_38);
+  func_0x000140141c50(1);
+  if ((0x46U >> (uStack_2c & 0x1f) & 1) != 0) {
+    func_0x000140001410(auStack_38);
+  }
+  uStack_40 = 0x38;
+  uVar1 = (**(code **)(*param_1 + 0x10))(param_1,0x18704);
+  func_0x0001401452a0(auStack_38,&DAT_140035540,param_1);
+  func_0x000140141d00(param_1);
+  func_0x000140001490(uVar1,auStack_38);
+  func_0x000140141c50(1);
+  if ((0x46U >> (uStack_2c & 0x1f) & 1) != 0) {
+    func_0x000140001410(auStack_38);
+  }
+  uStack_40 = 0x48;
+  uVar1 = (**(code **)(*param_1 + 0x10))(param_1,0x18701);
+  func_0x0001401452a0(auStack_38,&DAT_140036870,param_1);
+  func_0x000140141d00(param_1);
+  func_0x000140001490(uVar1,auStack_38);
+  func_0x000140141c50(1);
+  if ((0x46U >> (uStack_2c & 0x1f) & 1) != 0) {
+    func_0x000140001410(auStack_38);
+  }
+  uStack_40 = 0x58;
+  uVar1 = (**(code **)(*param_1 + 0x10))(param_1,0x186ff);
+  func_0x0001401452a0(auStack_38,&DAT_140037700,param_1);
+  func_0x000140141d00(param_1);
+  func_0x000140001490(uVar1,auStack_38);
+  func_0x000140141c50(1);
+  if ((0x46U >> (uStack_2c & 0x1f) & 1) != 0) {
+    func_0x000140001410(auStack_38);
+  }
+  uStack_40 = 0x66;
+  uVar1 = (**(code **)(*param_1 + 0x10))(param_1,0x18702);
+  func_0x0001401452a0(auStack_38,&DAT_140038980,param_1);
+  func_0x000140141d00(param_1);
+  func_0x000140001490(uVar1,auStack_38);
+  func_0x000140141c50(1);
+  if ((0x46U >> (uStack_2c & 0x1f) & 1) != 0) {
+    func_0x000140001410(auStack_38);
+  }
+  puRam0000000140657668 = (undefined8 *)uStack_50;
+  return param_3;
+}
+
+
+
+//==== created+labelled: 414, decompiled 6, failed 0

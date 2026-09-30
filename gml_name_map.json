@@ -1,0 +1,2486 @@
+{
+ "gml_GlobalScript_0": {
+  "func_va": "0x140129dc0",
+  "func_end": "0x140129f44",
+  "size": 388,
+  "lea_site": "0x140129ddd"
+ },
+ "gml_GlobalScript_1": {
+  "func_va": "0x14012a0f0",
+  "func_end": "0x14012a274",
+  "size": 388,
+  "lea_site": "0x14012a10d"
+ },
+ "gml_GlobalScript_Animation": {
+  "func_va": "0x1400050b0",
+  "func_end": "0x140005175",
+  "size": 197,
+  "lea_site": "0x1400050cb"
+ },
+ "gml_GlobalScript_Audio": {
+  "func_va": "0x140020a00",
+  "func_end": "0x140020b24",
+  "size": 292,
+  "lea_site": "0x140020a1b"
+ },
+ "gml_GlobalScript_Camera": {
+  "func_va": "0x14003ff10",
+  "func_end": "0x14003ffd5",
+  "size": 197,
+  "lea_site": "0x14003ff2b"
+ },
+ "gml_GlobalScript_Game_Save_And_Load": {
+  "func_va": "0x140038fa0",
+  "func_end": "0x140039240",
+  "size": 672,
+  "lea_site": "0x140038fbb"
+ },
+ "gml_GlobalScript_UI": {
+  "func_va": "0x14003b840",
+  "func_end": "0x14003b964",
+  "size": 292,
+  "lea_site": "0x14003b85b"
+ },
+ "gml_GlobalScript_Update": {
+  "func_va": "0x140028310",
+  "func_end": "0x1400283d5",
+  "size": 197,
+  "lea_site": "0x14002832b"
+ },
+ "gml_GlobalScript___background_get_element": {
+  "func_va": "0x140023650",
+  "func_end": "0x140023715",
+  "size": 197,
+  "lea_site": "0x14002366b"
+ },
+ "gml_GlobalScript___background_get_internal": {
+  "func_va": "0x140004bf0",
+  "func_end": "0x140004cb5",
+  "size": 197,
+  "lea_site": "0x140004c0b"
+ },
+ "gml_GlobalScript___background_set": {
+  "func_va": "0x140039b80",
+  "func_end": "0x140039c45",
+  "size": 197,
+  "lea_site": "0x140039b9b"
+ },
+ "gml_GlobalScript___background_set_element": {
+  "func_va": "0x14000bbd0",
+  "func_end": "0x14000bc95",
+  "size": 197,
+  "lea_site": "0x14000bbeb"
+ },
+ "gml_GlobalScript___background_set_internal": {
+  "func_va": "0x140026df0",
+  "func_end": "0x140026eb5",
+  "size": 197,
+  "lea_site": "0x140026e0b"
+ },
+ "gml_GlobalScript___init_action": {
+  "func_va": "0x140005d70",
+  "func_end": "0x140005e35",
+  "size": 197,
+  "lea_site": "0x140005d8b"
+ },
+ "gml_GlobalScript___init_background": {
+  "func_va": "0x14003bb90",
+  "func_end": "0x14003bc55",
+  "size": 197,
+  "lea_site": "0x14003bbab"
+ },
+ "gml_GlobalScript___init_global": {
+  "func_va": "0x140040330",
+  "func_end": "0x1400403f5",
+  "size": 197,
+  "lea_site": "0x14004034b"
+ },
+ "gml_GlobalScript___init_view": {
+  "func_va": "0x140032f60",
+  "func_end": "0x140033025",
+  "size": 197,
+  "lea_site": "0x140032f7b"
+ },
+ "gml_GlobalScript___view_get": {
+  "func_va": "0x140002e10",
+  "func_end": "0x140002ed5",
+  "size": 197,
+  "lea_site": "0x140002e2b"
+ },
+ "gml_GlobalScript_action_draw_sprite": {
+  "func_va": "0x140024040",
+  "func_end": "0x140024105",
+  "size": 197,
+  "lea_site": "0x14002405b"
+ },
+ "gml_GlobalScript_action_if_next_room": {
+  "func_va": "0x1400200b0",
+  "func_end": "0x140020175",
+  "size": 197,
+  "lea_site": "0x1400200cb"
+ },
+ "gml_GlobalScript_action_next_room": {
+  "func_va": "0x14002fe10",
+  "func_end": "0x14002fed5",
+  "size": 197,
+  "lea_site": "0x14002fe2b"
+ },
+ "gml_GlobalScript_draw_lensflare": {
+  "func_va": "0x14001f730",
+  "func_end": "0x14001f7f5",
+  "size": 197,
+  "lea_site": "0x14001f74b"
+ },
+ "gml_GlobalScript_draw_set_blend_mode": {
+  "func_va": "0x140001230",
+  "func_end": "0x1400012f5",
+  "size": 197,
+  "lea_site": "0x14000124b"
+ },
+ "gml_GlobalScript_scr_OLDTVFilter_Draw": {
+  "func_va": "0x14002fa00",
+  "func_end": "0x14002fac5",
+  "size": 197,
+  "lea_site": "0x14002fa1b"
+ },
+ "gml_GlobalScript_scr_OLDTVFilter_Settings": {
+  "func_va": "0x14003ad40",
+  "func_end": "0x14003ae05",
+  "size": 197,
+  "lea_site": "0x14003ad5b"
+ },
+ "gml_GlobalScript_scr_OLDTVFilter_Setup": {
+  "func_va": "0x140032cd0",
+  "func_end": "0x140032d95",
+  "size": 197,
+  "lea_site": "0x140032ceb"
+ },
+ "gml_Object_": {
+  "func_va": "0x1401bf860",
+  "func_end": "0x1401bfeb8",
+  "size": 1624,
+  "lea_site": "0x1401bf941"
+ },
+ "gml_Object_Obj_Camera_Static_Create_0": {
+  "func_va": "0x14008f160",
+  "func_end": "0x14008f335",
+  "size": 469,
+  "lea_site": "0x14008f17d"
+ },
+ "gml_Object_Obj_Camera_Static_Draw_0": {
+  "func_va": "0x14008fb80",
+  "func_end": "0x14008fc6c",
+  "size": 236,
+  "lea_site": "0x14008fb99"
+ },
+ "gml_Object_Obj_Camera_Static_PreCreate_0": {
+  "func_va": "0x14008fd70",
+  "func_end": "0x14008fe5c",
+  "size": 236,
+  "lea_site": "0x14008fd89"
+ },
+ "gml_Object_Obj_Camera_Static_Step_0": {
+  "func_va": "0x14008f520",
+  "func_end": "0x14008f814",
+  "size": 756,
+  "lea_site": "0x14008f547"
+ },
+ "gml_Object_Obj_Filter_Camera_Alarm_0": {
+  "func_va": "0x140115c60",
+  "func_end": "0x140116bf2",
+  "size": 3986,
+  "lea_site": "0x140115c8d"
+ },
+ "gml_Object_Obj_Filter_Camera_Alarm_1": {
+  "func_va": "0x140116f30",
+  "func_end": "0x140117ed2",
+  "size": 4002,
+  "lea_site": "0x140116f5d"
+ },
+ "gml_Object_Obj_Filter_Camera_Create_0": {
+  "func_va": "0x1401152c0",
+  "func_end": "0x14011579f",
+  "size": 1247,
+  "lea_site": "0x1401152e9"
+ },
+ "gml_Object_Obj_Filter_Camera_PreCreate_0": {
+  "func_va": "0x140118f30",
+  "func_end": "0x140119040",
+  "size": 272,
+  "lea_site": "0x140118f49"
+ },
+ "gml_Object_Obj_Filter_Camera_Step_0": {
+  "func_va": "0x140118210",
+  "func_end": "0x1401188a9",
+  "size": 1689,
+  "lea_site": "0x14011823d"
+ },
+ "gml_Object_Obj_Filter_Menus_Alarm_0": {
+  "func_va": "0x1400bbff0",
+  "func_end": "0x1400bcfa3",
+  "size": 4019,
+  "lea_site": "0x1400bc01d"
+ },
+ "gml_Object_Obj_Filter_Menus_Alarm_1": {
+  "func_va": "0x1400bad10",
+  "func_end": "0x1400bbcb8",
+  "size": 4008,
+  "lea_site": "0x1400bad3d"
+ },
+ "gml_Object_Obj_Filter_Menus_Create_0": {
+  "func_va": "0x1400ba2c0",
+  "func_end": "0x1400ba80e",
+  "size": 1358,
+  "lea_site": "0x1400ba2e9"
+ },
+ "gml_Object_Obj_Filter_Menus_PreCreate_0": {
+  "func_va": "0x1400bda30",
+  "func_end": "0x1400bdb40",
+  "size": 272,
+  "lea_site": "0x1400bda49"
+ },
+ "gml_Object_Obj_Filter_Menus_Step_0": {
+  "func_va": "0x1400bd2e0",
+  "func_end": "0x1400bd620",
+  "size": 832,
+  "lea_site": "0x1400bd307"
+ },
+ "gml_Object_Obj_Game_Over_Create_0": {
+  "func_va": "0x14006e5e0",
+  "func_end": "0x14006ef84",
+  "size": 2468,
+  "lea_site": "0x14006e614"
+ },
+ "gml_Object_Obj_Game_Over_Draw_0": {
+  "func_va": "0x14006f460",
+  "func_end": "0x14006f77c",
+  "size": 796,
+  "lea_site": "0x14006f481"
+ },
+ "gml_Object_Obj_Game_Over_KeyPress_13": {
+  "func_va": "0x14006f980",
+  "func_end": "0x14006fbda",
+  "size": 602,
+  "lea_site": "0x14006f9a4"
+ },
+ "gml_Object_Obj_Game_Over_PreCreate_0": {
+  "func_va": "0x14006fdd0",
+  "func_end": "0x14006febc",
+  "size": 236,
+  "lea_site": "0x14006fde9"
+ },
+ "gml_Object_Obj_Game_Over_Tablet_Create_0": {
+  "func_va": "0x1400b4540",
+  "func_end": "0x1400b47f5",
+  "size": 693,
+  "lea_site": "0x1400b4563"
+ },
+ "gml_Object_Obj_Game_Over_Tablet_Draw_75": {
+  "func_va": "0x1400b4ec0",
+  "func_end": "0x1400b4fd0",
+  "size": 272,
+  "lea_site": "0x1400b4ed9"
+ },
+ "gml_Object_Obj_Game_Over_Tablet_PreCreate_0": {
+  "func_va": "0x1400b5100",
+  "func_end": "0x1400b5210",
+  "size": 272,
+  "lea_site": "0x1400b5119"
+ },
+ "gml_Object_Obj_Game_Over_Tablet_Step_0": {
+  "func_va": "0x1400b4a40",
+  "func_end": "0x1400b4c99",
+  "size": 601,
+  "lea_site": "0x1400b4a63"
+ },
+ "gml_Object_Obj_Jumpscare_Alarm_0": {
+  "func_va": "0x140126bd0",
+  "func_end": "0x140126fd3",
+  "size": 1027,
+  "lea_site": "0x140126bf4"
+ },
+ "gml_Object_Obj_Jumpscare_Create_0": {
+  "func_va": "0x1401251e0",
+  "func_end": "0x14012648d",
+  "size": 4781,
+  "lea_site": "0x140125215"
+ },
+ "gml_Object_Obj_Jumpscare_PreCreate_0": {
+  "func_va": "0x140128650",
+  "func_end": "0x1401287a5",
+  "size": 341,
+  "lea_site": "0x140128669"
+ },
+ "gml_Object_Obj_Jumpscare_Step_0": {
+  "func_va": "0x140127300",
+  "func_end": "0x1401277eb",
+  "size": 1259,
+  "lea_site": "0x140127331"
+ },
+ "gml_Object_Obj_Jumpscare_Step_1": {
+  "func_va": "0x140127b70",
+  "func_end": "0x140128275",
+  "size": 1797,
+  "lea_site": "0x140127ba4"
+ },
+ "gml_Object_Obj_Menu_CN_Control_Draw_0": {
+  "func_va": "0x1400b37f0",
+  "func_end": "0x1400b3a69",
+  "size": 633,
+  "lea_site": "0x1400b3811"
+ },
+ "gml_Object_Obj_Menu_CN_Control_KeyPress_13": {
+  "func_va": "0x1400b3c80",
+  "func_end": "0x1400b4030",
+  "size": 944,
+  "lea_site": "0x1400b3cac"
+ },
+ "gml_Object_Obj_Menu_CN_Control_PreCreate_0": {
+  "func_va": "0x1400b4300",
+  "func_end": "0x1400b4410",
+  "size": 272,
+  "lea_site": "0x1400b4319"
+ },
+ "gml_Object_Obj_Menu_CN_Images_Create_0": {
+  "func_va": "0x1400b7050",
+  "func_end": "0x1400b718a",
+  "size": 314,
+  "lea_site": "0x1400b706a"
+ },
+ "gml_Object_Obj_Menu_CN_Images_Draw_0": {
+  "func_va": "0x1400b91b0",
+  "func_end": "0x1400b99e8",
+  "size": 2104,
+  "lea_site": "0x1400b91eb"
+ },
+ "gml_Object_Obj_Menu_CN_Images_Mouse_4": {
+  "func_va": "0x1400b8270",
+  "func_end": "0x1400b8bfc",
+  "size": 2444,
+  "lea_site": "0x1400b82a3"
+ },
+ "gml_Object_Obj_Menu_CN_Images_PreCreate_0": {
+  "func_va": "0x1400ba080",
+  "func_end": "0x1400ba190",
+  "size": 272,
+  "lea_site": "0x1400ba099"
+ },
+ "gml_Object_Obj_Menu_CN_Images_Step_0": {
+  "func_va": "0x1400b72c0",
+  "func_end": "0x1400b7a66",
+  "size": 1958,
+  "lea_site": "0x1400b72ec"
+ },
+ "gml_Object_Obj_Menu_Continue_Create_0": {
+  "func_va": "0x14004c840",
+  "func_end": "0x14004cf7e",
+  "size": 1854,
+  "lea_site": "0x14004c864"
+ },
+ "gml_Object_Obj_Menu_Continue_Draw_0": {
+  "func_va": "0x1400519c0",
+  "func_end": "0x1400527d0",
+  "size": 3600,
+  "lea_site": "0x1400519e9"
+ },
+ "gml_Object_Obj_Menu_Continue_KeyPress_69": {
+  "func_va": "0x140055ff0",
+  "func_end": "0x140056389",
+  "size": 921,
+  "lea_site": "0x14005601a"
+ },
+ "gml_Object_Obj_Menu_Continue_KeyPress_81": {
+  "func_va": "0x140052a80",
+  "func_end": "0x140052c92",
+  "size": 530,
+  "lea_site": "0x140052aa1"
+ },
+ "gml_Object_Obj_Menu_Continue_KeyPress_83": {
+  "func_va": "0x140052e60",
+  "func_end": "0x140053fce",
+  "size": 4462,
+  "lea_site": "0x140052e94"
+ },
+ "gml_Object_Obj_Menu_Continue_KeyPress_87": {
+  "func_va": "0x1400546c0",
+  "func_end": "0x140055866",
+  "size": 4518,
+  "lea_site": "0x1400546f4"
+ },
+ "gml_Object_Obj_Menu_Continue_Mouse_53": {
+  "func_va": "0x140050c90",
+  "func_end": "0x14005156a",
+  "size": 2266,
+  "lea_site": "0x140050cbc"
+ },
+ "gml_Object_Obj_Menu_Continue_Mouse_54": {
+  "func_va": "0x1400508b0",
+  "func_end": "0x140050ac2",
+  "size": 530,
+  "lea_site": "0x1400508d1"
+ },
+ "gml_Object_Obj_Menu_Continue_PreCreate_0": {
+  "func_va": "0x1400565a0",
+  "func_end": "0x140056663",
+  "size": 195,
+  "lea_site": "0x1400565b3"
+ },
+ "gml_Object_Obj_Menu_Continue_Step_0": {
+  "func_va": "0x14004d1c0",
+  "func_end": "0x14004fba0",
+  "size": 10720,
+  "lea_site": "0x14004d1ec"
+ },
+ "gml_Object_Obj_Menu_Customize_Create_0": {
+  "func_va": "0x1400de990",
+  "func_end": "0x1400df072",
+  "size": 1762,
+  "lea_site": "0x1400de9b4"
+ },
+ "gml_Object_Obj_Menu_Customize_Draw_0": {
+  "func_va": "0x1400e3960",
+  "func_end": "0x1400e4683",
+  "size": 3363,
+  "lea_site": "0x1400e398c"
+ },
+ "gml_Object_Obj_Menu_Customize_Mouse_53": {
+  "func_va": "0x1400e1690",
+  "func_end": "0x1400e2c31",
+  "size": 5537,
+  "lea_site": "0x1400e16bc"
+ },
+ "gml_Object_Obj_Menu_Customize_Mouse_54": {
+  "func_va": "0x1400e34e0",
+  "func_end": "0x1400e373a",
+  "size": 602,
+  "lea_site": "0x1400e3504"
+ },
+ "gml_Object_Obj_Menu_Customize_PreCreate_0": {
+  "func_va": "0x1400e49d0",
+  "func_end": "0x1400e4ae0",
+  "size": 272,
+  "lea_site": "0x1400e49e9"
+ },
+ "gml_Object_Obj_Menu_Customize_Step_0": {
+  "func_va": "0x1400df330",
+  "func_end": "0x1400e0b28",
+  "size": 6136,
+  "lea_site": "0x1400df35c"
+ },
+ "gml_Object_Obj_Menu_Disclaimer_Alarm_0": {
+  "func_va": "0x1400f03c0",
+  "func_end": "0x1400f0579",
+  "size": 441,
+  "lea_site": "0x1400f03dd"
+ },
+ "gml_Object_Obj_Menu_Disclaimer_Alarm_1": {
+  "func_va": "0x1400effe0",
+  "func_end": "0x1400f01ce",
+  "size": 494,
+  "lea_site": "0x1400f0005"
+ },
+ "gml_Object_Obj_Menu_Disclaimer_Create_0": {
+  "func_va": "0x1400ef960",
+  "func_end": "0x1400efd71",
+  "size": 1041,
+  "lea_site": "0x1400ef98b"
+ },
+ "gml_Object_Obj_Menu_Disclaimer_Draw_0": {
+  "func_va": "0x1400f1880",
+  "func_end": "0x1400f23b7",
+  "size": 2871,
+  "lea_site": "0x1400f18ac"
+ },
+ "gml_Object_Obj_Menu_Disclaimer_KeyPress_1": {
+  "func_va": "0x1400f2740",
+  "func_end": "0x1400f28e2",
+  "size": 418,
+  "lea_site": "0x1400f2760"
+ },
+ "gml_Object_Obj_Menu_Disclaimer_PreCreate_0": {
+  "func_va": "0x1400f2a50",
+  "func_end": "0x1400f2b60",
+  "size": 272,
+  "lea_site": "0x1400f2a69"
+ },
+ "gml_Object_Obj_Menu_Disclaimer_Step_0": {
+  "func_va": "0x1400f06b0",
+  "func_end": "0x1400f11da",
+  "size": 2858,
+  "lea_site": "0x1400f06e7"
+ },
+ "gml_Object_Obj_Menu_Fade_Create_0": {
+  "func_va": "0x14006bad0",
+  "func_end": "0x14006bbf5",
+  "size": 293,
+  "lea_site": "0x14006bae9"
+ },
+ "gml_Object_Obj_Menu_Fade_Draw_0": {
+  "func_va": "0x14006c140",
+  "func_end": "0x14006c2cb",
+  "size": 395,
+  "lea_site": "0x14006c15c"
+ },
+ "gml_Object_Obj_Menu_Fade_PreCreate_0": {
+  "func_va": "0x14006c400",
+  "func_end": "0x14006c4ec",
+  "size": 236,
+  "lea_site": "0x14006c419"
+ },
+ "gml_Object_Obj_Menu_Fade_Step_0": {
+  "func_va": "0x14006bd30",
+  "func_end": "0x14006bf50",
+  "size": 544,
+  "lea_site": "0x14006bd51"
+ },
+ "gml_Object_Obj_Menu_Loading_Alarm_0": {
+  "func_va": "0x1400908d0",
+  "func_end": "0x140090cc5",
+  "size": 1013,
+  "lea_site": "0x1400908f7"
+ },
+ "gml_Object_Obj_Menu_Loading_Alarm_1": {
+  "func_va": "0x140090fd0",
+  "func_end": "0x140091113",
+  "size": 323,
+  "lea_site": "0x140090ff1"
+ },
+ "gml_Object_Obj_Menu_Loading_Create_0": {
+  "func_va": "0x14008ff60",
+  "func_end": "0x14009055b",
+  "size": 1531,
+  "lea_site": "0x14008ff8e"
+ },
+ "gml_Object_Obj_Menu_Loading_Draw_75": {
+  "func_va": "0x140092560",
+  "func_end": "0x1400930a7",
+  "size": 2887,
+  "lea_site": "0x14009259a"
+ },
+ "gml_Object_Obj_Menu_Loading_PreCreate_0": {
+  "func_va": "0x140093aa0",
+  "func_end": "0x140093c20",
+  "size": 384,
+  "lea_site": "0x140093abd"
+ },
+ "gml_Object_Obj_Menu_Loading_Step_1": {
+  "func_va": "0x140091220",
+  "func_end": "0x140091ebc",
+  "size": 3228,
+  "lea_site": "0x140091255"
+ },
+ "gml_Object_Obj_Menu_Main_Back_Alarm_0": {
+  "func_va": "0x14009f290",
+  "func_end": "0x14009f545",
+  "size": 693,
+  "lea_site": "0x14009f2b2"
+ },
+ "gml_Object_Obj_Menu_Main_Back_Alarm_1": {
+  "func_va": "0x14009f750",
+  "func_end": "0x14009f917",
+  "size": 455,
+  "lea_site": "0x14009f771"
+ },
+ "gml_Object_Obj_Menu_Main_Back_Create_0": {
+  "func_va": "0x14009ecd0",
+  "func_end": "0x14009f07f",
+  "size": 943,
+  "lea_site": "0x14009ecfb"
+ },
+ "gml_Object_Obj_Menu_Main_Back_Draw_0": {
+  "func_va": "0x1400a09d0",
+  "func_end": "0x1400a1030",
+  "size": 1632,
+  "lea_site": "0x1400a09fc"
+ },
+ "gml_Object_Obj_Menu_Main_Back_PreCreate_0": {
+  "func_va": "0x1400a13f0",
+  "func_end": "0x1400a1500",
+  "size": 272,
+  "lea_site": "0x1400a1409"
+ },
+ "gml_Object_Obj_Menu_Main_Back_Step_0": {
+  "func_va": "0x14009fa60",
+  "func_end": "0x14009fd13",
+  "size": 691,
+  "lea_site": "0x14009fa86"
+ },
+ "gml_Object_Obj_Menu_Main_Back_Step_1": {
+  "func_va": "0x1400a0030",
+  "func_end": "0x1400a067a",
+  "size": 1610,
+  "lea_site": "0x1400a0061"
+ },
+ "gml_Object_Obj_Menu_Main_Music_Create_0": {
+  "func_va": "0x1400eccd0",
+  "func_end": "0x1400ece81",
+  "size": 433,
+  "lea_site": "0x1400ecced"
+ },
+ "gml_Object_Obj_Menu_Main_Music_Mouse_4": {
+  "func_va": "0x1400ed420",
+  "func_end": "0x1400ed878",
+  "size": 1112,
+  "lea_site": "0x1400ed44c"
+ },
+ "gml_Object_Obj_Menu_Main_Music_PreCreate_0": {
+  "func_va": "0x1400edc30",
+  "func_end": "0x1400edd40",
+  "size": 272,
+  "lea_site": "0x1400edc49"
+ },
+ "gml_Object_Obj_Menu_Main_Music_Step_0": {
+  "func_va": "0x1400ed030",
+  "func_end": "0x1400ed1fb",
+  "size": 459,
+  "lea_site": "0x1400ed04d"
+ },
+ "gml_Object_Obj_Menu_Main_Options_Create_0": {
+  "func_va": "0x140128940",
+  "func_end": "0x140128b36",
+  "size": 502,
+  "lea_site": "0x14012895d"
+ },
+ "gml_Object_Obj_Menu_Main_Options_Mouse_4": {
+  "func_va": "0x1401291e0",
+  "func_end": "0x1401296a5",
+  "size": 1221,
+  "lea_site": "0x14012920c"
+ },
+ "gml_Object_Obj_Menu_Main_Options_PreCreate_0": {
+  "func_va": "0x140129ad0",
+  "func_end": "0x140129c25",
+  "size": 341,
+  "lea_site": "0x140129ae9"
+ },
+ "gml_Object_Obj_Menu_Main_Options_Step_0": {
+  "func_va": "0x140128d40",
+  "func_end": "0x140128f50",
+  "size": 528,
+  "lea_site": "0x140128d5d"
+ },
+ "gml_Object_Obj_Menu_Main_Title_Alarm_0": {
+  "func_va": "0x1400fe530",
+  "func_end": "0x1400fe8a9",
+  "size": 889,
+  "lea_site": "0x1400fe558"
+ },
+ "gml_Object_Obj_Menu_Main_Title_Alarm_1": {
+  "func_va": "0x1400feb50",
+  "func_end": "0x1400fed17",
+  "size": 455,
+  "lea_site": "0x1400feb71"
+ },
+ "gml_Object_Obj_Menu_Main_Title_Create_0": {
+  "func_va": "0x1400fcab0",
+  "func_end": "0x1400fdbee",
+  "size": 4414,
+  "lea_site": "0x1400fcae0"
+ },
+ "gml_Object_Obj_Menu_Main_Title_Destroy_0": {
+  "func_va": "0x1400fe1c0",
+  "func_end": "0x1400fe342",
+  "size": 386,
+  "lea_site": "0x1400fe1e1"
+ },
+ "gml_Object_Obj_Menu_Main_Title_Draw_0": {
+  "func_va": "0x140104860",
+  "func_end": "0x14010542b",
+  "size": 3019,
+  "lea_site": "0x14010488c"
+ },
+ "gml_Object_Obj_Menu_Main_Title_KeyPress_69": {
+  "func_va": "0x14010a1d0",
+  "func_end": "0x14010abbc",
+  "size": 2540,
+  "lea_site": "0x14010a208"
+ },
+ "gml_Object_Obj_Menu_Main_Title_KeyPress_83": {
+  "func_va": "0x140105770",
+  "func_end": "0x140106e83",
+  "size": 5907,
+  "lea_site": "0x1401057a3"
+ },
+ "gml_Object_Obj_Menu_Main_Title_KeyPress_87": {
+  "func_va": "0x140107c40",
+  "func_end": "0x140109381",
+  "size": 5953,
+  "lea_site": "0x140107c73"
+ },
+ "gml_Object_Obj_Menu_Main_Title_Mouse_53": {
+  "func_va": "0x140102d20",
+  "func_end": "0x140103eba",
+  "size": 4506,
+  "lea_site": "0x140102d54"
+ },
+ "gml_Object_Obj_Menu_Main_Title_PreCreate_0": {
+  "func_va": "0x14010b260",
+  "func_end": "0x14010b370",
+  "size": 272,
+  "lea_site": "0x14010b279"
+ },
+ "gml_Object_Obj_Menu_Main_Title_Step_0": {
+  "func_va": "0x1400fee60",
+  "func_end": "0x1401011d3",
+  "size": 9075,
+  "lea_site": "0x1400fee93"
+ },
+ "gml_Object_Obj_Menu_Main_Title_Step_1": {
+  "func_va": "0x140102380",
+  "func_end": "0x1401029ca",
+  "size": 1610,
+  "lea_site": "0x1401023b1"
+ },
+ "gml_Object_Obj_Menu_Night_Display_Alarm_0": {
+  "func_va": "0x1400589b0",
+  "func_end": "0x140058aa2",
+  "size": 242,
+  "lea_site": "0x1400589c4"
+ },
+ "gml_Object_Obj_Menu_Night_Display_Create_0": {
+  "func_va": "0x140057b60",
+  "func_end": "0x1400584f3",
+  "size": 2451,
+  "lea_site": "0x140057b8a"
+ },
+ "gml_Object_Obj_Menu_Night_Display_Draw_75": {
+  "func_va": "0x1400599a0",
+  "func_end": "0x140059d23",
+  "size": 899,
+  "lea_site": "0x1400599dc"
+ },
+ "gml_Object_Obj_Menu_Night_Display_PreCreate_0": {
+  "func_va": "0x14005a180",
+  "func_end": "0x14005a243",
+  "size": 195,
+  "lea_site": "0x14005a193"
+ },
+ "gml_Object_Obj_Menu_Night_Display_Step_0": {
+  "func_va": "0x140058b70",
+  "func_end": "0x1400594ea",
+  "size": 2426,
+  "lea_site": "0x140058ba2"
+ },
+ "gml_Object_Obj_Menu_Options_Create_0": {
+  "func_va": "0x140074950",
+  "func_end": "0x140075f1c",
+  "size": 5580,
+  "lea_site": "0x140074984"
+ },
+ "gml_Object_Obj_Menu_Options_Destroy_0": {
+  "func_va": "0x140076350",
+  "func_end": "0x1400768ce",
+  "size": 1406,
+  "lea_site": "0x14007637c"
+ },
+ "gml_Object_Obj_Menu_Options_Draw_0": {
+  "func_va": "0x14007dc90",
+  "func_end": "0x140082f95",
+  "size": 21253,
+  "lea_site": "0x14007dcc3"
+ },
+ "gml_Object_Obj_Menu_Options_Icons_Mouse_4": {
+  "func_va": "0x1400da150",
+  "func_end": "0x1400da517",
+  "size": 967,
+  "lea_site": "0x1400da177"
+ },
+ "gml_Object_Obj_Menu_Options_Icons_PreCreate_0": {
+  "func_va": "0x1400da8b0",
+  "func_end": "0x1400da9c0",
+  "size": 272,
+  "lea_site": "0x1400da8c9"
+ },
+ "gml_Object_Obj_Menu_Options_KeyPress_65": {
+  "func_va": "0x140083d00",
+  "func_end": "0x14008578d",
+  "size": 6797,
+  "lea_site": "0x140083d32"
+ },
+ "gml_Object_Obj_Menu_Options_KeyPress_68": {
+  "func_va": "0x140086180",
+  "func_end": "0x140087bbd",
+  "size": 6717,
+  "lea_site": "0x1400861b2"
+ },
+ "gml_Object_Obj_Menu_Options_KeyPress_81": {
+  "func_va": "0x140088530",
+  "func_end": "0x140088a05",
+  "size": 1237,
+  "lea_site": "0x14008856a"
+ },
+ "gml_Object_Obj_Menu_Options_Mouse_53": {
+  "func_va": "0x140077bf0",
+  "func_end": "0x14007bf32",
+  "size": 17218,
+  "lea_site": "0x140077c2b"
+ },
+ "gml_Object_Obj_Menu_Options_Mouse_54": {
+  "func_va": "0x1400773c0",
+  "func_end": "0x140077895",
+  "size": 1237,
+  "lea_site": "0x1400773fa"
+ },
+ "gml_Object_Obj_Menu_Options_PreCreate_0": {
+  "func_va": "0x140088d60",
+  "func_end": "0x140088e4c",
+  "size": 236,
+  "lea_site": "0x140088d79"
+ },
+ "gml_Object_Obj_Menu_Options_Preview_Alarm_0": {
+  "func_va": "0x1400c7800",
+  "func_end": "0x1400c9d25",
+  "size": 9509,
+  "lea_site": "0x1400c782e"
+ },
+ "gml_Object_Obj_Menu_Options_Preview_Alarm_1": {
+  "func_va": "0x1400cad50",
+  "func_end": "0x1400cce47",
+  "size": 8439,
+  "lea_site": "0x1400cad83"
+ },
+ "gml_Object_Obj_Menu_Options_Preview_Create_0": {
+  "func_va": "0x1400c73c0",
+  "func_end": "0x1400c7691",
+  "size": 721,
+  "lea_site": "0x1400c73de"
+ },
+ "gml_Object_Obj_Menu_Options_Preview_Draw_0": {
+  "func_va": "0x1400ced50",
+  "func_end": "0x1400cf880",
+  "size": 2864,
+  "lea_site": "0x1400ced7c"
+ },
+ "gml_Object_Obj_Menu_Options_Preview_Mouse_53": {
+  "func_va": "0x1400cdd40",
+  "func_end": "0x1400ce7e9",
+  "size": 2729,
+  "lea_site": "0x1400cdd6a"
+ },
+ "gml_Object_Obj_Menu_Options_Preview_PreCreate_0": {
+  "func_va": "0x1400cff20",
+  "func_end": "0x1400d0030",
+  "size": 272,
+  "lea_site": "0x1400cff39"
+ },
+ "gml_Object_Obj_Menu_Options_Selector_Create_0": {
+  "func_va": "0x14005f840",
+  "func_end": "0x14005f92c",
+  "size": 236,
+  "lea_site": "0x14005f854"
+ },
+ "gml_Object_Obj_Menu_Options_Selector_Draw_0": {
+  "func_va": "0x14005f9f0",
+  "func_end": "0x14005fab3",
+  "size": 195,
+  "lea_site": "0x14005fa03"
+ },
+ "gml_Object_Obj_Menu_Options_Selector_PreCreate_0": {
+  "func_va": "0x14005fb80",
+  "func_end": "0x14005fc43",
+  "size": 195,
+  "lea_site": "0x14005fb93"
+ },
+ "gml_Object_Obj_Menu_Options_Step_0": {
+  "func_va": "0x140076c50",
+  "func_end": "0x140076fab",
+  "size": 859,
+  "lea_site": "0x140076c7a"
+ },
+ "gml_Object_Obj_Menu_Pause_Create_0": {
+  "func_va": "0x1400d5450",
+  "func_end": "0x1400d6090",
+  "size": 3136,
+  "lea_site": "0x1400d5487"
+ },
+ "gml_Object_Obj_Menu_Pause_Destroy_0": {
+  "func_va": "0x1400d6570",
+  "func_end": "0x1400d6911",
+  "size": 929,
+  "lea_site": "0x1400d659c"
+ },
+ "gml_Object_Obj_Menu_Pause_Draw_0": {
+  "func_va": "0x1400d81a0",
+  "func_end": "0x1400d8fd2",
+  "size": 3634,
+  "lea_site": "0x1400d81cc"
+ },
+ "gml_Object_Obj_Menu_Pause_Mouse_53": {
+  "func_va": "0x1400d7430",
+  "func_end": "0x1400d7c14",
+  "size": 2020,
+  "lea_site": "0x1400d7464"
+ },
+ "gml_Object_Obj_Menu_Pause_PreCreate_0": {
+  "func_va": "0x1400d9400",
+  "func_end": "0x1400d9510",
+  "size": 272,
+  "lea_site": "0x1400d9419"
+ },
+ "gml_Object_Obj_Menu_Pause_Step_0": {
+  "func_va": "0x1400d6c80",
+  "func_end": "0x1400d7013",
+  "size": 915,
+  "lea_site": "0x1400d6cac"
+ },
+ "gml_Object_Obj_Menu_Radio_Cassette_Create_0": {
+  "func_va": "0x1400e4c10",
+  "func_end": "0x1400e554c",
+  "size": 2364,
+  "lea_site": "0x1400e4c44"
+ },
+ "gml_Object_Obj_Menu_Radio_Cassette_Destroy_0": {
+  "func_va": "0x1400e5a90",
+  "func_end": "0x1400e5cc6",
+  "size": 566,
+  "lea_site": "0x1400e5ab5"
+ },
+ "gml_Object_Obj_Menu_Radio_Cassette_Draw_0": {
+  "func_va": "0x1400ea050",
+  "func_end": "0x1400eb65d",
+  "size": 5645,
+  "lea_site": "0x1400ea09e"
+ },
+ "gml_Object_Obj_Menu_Radio_Cassette_Mouse_53": {
+  "func_va": "0x1400e6b80",
+  "func_end": "0x1400e873f",
+  "size": 7103,
+  "lea_site": "0x1400e6bb8"
+ },
+ "gml_Object_Obj_Menu_Radio_Cassette_Mouse_54": {
+  "func_va": "0x1400e95f0",
+  "func_end": "0x1400e9c49",
+  "size": 1625,
+  "lea_site": "0x1400e9625"
+ },
+ "gml_Object_Obj_Menu_Radio_Cassette_PreCreate_0": {
+  "func_va": "0x1400eca90",
+  "func_end": "0x1400ecba0",
+  "size": 272,
+  "lea_site": "0x1400ecaa9"
+ },
+ "gml_Object_Obj_Menu_Radio_Cassette_Step_0": {
+  "func_va": "0x1400e5ec0",
+  "func_end": "0x1400e6715",
+  "size": 2133,
+  "lea_site": "0x1400e5eed"
+ },
+ "gml_Object_Obj_Menu_Radio_Play_Create_0": {
+  "func_va": "0x1400ede70",
+  "func_end": "0x1400edfaa",
+  "size": 314,
+  "lea_site": "0x1400ede8a"
+ },
+ "gml_Object_Obj_Menu_Radio_Play_Mouse_4": {
+  "func_va": "0x1400ee760",
+  "func_end": "0x1400ef0ee",
+  "size": 2446,
+  "lea_site": "0x1400ee794"
+ },
+ "gml_Object_Obj_Menu_Radio_Play_PreCreate_0": {
+  "func_va": "0x1400ef720",
+  "func_end": "0x1400ef830",
+  "size": 272,
+  "lea_site": "0x1400ef739"
+ },
+ "gml_Object_Obj_Menu_Radio_Play_Step_0": {
+  "func_va": "0x1400ee0e0",
+  "func_end": "0x1400ee41f",
+  "size": 831,
+  "lea_site": "0x1400ee106"
+ },
+ "gml_Object_Obj_Menu_Selector_Create_0": {
+  "func_va": "0x1400b0160",
+  "func_end": "0x1400b029a",
+  "size": 314,
+  "lea_site": "0x1400b017a"
+ },
+ "gml_Object_Obj_Menu_Selector_Draw_0": {
+  "func_va": "0x1400b03d0",
+  "func_end": "0x1400b04e0",
+  "size": 272,
+  "lea_site": "0x1400b03e9"
+ },
+ "gml_Object_Obj_Menu_Selector_PreCreate_0": {
+  "func_va": "0x1400b0610",
+  "func_end": "0x1400b0720",
+  "size": 272,
+  "lea_site": "0x1400b0629"
+ },
+ "gml_Object_Obj_Menu_Static_Create_0": {
+  "func_va": "0x1400a9b80",
+  "func_end": "0x1400a9f80",
+  "size": 1024,
+  "lea_site": "0x1400a9ba0"
+ },
+ "gml_Object_Obj_Menu_Static_Draw_0": {
+  "func_va": "0x1400aa5c0",
+  "func_end": "0x1400aa6d0",
+  "size": 272,
+  "lea_site": "0x1400aa5d9"
+ },
+ "gml_Object_Obj_Menu_Static_PreCreate_0": {
+  "func_va": "0x1400aa800",
+  "func_end": "0x1400aa910",
+  "size": 272,
+  "lea_site": "0x1400aa819"
+ },
+ "gml_Object_Obj_Menu_Static_Step_0": {
+  "func_va": "0x1400aa260",
+  "func_end": "0x1400aa3d8",
+  "size": 376,
+  "lea_site": "0x1400aa281"
+ },
+ "gml_Object_Obj_Menu_Transition_Create_0": {
+  "func_va": "0x14004a800",
+  "func_end": "0x14004b65b",
+  "size": 3675,
+  "lea_site": "0x14004a82c"
+ },
+ "gml_Object_Obj_Menu_Transition_Draw_0": {
+  "func_va": "0x14004c010",
+  "func_end": "0x14004c43c",
+  "size": 1068,
+  "lea_site": "0x14004c036"
+ },
+ "gml_Object_Obj_Menu_Transition_PreCreate_0": {
+  "func_va": "0x14004c6b0",
+  "func_end": "0x14004c773",
+  "size": 195,
+  "lea_site": "0x14004c6c3"
+ },
+ "gml_Object_Obj_Menu_Transition_Step_0": {
+  "func_va": "0x14004ba70",
+  "func_end": "0x14004bd73",
+  "size": 771,
+  "lea_site": "0x14004ba95"
+ },
+ "gml_Object_Obj_Menu_Warning_Alarm_0": {
+  "func_va": "0x1401129f0",
+  "func_end": "0x140112ba9",
+  "size": 441,
+  "lea_site": "0x140112a0d"
+ },
+ "gml_Object_Obj_Menu_Warning_Alarm_1": {
+  "func_va": "0x1401124f0",
+  "func_end": "0x1401127c0",
+  "size": 720,
+  "lea_site": "0x140112518"
+ },
+ "gml_Object_Obj_Menu_Warning_Create_0": {
+  "func_va": "0x140111e70",
+  "func_end": "0x140112281",
+  "size": 1041,
+  "lea_site": "0x140111e9b"
+ },
+ "gml_Object_Obj_Menu_Warning_Draw_0": {
+  "func_va": "0x140113eb0",
+  "func_end": "0x1401149e7",
+  "size": 2871,
+  "lea_site": "0x140113edc"
+ },
+ "gml_Object_Obj_Menu_Warning_KeyPress_1": {
+  "func_va": "0x140114d70",
+  "func_end": "0x140114f12",
+  "size": 418,
+  "lea_site": "0x140114d90"
+ },
+ "gml_Object_Obj_Menu_Warning_PreCreate_0": {
+  "func_va": "0x140115080",
+  "func_end": "0x140115190",
+  "size": 272,
+  "lea_site": "0x140115099"
+ },
+ "gml_Object_Obj_Menu_Warning_Step_0": {
+  "func_va": "0x140112ce0",
+  "func_end": "0x14011380a",
+  "size": 2858,
+  "lea_site": "0x140112d17"
+ },
+ "gml_Object_Obj_Night_1_5_Bonnie_AI_Alarm_0": {
+  "func_va": "0x1400994c0",
+  "func_end": "0x14009b238",
+  "size": 7544,
+  "lea_site": "0x1400994f3"
+ },
+ "gml_Object_Obj_Night_1_5_Bonnie_AI_Alarm_1": {
+  "func_va": "0x14009bdc0",
+  "func_end": "0x14009d53e",
+  "size": 6014,
+  "lea_site": "0x14009bdf7"
+ },
+ "gml_Object_Obj_Night_1_5_Bonnie_AI_Create_0": {
+  "func_va": "0x1400986c0",
+  "func_end": "0x140098ef9",
+  "size": 2105,
+  "lea_site": "0x1400986fc"
+ },
+ "gml_Object_Obj_Night_1_5_Bonnie_AI_PreCreate_0": {
+  "func_va": "0x14009ea90",
+  "func_end": "0x14009eba0",
+  "size": 272,
+  "lea_site": "0x14009eaa9"
+ },
+ "gml_Object_Obj_Night_1_5_Bonnie_AI_Step_0": {
+  "func_va": "0x14009df80",
+  "func_end": "0x14009e627",
+  "size": 1703,
+  "lea_site": "0x14009dfb4"
+ },
+ "gml_Object_Obj_Night_1_5_Chica_AI_Alarm_0": {
+  "func_va": "0x1400a2430",
+  "func_end": "0x1400a41a2",
+  "size": 7538,
+  "lea_site": "0x1400a2463"
+ },
+ "gml_Object_Obj_Night_1_5_Chica_AI_Alarm_1": {
+  "func_va": "0x1400a4dc0",
+  "func_end": "0x1400a6479",
+  "size": 5817,
+  "lea_site": "0x1400a4df7"
+ },
+ "gml_Object_Obj_Night_1_5_Chica_AI_Create_0": {
+  "func_va": "0x1400a1630",
+  "func_end": "0x1400a1e69",
+  "size": 2105,
+  "lea_site": "0x1400a166c"
+ },
+ "gml_Object_Obj_Night_1_5_Chica_AI_PreCreate_0": {
+  "func_va": "0x1400a79d0",
+  "func_end": "0x1400a7ae0",
+  "size": 272,
+  "lea_site": "0x1400a79e9"
+ },
+ "gml_Object_Obj_Night_1_5_Chica_AI_Step_0": {
+  "func_va": "0x1400a6ec0",
+  "func_end": "0x1400a7567",
+  "size": 1703,
+  "lea_site": "0x1400a6ef4"
+ },
+ "gml_Object_Obj_Night_1_5_Foxy_AI_Alarm_0": {
+  "func_va": "0x1400acf50",
+  "func_end": "0x1400ae11e",
+  "size": 4558,
+  "lea_site": "0x1400acf83"
+ },
+ "gml_Object_Obj_Night_1_5_Foxy_AI_Alarm_1": {
+  "func_va": "0x1400aea80",
+  "func_end": "0x1400af007",
+  "size": 1415,
+  "lea_site": "0x1400aeaaa"
+ },
+ "gml_Object_Obj_Night_1_5_Foxy_AI_Create_0": {
+  "func_va": "0x1400ac110",
+  "func_end": "0x1400ac987",
+  "size": 2167,
+  "lea_site": "0x1400ac14c"
+ },
+ "gml_Object_Obj_Night_1_5_Foxy_AI_PreCreate_0": {
+  "func_va": "0x1400aff20",
+  "func_end": "0x1400b0030",
+  "size": 272,
+  "lea_site": "0x1400aff39"
+ },
+ "gml_Object_Obj_Night_1_5_Foxy_AI_Step_0": {
+  "func_va": "0x1400af300",
+  "func_end": "0x1400afad0",
+  "size": 2000,
+  "lea_site": "0x1400af331"
+ },
+ "gml_Object_Obj_Night_1_5_Freddy_AI_Alarm_0": {
+  "func_va": "0x1400d11b0",
+  "func_end": "0x1400d1c15",
+  "size": 2661,
+  "lea_site": "0x1400d11e0"
+ },
+ "gml_Object_Obj_Night_1_5_Freddy_AI_Alarm_1": {
+  "func_va": "0x1400d2340",
+  "func_end": "0x1400d2bd2",
+  "size": 2194,
+  "lea_site": "0x1400d2374"
+ },
+ "gml_Object_Obj_Night_1_5_Freddy_AI_Alarm_2": {
+  "func_va": "0x1400d3010",
+  "func_end": "0x1400d32fc",
+  "size": 748,
+  "lea_site": "0x1400d3037"
+ },
+ "gml_Object_Obj_Night_1_5_Freddy_AI_Create_0": {
+  "func_va": "0x1400d0160",
+  "func_end": "0x1400d0b84",
+  "size": 2596,
+  "lea_site": "0x1400d019c"
+ },
+ "gml_Object_Obj_Night_1_5_Freddy_AI_Draw_0": {
+  "func_va": "0x1400d4db0",
+  "func_end": "0x1400d501f",
+  "size": 623,
+  "lea_site": "0x1400d4ddd"
+ },
+ "gml_Object_Obj_Night_1_5_Freddy_AI_PreCreate_0": {
+  "func_va": "0x1400d5210",
+  "func_end": "0x1400d5320",
+  "size": 272,
+  "lea_site": "0x1400d5229"
+ },
+ "gml_Object_Obj_Night_1_5_Freddy_AI_Step_0": {
+  "func_va": "0x1400d3580",
+  "func_end": "0x1400d459c",
+  "size": 4124,
+  "lea_site": "0x1400d35bc"
+ },
+ "gml_Object_Obj_Night_1_5_Mangle_AI_Alarm_0": {
+  "func_va": "0x1400dc3d0",
+  "func_end": "0x1400dd130",
+  "size": 3424,
+  "lea_site": "0x1400dc403"
+ },
+ "gml_Object_Obj_Night_1_5_Mangle_AI_Alarm_1": {
+  "func_va": "0x1400dd950",
+  "func_end": "0x1400ddb64",
+  "size": 532,
+  "lea_site": "0x1400dd973"
+ },
+ "gml_Object_Obj_Night_1_5_Mangle_AI_Create_0": {
+  "func_va": "0x1400db5d0",
+  "func_end": "0x1400dbe09",
+  "size": 2105,
+  "lea_site": "0x1400db60c"
+ },
+ "gml_Object_Obj_Night_1_5_Mangle_AI_PreCreate_0": {
+  "func_va": "0x1400de750",
+  "func_end": "0x1400de860",
+  "size": 272,
+  "lea_site": "0x1400de769"
+ },
+ "gml_Object_Obj_Night_1_5_Mangle_AI_Step_0": {
+  "func_va": "0x1400ddd90",
+  "func_end": "0x1400de3da",
+  "size": 1610,
+  "lea_site": "0x1400dddc1"
+ },
+ "gml_Object_Obj_Night_Camera_Flash_Create_0": {
+  "func_va": "0x14011c910",
+  "func_end": "0x14011ca8f",
+  "size": 383,
+  "lea_site": "0x14011c92a"
+ },
+ "gml_Object_Obj_Night_Camera_Flash_Mouse_4": {
+  "func_va": "0x14011e670",
+  "func_end": "0x14011f5ae",
+  "size": 3902,
+  "lea_site": "0x14011e6ab"
+ },
+ "gml_Object_Obj_Night_Camera_Flash_PreCreate_0": {
+  "func_va": "0x140120050",
+  "func_end": "0x1401201a5",
+  "size": 341,
+  "lea_site": "0x140120069"
+ },
+ "gml_Object_Obj_Night_Camera_Flash_Step_0": {
+  "func_va": "0x14011cc30",
+  "func_end": "0x14011dcee",
+  "size": 4286,
+  "lea_site": "0x14011cc5c"
+ },
+ "gml_Object_Obj_Night_Camera_Icons_Mouse_4": {
+  "func_va": "0x1400c3270",
+  "func_end": "0x1400c4137",
+  "size": 3783,
+  "lea_site": "0x1400c32a3"
+ },
+ "gml_Object_Obj_Night_Camera_Icons_PreCreate_0": {
+  "func_va": "0x1400c48d0",
+  "func_end": "0x1400c49e0",
+  "size": 272,
+  "lea_site": "0x1400c48e9"
+ },
+ "gml_Object_Obj_Night_Camera_Icons_Select_PreCreate_0": {
+  "func_va": "0x14008c660",
+  "func_end": "0x14008c74c",
+  "size": 236,
+  "lea_site": "0x14008c679"
+ },
+ "gml_Object_Obj_Night_Camera_Icons_Select_Step_0": {
+  "func_va": "0x14008c360",
+  "func_end": "0x14008c4b0",
+  "size": 336,
+  "lea_site": "0x14008c381"
+ },
+ "gml_Object_Obj_Night_Camera_Icons_Step_0": {
+  "func_va": "0x1400c2440",
+  "func_end": "0x1400c2c46",
+  "size": 2054,
+  "lea_site": "0x1400c2469"
+ },
+ "gml_Object_Obj_Night_Camera_Map_Create_0": {
+  "func_va": "0x1400c4b10",
+  "func_end": "0x1400c4c4d",
+  "size": 317,
+  "lea_site": "0x1400c4b29"
+ },
+ "gml_Object_Obj_Night_Camera_Map_Draw_0": {
+  "func_va": "0x1400c5570",
+  "func_end": "0x1400c58aa",
+  "size": 826,
+  "lea_site": "0x1400c5596"
+ },
+ "gml_Object_Obj_Night_Camera_Map_PreCreate_0": {
+  "func_va": "0x1400c5b20",
+  "func_end": "0x1400c5c30",
+  "size": 272,
+  "lea_site": "0x1400c5b39"
+ },
+ "gml_Object_Obj_Night_Camera_Map_Step_0": {
+  "func_va": "0x1400c4d80",
+  "func_end": "0x1400c5196",
+  "size": 1046,
+  "lea_site": "0x1400c4da9"
+ },
+ "gml_Object_Obj_Night_Camera_Record_Create_0": {
+  "func_va": "0x140120340",
+  "func_end": "0x1401204bf",
+  "size": 383,
+  "lea_site": "0x14012035a"
+ },
+ "gml_Object_Obj_Night_Camera_Record_Mouse_4": {
+  "func_va": "0x1401215e0",
+  "func_end": "0x140122224",
+  "size": 3140,
+  "lea_site": "0x140121622"
+ },
+ "gml_Object_Obj_Night_Camera_Record_PreCreate_0": {
+  "func_va": "0x140122be0",
+  "func_end": "0x140122d35",
+  "size": 341,
+  "lea_site": "0x140122bf9"
+ },
+ "gml_Object_Obj_Night_Camera_Record_Step_0": {
+  "func_va": "0x140120660",
+  "func_end": "0x140120e32",
+  "size": 2002,
+  "lea_site": "0x14012068c"
+ },
+ "gml_Object_Obj_Night_Camera_Screen_Create_0": {
+  "func_va": "0x1400b5340",
+  "func_end": "0x1400b547a",
+  "size": 314,
+  "lea_site": "0x1400b535a"
+ },
+ "gml_Object_Obj_Night_Camera_Screen_Draw_0": {
+  "func_va": "0x1400b6ba0",
+  "func_end": "0x1400b6cda",
+  "size": 314,
+  "lea_site": "0x1400b6bbc"
+ },
+ "gml_Object_Obj_Night_Camera_Screen_Flash_Create_0": {
+  "func_va": "0x14010f760",
+  "func_end": "0x14010f97c",
+  "size": 540,
+  "lea_site": "0x14010f77c"
+ },
+ "gml_Object_Obj_Night_Camera_Screen_Flash_PreCreate_0": {
+  "func_va": "0x140110110",
+  "func_end": "0x140110220",
+  "size": 272,
+  "lea_site": "0x140110129"
+ },
+ "gml_Object_Obj_Night_Camera_Screen_Flash_Step_0": {
+  "func_va": "0x14010fb40",
+  "func_end": "0x14010fdf3",
+  "size": 691,
+  "lea_site": "0x14010fb66"
+ },
+ "gml_Object_Obj_Night_Camera_Screen_PreCreate_0": {
+  "func_va": "0x1400b6e10",
+  "func_end": "0x1400b6f20",
+  "size": 272,
+  "lea_site": "0x1400b6e29"
+ },
+ "gml_Object_Obj_Night_Camera_Screen_Step_0": {
+  "func_va": "0x1400b55b0",
+  "func_end": "0x1400b60a4",
+  "size": 2804,
+  "lea_site": "0x1400b55e3"
+ },
+ "gml_Object_Obj_Night_Camera_Switch_Create_0": {
+  "func_va": "0x1400a7c10",
+  "func_end": "0x1400a7db8",
+  "size": 424,
+  "lea_site": "0x1400a7c2e"
+ },
+ "gml_Object_Obj_Night_Camera_Switch_Mouse_7": {
+  "func_va": "0x1400a89b0",
+  "func_end": "0x1400a9351",
+  "size": 2465,
+  "lea_site": "0x1400a89e3"
+ },
+ "gml_Object_Obj_Night_Camera_Switch_PreCreate_0": {
+  "func_va": "0x1400a9940",
+  "func_end": "0x1400a9a50",
+  "size": 272,
+  "lea_site": "0x1400a9959"
+ },
+ "gml_Object_Obj_Night_Camera_Switch_Step_0": {
+  "func_va": "0x1400a7f20",
+  "func_end": "0x1400a845b",
+  "size": 1339,
+  "lea_site": "0x1400a7f4f"
+ },
+ "gml_Object_Obj_Night_Camera_Tablet_Create_0": {
+  "func_va": "0x140056730",
+  "func_end": "0x14005681c",
+  "size": 236,
+  "lea_site": "0x140056744"
+ },
+ "gml_Object_Obj_Night_Camera_Tablet_PreCreate_0": {
+  "func_va": "0x1400579d0",
+  "func_end": "0x140057a93",
+  "size": 195,
+  "lea_site": "0x1400579e3"
+ },
+ "gml_Object_Obj_Night_Camera_Tablet_Step_0": {
+  "func_va": "0x1400568e0",
+  "func_end": "0x140057561",
+  "size": 3201,
+  "lea_site": "0x140056913"
+ },
+ "gml_Object_Obj_Night_Camera_Tether_Lock_PreCreate_0": {
+  "func_va": "0x140111c30",
+  "func_end": "0x140111d40",
+  "size": 272,
+  "lea_site": "0x140111c49"
+ },
+ "gml_Object_Obj_Night_Camera_Tether_Lock_Step_0": {
+  "func_va": "0x140111840",
+  "func_end": "0x140111a0b",
+  "size": 459,
+  "lea_site": "0x14011185d"
+ },
+ "gml_Object_Obj_Night_Music_Switch_Create_0": {
+  "func_va": "0x1400f42a0",
+  "func_end": "0x1400f44bf",
+  "size": 543,
+  "lea_site": "0x1400f42c0"
+ },
+ "gml_Object_Obj_Night_Music_Switch_Draw_0": {
+  "func_va": "0x1400f62f0",
+  "func_end": "0x1400f6824",
+  "size": 1332,
+  "lea_site": "0x1400f6318"
+ },
+ "gml_Object_Obj_Night_Music_Switch_Mouse_7": {
+  "func_va": "0x1400f5360",
+  "func_end": "0x1400f5d4c",
+  "size": 2540,
+  "lea_site": "0x1400f5393"
+ },
+ "gml_Object_Obj_Night_Music_Switch_PreCreate_0": {
+  "func_va": "0x1400f6c10",
+  "func_end": "0x1400f6d20",
+  "size": 272,
+  "lea_site": "0x1400f6c29"
+ },
+ "gml_Object_Obj_Night_Music_Switch_Step_0": {
+  "func_va": "0x1400f4630",
+  "func_end": "0x1400f4d2d",
+  "size": 1789,
+  "lea_site": "0x1400f465f"
+ },
+ "gml_Object_Obj_Night_Radio_Buttons_Create_0": {
+  "func_va": "0x14010b4a0",
+  "func_end": "0x14010b709",
+  "size": 617,
+  "lea_site": "0x14010b4be"
+ },
+ "gml_Object_Obj_Night_Radio_Buttons_Mouse_4": {
+  "func_va": "0x14010c5b0",
+  "func_end": "0x14010ecda",
+  "size": 10026,
+  "lea_site": "0x14010c5e8"
+ },
+ "gml_Object_Obj_Night_Radio_Buttons_PreCreate_0": {
+  "func_va": "0x14010f520",
+  "func_end": "0x14010f630",
+  "size": 272,
+  "lea_site": "0x14010f539"
+ },
+ "gml_Object_Obj_Night_Radio_Buttons_Step_0": {
+  "func_va": "0x14010b8b0",
+  "func_end": "0x14010bf83",
+  "size": 1747,
+  "lea_site": "0x14010b8e3"
+ },
+ "gml_Object_Obj_Night_Radio_Spinner_Create_0": {
+  "func_va": "0x1400fbab0",
+  "func_end": "0x1400fbc6c",
+  "size": 444,
+  "lea_site": "0x1400fbacd"
+ },
+ "gml_Object_Obj_Night_Radio_Spinner_PreCreate_0": {
+  "func_va": "0x1400fc870",
+  "func_end": "0x1400fc980",
+  "size": 272,
+  "lea_site": "0x1400fc889"
+ },
+ "gml_Object_Obj_Night_Radio_Spinner_Step_0": {
+  "func_va": "0x1400fbdd0",
+  "func_end": "0x1400fc300",
+  "size": 1328,
+  "lea_site": "0x1400fbe01"
+ },
+ "gml_Object_Obj_Night_Shift_End_Alarm_0": {
+  "func_va": "0x1400b14b0",
+  "func_end": "0x1400b1669",
+  "size": 441,
+  "lea_site": "0x1400b14cd"
+ },
+ "gml_Object_Obj_Night_Shift_End_Alarm_1": {
+  "func_va": "0x1400b17a0",
+  "func_end": "0x1400b191b",
+  "size": 379,
+  "lea_site": "0x1400b17c1"
+ },
+ "gml_Object_Obj_Night_Shift_End_Create_0": {
+  "func_va": "0x1400b0850",
+  "func_end": "0x1400b1132",
+  "size": 2274,
+  "lea_site": "0x1400b0881"
+ },
+ "gml_Object_Obj_Night_Shift_End_Draw_75": {
+  "func_va": "0x1400b2fa0",
+  "func_end": "0x1400b3341",
+  "size": 929,
+  "lea_site": "0x1400b2fcb"
+ },
+ "gml_Object_Obj_Night_Shift_End_PreCreate_0": {
+  "func_va": "0x1400b35b0",
+  "func_end": "0x1400b36c0",
+  "size": 272,
+  "lea_site": "0x1400b35c9"
+ },
+ "gml_Object_Obj_Night_Shift_End_Step_0": {
+  "func_va": "0x1400b1b00",
+  "func_end": "0x1400b280c",
+  "size": 3340,
+  "lea_site": "0x1400b1b35"
+ },
+ "gml_Object_Obj_Night_Time_Alarm_0": {
+  "func_va": "0x140089f10",
+  "func_end": "0x14008a447",
+  "size": 1335,
+  "lea_site": "0x140089f36"
+ },
+ "gml_Object_Obj_Night_Time_Alarm_1": {
+  "func_va": "0x140089cf0",
+  "func_end": "0x140089e10",
+  "size": 288,
+  "lea_site": "0x140089d0a"
+ },
+ "gml_Object_Obj_Night_Time_Create_0": {
+  "func_va": "0x1400895a0",
+  "func_end": "0x140089a42",
+  "size": 1186,
+  "lea_site": "0x1400895ca"
+ },
+ "gml_Object_Obj_Night_Time_Draw_75": {
+  "func_va": "0x14008bc70",
+  "func_end": "0x14008bf2d",
+  "size": 701,
+  "lea_site": "0x14008bc9d"
+ },
+ "gml_Object_Obj_Night_Time_PreCreate_0": {
+  "func_va": "0x14008c170",
+  "func_end": "0x14008c25c",
+  "size": 236,
+  "lea_site": "0x14008c189"
+ },
+ "gml_Object_Obj_Night_Time_Step_1": {
+  "func_va": "0x14008a6b0",
+  "func_end": "0x14008b39d",
+  "size": 3309,
+  "lea_site": "0x14008a6e8"
+ },
+ "gml_Object_Obj_Night_UI_Camera_Button_Create_0": {
+  "func_va": "0x140061eb0",
+  "func_end": "0x1400625cd",
+  "size": 1821,
+  "lea_site": "0x140061ed4"
+ },
+ "gml_Object_Obj_Night_UI_Camera_Button_Draw_75": {
+  "func_va": "0x1400670a0",
+  "func_end": "0x140067932",
+  "size": 2194,
+  "lea_site": "0x1400670ca"
+ },
+ "gml_Object_Obj_Night_UI_Camera_Button_KeyPress_83": {
+  "func_va": "0x140069870",
+  "func_end": "0x14006b271",
+  "size": 6657,
+  "lea_site": "0x1400698a3"
+ },
+ "gml_Object_Obj_Night_UI_Camera_Button_KeyPress_87": {
+  "func_va": "0x140067c70",
+  "func_end": "0x140068fef",
+  "size": 4991,
+  "lea_site": "0x140067cab"
+ },
+ "gml_Object_Obj_Night_UI_Camera_Button_Mouse_53": {
+  "func_va": "0x140066cc0",
+  "func_end": "0x140066f24",
+  "size": 612,
+  "lea_site": "0x140066ce5"
+ },
+ "gml_Object_Obj_Night_UI_Camera_Button_PreCreate_0": {
+  "func_va": "0x14006b8e0",
+  "func_end": "0x14006b9cc",
+  "size": 236,
+  "lea_site": "0x14006b8f9"
+ },
+ "gml_Object_Obj_Night_UI_Camera_Button_Step_0": {
+  "func_va": "0x1400628e0",
+  "func_end": "0x1400653bd",
+  "size": 10973,
+  "lea_site": "0x140062917"
+ },
+ "gml_Object_Obj_Night_UI_Power_Create_0": {
+  "func_va": "0x14005a310",
+  "func_end": "0x14005a547",
+  "size": 567,
+  "lea_site": "0x14005a32c"
+ },
+ "gml_Object_Obj_Night_UI_Power_Draw_75": {
+  "func_va": "0x14005bb10",
+  "func_end": "0x14005beb3",
+  "size": 931,
+  "lea_site": "0x14005bb2d"
+ },
+ "gml_Object_Obj_Night_UI_Power_PreCreate_0": {
+  "func_va": "0x14005bf90",
+  "func_end": "0x14005c053",
+  "size": 195,
+  "lea_site": "0x14005bfa3"
+ },
+ "gml_Object_Obj_Night_UI_Power_Step_0": {
+  "func_va": "0x14005a640",
+  "func_end": "0x14005b5ed",
+  "size": 4013,
+  "lea_site": "0x14005a667"
+ },
+ "gml_Object_Obj_Night_Vent_Icons_Mouse_4": {
+  "func_va": "0x140095a20",
+  "func_end": "0x1400964bd",
+  "size": 2717,
+  "lea_site": "0x140095a53"
+ },
+ "gml_Object_Obj_Night_Vent_Icons_PreCreate_0": {
+  "func_va": "0x140096b50",
+  "func_end": "0x140096c60",
+  "size": 272,
+  "lea_site": "0x140096b69"
+ },
+ "gml_Object_Obj_Night_Vent_Icons_Step_0": {
+  "func_va": "0x140095260",
+  "func_end": "0x1400956fc",
+  "size": 1180,
+  "lea_site": "0x14009527e"
+ },
+ "gml_Object_Obj_Office_Back_Create_0": {
+  "func_va": "0x14005ccf0",
+  "func_end": "0x14005d007",
+  "size": 791,
+  "lea_site": "0x14005cd11"
+ },
+ "gml_Object_Obj_Office_Back_Draw_0": {
+  "func_va": "0x14005ebd0",
+  "func_end": "0x14005f362",
+  "size": 1938,
+  "lea_site": "0x14005ebfc"
+ },
+ "gml_Object_Obj_Office_Back_Flashlight_PreCreate_0": {
+  "func_va": "0x1400472a0",
+  "func_end": "0x14004731c",
+  "size": 124,
+  "lea_site": "0x1400472b2"
+ },
+ "gml_Object_Obj_Office_Back_Flashlight_Step_0": {
+  "func_va": "0x1400468d0",
+  "func_end": "0x140046e4a",
+  "size": 1402,
+  "lea_site": "0x1400468fc"
+ },
+ "gml_Object_Obj_Office_Back_Mouse_4": {
+  "func_va": "0x14005dab0",
+  "func_end": "0x14005e6cc",
+  "size": 3100,
+  "lea_site": "0x14005dae3"
+ },
+ "gml_Object_Obj_Office_Back_PreCreate_0": {
+  "func_va": "0x14005f6b0",
+  "func_end": "0x14005f773",
+  "size": 195,
+  "lea_site": "0x14005f6c3"
+ },
+ "gml_Object_Obj_Office_Back_Step_0": {
+  "func_va": "0x14005d240",
+  "func_end": "0x14005d755",
+  "size": 1301,
+  "lea_site": "0x14005d267"
+ },
+ "gml_Object_Obj_Office_Camera_Control_Create_0": {
+  "func_va": "0x140047380",
+  "func_end": "0x1400476a6",
+  "size": 806,
+  "lea_site": "0x1400473a3"
+ },
+ "gml_Object_Obj_Office_Camera_Control_Draw_75": {
+  "func_va": "0x14004a460",
+  "func_end": "0x14004a609",
+  "size": 425,
+  "lea_site": "0x14004a489"
+ },
+ "gml_Object_Obj_Office_Camera_Control_Keyboard_65": {
+  "func_va": "0x140049e00",
+  "func_end": "0x14004a041",
+  "size": 577,
+  "lea_site": "0x140049e22"
+ },
+ "gml_Object_Obj_Office_Camera_Control_Keyboard_68": {
+  "func_va": "0x14004a170",
+  "func_end": "0x14004a391",
+  "size": 545,
+  "lea_site": "0x14004a192"
+ },
+ "gml_Object_Obj_Office_Camera_Control_PreCreate_0": {
+  "func_va": "0x14004a6d0",
+  "func_end": "0x14004a76e",
+  "size": 158,
+  "lea_site": "0x14004a6e3"
+ },
+ "gml_Object_Obj_Office_Camera_Control_Step_0": {
+  "func_va": "0x140047830",
+  "func_end": "0x140048fa8",
+  "size": 6008,
+  "lea_site": "0x140047863"
+ },
+ "gml_Object_Obj_Office_Front_Buttons_Red_PreCreate_0": {
+  "func_va": "0x14006cf60",
+  "func_end": "0x14006d04c",
+  "size": 236,
+  "lea_site": "0x14006cf79"
+ },
+ "gml_Object_Obj_Office_Front_Buttons_Red_Step_0": {
+  "func_va": "0x14006c5f0",
+  "func_end": "0x14006cb7f",
+  "size": 1423,
+  "lea_site": "0x14006c618"
+ },
+ "gml_Object_Obj_Office_Front_Figurines_KeyPress_49": {
+  "func_va": "0x14005c120",
+  "func_end": "0x14005c21c",
+  "size": 252,
+  "lea_site": "0x14005c139"
+ },
+ "gml_Object_Obj_Office_Front_Figurines_KeyPress_50": {
+  "func_va": "0x14005c320",
+  "func_end": "0x14005c422",
+  "size": 258,
+  "lea_site": "0x14005c339"
+ },
+ "gml_Object_Obj_Office_Front_Figurines_KeyPress_51": {
+  "func_va": "0x14005c530",
+  "func_end": "0x14005c632",
+  "size": 258,
+  "lea_site": "0x14005c549"
+ },
+ "gml_Object_Obj_Office_Front_Figurines_KeyPress_52": {
+  "func_va": "0x14005c740",
+  "func_end": "0x14005c842",
+  "size": 258,
+  "lea_site": "0x14005c759"
+ },
+ "gml_Object_Obj_Office_Front_Figurines_KeyPress_53": {
+  "func_va": "0x14005c950",
+  "func_end": "0x14005ca52",
+  "size": 258,
+  "lea_site": "0x14005c969"
+ },
+ "gml_Object_Obj_Office_Front_Figurines_PreCreate_0": {
+  "func_va": "0x14005cb60",
+  "func_end": "0x14005cc23",
+  "size": 195,
+  "lea_site": "0x14005cb73"
+ },
+ "gml_Object_Obj_Office_Front_Left_Create_0": {
+  "func_va": "0x14006ffc0",
+  "func_end": "0x140070975",
+  "size": 2485,
+  "lea_site": "0x14006fff4"
+ },
+ "gml_Object_Obj_Office_Front_Left_Draw_0": {
+  "func_va": "0x140073bf0",
+  "func_end": "0x140074327",
+  "size": 1847,
+  "lea_site": "0x140073c1c"
+ },
+ "gml_Object_Obj_Office_Front_Left_Mouse_4": {
+  "func_va": "0x1400727e0",
+  "func_end": "0x140073324",
+  "size": 2884,
+  "lea_site": "0x140072813"
+ },
+ "gml_Object_Obj_Office_Front_Left_Other_5": {
+  "func_va": "0x140073850",
+  "func_end": "0x140073a26",
+  "size": 470,
+  "lea_site": "0x140073875"
+ },
+ "gml_Object_Obj_Office_Front_Left_PreCreate_0": {
+  "func_va": "0x140074760",
+  "func_end": "0x14007484c",
+  "size": 236,
+  "lea_site": "0x140074779"
+ },
+ "gml_Object_Obj_Office_Front_Left_Step_0": {
+  "func_va": "0x140070d10",
+  "func_end": "0x140071ff8",
+  "size": 4840,
+  "lea_site": "0x140070d43"
+ },
+ "gml_Object_Obj_Office_Front_Middle_Alarm_0": {
+  "func_va": "0x1400beaf0",
+  "func_end": "0x1400bece6",
+  "size": 502,
+  "lea_site": "0x1400beb12"
+ },
+ "gml_Object_Obj_Office_Front_Middle_Create_0": {
+  "func_va": "0x1400bdc70",
+  "func_end": "0x1400be7c1",
+  "size": 2897,
+  "lea_site": "0x1400bdca7"
+ },
+ "gml_Object_Obj_Office_Front_Middle_Draw_0": {
+  "func_va": "0x1400c1470",
+  "func_end": "0x1400c1d64",
+  "size": 2292,
+  "lea_site": "0x1400c149c"
+ },
+ "gml_Object_Obj_Office_Front_Middle_Mouse_4": {
+  "func_va": "0x1400c0620",
+  "func_end": "0x1400c0d7b",
+  "size": 1883,
+  "lea_site": "0x1400c064c"
+ },
+ "gml_Object_Obj_Office_Front_Middle_Other_5": {
+  "func_va": "0x1400c1080",
+  "func_end": "0x1400c1278",
+  "size": 504,
+  "lea_site": "0x1400c10a5"
+ },
+ "gml_Object_Obj_Office_Front_Middle_PreCreate_0": {
+  "func_va": "0x1400c2200",
+  "func_end": "0x1400c2310",
+  "size": 272,
+  "lea_site": "0x1400c2219"
+ },
+ "gml_Object_Obj_Office_Front_Middle_Step_1": {
+  "func_va": "0x1400bee60",
+  "func_end": "0x1400bfeba",
+  "size": 4186,
+  "lea_site": "0x1400bee98"
+ },
+ "gml_Object_Obj_Office_Front_Right_Create_0": {
+  "func_va": "0x1400f6e50",
+  "func_end": "0x1400f789a",
+  "size": 2634,
+  "lea_site": "0x1400f6e87"
+ },
+ "gml_Object_Obj_Office_Front_Right_Draw_0": {
+  "func_va": "0x1400fac80",
+  "func_end": "0x1400fb3ed",
+  "size": 1901,
+  "lea_site": "0x1400facac"
+ },
+ "gml_Object_Obj_Office_Front_Right_Mouse_4": {
+  "func_va": "0x1400f97b0",
+  "func_end": "0x1400fa31c",
+  "size": 2924,
+  "lea_site": "0x1400f97e3"
+ },
+ "gml_Object_Obj_Office_Front_Right_Other_5": {
+  "func_va": "0x1400fa890",
+  "func_end": "0x1400faa88",
+  "size": 504,
+  "lea_site": "0x1400fa8b5"
+ },
+ "gml_Object_Obj_Office_Front_Right_PreCreate_0": {
+  "func_va": "0x1400fb870",
+  "func_end": "0x1400fb980",
+  "size": 272,
+  "lea_site": "0x1400fb889"
+ },
+ "gml_Object_Obj_Office_Front_Right_Step_0": {
+  "func_va": "0x1400f7c80",
+  "func_end": "0x1400f8f95",
+  "size": 4885,
+  "lea_site": "0x1400f7cb3"
+ },
+ "gml_Object_Obj_Office_Light_Back_Create_0": {
+  "func_va": "0x140110350",
+  "func_end": "0x14011048a",
+  "size": 314,
+  "lea_site": "0x14011036a"
+ },
+ "gml_Object_Obj_Office_Light_Back_PreCreate_0": {
+  "func_va": "0x140111600",
+  "func_end": "0x140111710",
+  "size": 272,
+  "lea_site": "0x140111619"
+ },
+ "gml_Object_Obj_Office_Light_Back_Step_0": {
+  "func_va": "0x1401105c0",
+  "func_end": "0x140111084",
+  "size": 2756,
+  "lea_site": "0x1401105f3"
+ },
+ "gml_Object_Obj_Pause_Create_0": {
+  "func_va": "0x1400c5d60",
+  "func_end": "0x1400c5e9a",
+  "size": 314,
+  "lea_site": "0x1400c5d7a"
+ },
+ "gml_Object_Obj_Pause_KeyPress_27": {
+  "func_va": "0x1400c5fd0",
+  "func_end": "0x1400c6c8c",
+  "size": 3260,
+  "lea_site": "0x1400c600a"
+ },
+ "gml_Object_Obj_Pause_PreCreate_0": {
+  "func_va": "0x1400c7180",
+  "func_end": "0x1400c7290",
+  "size": 272,
+  "lea_site": "0x1400c7199"
+ },
+ "gml_Object_Obj_RoundedRoomDeactivated_Draw_75": {
+  "func_va": "0x140088f50",
+  "func_end": "0x140089195",
+  "size": 581,
+  "lea_site": "0x140088f71"
+ },
+ "gml_Object_Obj_RoundedRoomDeactivated_PreCreate_0": {
+  "func_va": "0x1400893b0",
+  "func_end": "0x14008949c",
+  "size": 236,
+  "lea_site": "0x1400893c9"
+ },
+ "gml_Object_Obj_RoundedRoom_Draw_75": {
+  "func_va": "0x1400d9640",
+  "func_end": "0x1400d9be4",
+  "size": 1444,
+  "lea_site": "0x1400d966a"
+ },
+ "gml_Object_Obj_RoundedRoom_PreCreate_0": {
+  "func_va": "0x1400d9f10",
+  "func_end": "0x1400da020",
+  "size": 272,
+  "lea_site": "0x1400d9f29"
+ },
+ "gml_Object_Obj_System_Delta_Time_Create_0": {
+  "func_va": "0x1400f2c90",
+  "func_end": "0x1400f2f8d",
+  "size": 765,
+  "lea_site": "0x1400f2cbb"
+ },
+ "gml_Object_Obj_System_Delta_Time_PreCreate_0": {
+  "func_va": "0x1400f3e20",
+  "func_end": "0x1400f3f30",
+  "size": 272,
+  "lea_site": "0x1400f3e39"
+ },
+ "gml_Object_Obj_System_Delta_Time_Step_1": {
+  "func_va": "0x1400f31f0",
+  "func_end": "0x1400f3964",
+  "size": 1908,
+  "lea_site": "0x1400f3224"
+ },
+ "gml_Object_Obj_System_RAM_Usage_Draw_75": {
+  "func_va": "0x14005fd10",
+  "func_end": "0x140060bd3",
+  "size": 3779,
+  "lea_site": "0x14005fd3c"
+ },
+ "gml_Object_Obj_System_RAM_Usage_PreCreate_0": {
+  "func_va": "0x140061cc0",
+  "func_end": "0x140061dac",
+  "size": 236,
+  "lea_site": "0x140061cd9"
+ },
+ "gml_Object_Obj_System_Stats_Check_Create_0": {
+  "func_va": "0x140119170",
+  "func_end": "0x1401192aa",
+  "size": 314,
+  "lea_site": "0x14011918a"
+ },
+ "gml_Object_Obj_System_Stats_Check_Draw_75": {
+  "func_va": "0x14011ab00",
+  "func_end": "0x14011b2cd",
+  "size": 1997,
+  "lea_site": "0x14011ab2c"
+ },
+ "gml_Object_Obj_System_Stats_Check_KeyPress_112": {
+  "func_va": "0x14011c150",
+  "func_end": "0x14011c380",
+  "size": 560,
+  "lea_site": "0x14011c175"
+ },
+ "gml_Object_Obj_System_Stats_Check_KeyPress_16": {
+  "func_va": "0x14011b970",
+  "func_end": "0x14011bd60",
+  "size": 1008,
+  "lea_site": "0x14011b999"
+ },
+ "gml_Object_Obj_System_Stats_Check_PreCreate_0": {
+  "func_va": "0x14011c5d0",
+  "func_end": "0x14011c761",
+  "size": 401,
+  "lea_site": "0x14011c5ed"
+ },
+ "gml_Object_Obj_System_Stats_Check_Step_0": {
+  "func_va": "0x1401193e0",
+  "func_end": "0x140119d4e",
+  "size": 2414,
+  "lea_site": "0x14011940a"
+ },
+ "gml_Object_obj_OLDTVFilter_BW_Create_0": {
+  "func_va": "0x14008dcd0",
+  "func_end": "0x14008ecf5",
+  "size": 4133,
+  "lea_site": "0x14008dcfd"
+ },
+ "gml_Object_obj_OLDTVFilter_BW_PreCreate_0": {
+  "func_va": "0x14008ef70",
+  "func_end": "0x14008f05c",
+  "size": 236,
+  "lea_site": "0x14008ef89"
+ },
+ "gml_Object_obj_OLDTVFilter_Composite_Create_0": {
+  "func_va": "0x140093d50",
+  "func_end": "0x140094d69",
+  "size": 4121,
+  "lea_site": "0x140093d7d"
+ },
+ "gml_Object_obj_OLDTVFilter_Composite_PreCreate_0": {
+  "func_va": "0x140095020",
+  "func_end": "0x140095130",
+  "size": 272,
+  "lea_site": "0x140095039"
+ },
+ "gml_Object_obj_OLDTVFilter_Logo_PreCreate_0": {
+  "func_va": "0x1400f4060",
+  "func_end": "0x1400f4170",
+  "size": 272,
+  "lea_site": "0x1400f4079"
+ },
+ "gml_Object_obj_OLDTVFilter_PresetBase_Create_0": {
+  "func_va": "0x140096d90",
+  "func_end": "0x140097e1c",
+  "size": 4236,
+  "lea_site": "0x140096dbd"
+ },
+ "gml_Object_obj_OLDTVFilter_PresetBase_Draw_75": {
+  "func_va": "0x1400980d0",
+  "func_end": "0x1400982d3",
+  "size": 515,
+  "lea_site": "0x1400980f3"
+ },
+ "gml_Object_obj_OLDTVFilter_PresetBase_PreCreate_0": {
+  "func_va": "0x140098480",
+  "func_end": "0x140098590",
+  "size": 272,
+  "lea_site": "0x140098499"
+ },
+ "gml_Object_obj_OLDTVFilter_RGB_Create_0": {
+  "func_va": "0x140123b30",
+  "func_end": "0x140124bc0",
+  "size": 4240,
+  "lea_site": "0x140123b5d"
+ },
+ "gml_Object_obj_OLDTVFilter_RGB_PreCreate_0": {
+  "func_va": "0x140124ef0",
+  "func_end": "0x140125045",
+  "size": 341,
+  "lea_site": "0x140124f09"
+ },
+ "gml_Object_obj_OLDTVFilter_SVideo_Create_0": {
+  "func_va": "0x14008c850",
+  "func_end": "0x14008d866",
+  "size": 4118,
+  "lea_site": "0x14008c87d"
+ },
+ "gml_Object_obj_OLDTVFilter_SVideo_PreCreate_0": {
+  "func_va": "0x14008dae0",
+  "func_end": "0x14008dbcc",
+  "size": 236,
+  "lea_site": "0x14008daf9"
+ },
+ "gml_Object_obj_OLDTVFilter_Scanline_Only_Create_0": {
+  "func_va": "0x1400daaf0",
+  "func_end": "0x1400db0e9",
+  "size": 1529,
+  "lea_site": "0x1400dab1a"
+ },
+ "gml_Object_obj_OLDTVFilter_Scanline_Only_PreCreate_0": {
+  "func_va": "0x1400db390",
+  "func_end": "0x1400db4a0",
+  "size": 272,
+  "lea_site": "0x1400db3a9"
+ },
+ "gml_Object_obj_OLDTVFilter_Tube_Only_Create_0": {
+  "func_va": "0x140122ed0",
+  "func_end": "0x140123503",
+  "size": 1587,
+  "lea_site": "0x140122efa"
+ },
+ "gml_Object_obj_OLDTVFilter_Tube_Only_PreCreate_0": {
+  "func_va": "0x140123840",
+  "func_end": "0x140123995",
+  "size": 341,
+  "lea_site": "0x140123859"
+ },
+ "gml_Object_obj_OLDTVFilter_VHS_Create_0": {
+  "func_va": "0x14006d150",
+  "func_end": "0x14006e172",
+  "size": 4130,
+  "lea_site": "0x14006d17d"
+ },
+ "gml_Object_obj_OLDTVFilter_VHS_PreCreate_0": {
+  "func_va": "0x14006e3f0",
+  "func_end": "0x14006e4dc",
+  "size": 236,
+  "lea_site": "0x14006e409"
+ },
+ "gml_Object_postprocess_Create_0": {
+  "func_va": "0x1400aaa40",
+  "func_end": "0x1400aac3d",
+  "size": 509,
+  "lea_site": "0x1400aaa61"
+ },
+ "gml_Object_postprocess_Destroy_0": {
+  "func_va": "0x1400aae20",
+  "func_end": "0x1400aaf9b",
+  "size": 379,
+  "lea_site": "0x1400aae41"
+ },
+ "gml_Object_postprocess_Draw_77": {
+  "func_va": "0x1400ab180",
+  "func_end": "0x1400abaf2",
+  "size": 2418,
+  "lea_site": "0x1400ab1ac"
+ },
+ "gml_Object_postprocess_PreCreate_0": {
+  "func_va": "0x1400abed0",
+  "func_end": "0x1400abfe0",
+  "size": 272,
+  "lea_site": "0x1400abee9"
+ },
+ "gml_RoomCC_Rm_Loading_0_Create": {
+  "func_va": "0x140043990",
+  "func_end": "0x140044998",
+  "size": 4104,
+  "lea_site": "0x1400439b5"
+ },
+ "gml_RoomCC_Rm_Loading_1_PreCreate": {
+  "func_va": "0x140044b60",
+  "func_end": "0x140044c4a",
+  "size": 234,
+  "lea_site": "0x140044b77"
+ },
+ "gml_RoomCC_Rm_Menu_0_Create": {
+  "func_va": "0x1400419a0",
+  "func_end": "0x140041bcf",
+  "size": 559,
+  "lea_site": "0x1400419ba"
+ },
+ "gml_RoomCC_Rm_Menu_1_Create": {
+  "func_va": "0x140041cf0",
+  "func_end": "0x140041d9e",
+  "size": 174,
+  "lea_site": "0x140041d04"
+ },
+ "gml_RoomCC_Rm_Menu_Custom_Night_0_Create": {
+  "func_va": "0x140040510",
+  "func_end": "0x1400405ea",
+  "size": 218,
+  "lea_site": "0x140040528"
+ },
+ "gml_RoomCC_Rm_Menu_Custom_Night_1_Create": {
+  "func_va": "0x1400406a0",
+  "func_end": "0x140040781",
+  "size": 225,
+  "lea_site": "0x1400406b8"
+ },
+ "gml_RoomCC_Rm_Menu_Custom_Night_2_Create": {
+  "func_va": "0x140040840",
+  "func_end": "0x140040921",
+  "size": 225,
+  "lea_site": "0x140040858"
+ },
+ "gml_RoomCC_Rm_Menu_Custom_Night_3_Create": {
+  "func_va": "0x1400409e0",
+  "func_end": "0x140040ac1",
+  "size": 225,
+  "lea_site": "0x1400409f8"
+ },
+ "gml_RoomCC_Rm_Menu_Custom_Night_4_Create": {
+  "func_va": "0x140040b80",
+  "func_end": "0x140040c61",
+  "size": 225,
+  "lea_site": "0x140040b98"
+ },
+ "gml_RoomCC_Rm_Office_0_Create": {
+  "func_va": "0x140042690",
+  "func_end": "0x140042831",
+  "size": 417,
+  "lea_site": "0x1400426ad"
+ },
+ "gml_RoomCC_Rm_Warning_0_Create": {
+  "func_va": "0x140044cb0",
+  "func_end": "0x140044f17",
+  "size": 615,
+  "lea_site": "0x140044ccd"
+ },
+ "gml_RoomCC_Rm_Warning_1_PreCreate": {
+  "func_va": "0x140045070",
+  "func_end": "0x14004514e",
+  "size": 222,
+  "lea_site": "0x140045087"
+ },
+ "gml_Room_Rm_Initialize_Create": {
+  "func_va": "0x1400452f0",
+  "func_end": "0x140046702",
+  "size": 5138,
+  "lea_site": "0x14004531c"
+ },
+ "gml_Room_Rm_Jumpscare_Create": {
+  "func_va": "0x1400451b0",
+  "func_end": "0x140045264",
+  "size": 180,
+  "lea_site": "0x1400451c4"
+ },
+ "gml_Room_Rm_Loading_Create": {
+  "func_va": "0x140042930",
+  "func_end": "0x1400432b9",
+  "size": 2441,
+  "lea_site": "0x14004296a"
+ },
+ "gml_Room_Rm_Menu_Create": {
+  "func_va": "0x140040d20",
+  "func_end": "0x14004144f",
+  "size": 1839,
+  "lea_site": "0x140040d52"
+ },
+ "gml_Room_Rm_Office_Create": {
+  "func_va": "0x140041e20",
+  "func_end": "0x1400424fb",
+  "size": 1755,
+  "lea_site": "0x140041e47"
+ },
+ "gml_Script_": {
+  "func_va": "0x14015efc0",
+  "func_end": "0x14015f09d",
+  "size": 221,
+  "lea_site": "0x14015f017"
+ },
+ "gml_Script_Scr_Camera_Update": {
+  "func_va": "0x14003bd70",
+  "func_end": "0x14003ec8f",
+  "size": 12063,
+  "lea_site": "0x14003bdb6"
+ },
+ "gml_Script___background_get_element": {
+  "func_va": "0x140020ca0",
+  "func_end": "0x140022a64",
+  "size": 7620,
+  "lea_site": "0x140020ce3"
+ },
+ "gml_Script___background_get_internal": {
+  "func_va": "0x140002ff0",
+  "func_end": "0x140004613",
+  "size": 5667,
+  "lea_site": "0x140003029"
+ },
+ "gml_Script___background_set": {
+  "func_va": "0x140039530",
+  "func_end": "0x140039915",
+  "size": 997,
+  "lea_site": "0x14003955f"
+ },
+ "gml_Script___background_set_element": {
+  "func_va": "0x140005f50",
+  "func_end": "0x1400099f9",
+  "size": 15017,
+  "lea_site": "0x140005f8f"
+ },
+ "gml_Script___background_set_internal": {
+  "func_va": "0x140024220",
+  "func_end": "0x140026345",
+  "size": 8485,
+  "lea_site": "0x14002425d"
+ },
+ "gml_Script___init_action": {
+  "func_va": "0x1400057d0",
+  "func_end": "0x140005c17",
+  "size": 1095,
+  "lea_site": "0x140005803"
+ },
+ "gml_Script___init_background": {
+  "func_va": "0x14003bae0",
+  "func_end": "0x14003bb54",
+  "size": 116,
+  "lea_site": "0x14003baf6"
+ },
+ "gml_Script___init_global": {
+  "func_va": "0x1400400f0",
+  "func_end": "0x14004027c",
+  "size": 396,
+  "lea_site": "0x140040116"
+ },
+ "gml_Script___init_view": {
+  "func_va": "0x140032eb0",
+  "func_end": "0x140032f24",
+  "size": 116,
+  "lea_site": "0x140032ec6"
+ },
+ "gml_Script___view_get": {
+  "func_va": "0x1400015f0",
+  "func_end": "0x140002945",
+  "size": 4949,
+  "lea_site": "0x140001623"
+ },
+ "gml_Script_action_draw_sprite": {
+  "func_va": "0x140023830",
+  "func_end": "0x140023ca1",
+  "size": 1137,
+  "lea_site": "0x140023871"
+ },
+ "gml_Script_action_if_next_room": {
+  "func_va": "0x14001fee0",
+  "func_end": "0x140020020",
+  "size": 320,
+  "lea_site": "0x14001fefa"
+ },
+ "gml_Script_action_next_room": {
+  "func_va": "0x14002fd60",
+  "func_end": "0x14002fde0",
+  "size": 128,
+  "lea_site": "0x14002fd76"
+ },
+ "gml_Script_customfunct_audio_play_sound_directional_single": {
+  "func_va": "0x140020620",
+  "func_end": "0x1400208e9",
+  "size": 713,
+  "lea_site": "0x14002064f"
+ },
+ "gml_Script_customfunct_audio_play_sound_single": {
+  "func_va": "0x140020290",
+  "func_end": "0x140020514",
+  "size": 644,
+  "lea_site": "0x1400202bf"
+ },
+ "gml_Script_customfunct_game_create_music_stream": {
+  "func_va": "0x140037700",
+  "func_end": "0x14003887e",
+  "size": 4478,
+  "lea_site": "0x14003772c"
+ },
+ "gml_Script_customfunct_game_load": {
+  "func_va": "0x140034210",
+  "func_end": "0x140035332",
+  "size": 4386,
+  "lea_site": "0x140034241"
+ },
+ "gml_Script_customfunct_game_load_music": {
+  "func_va": "0x140036870",
+  "func_end": "0x1400375d0",
+  "size": 3424,
+  "lea_site": "0x14003689a"
+ },
+ "gml_Script_customfunct_game_music_clear": {
+  "func_va": "0x140038980",
+  "func_end": "0x140038d0b",
+  "size": 907,
+  "lea_site": "0x1400389b2"
+ },
+ "gml_Script_customfunct_game_save": {
+  "func_va": "0x140033140",
+  "func_end": "0x1400340df",
+  "size": 3999,
+  "lea_site": "0x14003316d"
+ },
+ "gml_Script_customfunct_game_save_music": {
+  "func_va": "0x140035540",
+  "func_end": "0x14003673c",
+  "size": 4604,
+  "lea_site": "0x14003556c"
+ },
+ "gml_Script_customfunct_image_speed_delta": {
+  "func_va": "0x140004dd0",
+  "func_end": "0x140004f61",
+  "size": 401,
+  "lea_site": "0x140004df6"
+ },
+ "gml_Script_customfunct_options_update": {
+  "func_va": "0x140026fd0",
+  "func_end": "0x140027b29",
+  "size": 2905,
+  "lea_site": "0x14002700b"
+ },
+ "gml_Script_customfunct_ui_button_detection": {
+  "func_va": "0x14003af20",
+  "func_end": "0x14003b28c",
+  "size": 876,
+  "lea_site": "0x14003af4e"
+ },
+ "gml_Script_customfunct_ui_button_detection_x": {
+  "func_va": "0x14003b470",
+  "func_end": "0x14003b6d5",
+  "size": 613,
+  "lea_site": "0x14003b49a"
+ },
+ "gml_Script_draw_lensflare": {
+  "func_va": "0x14000c0b0",
+  "func_end": "0x140011c99",
+  "size": 23529,
+  "lea_site": "0x14000c111"
+ },
+ "gml_Script_draw_set_blend_mode": {
+  "func_va": "0x140001000",
+  "func_end": "0x140001177",
+  "size": 375,
+  "lea_site": "0x140001029"
+ },
+ "gml_Script_scr_OLDTVFilter_Draw": {
+  "func_va": "0x1400284f0",
+  "func_end": "0x14002d214",
+  "size": 19748,
+  "lea_site": "0x140028533"
+ },
+ "gml_Script_scr_OLDTVFilter_Settings": {
+  "func_va": "0x140039d60",
+  "func_end": "0x14003ac17",
+  "size": 3767,
+  "lea_site": "0x140039d91"
+ },
+ "gml_Script_scr_OLDTVFilter_Setup": {
+  "func_va": "0x14002fff0",
+  "func_end": "0x140032b10",
+  "size": 11040,
+  "lea_site": "0x14003001f"
+ },
+ "gml_release_mode": {
+  "func_va": "0x1402a0ef0",
+  "func_end": "0x1402a48ad",
+  "size": 14781,
+  "lea_site": "0x1402a2030"
+ }
+}

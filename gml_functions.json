@@ -1,0 +1,3643 @@
+{
+ "image_base": "0x140000000",
+ "text_va": "0x140001000",
+ "anchored": {
+  "gml_Script_draw_set_blend_mode": {
+   "string_va": 5373139936,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140001029"
+   ],
+   "neighbor_targets": [
+    "0x1405c3000"
+   ]
+  },
+  "gml_GlobalScript_draw_set_blend_mode": {
+   "string_va": 5373139967,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14000124b"
+   ],
+   "neighbor_targets": [
+    "0x140001000"
+   ]
+  },
+  "gml_Script___view_get": {
+   "string_va": 5373140004,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140001623"
+   ],
+   "neighbor_targets": [
+    "0x1405c3000"
+   ]
+  },
+  "gml_GlobalScript___view_get": {
+   "string_va": 5373140026,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140002e2b"
+   ],
+   "neighbor_targets": [
+    "0x1400015f0",
+    "0x140654cd0",
+    "0x140654ce4",
+    "0x140654cf8",
+    "0x140654d0c",
+    "0x140654d20",
+    "0x140654d34"
+   ]
+  },
+  "gml_Script___background_get_internal": {
+   "string_va": 5373140054,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140003029"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_GlobalScript___background_get_internal": {
+   "string_va": 5373140091,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140004c0b"
+   ],
+   "neighbor_targets": [
+    "0x140002ff0",
+    "0x140654e30",
+    "0x140654e44",
+    "0x140654e58",
+    "0x140654e6c",
+    "0x140654e80",
+    "0x140654e94"
+   ]
+  },
+  "gml_Script_customfunct_image_speed_delta": {
+   "string_va": 5373140230,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140004df6"
+   ],
+   "neighbor_targets": [
+    "0x1405c3000"
+   ]
+  },
+  "gml_GlobalScript_Animation": {
+   "string_va": 5373140271,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400050cb"
+   ],
+   "neighbor_targets": [
+    "0x140004dd0"
+   ]
+  },
+  "gml_Script___init_action": {
+   "string_va": 5373140440,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140005803"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_GlobalScript___init_action": {
+   "string_va": 5373140465,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140005d8b"
+   ],
+   "neighbor_targets": [
+    "0x1400057d0"
+   ]
+  },
+  "gml_Script___background_set_element": {
+   "string_va": 5373140499,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140005f8f"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_GlobalScript___background_set_element": {
+   "string_va": 5373140535,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14000bbeb"
+   ],
+   "neighbor_targets": [
+    "0x140005f50"
+   ]
+  },
+  "gml_Script_draw_lensflare": {
+   "string_va": 5373140696,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14000c111"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_GlobalScript_draw_lensflare": {
+   "string_va": 5373140722,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14001f74b"
+   ],
+   "neighbor_targets": [
+    "0x14000c0b0"
+   ]
+  },
+  "gml_Script_action_if_next_room": {
+   "string_va": 5373140757,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14001fefa"
+   ],
+   "neighbor_targets": [
+    "0x140439dc9"
+   ]
+  },
+  "gml_GlobalScript_action_if_next_room": {
+   "string_va": 5373140788,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400200cb"
+   ],
+   "neighbor_targets": [
+    "0x14001fee0"
+   ]
+  },
+  "gml_Script_customfunct_audio_play_sound_single": {
+   "string_va": 5373140825,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400202bf"
+   ],
+   "neighbor_targets": [
+    "0x1405c3000"
+   ]
+  },
+  "gml_Script_customfunct_audio_play_sound_directional_single": {
+   "string_va": 5373140872,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14002064f"
+   ],
+   "neighbor_targets": [
+    "0x1405c3000"
+   ]
+  },
+  "gml_GlobalScript_Audio": {
+   "string_va": 5373140931,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140020a1b"
+   ],
+   "neighbor_targets": [
+    "0x140020290",
+    "0x140020620"
+   ]
+  },
+  "gml_Script___background_get_element": {
+   "string_va": 5373140954,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140020ce3"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_GlobalScript___background_get_element": {
+   "string_va": 5373140990,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14002366b"
+   ],
+   "neighbor_targets": [
+    "0x140020ca0"
+   ]
+  },
+  "gml_Script_action_draw_sprite": {
+   "string_va": 5373141032,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140023871"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_GlobalScript_action_draw_sprite": {
+   "string_va": 5373141062,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14002405b"
+   ],
+   "neighbor_targets": [
+    "0x140023830"
+   ]
+  },
+  "gml_Script___background_set_internal": {
+   "string_va": 5373141098,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14002425d"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_GlobalScript___background_set_internal": {
+   "string_va": 5373141135,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140026e0b"
+   ],
+   "neighbor_targets": [
+    "0x140024220",
+    "0x140654f90",
+    "0x140654fa4",
+    "0x140654fb8",
+    "0x140654fcc",
+    "0x140654fe0",
+    "0x140654ff4"
+   ]
+  },
+  "gml_Script_customfunct_options_update": {
+   "string_va": 5373141192,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14002700b"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_GlobalScript_Update": {
+   "string_va": 5373141230,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14002832b"
+   ],
+   "neighbor_targets": [
+    "0x140026fd0",
+    "0x1406550a0",
+    "0x1406550b4"
+   ]
+  },
+  "gml_Script_scr_OLDTVFilter_Draw": {
+   "string_va": 5373141264,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140028533"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_GlobalScript_scr_OLDTVFilter_Draw": {
+   "string_va": 5373141296,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14002fa1b"
+   ],
+   "neighbor_targets": [
+    "0x1400284f0"
+   ]
+  },
+  "gml_Script_action_next_room": {
+   "string_va": 5373141334,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14002fd76"
+   ],
+   "neighbor_targets": [
+    "0x14043a172"
+   ]
+  },
+  "gml_GlobalScript_action_next_room": {
+   "string_va": 5373141362,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14002fe2b"
+   ],
+   "neighbor_targets": [
+    "0x14002fd60",
+    "0x14043a156"
+   ]
+  },
+  "gml_Script_scr_OLDTVFilter_Setup": {
+   "string_va": 5373141396,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14003001f"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_GlobalScript_scr_OLDTVFilter_Setup": {
+   "string_va": 5373141429,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140032ceb"
+   ],
+   "neighbor_targets": [
+    "0x14002fff0"
+   ]
+  },
+  "gml_Script___init_view": {
+   "string_va": 5373141468,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140032ec6"
+   ],
+   "neighbor_targets": [
+    "0x14043a1f3"
+   ]
+  },
+  "gml_GlobalScript___init_view": {
+   "string_va": 5373141491,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140032f7b"
+   ],
+   "neighbor_targets": [
+    "0x140032eb0",
+    "0x14043a1dc"
+   ]
+  },
+  "gml_Script_customfunct_game_save": {
+   "string_va": 5373141536,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14003316d"
+   ],
+   "neighbor_targets": [
+    "0x1405c33d0"
+   ]
+  },
+  "gml_Script_customfunct_game_load": {
+   "string_va": 5373141569,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140034241"
+   ],
+   "neighbor_targets": [
+    "0x1405c33d0"
+   ]
+  },
+  "gml_Script_customfunct_game_save_music": {
+   "string_va": 5373141602,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14003556c"
+   ],
+   "neighbor_targets": [
+    "0x1405c34e0",
+    "0x1405c34f1"
+   ]
+  },
+  "gml_Script_customfunct_game_load_music": {
+   "string_va": 5373141641,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14003689a"
+   ],
+   "neighbor_targets": [
+    "0x1405c34e0"
+   ]
+  },
+  "gml_Script_customfunct_game_create_music_stream": {
+   "string_va": 5373141680,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14003772c"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Script_customfunct_game_music_clear": {
+   "string_va": 5373141728,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400389b2"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_GlobalScript_Game_Save_And_Load": {
+   "string_va": 5373141768,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140038fbb"
+   ],
+   "neighbor_targets": [
+    "0x140033140",
+    "0x140034210"
+   ]
+  },
+  "gml_Script___background_set": {
+   "string_va": 5373141807,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14003955f"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_GlobalScript___background_set": {
+   "string_va": 5373141835,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140039b9b"
+   ],
+   "neighbor_targets": [
+    "0x140039530"
+   ]
+  },
+  "gml_Script_scr_OLDTVFilter_Settings": {
+   "string_va": 5373141869,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140039d91"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_GlobalScript_scr_OLDTVFilter_Settings": {
+   "string_va": 5373141905,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14003ad5b"
+   ],
+   "neighbor_targets": [
+    "0x140039d60"
+   ]
+  },
+  "gml_Script_customfunct_ui_button_detection": {
+   "string_va": 5373141947,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14003af4e"
+   ],
+   "neighbor_targets": [
+    "0x1405c3000"
+   ]
+  },
+  "gml_Script_customfunct_ui_button_detection_x": {
+   "string_va": 5373141990,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14003b49a"
+   ],
+   "neighbor_targets": [
+    "0x1405c3000"
+   ]
+  },
+  "gml_GlobalScript_UI": {
+   "string_va": 5373142035,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14003b85b"
+   ],
+   "neighbor_targets": [
+    "0x14003af20",
+    "0x14003b470"
+   ]
+  },
+  "gml_Script___init_background": {
+   "string_va": 5373142055,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14003baf6"
+   ],
+   "neighbor_targets": [
+    "0x14043a444"
+   ]
+  },
+  "gml_GlobalScript___init_background": {
+   "string_va": 5373142084,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14003bbab"
+   ],
+   "neighbor_targets": [
+    "0x14003bae0",
+    "0x14043a427"
+   ]
+  },
+  "gml_Script_Scr_Camera_Update": {
+   "string_va": 5373142119,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14003bdb6"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_GlobalScript_Camera": {
+   "string_va": 5373142148,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14003ff2b"
+   ],
+   "neighbor_targets": [
+    "0x14003bd70",
+    "0x1406553c0",
+    "0x1406553d4",
+    "0x1406553e8",
+    "0x1406553fc",
+    "0x140655410"
+   ]
+  },
+  "gml_Script___init_global": {
+   "string_va": 5373142172,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140040116"
+   ],
+   "neighbor_targets": [
+    "0x1405c36b0",
+    "0x140655428"
+   ]
+  },
+  "gml_GlobalScript___init_global": {
+   "string_va": 5373142197,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14004034b"
+   ],
+   "neighbor_targets": [
+    "0x1400400f0"
+   ]
+  },
+  "gml_RoomCC_Rm_Menu_Custom_Night_0_Create": {
+   "string_va": 5373142228,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140040528"
+   ],
+   "neighbor_targets": [
+    "0x1405c36c0"
+   ]
+  },
+  "gml_RoomCC_Rm_Menu_Custom_Night_1_Create": {
+   "string_va": 5373142269,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400406b8"
+   ],
+   "neighbor_targets": [
+    "0x1405c36c8"
+   ]
+  },
+  "gml_RoomCC_Rm_Menu_Custom_Night_2_Create": {
+   "string_va": 5373142310,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140040858"
+   ],
+   "neighbor_targets": [
+    "0x1405c36d0"
+   ]
+  },
+  "gml_RoomCC_Rm_Menu_Custom_Night_3_Create": {
+   "string_va": 5373142351,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400409f8"
+   ],
+   "neighbor_targets": [
+    "0x1405c36d8"
+   ]
+  },
+  "gml_RoomCC_Rm_Menu_Custom_Night_4_Create": {
+   "string_va": 5373142392,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140040b98"
+   ],
+   "neighbor_targets": [
+    "0x1405c36e0"
+   ]
+  },
+  "gml_Room_Rm_Menu_Create": {
+   "string_va": 5373142433,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140040d52"
+   ],
+   "neighbor_targets": [
+    "0x1405c3700"
+   ]
+  },
+  "gml_RoomCC_Rm_Menu_0_Create": {
+   "string_va": 5373142457,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400419ba"
+   ],
+   "neighbor_targets": [
+    "0x140439cd8",
+    "0x1405c3750",
+    "0x140655450"
+   ]
+  },
+  "gml_RoomCC_Rm_Menu_1_Create": {
+   "string_va": 5373142485,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140041d04"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Room_Rm_Office_Create": {
+   "string_va": 5373142513,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140041e47"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_RoomCC_Rm_Office_0_Create": {
+   "string_va": 5373142539,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400426ad"
+   ],
+   "neighbor_targets": [
+    "0x140439cd8",
+    "0x1405c376c"
+   ]
+  },
+  "gml_Room_Rm_Loading_Create": {
+   "string_va": 5373142569,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14004296a"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_RoomCC_Rm_Loading_0_Create": {
+   "string_va": 5373142596,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400439b5"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_RoomCC_Rm_Loading_1_PreCreate": {
+   "string_va": 5373142627,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140044b77"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_RoomCC_Rm_Warning_0_Create": {
+   "string_va": 5373142661,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140044ccd"
+   ],
+   "neighbor_targets": [
+    "0x140439cd8",
+    "0x1405c3794"
+   ]
+  },
+  "gml_RoomCC_Rm_Warning_1_PreCreate": {
+   "string_va": 5373142692,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140045087"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Room_Rm_Jumpscare_Create": {
+   "string_va": 5373142726,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400451c4"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Room_Rm_Initialize_Create": {
+   "string_va": 5373142755,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14004531c"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Office_Back_Flashlight_Step_0": {
+   "string_va": 5373142785,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400468fc"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Office_Back_Flashlight_PreCreate_0": {
+   "string_va": 5373142830,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400472b2"
+   ],
+   "neighbor_targets": [
+    "0x14043a760"
+   ]
+  },
+  "gml_Object_Obj_Office_Camera_Control_Create_0": {
+   "string_va": 5373142880,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400473a3"
+   ],
+   "neighbor_targets": [
+    "0x14043a72e"
+   ]
+  },
+  "gml_Object_Obj_Office_Camera_Control_Step_0": {
+   "string_va": 5373142926,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140047863"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Office_Camera_Control_Keyboard_65": {
+   "string_va": 5373142970,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140049e22"
+   ],
+   "neighbor_targets": [
+    "0x1406554d0"
+   ]
+  },
+  "gml_Object_Obj_Office_Camera_Control_Keyboard_68": {
+   "string_va": 5373143019,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14004a192"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Office_Camera_Control_Draw_75": {
+   "string_va": 5373143068,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14004a489"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Office_Camera_Control_PreCreate_0": {
+   "string_va": 5373143113,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14004a6e3"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Transition_Create_0": {
+   "string_va": 5373143162,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14004a82c"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Transition_Step_0": {
+   "string_va": 5373143202,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14004ba95"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Transition_Draw_0": {
+   "string_va": 5373143240,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14004c036"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Transition_PreCreate_0": {
+   "string_va": 5373143278,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14004c6c3"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Continue_Create_0": {
+   "string_va": 5373143321,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14004c864"
+   ],
+   "neighbor_targets": [
+    "0x1405c3a18",
+    "0x140655530"
+   ]
+  },
+  "gml_Object_Obj_Menu_Continue_Step_0": {
+   "string_va": 5373143359,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14004d1ec"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Continue_Mouse_54": {
+   "string_va": 5373143395,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400508d1"
+   ],
+   "neighbor_targets": [
+    "0x1405c3b58",
+    "0x1405c3b68",
+    "0x1405c3b78",
+    "0x1405c3b88"
+   ]
+  },
+  "gml_Object_Obj_Menu_Continue_Mouse_53": {
+   "string_va": 5373143433,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140050cbc"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Continue_Draw_0": {
+   "string_va": 5373143471,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400519e9"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Continue_KeyPress_81": {
+   "string_va": 5373143507,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140052aa1"
+   ],
+   "neighbor_targets": [
+    "0x1405c3ce8",
+    "0x1405c3cf8",
+    "0x1405c3d08",
+    "0x1405c3d18"
+   ]
+  },
+  "gml_Object_Obj_Menu_Continue_KeyPress_83": {
+   "string_va": 5373143548,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140052e94"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Continue_KeyPress_87": {
+   "string_va": 5373143589,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400546f4"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Continue_KeyPress_69": {
+   "string_va": 5373143630,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14005601a"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Continue_PreCreate_0": {
+   "string_va": 5373143671,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400565b3"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_Camera_Tablet_Create_0": {
+   "string_va": 5373143712,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140056744"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_Camera_Tablet_Step_0": {
+   "string_va": 5373143756,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140056913"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_Camera_Tablet_PreCreate_0": {
+   "string_va": 5373143798,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400579e3"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Night_Display_Create_0": {
+   "string_va": 5373143845,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140057b8a"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Night_Display_Alarm_0": {
+   "string_va": 5373143888,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400589c4"
+   ],
+   "neighbor_targets": [
+    "0x140655590"
+   ]
+  },
+  "gml_Object_Obj_Menu_Night_Display_Step_0": {
+   "string_va": 5373143930,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140058ba2"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Night_Display_Draw_75": {
+   "string_va": 5373143971,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400599dc"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Night_Display_PreCreate_0": {
+   "string_va": 5373144013,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14005a193"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_UI_Power_Create_0": {
+   "string_va": 5373144059,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14005a32c"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_UI_Power_Step_0": {
+   "string_va": 5373144098,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14005a667"
+   ],
+   "neighbor_targets": [
+    "0x140439cd8"
+   ]
+  },
+  "gml_Object_Obj_Night_UI_Power_Draw_75": {
+   "string_va": 5373144148,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14005bb2d"
+   ],
+   "neighbor_targets": [
+    "0x140439cd8",
+    "0x140655680"
+   ]
+  },
+  "gml_Object_Obj_Night_UI_Power_PreCreate_0": {
+   "string_va": 5373144186,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14005bfa3"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Office_Front_Figurines_KeyPress_49": {
+   "string_va": 5373144228,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14005c139"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Office_Front_Figurines_KeyPress_50": {
+   "string_va": 5373144278,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14005c339"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Office_Front_Figurines_KeyPress_51": {
+   "string_va": 5373144328,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14005c549"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Office_Front_Figurines_KeyPress_52": {
+   "string_va": 5373144378,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14005c759"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Office_Front_Figurines_KeyPress_53": {
+   "string_va": 5373144428,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14005c969"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Office_Front_Figurines_PreCreate_0": {
+   "string_va": 5373144478,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14005cb73"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Office_Back_Create_0": {
+   "string_va": 5373144536,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14005cd11"
+   ],
+   "neighbor_targets": [
+    "0x140439cd8"
+   ]
+  },
+  "gml_Object_Obj_Office_Back_Step_0": {
+   "string_va": 5373144572,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14005d267"
+   ],
+   "neighbor_targets": [
+    "0x1406556c0",
+    "0x1406556f0"
+   ]
+  },
+  "gml_Object_Obj_Office_Back_Mouse_4": {
+   "string_va": 5373144606,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14005dae3"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Office_Back_Draw_0": {
+   "string_va": 5373144641,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14005ebfc"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Office_Back_PreCreate_0": {
+   "string_va": 5373144675,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14005f6c3"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Options_Selector_Create_0": {
+   "string_va": 5373144714,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14005f854"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Options_Selector_Draw_0": {
+   "string_va": 5373144760,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14005fa03"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Options_Selector_PreCreate_0": {
+   "string_va": 5373144804,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14005fb93"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_System_RAM_Usage_Draw_75": {
+   "string_va": 5373144864,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14005fd3c"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_System_RAM_Usage_PreCreate_0": {
+   "string_va": 5373144904,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140061cd9"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_UI_Camera_Button_Create_0": {
+   "string_va": 5373144948,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140061ed4"
+   ],
+   "neighbor_targets": [
+    "0x140439cd8"
+   ]
+  },
+  "gml_Object_Obj_Night_UI_Camera_Button_Step_0": {
+   "string_va": 5373144995,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140062917"
+   ],
+   "neighbor_targets": [
+    "0x140655770"
+   ]
+  },
+  "gml_Object_Obj_Night_UI_Camera_Button_Mouse_53": {
+   "string_va": 5373145040,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140066ce5"
+   ],
+   "neighbor_targets": [
+    "0x1406557a0"
+   ]
+  },
+  "gml_Object_Obj_Night_UI_Camera_Button_Draw_75": {
+   "string_va": 5373145104,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400670ca"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_UI_Camera_Button_KeyPress_87": {
+   "string_va": 5373145150,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140067cab"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_UI_Camera_Button_KeyPress_83": {
+   "string_va": 5373145216,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400698a3"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_UI_Camera_Button_PreCreate_0": {
+   "string_va": 5373145266,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14006b8f9"
+   ],
+   "neighbor_targets": [
+    "0x140655890"
+   ]
+  },
+  "gml_Object_Obj_Menu_Fade_Create_0": {
+   "string_va": 5373145316,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14006bae9"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Fade_Step_0": {
+   "string_va": 5373145350,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14006bd51"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Fade_Draw_0": {
+   "string_va": 5373145382,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14006c15c"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Fade_PreCreate_0": {
+   "string_va": 5373145414,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14006c419"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Office_Front_Buttons_Red_Step_0": {
+   "string_va": 5373145451,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14006c618"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Office_Front_Buttons_Red_PreCreate_0": {
+   "string_va": 5373145498,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14006cf79"
+   ],
+   "neighbor_targets": [
+    "0x1406558f0"
+   ]
+  },
+  "gml_Object_obj_OLDTVFilter_VHS_Create_0": {
+   "string_va": 5373145550,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14006d17d"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_obj_OLDTVFilter_VHS_PreCreate_0": {
+   "string_va": 5373145590,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14006e409"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Game_Over_Create_0": {
+   "string_va": 5373145633,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14006e614"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Game_Over_Draw_0": {
+   "string_va": 5373145667,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14006f481"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Game_Over_KeyPress_13": {
+   "string_va": 5373145699,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14006f9a4"
+   ],
+   "neighbor_targets": [
+    "0x1405c4208",
+    "0x140655940"
+   ]
+  },
+  "gml_Object_Obj_Game_Over_PreCreate_0": {
+   "string_va": 5373145736,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14006fde9"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Office_Front_Left_Create_0": {
+   "string_va": 5373145773,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14006fff4"
+   ],
+   "neighbor_targets": [
+    "0x140439cd8"
+   ]
+  },
+  "gml_Object_Obj_Office_Front_Left_Step_0": {
+   "string_va": 5373145815,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140070d43"
+   ],
+   "neighbor_targets": [
+    "0x140655960"
+   ]
+  },
+  "gml_Object_Obj_Office_Front_Left_Mouse_4": {
+   "string_va": 5373145855,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140072813"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Office_Front_Left_Other_5": {
+   "string_va": 5373145896,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140073875"
+   ],
+   "neighbor_targets": [
+    "0x1406559d0"
+   ]
+  },
+  "gml_Object_Obj_Office_Front_Left_Draw_0": {
+   "string_va": 5373145937,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140073c1c"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Office_Front_Left_PreCreate_0": {
+   "string_va": 5373145977,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140074779"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Options_Create_0": {
+   "string_va": 5373146022,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140074984"
+   ],
+   "neighbor_targets": [
+    "0x1405c4490"
+   ]
+  },
+  "gml_Object_Obj_Menu_Options_Destroy_0": {
+   "string_va": 5373146059,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14007637c"
+   ],
+   "neighbor_targets": [
+    "0x1405c4500"
+   ]
+  },
+  "gml_Object_Obj_Menu_Options_Step_0": {
+   "string_va": 5373146097,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140076c7a"
+   ],
+   "neighbor_targets": [
+    "0x1405c4530"
+   ]
+  },
+  "gml_Object_Obj_Menu_Options_Mouse_54": {
+   "string_va": 5373146132,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400773fa"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Options_Mouse_53": {
+   "string_va": 5373146169,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140077c2b"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Options_Draw_0": {
+   "string_va": 5373146216,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14007dcc3"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Options_KeyPress_65": {
+   "string_va": 5373146251,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140083d32"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Options_KeyPress_68": {
+   "string_va": 5373146291,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400861b2"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Options_KeyPress_81": {
+   "string_va": 5373146331,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14008856a"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Options_PreCreate_0": {
+   "string_va": 5373146371,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140088d79"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_RoundedRoomDeactivated_Draw_75": {
+   "string_va": 5373146411,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140088f71"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_RoundedRoomDeactivated_PreCreate_0": {
+   "string_va": 5373146457,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400893c9"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_Time_Create_0": {
+   "string_va": 5373146507,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400895ca"
+   ],
+   "neighbor_targets": [
+    "0x140089cac"
+   ]
+  },
+  "gml_Object_Obj_Night_Time_Alarm_1": {
+   "string_va": 5373146542,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140089d0a"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_Time_Alarm_0": {
+   "string_va": 5373146576,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140089f36"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_Time_Step_1": {
+   "string_va": 5373146610,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14008a6e8"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_Time_Draw_75": {
+   "string_va": 5373146643,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14008bc9d"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_Time_PreCreate_0": {
+   "string_va": 5373146677,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14008c189"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_Camera_Icons_Select_Step_0": {
+   "string_va": 5373146715,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14008c381"
+   ],
+   "neighbor_targets": [
+    "0x1405c48f8"
+   ]
+  },
+  "gml_Object_Obj_Night_Camera_Icons_Select_PreCreate_0": {
+   "string_va": 5373146763,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14008c679"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_obj_OLDTVFilter_SVideo_Create_0": {
+   "string_va": 5373146816,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14008c87d"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_obj_OLDTVFilter_SVideo_PreCreate_0": {
+   "string_va": 5373146859,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14008daf9"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_obj_OLDTVFilter_BW_Create_0": {
+   "string_va": 5373146905,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14008dcfd"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_obj_OLDTVFilter_BW_PreCreate_0": {
+   "string_va": 5373146944,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14008ef89"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Camera_Static_Create_0": {
+   "string_va": 5373146986,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14008f17d"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Camera_Static_Step_0": {
+   "string_va": 5373147024,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14008f547"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Camera_Static_Draw_0": {
+   "string_va": 5373147060,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14008fb99"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Camera_Static_PreCreate_0": {
+   "string_va": 5373147096,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14008fd89"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Loading_Create_0": {
+   "string_va": 5373147137,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14008ff8e"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Loading_Alarm_0": {
+   "string_va": 5373147174,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400908f7"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Loading_Alarm_1": {
+   "string_va": 5373147210,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140090ff1"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Loading_Step_1": {
+   "string_va": 5373147246,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140091255"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Loading_Draw_75": {
+   "string_va": 5373147288,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14009259a"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Loading_PreCreate_0": {
+   "string_va": 5373147324,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140093abd"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_obj_OLDTVFilter_Composite_Create_0": {
+   "string_va": 5373147364,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140093d7d"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_obj_OLDTVFilter_Composite_PreCreate_0": {
+   "string_va": 5373147410,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140095039"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_Vent_Icons_Step_0": {
+   "string_va": 5373147459,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14009527e"
+   ],
+   "neighbor_targets": [
+    "0x1405c4a10"
+   ]
+  },
+  "gml_Object_Obj_Night_Vent_Icons_Mouse_4": {
+   "string_va": 5373147498,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140095a53"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_Vent_Icons_PreCreate_0": {
+   "string_va": 5373147538,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140096b69"
+   ],
+   "neighbor_targets": [
+    "0x140655d30"
+   ]
+  },
+  "gml_Object_obj_OLDTVFilter_PresetBase_Create_0": {
+   "string_va": 5373147582,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140096dbd"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_obj_OLDTVFilter_PresetBase_Draw_75": {
+   "string_va": 5373147629,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400980f3"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_obj_OLDTVFilter_PresetBase_PreCreate_0": {
+   "string_va": 5373147675,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140098499"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_1_5_Bonnie_AI_Create_0": {
+   "string_va": 5373147725,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400986fc"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_1_5_Bonnie_AI_Alarm_0": {
+   "string_va": 5373147792,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400994f3"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_1_5_Bonnie_AI_Alarm_1": {
+   "string_va": 5373147835,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14009bdf7"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_1_5_Bonnie_AI_Step_0": {
+   "string_va": 5373147878,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14009dfb4"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_1_5_Bonnie_AI_PreCreate_0": {
+   "string_va": 5373147920,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14009eaa9"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Main_Back_Create_0": {
+   "string_va": 5373147984,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14009ecfb"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Main_Back_Alarm_0": {
+   "string_va": 5373148040,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14009f2b2"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Main_Back_Alarm_1": {
+   "string_va": 5373148096,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14009f771"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Main_Back_Step_0": {
+   "string_va": 5373148134,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14009fa86"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Main_Back_Step_1": {
+   "string_va": 5373148171,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400a0061"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Main_Back_Draw_0": {
+   "string_va": 5373148208,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400a09fc"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Main_Back_PreCreate_0": {
+   "string_va": 5373148245,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400a1409"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_1_5_Chica_AI_Create_0": {
+   "string_va": 5373148287,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400a166c"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_1_5_Chica_AI_Alarm_0": {
+   "string_va": 5373148330,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400a2463"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_1_5_Chica_AI_Alarm_1": {
+   "string_va": 5373148372,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400a4df7"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_1_5_Chica_AI_Step_0": {
+   "string_va": 5373148414,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400a6ef4"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_1_5_Chica_AI_PreCreate_0": {
+   "string_va": 5373148455,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400a79e9"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_Camera_Switch_Create_0": {
+   "string_va": 5373148501,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400a7c2e"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_Camera_Switch_Step_0": {
+   "string_va": 5373148545,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400a7f4f"
+   ],
+   "neighbor_targets": [
+    "0x1405c4d58"
+   ]
+  },
+  "gml_Object_Obj_Night_Camera_Switch_Mouse_7": {
+   "string_va": 5373148587,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400a89e3"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_Camera_Switch_PreCreate_0": {
+   "string_va": 5373148630,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400a9959"
+   ],
+   "neighbor_targets": [
+    "0x1406562d0"
+   ]
+  },
+  "gml_Object_Obj_Menu_Static_Create_0": {
+   "string_va": 5373148677,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400a9ba0"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Static_Step_0": {
+   "string_va": 5373148713,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400aa281"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Static_Draw_0": {
+   "string_va": 5373148747,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400aa5d9"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Static_PreCreate_0": {
+   "string_va": 5373148781,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400aa819"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_postprocess_Create_0": {
+   "string_va": 5373148820,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400aaa61"
+   ],
+   "neighbor_targets": [
+    "0x140656300"
+   ]
+  },
+  "gml_Object_postprocess_Destroy_0": {
+   "string_va": 5373148852,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400aae41"
+   ],
+   "neighbor_targets": [
+    "0x1405c4da8"
+   ]
+  },
+  "gml_Object_postprocess_Draw_77": {
+   "string_va": 5373148885,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400ab1ac"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_postprocess_PreCreate_0": {
+   "string_va": 5373148916,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400abee9"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_1_5_Foxy_AI_Create_0": {
+   "string_va": 5373148960,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400ac14c"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_1_5_Foxy_AI_Alarm_0": {
+   "string_va": 5373149016,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400acf83"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_1_5_Foxy_AI_Alarm_1": {
+   "string_va": 5373149057,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400aeaaa"
+   ],
+   "neighbor_targets": [
+    "0x1405c4e58",
+    "0x1406563e0"
+   ]
+  },
+  "gml_Object_Obj_Night_1_5_Foxy_AI_Step_0": {
+   "string_va": 5373149098,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400af331"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_1_5_Foxy_AI_PreCreate_0": {
+   "string_va": 5373149138,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400aff39"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Selector_Create_0": {
+   "string_va": 5373149183,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400b017a"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Selector_Draw_0": {
+   "string_va": 5373149221,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400b03e9"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Selector_PreCreate_0": {
+   "string_va": 5373149257,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400b0629"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_Shift_End_Create_0": {
+   "string_va": 5373149298,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400b0881"
+   ],
+   "neighbor_targets": [
+    "0x1400b13ec"
+   ]
+  },
+  "gml_Object_Obj_Night_Shift_End_Alarm_0": {
+   "string_va": 5373149338,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400b14cd"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_Shift_End_Alarm_1": {
+   "string_va": 5373149377,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400b17c1"
+   ],
+   "neighbor_targets": [
+    "0x1405c4ed0"
+   ]
+  },
+  "gml_Object_Obj_Night_Shift_End_Step_0": {
+   "string_va": 5373149416,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400b1b35"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_Shift_End_Draw_75": {
+   "string_va": 5373149454,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400b2fcb"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_Shift_End_PreCreate_0": {
+   "string_va": 5373149493,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400b35c9"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_CN_Control_Draw_0": {
+   "string_va": 5373149536,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400b3811"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_CN_Control_KeyPress_13": {
+   "string_va": 5373149574,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400b3cac"
+   ],
+   "neighbor_targets": [
+    "0x1405c4f50",
+    "0x140656440"
+   ]
+  },
+  "gml_Object_Obj_Menu_CN_Control_PreCreate_0": {
+   "string_va": 5373149617,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400b4319"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Game_Over_Tablet_Create_0": {
+   "string_va": 5373149660,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400b4563"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Game_Over_Tablet_Step_0": {
+   "string_va": 5373149701,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400b4a63"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Game_Over_Tablet_Draw_75": {
+   "string_va": 5373149740,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400b4ed9"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Game_Over_Tablet_PreCreate_0": {
+   "string_va": 5373149780,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400b5119"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_Camera_Screen_Create_0": {
+   "string_va": 5373149824,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400b535a"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_Camera_Screen_Step_0": {
+   "string_va": 5373149904,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400b55e3"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_Camera_Screen_Draw_0": {
+   "string_va": 5373149952,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400b6bbc"
+   ],
+   "neighbor_targets": [
+    "0x140656490"
+   ]
+  },
+  "gml_Object_Obj_Night_Camera_Screen_PreCreate_0": {
+   "string_va": 5373149994,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400b6e29"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_CN_Images_Create_0": {
+   "string_va": 5373150041,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400b706a"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_CN_Images_Step_0": {
+   "string_va": 5373150080,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400b72ec"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_CN_Images_Mouse_4": {
+   "string_va": 5373150117,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400b82a3"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_CN_Images_Draw_0": {
+   "string_va": 5373150155,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400b91eb"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_CN_Images_PreCreate_0": {
+   "string_va": 5373150192,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400ba099"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Filter_Menus_Create_0": {
+   "string_va": 5373150234,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400ba2e9"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Filter_Menus_Alarm_1": {
+   "string_va": 5373150280,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400bad3d"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Filter_Menus_Alarm_0": {
+   "string_va": 5373150316,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400bc01d"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Filter_Menus_Step_0": {
+   "string_va": 5373150352,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400bd307"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Filter_Menus_PreCreate_0": {
+   "string_va": 5373150387,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400bda49"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Office_Front_Middle_Create_0": {
+   "string_va": 5373150427,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400bdca7"
+   ],
+   "neighbor_targets": [
+    "0x1400bea2c"
+   ]
+  },
+  "gml_Object_Obj_Office_Front_Middle_Alarm_0": {
+   "string_va": 5373150471,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400beb12"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Office_Front_Middle_Step_1": {
+   "string_va": 5373150514,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400bee98"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Office_Front_Middle_Mouse_4": {
+   "string_va": 5373150556,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400c064c"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Office_Front_Middle_Other_5": {
+   "string_va": 5373150599,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400c10a5"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Office_Front_Middle_Draw_0": {
+   "string_va": 5373150642,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400c149c"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Office_Front_Middle_PreCreate_0": {
+   "string_va": 5373150684,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400c2219"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_Camera_Icons_Step_0": {
+   "string_va": 5373150731,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400c2469"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_Camera_Icons_Mouse_4": {
+   "string_va": 5373150772,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400c32a3"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_Camera_Icons_PreCreate_0": {
+   "string_va": 5373150814,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400c48e9"
+   ],
+   "neighbor_targets": [
+    "0x1406566b0"
+   ]
+  },
+  "gml_Object_Obj_Night_Camera_Map_Create_0": {
+   "string_va": 5373150860,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400c4b29"
+   ],
+   "neighbor_targets": [
+    "0x140656790"
+   ]
+  },
+  "gml_Object_Obj_Night_Camera_Map_Step_0": {
+   "string_va": 5373150901,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400c4da9"
+   ],
+   "neighbor_targets": [
+    "0x1405c5338"
+   ]
+  },
+  "gml_Object_Obj_Night_Camera_Map_Draw_0": {
+   "string_va": 5373150944,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400c5596"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_Camera_Map_PreCreate_0": {
+   "string_va": 5373150983,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400c5b39"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Pause_Create_0": {
+   "string_va": 5373151027,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400c5d7a"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Pause_KeyPress_27": {
+   "string_va": 5373151057,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400c600a"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Pause_PreCreate_0": {
+   "string_va": 5373151090,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400c7199"
+   ],
+   "neighbor_targets": [
+    "0x1406567b0"
+   ]
+  },
+  "gml_Object_Obj_Menu_Options_Preview_Create_0": {
+   "string_va": 5373151123,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400c73de"
+   ],
+   "neighbor_targets": [
+    "0x1406567dc"
+   ]
+  },
+  "gml_Object_Obj_Menu_Options_Preview_Alarm_0": {
+   "string_va": 5373151168,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400c782e"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Options_Preview_Alarm_1": {
+   "string_va": 5373151212,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400cad83"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Options_Preview_Mouse_53": {
+   "string_va": 5373151256,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400cdd6a"
+   ],
+   "neighbor_targets": [
+    "0x140656bc0"
+   ]
+  },
+  "gml_Object_Obj_Menu_Options_Preview_Draw_0": {
+   "string_va": 5373151301,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400ced7c"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Options_Preview_PreCreate_0": {
+   "string_va": 5373151344,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400cff39"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_1_5_Freddy_AI_Create_0": {
+   "string_va": 5373151392,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400d019c"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_1_5_Freddy_AI_Alarm_0": {
+   "string_va": 5373151436,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400d11e0"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_1_5_Freddy_AI_Alarm_1": {
+   "string_va": 5373151496,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400d2374"
+   ],
+   "neighbor_targets": [
+    "0x1405c54d8",
+    "0x1405c54e8"
+   ]
+  },
+  "gml_Object_Obj_Night_1_5_Freddy_AI_Alarm_2": {
+   "string_va": 5373151539,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400d3037"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_1_5_Freddy_AI_Step_0": {
+   "string_va": 5373151582,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400d35bc"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_1_5_Freddy_AI_Draw_0": {
+   "string_va": 5373151624,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400d4ddd"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_1_5_Freddy_AI_PreCreate_0": {
+   "string_va": 5373151666,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400d5229"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Pause_Create_0": {
+   "string_va": 5373151713,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400d5487"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Pause_Destroy_0": {
+   "string_va": 5373151748,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400d659c"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Pause_Step_0": {
+   "string_va": 5373151784,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400d6cac"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Pause_Mouse_53": {
+   "string_va": 5373151817,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400d7464"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Pause_Draw_0": {
+   "string_va": 5373151852,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400d81cc"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Pause_PreCreate_0": {
+   "string_va": 5373151885,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400d9419"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_RoundedRoom_Draw_75": {
+   "string_va": 5373151923,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400d966a"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_RoundedRoom_PreCreate_0": {
+   "string_va": 5373151958,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400d9f29"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Options_Icons_Mouse_4": {
+   "string_va": 5373151997,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400da177"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Options_Icons_PreCreate_0": {
+   "string_va": 5373152039,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400da8c9"
+   ],
+   "neighbor_targets": [
+    "0x140656d60"
+   ]
+  },
+  "gml_Object_obj_OLDTVFilter_Scanline_Only_Create_0": {
+   "string_va": 5373152085,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400dab1a"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_obj_OLDTVFilter_Scanline_Only_PreCreate_0": {
+   "string_va": 5373152135,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400db3a9"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_1_5_Mangle_AI_Create_0": {
+   "string_va": 5373152188,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400db60c"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_1_5_Mangle_AI_Alarm_0": {
+   "string_va": 5373152240,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400dc403"
+   ],
+   "neighbor_targets": [
+    "0x1405c57c0"
+   ]
+  },
+  "gml_Object_Obj_Night_1_5_Mangle_AI_Alarm_1": {
+   "string_va": 5373152283,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400dd973"
+   ],
+   "neighbor_targets": [
+    "0x1405c5808",
+    "0x140656e20"
+   ]
+  },
+  "gml_Object_Obj_Night_1_5_Mangle_AI_Step_0": {
+   "string_va": 5373152326,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400dddc1"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_1_5_Mangle_AI_PreCreate_0": {
+   "string_va": 5373152368,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400de769"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Customize_Create_0": {
+   "string_va": 5373152415,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400de9b4"
+   ],
+   "neighbor_targets": [
+    "0x1405c5848"
+   ]
+  },
+  "gml_Object_Obj_Menu_Customize_Step_0": {
+   "string_va": 5373152454,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400df35c"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Customize_Mouse_53": {
+   "string_va": 5373152491,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400e16bc"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Customize_Mouse_54": {
+   "string_va": 5373152530,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400e3504"
+   ],
+   "neighbor_targets": [
+    "0x1405c5a58",
+    "0x1405c5a68"
+   ]
+  },
+  "gml_Object_Obj_Menu_Customize_Draw_0": {
+   "string_va": 5373152569,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400e398c"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Customize_PreCreate_0": {
+   "string_va": 5373152606,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400e49e9"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Radio_Cassette_Create_0": {
+   "string_va": 5373152648,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400e4c44"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Radio_Cassette_Destroy_0": {
+   "string_va": 5373152692,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400e5ab5"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Radio_Cassette_Step_0": {
+   "string_va": 5373152737,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400e5eed"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Radio_Cassette_Mouse_53": {
+   "string_va": 5373152779,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400e6bb8"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Radio_Cassette_Mouse_54": {
+   "string_va": 5373152823,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400e9625"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Radio_Cassette_Draw_0": {
+   "string_va": 5373152867,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400ea09e"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Radio_Cassette_PreCreate_0": {
+   "string_va": 5373152909,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400ecaa9"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Main_Music_Create_0": {
+   "string_va": 5373152956,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400ecced"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Main_Music_Step_0": {
+   "string_va": 5373152996,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400ed04d"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Main_Music_Mouse_4": {
+   "string_va": 5373153034,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400ed44c"
+   ],
+   "neighbor_targets": [
+    "0x1405c5cc8",
+    "0x1405c5cd8"
+   ]
+  },
+  "gml_Object_Obj_Menu_Main_Music_PreCreate_0": {
+   "string_va": 5373153073,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400edc49"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Radio_Play_Create_0": {
+   "string_va": 5373153116,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400ede8a"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Radio_Play_Step_0": {
+   "string_va": 5373153156,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400ee106"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Radio_Play_Mouse_4": {
+   "string_va": 5373153194,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400ee794"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Radio_Play_PreCreate_0": {
+   "string_va": 5373153233,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400ef739"
+   ],
+   "neighbor_targets": [
+    "0x140656eb0"
+   ]
+  },
+  "gml_Object_Obj_Menu_Disclaimer_Create_0": {
+   "string_va": 5373153276,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400ef98b"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Disclaimer_Alarm_1": {
+   "string_va": 5373153316,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400f0005"
+   ],
+   "neighbor_targets": [
+    "0x1405c5d18"
+   ]
+  },
+  "gml_Object_Obj_Menu_Disclaimer_Alarm_0": {
+   "string_va": 5373153355,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400f03dd"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Disclaimer_Step_0": {
+   "string_va": 5373153394,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400f06e7"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Disclaimer_Draw_0": {
+   "string_va": 5373153432,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400f18ac"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Disclaimer_KeyPress_1": {
+   "string_va": 5373153470,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400f2760"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Disclaimer_PreCreate_0": {
+   "string_va": 5373153512,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400f2a69"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_System_Delta_Time_Create_0": {
+   "string_va": 5373153555,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400f2cbb"
+   ],
+   "neighbor_targets": [
+    "0x1400f31ac"
+   ]
+  },
+  "gml_Object_Obj_System_Delta_Time_Step_1": {
+   "string_va": 5373153608,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400f3224"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_System_Delta_Time_PreCreate_0": {
+   "string_va": 5373153648,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400f3e39"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_obj_OLDTVFilter_Logo_PreCreate_0": {
+   "string_va": 5373153693,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400f4079"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_Music_Switch_Create_0": {
+   "string_va": 5373153737,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400f42c0"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_Music_Switch_Step_0": {
+   "string_va": 5373153780,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400f465f"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_Music_Switch_Mouse_7": {
+   "string_va": 5373153821,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400f5393"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_Music_Switch_Draw_0": {
+   "string_va": 5373153863,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400f6318"
+   ],
+   "neighbor_targets": [
+    "0x140656f70"
+   ]
+  },
+  "gml_Object_Obj_Night_Music_Switch_PreCreate_0": {
+   "string_va": 5373153904,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400f6c29"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Office_Front_Right_Create_0": {
+   "string_va": 5373153950,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400f6e87"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Office_Front_Right_Step_0": {
+   "string_va": 5373153993,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400f7cb3"
+   ],
+   "neighbor_targets": [
+    "0x140656fb0"
+   ]
+  },
+  "gml_Object_Obj_Office_Front_Right_Mouse_4": {
+   "string_va": 5373154034,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400f97e3"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Office_Front_Right_Other_5": {
+   "string_va": 5373154076,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400fa8b5"
+   ],
+   "neighbor_targets": [
+    "0x140657020"
+   ]
+  },
+  "gml_Object_Obj_Office_Front_Right_Draw_0": {
+   "string_va": 5373154118,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400facac"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Office_Front_Right_PreCreate_0": {
+   "string_va": 5373154159,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400fb889"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_Radio_Spinner_Create_0": {
+   "string_va": 5373154205,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400fbacd"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_Radio_Spinner_Step_0": {
+   "string_va": 5373154249,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400fbe01"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_Radio_Spinner_PreCreate_0": {
+   "string_va": 5373154291,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400fc889"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Main_Title_Create_0": {
+   "string_va": 5373154338,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400fcae0"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Main_Title_Destroy_0": {
+   "string_va": 5373154378,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400fe1e1"
+   ],
+   "neighbor_targets": [
+    "0x140657080"
+   ]
+  },
+  "gml_Object_Obj_Menu_Main_Title_Alarm_0": {
+   "string_va": 5373154419,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400fe558"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Main_Title_Alarm_1": {
+   "string_va": 5373154458,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400feb71"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Main_Title_Step_0": {
+   "string_va": 5373154568,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1400fee93"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Main_Title_Step_1": {
+   "string_va": 5373154606,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1401023b1"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Main_Title_Mouse_53": {
+   "string_va": 5373154644,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140102d54"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Main_Title_Draw_0": {
+   "string_va": 5373154688,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14010488c"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Main_Title_KeyPress_83": {
+   "string_va": 5373154726,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1401057a3"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Main_Title_KeyPress_87": {
+   "string_va": 5373154769,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140107c73"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Main_Title_KeyPress_69": {
+   "string_va": 5373154812,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14010a208"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Main_Title_PreCreate_0": {
+   "string_va": 5373154855,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14010b279"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_Radio_Buttons_Create_0": {
+   "string_va": 5373154898,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14010b4be"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_Radio_Buttons_Step_0": {
+   "string_va": 5373154942,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14010b8e3"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_Radio_Buttons_Mouse_4": {
+   "string_va": 5373154984,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14010c5e8"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_Radio_Buttons_PreCreate_0": {
+   "string_va": 5373155027,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14010f539"
+   ],
+   "neighbor_targets": [
+    "0x1406572c0"
+   ]
+  },
+  "gml_Object_Obj_Night_Camera_Screen_Flash_Create_0": {
+   "string_va": 5373155074,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14010f77c"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_Camera_Screen_Flash_Step_0": {
+   "string_va": 5373155124,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14010fb66"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_Camera_Screen_Flash_PreCreate_0": {
+   "string_va": 5373155172,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140110129"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Office_Light_Back_Create_0": {
+   "string_va": 5373155225,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14011036a"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Office_Light_Back_Step_0": {
+   "string_va": 5373155267,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1401105f3"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Office_Light_Back_PreCreate_0": {
+   "string_va": 5373155307,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140111619"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_Camera_Tether_Lock_Step_0": {
+   "string_va": 5373155352,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14011185d"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_Camera_Tether_Lock_PreCreate_0": {
+   "string_va": 5373155399,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140111c49"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Warning_Create_0": {
+   "string_va": 5373155451,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140111e9b"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Warning_Alarm_1": {
+   "string_va": 5373155488,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140112518"
+   ],
+   "neighbor_targets": [
+    "0x1406573b0"
+   ]
+  },
+  "gml_Object_Obj_Menu_Warning_Alarm_0": {
+   "string_va": 5373155524,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140112a0d"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Warning_Step_0": {
+   "string_va": 5373155560,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140112d17"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Warning_Draw_0": {
+   "string_va": 5373155595,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140113edc"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Warning_KeyPress_1": {
+   "string_va": 5373155630,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140114d90"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Warning_PreCreate_0": {
+   "string_va": 5373155669,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140115099"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Filter_Camera_Create_0": {
+   "string_va": 5373155709,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1401152e9"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Filter_Camera_Alarm_0": {
+   "string_va": 5373155747,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140115c8d"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Filter_Camera_Alarm_1": {
+   "string_va": 5373155784,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140116f5d"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Filter_Camera_Step_0": {
+   "string_va": 5373155821,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14011823d"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Filter_Camera_PreCreate_0": {
+   "string_va": 5373155857,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140118f49"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_System_Stats_Check_Create_0": {
+   "string_va": 5373155898,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14011918a"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_System_Stats_Check_Step_0": {
+   "string_va": 5373155941,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14011940a"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_System_Stats_Check_Draw_75": {
+   "string_va": 5373155982,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14011ab2c"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_System_Stats_Check_KeyPress_16": {
+   "string_va": 5373156024,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14011b999"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_System_Stats_Check_KeyPress_112": {
+   "string_va": 5373156070,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14011c175"
+   ],
+   "neighbor_targets": [
+    "0x140657480"
+   ]
+  },
+  "gml_Object_Obj_System_Stats_Check_PreCreate_0": {
+   "string_va": 5373156117,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14011c5ed"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_Camera_Flash_Create_0": {
+   "string_va": 5373156163,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14011c92a"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_Camera_Flash_Step_0": {
+   "string_va": 5373156206,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14011cc5c"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_Camera_Flash_Mouse_4": {
+   "string_va": 5373156256,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14011e6ab"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_Camera_Flash_PreCreate_0": {
+   "string_va": 5373156298,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140120069"
+   ],
+   "neighbor_targets": [
+    "0x1406574d0"
+   ]
+  },
+  "gml_Object_Obj_Night_Camera_Record_Create_0": {
+   "string_va": 5373156344,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14012035a"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_Camera_Record_Step_0": {
+   "string_va": 5373156388,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14012068c"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_Camera_Record_Mouse_4": {
+   "string_va": 5373156430,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140121622"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Night_Camera_Record_PreCreate_0": {
+   "string_va": 5373156473,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140122bf9"
+   ],
+   "neighbor_targets": [
+    "0x140657570"
+   ]
+  },
+  "gml_Object_obj_OLDTVFilter_Tube_Only_Create_0": {
+   "string_va": 5373156520,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140122efa"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_obj_OLDTVFilter_Tube_Only_PreCreate_0": {
+   "string_va": 5373156566,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140123859"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_obj_OLDTVFilter_RGB_Create_0": {
+   "string_va": 5373156615,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140123b5d"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_obj_OLDTVFilter_RGB_PreCreate_0": {
+   "string_va": 5373156655,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140124f09"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Jumpscare_Create_0": {
+   "string_va": 5373156698,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140125215"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Jumpscare_Alarm_0": {
+   "string_va": 5373156732,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140126bf4"
+   ],
+   "neighbor_targets": [
+    "0x1406575d0"
+   ]
+  },
+  "gml_Object_Obj_Jumpscare_Step_0": {
+   "string_va": 5373156765,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140127331"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Jumpscare_Step_1": {
+   "string_va": 5373156797,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140127ba4"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Jumpscare_PreCreate_0": {
+   "string_va": 5373156829,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140128669"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Main_Options_Create_0": {
+   "string_va": 5373156866,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14012895d"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Main_Options_Step_0": {
+   "string_va": 5373156908,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140128d5d"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_Object_Obj_Menu_Main_Options_Mouse_4": {
+   "string_va": 5373156948,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14012920c"
+   ],
+   "neighbor_targets": [
+    "0x140657658"
+   ]
+  },
+  "gml_Object_Obj_Menu_Main_Options_PreCreate_0": {
+   "string_va": 5373156989,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140129ae9"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_GlobalScript_0": {
+   "string_va": 5373157034,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x140129ddd"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_GlobalScript_1": {
+   "string_va": 5373157053,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x14012a10d"
+   ],
+   "neighbor_targets": []
+  },
+  "gml_release_mode": {
+   "string_va": 5373761024,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1402a2030"
+   ],
+   "neighbor_targets": [
+    "0x14029d700",
+    "0x14029d750",
+    "0x14029d770",
+    "0x14029d880",
+    "0x14029d890",
+    "0x14029d8a0",
+    "0x14029d8d0",
+    "0x14029dba0",
+    "0x14029fed0",
+    "0x1402a0030",
+    "0x1402a00f0",
+    "0x1402a0130"
+   ]
+  },
+  "gml_Script_": {
+   "string_va": 5373181856,
+   "n_refs": 3,
+   "lea_sites": [
+    "0x14015f017",
+    "0x140163484",
+    "0x1401ca970"
+   ],
+   "neighbor_targets": [
+    "0x140000000",
+    "0x14012c540",
+    "0x14013cb60",
+    "0x14013cbc0",
+    "0x14013d1f0",
+    "0x14013d620",
+    "0x14013e240",
+    "0x140161160",
+    "0x140161190",
+    "0x1401611c0",
+    "0x140161200",
+    "0x1401612a0"
+   ]
+  },
+  "gml_Object_": {
+   "string_va": 5373674512,
+   "n_refs": 1,
+   "lea_sites": [
+    "0x1401bf941"
+   ],
+   "neighbor_targets": [
+    "0x1404bc420"
+   ]
+  }
+ },
+ "unanchored": [
+  "gml_GlobalScript_MACROS",
+  "gml_Object_Obj_Night_1_5_Bonnie_AI_Draw_75",
+  "gml_Object_Obj_Night_1_5_Bonnie_AI_KeyPress_32",
+  "gml_Object_Obj_Night_1_5_Chica_AI_Draw_75",
+  "gml_Object_Obj_Night_1_5_Chica_AI_KeyPress_32",
+  "gml_Object_Obj_Night_1_5_Foxy_AI_Draw_75",
+  "gml_Object_Obj_Night_1_5_Foxy_AI_KeyPress_32",
+  "gml_Object_Obj_Night_1_5_Freddy_AI_Draw_75",
+  "gml_Object_Obj_Night_1_5_Freddy_AI_KeyPress_32",
+  "gml_Object_Obj_Night_1_5_Mangle_AI_Draw_75",
+  "gml_Object_Obj_Night_1_5_Mangle_AI_KeyPress_32",
+  "gml_Object_Obj_Night_Camera_Tablet_Draw_75",
+  "gml_Object_Obj_Night_Time_KeyPress_32",
+  "gml_Object_postprocess_Draw_75"
+ ]
+}

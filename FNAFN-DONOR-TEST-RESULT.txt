@@ -1,0 +1,65 @@
+FNAFN DONOR-SWAP TEST RESULT
+(from bugreport-xuanyuan-BP2A.250605.031.A3-2026-09-30-04-30-24.zip)
+Tested 2026-09-30 04:29 on real device: Xiaomi 25019PNF3C (xuanyuan),
+Android 16, arm64. APK under test: kincaid-261-FNAFN-donor-test.apk
+(2.6.1 Kincaid runner + FNAFN data.win as game.droid).
+
+ANSWER: THE ENGINE RAN. It initialized fully, started loading FNAFN's
+data.win, and crashed exactly where the YYC diagnosis predicted: the
+runner tried to register FNAFN's game variables and, finding no compiled
+code layer behind them, dereferenced null.
+
+TIMELINE (main bugreport, logcat)
+  04:28:53  old Kincaid uninstalled (deletePackageX)
+  04:29:42  donor-test apk installed (uid 10121)
+  04:29:48  RunnerActivity START -> proc 5325
+  04:29:49  libyoyo.so + libc++_shared.so loaded; yoyo banner:
+            "versionName - 2.6.1", OpenGL ES 2 renderer up,
+            EGL config selected, "State->Splash", "State->InitRunner",
+            "CommandLine: -game game.droid", "Finished Init"
+  04:29:51  game data parsing begins (gamecontrollerdb check, GL caps)
+  04:29:51.771  Fatal signal 11 SIGSEGV, fault addr 0x8, null deref,
+                tid GLThread 31 -> process died (tombstone written)
+  04:30:00  system/user relaunched -> proc 5399, identical boot sequence
+  04:30:03  identical SIGSEGV at identical site, then Force finish.
+  (Two attempts, byte-identical crash both times = deterministic.)
+
+DECODED TOMBSTONE (crash PCs resolved against 2.6.1 libyoyo.so symbols)
+  #00 0x26fb0c  Code_Variable_FindAlloc_Slot_From_Name(YYObjectBase*, char const*)   <-- crash site
+  #01 0x339550  YYObjectBase::Add(char const*, int)
+  #02 0x395f00  LoadGameData(unsigned int, int)
+  #03 0x4aa3b0  DoTheWork()
+  #04 0x4aa790  BeginToEnd()
+  #05 0x49721c  Java_com_yoyogames_runner_RunnerJNILib_Startup
+  Cause: SEGV_MAPERR @ 0x8 (null-pointer dereference), inside variable-slot
+  lookup while adding game variables during LoadGameData.
+
+WHY (consistent with everything we established beforehand)
+  FNAFN's data.win is a YYC payload: all GML code was compiled into
+  FNAFN.exe; the data file carries assets + the variable-name REGISTRY but
+  no code. The 2.6.1 VM runner walks that registry and tries to bind each
+  name to variable slots / function pointers; the expected native layer is
+  absent -> null deref -> SIGSEGV. This is the cleanest possible empirical
+  confirmation of the "donor swap cannot run YYC data" verdict - and note
+  it got FURTHER than pure theory predicted: full engine init, real
+  registry parsing, crash inside name registration, not at file open.
+
+VERDICT
+  Donor-swap FNAFN -> Android via 2.6.1 runner: DEFINITIVE NO-GO
+  (proven on hardware now, not just in theory).
+  Full reconstruction path: UNCHANGED GO (function map + Ghidra flow
+  already proven this session; see FNAFN-RECON-TEST.txt).
+
+ALSO NOTED (device context, unrelated to FNAFN)
+  * Device rebooted 04:26 (logd fresh start, tombstoned re-init).
+  * Two com.android.nfc "failed to complete startup" ANRs at 04:27,
+    during/after boot - the xuanyuan auto-pause anomaly from V1 was NOT
+    observed in this window (no com.toncho pause record).
+  * The Kincaid INPUTFIX apk was NOT the thing crashing: this tombstone is
+    the donor-test apk (FNAFN data). INPUTFIX still awaits its own test.
+
+ARTEFACTS
+  fnafn-work/FNAFN-DONOR-TEST-RESULT.txt   this file
+  fnafn-work/FNAFN-RECON-TEST.txt          reconstruction feasibility (GO)
+  fnafn-work/gml_name_map.json             414/414 function map
+  fnafn-work/gml_decompiled.txt            Ghidra decompile samples

@@ -1,0 +1,128 @@
+KINCAID — HANDOFF V3 (INPUTFIX IMPLEMENTED)
+Written 2026-09-30. Extends KINCAID-HANDOFF-V2.txt (§6 patch spec = DONE).
+Read V2 first; everything below only ADDS or updates. Facts from V2 that
+were re-verified this session are listed in section 1.
+
+WORKSPACE NOTE
+    The old TEMP workspace (C:\Users\RDP\AppData\Local\Temp\1\opencode)
+    is GONE (wiped). Everything in V2 §4/§5 that lived there — decoded/
+    apktool decodes, disasm evidence files, LOGGER apk + source, old
+    opencode-debug.jks, elf.py/elfsyms.py — no longer exists. Downloads
+    also no longer contains kincaid-v2025.9-LOGGER.apk or
+    README-LOGGER.txt (user must have removed them).
+    The CURRENT workspace root IS C:\Users\RDP\Downloads — permanent, not
+    TEMP. This session created inputfix\ there; nothing here needs copying
+    out (but backup is always wise).
+
+0. TL;DR
+    §6 of V2 has been implemented, verified, and shipped:
+      Downloads\kincaid-v2025.9-INPUTFIX.apk
+      sha256 4dea80c156f91e09dc40aca13c9364492cb62b24ce40309e83169bb3833481b3
+    Both ARM libyoyo.so of 2.7.8 patched so
+    GraphicsPerf::IsMouseOverDebugOverlay() returns 0 unconditionally.
+    Zero other payload changes. Debug-signed (new key — uninstall original
+    first, saves lost). Not yet tested on a real failing device.
+
+1. RE-VERIFIED THIS SESSION (independent of V2)
+    * Both APKs present in Downloads with V2's exact sizes.
+    * Extracted libyoyo.so hashes match V2 §1 exactly:
+        arm64  2.7.8: 14,241,664 B  c8fef083be4fc2c0...
+        v7a    2.7.8: 12,430,324 B  c97633ba5afd3212...
+      (game.droid 2.7.8: 52,098,876 B  5494d0ad8235434f...)
+    * Symbols confirmed via NDK 28.2 llvm-readelf --dyn-syms:
+        arm64 : _ZN12GraphicsPerf23IsMouseOverDebugOverlayEv @ 0x66b848 (72 B)
+        v7a   : same mangled name                            @ 0x4a735c (84 B)
+    * Function bodies match V2's decompilation:
+        arm64: global==0 -> ret0; (capbyte+3 & 0x40)==0 -> ret0; else
+               ImGui::GetIO()->WantCaptureMouse (byte [x0+0xca]).
+               `mov w0,wzr`(2a1f03e0) and `ret`(d65f03c0) both exist in-body
+               at 0x66b868/0x66b86c, as V2 claimed.
+        v7a : same logic; `bx lr`(e12fff1e) at 0x4a73a4; literal pool at
+              0x4a73a8+.
+    * Prologues match V2 §6: arm64 d0003508 (adrp x8,0xd0d000),
+      v7a e59f0044 (ldr r0,[pc,#0x44]).
+
+2. PATCH IMPLEMENTATION (inputfix\patch_inputfix.py)
+    * Maps vaddr -> file offset via PT_LOAD (p_offset + vaddr - p_vaddr);
+      does NOT assume off==vaddr. In both libs the third PT_LOAD has
+      off != vaddr (arm64: 0xd27920/0xd29920; v7a: 0xb71888/0xb73888), so
+      this mattered in principle.
+    * Verifies expected prologue at the computed offset, aborts on mismatch.
+    * Pre-flight: scans ALL SHT_REL/SHT_RELA sections (arm64: 39,930 relocs;
+      v7a: 40,404 relocs) for r_offset inside [func, func+8). NONE found in
+      either lib — V2's expectation held; abort would have fired otherwise.
+    * Writes:
+        arm64 @0x66b848 : e0031f2a c0035fd6  (mov w0,wzr ; ret)
+        v7a   @0x4a735c : 0000a0e3 1eff2fe1  (mov r0,#0  ; bx lr)
+    * Post-patch sha256 (full):
+        arm64: 5fcad54260f97f4542344c634a60fbd94760c7d7a0fc95c80ae2e0e0d1ca7e65
+        v7a  : bdd817344cceda0993717e548a8d353e4f19493ab8969eed7d6d8969636b6e46
+    * Verified by llvm-objdump: patched entry disassembles to the two
+      intended instructions in both libs.
+
+3. APK REBUILD (inputfix\rebuild_inputfix.py) + SIGNING
+    * Surgical zipfile copy: every entry copied byte-identical from the
+      ORIGINAL 2.7.8 apk, same per-entry compression method (the .so entries
+      are DEFLATE-comp=8 in the original, mirrored); ONLY the two ARM libs
+      replaced; META-INF dropped (original sigs were ANDROIDD.SF/.RSA).
+    * Machine-checked diff vs original: changed = the two libs (and both
+      equal to the patched .so files byte-for-byte); added/removed outside
+      META-INF = NONE. x86_64 libyoyo.so sha256 inside final apk:
+      7b2da864a457ee33... (unchanged, byte-identical to 2.6.1's).
+    * Manifest has no extractNativeLibs attribute (defaults true) and .so
+      entries are compressed, so page-alignment inside the zip is not
+      required; zipalign -f -p 4 used anyway per V2 §6.
+    * zipalign (build-tools 36.1.0) + apksigner sign: v2 scheme OK, passes
+      apksigner verify. Signer: CN=opencode (NEW keystore, regenerated —
+      the old one from V2 §4 is gone with TEMP). Store/key pass "opencode",
+      alias "opencode". Keystore preserved in inputfix\opencode-debug.jks.
+    * End-to-end check on the SIGNED apk: patch bytes confirmed at the
+      function offsets inside the shipped zip (both libs).
+
+4. SHIPPED / ON DISK NOW (all under Downloads)
+    kincaid-v2025.9-INPUTFIX.apk      final signed build (130,960,240 B)
+    README-INPUTFIX.txt               user-facing install/verify notes
+    inputfix\
+      patch_inputfix.py               patcher (self-checking, aborts on any
+                                      precondition change)
+      rebuild_inputfix.py             surgical rebuild + diff report
+      libyoyo_arm64.so / .patched.so  original + patched (arm64)
+      libyoyo_v7a.so   / .patched.so  original + patched (v7a)
+      opencode-debug.jks              signing key
+      KINCAID-HANDOFF-V3.txt          this file
+    Kept from V2's plan: nothing else from the old TEMP exists anymore.
+
+5. WHAT IS NOT DONE (V2 §7 remainder)
+    1. REAL-DEVICE VERIFICATION — still the critical open item. The patch
+       is byte-exact and minimal, but "this gate is THE cause" remains a
+       strong hypothesis until a failing device plays fixed. Deliver
+       INPUTFIX.apk + README-INPUTFIX.txt to the user/testers; compare
+       against 2.6.1 on the same device.
+    2. LOGGER BUILD IS GONE. If any device still shows dead touch, rebuild
+       the logger per V2 §4 (source must be rewritten; KincaidLogger.java,
+       smali hook points and the surgical-swap method are all described
+       there in enough detail to reproduce). Debug-sign with
+       inputfix\opencode-debug.jks.
+    3. Decision tree for a still-dead device (V2 §6 risk section):
+       a) SYSTEM_ALERT_WINDOW overlay windows, b) ImGui geometry on
+       foldables/notches, c) refresh-rate path (mCurrentRefreshRate /
+       mGameSpeedControl). Same order as before.
+    4. Unchanged long-term options: UMT TGIN port for 2.7.8 game.droid
+       (V1 §5a), ask author for sources (V1 §5b).
+    5. Unchanged anomaly: xuanyuan-BP2A auto-pause userLeaving=true —
+       needs the logger to timestamp if it recurs.
+
+6. REBUILD RECEIPE (fresh machine)
+    Toolchain: Python 3.12, build-tools 36.1.0 (zipalign/apksigner),
+    NDK 28.2.13676358 llvm tools (readelf/objdump for verification),
+    JDK 17 keytool. Working dir: Downloads.
+      cd inputfix
+      python patch_inputfix.py         # needs libyoyo_*.so originals
+      python rebuild_inputfix.py       # needs ../kincaid-v2025.9-*.apk
+      zipalign -f -p 4 kincaid-278-inputfix-unsigned.apk aligned.apk
+      apksigner sign --ks opencode-debug.jks --ks-key-alias opencode \
+        --ks-pass pass:opencode --key-pass pass:opencode \
+        --out ../kincaid-v2025.9-INPUTFIX.apk aligned.apk
+      apksigner verify ../kincaid-v2025.9-INPUTFIX.apk
+    patch_inputfix.py and rebuild_inputfix.py both hard-fail on any
+    unexpected input (hash/prologue/reloc/diff checks) — trust their aborts.

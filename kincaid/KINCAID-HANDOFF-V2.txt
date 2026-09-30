@@ -1,0 +1,300 @@
+================================================================================
+KINCAID — CONTROL INPUT FIX, HANDOFF V2
+Written 2026-09-29 by the Codebuff session. Supersedes KINCAID-HANDOFF.txt (V1).
+V1 was ~70% right; corrections are marked [CORRECTS V1] throughout.
+================================================================================
+
+OBJECTIVE
+    2.7.8 loses TOUCH input on some physical devices. 2.6.1 (demo) works on
+    every device. Find and fix the fault inside 2.7.8.
+
+CRITICAL CONSTRAINT (user-confirmed)
+    There is NO physical failing device available. Cloud phones CANNOT
+    reproduce the bug (see x86_64 fact below). Verification of the fix must
+    happen on real failing hardware via the user / testers.
+
+--------------------------------------------------------------------------------
+0. TL;DR — ROOT CAUSE (disassembly-level, verified)
+--------------------------------------------------------------------------------
+2.7.8's ARM runtime added an input-stealing gate inside HandleMouse():
+
+    if (GraphicsPerf::IsMouseOverDebugOverlay()) -> SKIP ALL mouse/touch handling
+
+IsMouseOverDebugOverlay() returns ImGui::GetIO()->WantCaptureMouse when a
+debug-overlay global is set and a GraphicsPerf input-capture flag (bit6) is on.
+When it returns true, 2.7.8 discards every touch BEFORE any game logic sees it:
+game renders fine, touches do nothing. Per-device because the overlay/hover
+geometry and the game's own show_debug_overlay() usage vary by device.
+
+2.6.1 HAS NO SUCH GATE — its HandleMouse goes straight to HandleGestures().
+
+FIX: patch IsMouseOverDebugOverlay() to "return 0" in both ARM libs
+(arm64-v8a + armeabi-v7a) of 2.7.8. 8 bytes each. Not yet applied (see §6).
+
+--------------------------------------------------------------------------------
+1. THE BUILDS (verified this session, matches V1)
+--------------------------------------------------------------------------------
+    DEMO / reference (works everywhere)
+    Downloads\Kincaid-universal-v1.0.apk
+      118,247,558 B · versionName 2.6.1 · versionCode 2006001
+      assets/game.droid 93,478,147 B sha256 722c8d1c60f40215...
+
+    NEW / target (dead touch on some devices)
+    Downloads\kincaid-v2025.9-wolf-andbear-stage-fixed.apk
+      130,956,144 B · versionName 2.7.8 · versionCode 2006018
+      assets/game.droid 52,098,876 B sha256 5494d0ad8235434f...
+
+    Both: com.toncho.nuclearthrone, minSdk 19, targetSdk 28, same launch
+    activity RunnerActivity. Same package -> cannot install side by side.
+    Original signing key still absent. Do not look for it.
+
+    libyoyo.so sizes / sha256 (first 16 hex):
+      arm64-v8a   2.6.1:  6,693,208  d82b3307f7597af4
+      arm64-v8a   2.7.8: 14,241,664  c8fef083be4fc2c0
+      armeabi-v7a 2.6.1:  5,915,684  255c6fa4cfb01b1a
+      armeabi-v7a 2.7.8: 12,430,324  c97633ba5afd3212
+      x86_64      BOTH:  7,100,136   7b2da864a457ee33  <- BYTE-IDENTICAL
+
+    THE x86_64 FACT: only the ARM runtimes were rebuilt in 2.7.8. Cloud
+    phones and x86 emulators run the OLD runtime -> they can never show this
+    bug. This is why "test on cloud phone" was a dead end.
+
+    2.7.8 manifest adds android.permission.SYSTEM_ALERT_WINDOW (2.6.1 does
+    not have it). Secondary suspect if the gate patch is insufficient.
+
+    2.7.8's game.droid contains strings "show_debug_overlay" and
+    "is_debug_overlay_open"; 2.6.1's contains NEITHER. The game itself can
+    turn the overlay on — and only 2.7.8 punishes it with input loss.
+
+--------------------------------------------------------------------------------
+2. WHAT WAS PROVEN THIS SESSION (do not re-derive)
+--------------------------------------------------------------------------------
+Java layer:
+  * All 44 com/yoyogames + com/toncho runner classes decoded with apktool and
+    compared BYTE-FOR-BYTE between builds. Only RunnerJNILib.smali differs;
+    its diff is exclusively NEW STUB methods (VideoClose/VideoDraw/VideoPause/
+    VideoResume, HttpGet/HttpPost/HttpRequest overloads, AcquireMulticastLock/
+    ReleaseMulticastLock, GLSupportsASTC, EnumerateCertificates) and new
+    static fields mCurrentRefreshRate / mGameSpeedControl /
+    mMaxRefreshRateSupported. ZERO changes to touch/key/event/input methods.
+  [CORRECTS V1 §2: V1 only counted "KeyEvent" strings; the full-class compare
+   is strictly stronger and confirms the Java input path is identical.]
+
+Native layer (arm64-v8a, NDK 28.2 llvm-objdump):
+  * Java_com_yoyogames_runner_RunnerJNILib_TouchEvent: functionally IDENTICAL
+    in both builds (same clamp-to-display math, same per-finger arrays, same
+    action mapping; only register allocation differs).
+  * _Z11HandleMousev (per-frame mouse/touch consumer) was REWRITTEN:
+      2.6.1 (856 B): profiler -> HandleGestures() -> ... (NO gate)
+      2.7.8 (676 B): profiler ->
+          ldrb  w8, [global@0xd0d000+0xef8]
+          cbz   w8, skip_all                  ; overlay-active global
+          bl    GraphicsPerf::IsMouseOverDebugOverlay()
+          tbnz  w0, #0, skip_all              ; <-- kills ALL touch
+          bl    HandleGestures() ...
+  * GraphicsPerf::IsMouseOverDebugOverlay() @ 0x66b848 (arm64), decompiled:
+      if (byte[0xd0d...+0xd68 global] == 0) return 0;
+      if ((byte[GraphicsPerf@0xd0a...+0xab0 + 3] & 0x40) == 0) return 0;
+      return ImGui::GetIO()->WantCaptureMouse;   // byte [x0+0xca]
+  * Call sites of IsMouseOverDebugOverlay in 2.7.8 arm64: EXACTLY TWO —
+      0x6f3dc4 inside HandleMouse, and 0x604634 inside the GML wrapper
+      F_IsMouseOverDebugOverlay. Patching the function itself neutralizes
+      both. (v7a has 5 textual refs incl. PLT; function-level patch covers
+      all callers there too, caller enumeration not required.)
+  * F_IsKeyboardUsedDebugOverlay exists as a GML wrapper but has NO callers
+    in the input path on arm64 (1 textual ref = its own wrapper). The
+    keyboard gate is NOT part of the touch bug.
+  [CORRECTS V1 §4 "do not build conclusions on the overlay symbols": V1 was
+   RIGHT that these symbols exist and are new in 2.7.8 — an earlier sweep of
+   this session wrongly called that claim bogus. The full symbol table shows
+   F_ShowDebugOverlay/F_IsDebugOverlayOpen/F_IsMouseOverDebugOverlay/
+   F_IsKeyboardUsedDebugOverlay all present in 2.7.8.]
+
+  * YYAL_* symbols (YYAL_InputStart/Pause/Resume/GetData...) are the NEW
+    AUDIO stack (YoYo Audio Layer): YYAL_StreamCreate, GainEffect,
+    Audio_BusSetParameter etc. YYAL_Input* = audio CAPTURE, not touch input.
+    Do not chase them. [CORRECTS an earlier hypothesis in this session]
+
+  * New ARM runtime also embeds: full statically-linked OpenSSL (accounts
+    for most of the +7.5 MB), Dear ImGui (debug UI), and a
+    multiplayer/rollback input-queue subsystem (multiplayer/lib/game_input.cpp
+    strings). The rollback queue shows no callers wired into the touch path;
+    deprioritized.
+
+  * Gesture/touch handlers (HandleGestures 620->668, CleanGestures
+    112->180) changed size but not semantics in ways that gate input; the
+    HandleMouse early-exit is the only hard input-killing difference found.
+
+--------------------------------------------------------------------------------
+3. STATUS OF THE V1 HANDOFF CLAIMS (grain of salt, as requested)
+--------------------------------------------------------------------------------
+  V1-RIGHT: Java/dex input layer ~identical; bindings/ini are device-
+            independent and not the cause; hybrid lib-swap APK is invalid;
+            IsKeyboardUsedDebugOverlay exists in 2.7.8's ARM lib.
+  V1-WRONG/STALE:
+    * "Fault in runtime or injection layer" -> now pinned to ONE gate in
+      HandleMouse + the ImGui overlay system.
+    * UMT repo path "umt\" -> actually gmtool\umt\ (UndertaleModCli built at
+      gmtool/umt/UndertaleModCli/bin/Release/net10.0/UndertaleModCli.dll).
+    * TGIN/GEN8 blocker (V1 §5) NOT retested this session — we bypassed
+      game.droid entirely; treat as still-open but no longer on the
+      critical path.
+    * V1's "no keyboard suppression anywhere" missed that the NEW runtime
+      itself suppresses TOUCH via the debug-overlay gate (game-side, not
+      game-code-side).
+  DEAD ENDS confirmed dead:
+    * hybrid APK (2.6.1 libs in 2.7.8): invalid, never test. User deleted/
+      ignored it. rebuild.py/verify_final.py in workspace root were its
+      scripts; ignore them.
+    * cloud-phone testing: impossible by construction (x86_64 = old runtime).
+    * gameoptions.ini rebinding as a fix for this symptom: irrelevant.
+
+--------------------------------------------------------------------------------
+4. ARTIFACTS PRODUCED THIS SESSION
+--------------------------------------------------------------------------------
+  All under C:\Users\RDP\AppData\Local\Temp\1\opencode (TEMP — copy anything
+  you need out; it will be wiped eventually):
+
+  logapk/               Logger source + classes2.dex (see below)
+    src/com/toncho/nuclearthrone/KincaidLogger.java
+    dexout/classes.dex  -> becomes classes2.dex (8,800 B)
+  decoded/              apktool decode of 2.7.8 WITH logger hooks applied
+                        (RunnerActivity, DemoGLSurfaceView, RunnerApplication
+                        call KincaidLogger; do NOT rebuild production APKs
+                        from decoded/ without knowing this)
+  decoded261/           apktool decode of 2.6.1 (clean reference)
+  disasm/               objdump evidence (do not trust, re-derive if needed):
+    handlemouse_261.txt / handlemouse_278.txt
+    touchevent_261.txt / touchevent_278.txt
+    overlay278.txt    (IsMouseOverDebugOverlay disasm)
+    full278_arm64.txt (1.97M lines, full 2.7.8 arm64 disasm)
+    full278_v7a.txt   (full 2.7.8 armeabi-v7a disasm)
+  work261/ work278/     extracted assets/game.droid from both APKs
+  out/
+    kincaid-v2025.9-LOGGER.apk   SHIPPED to Downloads (diagnostics build)
+    kincaid-278-logger-*.apk     intermediates (apktool full rebuild)
+    kincaid-278-logger-surgical-unsigned.apk  <- the SURGICAL method that
+      worked: copy 512 entries byte-identical from original 2.7.8, swap ONLY
+      classes.dex, add classes2.dex, drop old META-INF sigs. Verified:
+      changed = [classes.dex], added = [classes2.dex], nothing else.
+    README-LOGGER.txt            also shipped to Downloads
+
+  Downloads now contains:
+    kincaid-v2025.9-LOGGER.apk   2.7.8 + injected logger (debug-signed)
+    README-LOGGER.txt            how to read the logs it produces
+
+  LOGGER build details (for maintenance):
+    * KincaidLogger: prompts WRITE/READ_EXTERNAL_STORAGE at startup
+      (requestPermissions, code 4711), toast "Kincaid logger ON",
+      captures logcat -v threadtime -> /sdcard/Download/kincaid_logcat.txt
+      (falls back to filesDir), logs every MotionEvent at BOTH
+      dispatchTouchEvent level and DemoGLSurfaceView.onTouchEvent level to
+      /sdcard/Download/kincaid_touch_log.txt (MOVE thinned 1-in-5 file,
+      1-in-40 logcat), key events, window focus, pause/resume marks.
+    * Hook injection points (smali, in decoded/):
+      RunnerActivity: onCreate(entry), dispatchKeyEvent(entry),
+        dispatchGenericMotionEvent(entry), onRequestPermissionsResult
+        (before final return-void at :cond_3), onPause/onResume (mark),
+        onWindowFocusChanged(entry)
+      DemoGLSurfaceView: onTouchEvent(entry) uses v8 (0x9 locals OK)
+      RunnerApplication: onCreate(entry)
+    * Signing: opencode-debug.jks, storepass/keypass "opencode", alias
+      "opencode". apksigner verify passed. Install requires UNINSTALLING
+      the original Kincaid first (different cert, loses saves).
+
+--------------------------------------------------------------------------------
+5. ENVIRONMENT (updated)
+--------------------------------------------------------------------------------
+  Workspace: C:\Users\RDP\AppData\Local\Temp\1\opencode  (TEMP! copy out)
+  Toolchain that works:
+    * NDK 28.2.13676358 llvm-objdump (arm64 + arm32 disasm of the .so files)
+    * apktool 2.9.3 (tools/apktool.jar) — full decode/build works on 2.7.8
+    * build-tools 36.1.0: zipalign.exe -f -p 4, apksigner.bat, d8.bat
+      (d8 needs output dir to pre-exist)
+    * JDK 17 keytool/jarsigner; javac -source 8 -target 8 -bootclasspath
+      platforms/android-34/android.jar for injected Java
+    * Python 3.12 + zipfile for surgical APK assembly (USE THIS, not
+      apktool rebuild, when payloads must stay byte-identical)
+    * adb at C:\Android\android-sdk\platform-tools (no devices attached)
+  elf.py / elfsyms.py helpers in workspace root parse ELF dynsyms fine.
+
+--------------------------------------------------------------------------------
+6. THE FIX — EXACT PATCH SPEC (next session: implement + verify)
+--------------------------------------------------------------------------------
+  Target: GraphicsPerf::IsMouseOverDebugOverlay() in BOTH ARM libs of 2.7.8.
+  Make it return 0 unconditionally. This kills the HandleMouse gate and the
+  GML wrapper in one shot, changes nothing else, adds no relocations.
+
+  arm64-v8a (kincaid/lib/arm64-v8a/libyoyo.so):
+    function vaddr 0x66b848. Write at function entry:
+      mov w0, wzr   = word 0x2A1F03E0  -> bytes E0 03 1F 2A
+      ret           = word 0xD65F03C0  -> bytes C0 03 5F D6
+    (both words already exist verbatim inside this same function at
+     0x66b868/0x66b86c region — safest possible patch)
+
+  armeabi-v7a (kincaid/lib/armeabi-v7a/libyoyo.so):
+    function vaddr 0x4a735c. Write at function entry:
+      mov r0, #0    = word 0xE3A00000  -> bytes 00 00 A0 E3
+      bx  lr        = word 0xE12FFF1E  -> bytes 1E FF 2F E1
+    (again both already present in the same function)
+
+  Procedure:
+    1. Map vaddr -> FILE OFFSET via ELF program headers (PT_LOAD,
+       p_offset + (vaddr - p_vaddr)). Do NOT assume offset==vaddr. Verify
+       by disassembling the 8 bytes at the computed file offset and
+       confirming they match the known prologue (arm64: d0003508 adrp... /
+       v7a: e59f0044 ldr r0,[pc,#0x44]...).
+    2. Pre-flight: scan .rela.dyn/.rel.dyn (and .rel.dyn on v7a) for any
+       relocation with r_offset inside [funcaddr, funcaddr+8). Expect none;
+       abort if found and reconsider.
+    3. Overwrite the 8 bytes in each extracted .so; sha256 before/after;
+       disassemble the patched function to confirm
+       `mov w0,wzr ; ret` (resp. `mov r0,#0 ; bx lr`).
+    4. Surgical zip-rebuild (see out/kincaid-278-logger-surgical method):
+       copy every entry byte-identical from the ORIGINAL 2.7.8 APK, replace
+       ONLY lib/arm64-v8a/libyoyo.so and lib/armeabi-v7a/libyoyo.so, drop
+       META-INF sigs, zipalign -f -p 4, apksigner sign with opencode-debug.jks.
+    5. Name: kincaid-v2025.9-INPUTFIX.apk -> Downloads. Include a short
+       README: uninstall original first (cert), saves lost, x86/cloud
+       unaffected, only debug-overlay input interception is disabled.
+
+  Optional (only if wanted): also neuter F_IsKeyboardUsedDebugOverlay's
+  helper the same way. It has no input-path callers on arm64, so it is NOT
+  needed for the touch fix.
+
+  RISK / HONESTY:
+    * The gate's EXISTENCE and its ABSENCE in 2.6.1 are disassembly FACTS.
+    * That this gate is THE cause of the user's per-device dead touch is a
+      STRONG HYPOTHESIS (only input-killing difference found; per-device by
+      construction; game data calls show_debug_overlay only in 2.7.8) —
+      NOT yet proven on failing hardware, which is unavailable.
+    * If the patch does not fix a device: use the LOGGER apk on that device
+      and follow README-LOGGER.txt's decision tree (activity-layer touches
+      present? view-layer present? window_focus?). Next suspects in order:
+        a) SYSTEM_ALERT_WINDOW overlay windows (2.7.8-only permission)
+        b) ImGui window geometry on odd displays (foldables, notches)
+        c) refresh-rate path (mCurrentRefreshRate/mGameSpeedControl)
+    * The patch cannot break normal play: worst case a hidden debug overlay
+      no longer intercepts touches — which is the desired outcome anyway.
+
+--------------------------------------------------------------------------------
+7. NEXT STEPS (in order)
+--------------------------------------------------------------------------------
+  1. Implement §6 patch script (python, reuses elf.py section/program-header
+     parsing), produce kincaid-v2025.9-INPUTFIX.apk in Downloads.
+  2. Get it onto a REAL failing device (user / testers / community). Compare
+     against 2.6.1 behavior on the same device.
+  3. If any device still dead: capture with LOGGER apk (uninstall INPUTFIX
+     first or use its own hooks — they coexist fine), read the two-layer
+     touch log, follow the decision tree; investigate SYSTEM_ALERT_WINDOW.
+  4. Copy KINCAID-HANDOFF-V2.txt, disasm/ evidence, logapk/ source, and the
+     patch script OUT OF TEMP to a permanent location.
+  5. Long-term options (not started): UMT TGIN port to read 2.7.8 game.droid
+     (V1 §5a) if game-code-level evidence is ever needed; ask the author for
+     2.7.8 sources (V1 §5b) or original signing key (fixes the uninstall/
+     saves problem).
+
+  Anomaly from V1 still open (untouched): xuanyuan-BP2A device auto-pause
+  with userLeaving=true. If it recurs, LOGGER's window_focus/pause markers
+  will timestamp it. Fold/sleep still worth ruling out.
+================================================================================

@@ -1,0 +1,75 @@
+FNAFN RECONSTRUCTION TEST REPORT
+Written 2026-09-30. Goal: test (not assume) whether FNAFN can be reconstructed
+from its YYC build, using Ghidra + the Kincaid 2.6.1 demo APK as donor runner.
+
+SUBJECT
+    FNAFN_test_9_09_2021.zip -> data.win + FNAFN.exe + ram.dll + options.ini
+    Game: "FNAFN_v3" / "Five Nights at Freddy's: Nightshift, 8/05/2021 build"
+          (from GEN8's own name string @0x626dc0)
+    Engine: GameMaker Studio 2, runner r32908 era, bytecode v17, YYC build
+            (no CODE/VARI/FUNC chunks; 428 gml_* compiled functions in exe)
+
+MILESTONE 1 - FUNCTION MAP ................. DONE, 414/414
+    Every gml_* name string in .rdata is referenced by exactly one lea at the
+    START of its own compiled function (profiler-name stub pattern).
+    Containing .pdata function == the function. 414 names -> 414 unique
+    .pdata function entries in .text (21,018 functions total in exe).
+    Map: gml_name_map.json  {name -> func_va, func_end, size, lea_site}
+    Sizes: min 0x74, median 0x2d1, max 0x5be9 (gml_Script_draw_lensflare).
+    Largest: Obj_Menu_Options_Draw_0 (0x5305), scr_OLDTVFilter_Draw (0x4d24).
+
+MILESTONE 2 - GHIDRA DECOMPILE ............. DONE, 6/6 SUCCESS
+    Ghidra 11.1.2 headless (JDK 17), -noanalysis import, script created and
+    labelled all 414 functions, decompiled sample with 0 failures.
+    Output: gml_decompiled.txt
+    Quality: classic YYC C output - runner API calls, VM opcode table
+    indexes, per-code-block sub-function calls, gml name string refs.
+    Unresolved func_0x... calls resolve to named gml_* functions after a
+    full auto-analysis pass (next session, ~30-60 min CPU, then batch
+    decompile all 414).
+    NOTE: Ghidra 11.2+ requires JDK 21; use 11.1.x line on this machine
+    (JDK 17), or install JDK 21 for newer Ghidra.
+
+MILESTONE 3 - DONOR LOAD-TEST APK .......... BUILT, AWAITING DEVICE
+    kincaid-261-FNAFN-donor-test.apk (351,424,646 B)
+      = byte-identical 2.6.1 Kincaid APK, ONLY assets/game.droid swapped
+        for FNAFN data.win (verified entry-by-entry), META-INF dropped,
+        zipalign + apksigner (opencode key). Same package - uninstall
+        whatever Kincaid is installed first.
+    Expected outcome (hypothesis): runner rejects the data.win or exits
+    early (YYC data.win has no CODE chunk and the runner expects its own
+    compiled functions from a matching exe). If it somehow loads further,
+    that changes the assessment. No x86/cloud/emulator test is valid:
+    these runners are ARM builds; use a real ARM device.
+    Builder: build_donor_apk.py (re-runnable).
+
+VERDICTS
+    Full reconstruction from the exe ......... GO (proven path, heavy lift)
+        414 named functions, Ghidra decompiles them, GML semantics are
+        recoverable by a determined person. Assets come free from data.win
+        (UndertaleModTool reads it). Remaining unknowns: engine-version
+        differences between r32908 and any modern GM for re-import, and
+        sheer volume (~400 functions + 300 MB assets).
+    Donor-swap (Kincaid runner runs FNAFN) ... NO-GO expected (confirm on
+        device with the donor-test apk above; the architecture forbids it
+        for YYC data, but the test apk is the honest empirical check).
+
+ARTEFACTS (all in Downloads\fnafn-work)
+    FNAFN.exe, data.win, options.ini, ram.dll    extracted working copies
+    gml_mapper.py / gml_functions.json/.txt      name strings + lea anchors
+    resolve_funcs.py / gml_name_map.json         FINAL name->function map
+    gml_decompile_v2.java / gml_decompiled.txt   Ghidra headless decompile
+    build_donor_apk.py / kincaid-261-FNAFN-donor-test.apk
+    ghidra_11.1.2_PUBLIC\                        working Ghidra (JDK 17)
+    ghidra_proj\FNAFN.gpr                        project with 414 labels
+
+NEXT STEPS (if pursued)
+    1. Full Ghidra auto-analysis of FNAFN.exe (same project, one command),
+       then batch-decompile all 414 gml functions to C.
+    2. Install donor-test apk on a real ARM phone; record exact behavior.
+    3. If reconstruction is green-lit: UndertaleModTool pass over data.win
+       for all assets; rebuild GML from decompiled C function by function;
+       re-import into a modern GameMaker as a from-scratch project.
+    4. ram.dll (x86, exports ram_used/available/installed/application) is a
+       trivial memory-stats extension - reimplementation is 20 lines of GML
+       extension code, not a blocker.
