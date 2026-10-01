@@ -1,7 +1,20 @@
-/// @description FNAFN Obj_Night_Camera_Screen_Flash / Create - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Night_Camera_Screen_Flash / Create_0 — PORTED from C
+// Ground truth: gml_Object_Obj_Night_Camera_Screen_Flash_Create_0 (@0x1400e51a0)
+// Decoded, in order (uStack_a0 = 2 / 4 are GML line markers):
+//   1. image_alpha (slot uRam00000001405c7b98 — registry name @0x1405c7b90,
+//      EXE-REGISTRY.md) = 0 (empty RValue written via the assignment
+//      helper func_0x000140160140).
+//   2. image_xscale (slot uRam00000001405c7c18 — registry @0x1405c7c10)
+//      = 1280 (0x4094000000000000; also confirmed as a constant in
+//      EXE-CONSTANTS.md @0x1405c56e0).
+//   3. image_yscale (slot uRam00000001405c7c08 — registry @0x1405c7c00)
+//      = 720 (0x4086800000000000; EXE-CONSTANTS.md @0x1405c56f0).
+// => a full-screen (1280x720) overlay whose visible alpha starts at 0
+//    and is lerped up in Step (see Step.gml).
+image_alpha = 0;
+image_xscale = 1280;
+image_yscale = 720;
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Night_Camera_Screen_Flash_Create_0(undefined8 param_1)
 

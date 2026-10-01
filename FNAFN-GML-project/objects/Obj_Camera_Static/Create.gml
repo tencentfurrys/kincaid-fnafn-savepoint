@@ -1,7 +1,23 @@
-/// @description FNAFN Obj_Camera_Static / Create - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Camera_Static / Create_0 — PORTED from C
+// Ground truth: gml_Object_Obj_Camera_Static_Create_0 (@0x1400a92b0)
+// Decoded, in order:
+//   1. image_xscale (slot uRam00000001405c7c18 — registry name @0x1405c7c10,
+//      EXE-REGISTRY.md) = 1.35 (0x3ff599999999999a), via the assignment
+//      write helper func_0x000140160140.
+//   2. image_yscale (slot uRam00000001405c7c08 — registry name @0x1405c7c00)
+//      = image_xscale: the line-2 read helper func_0x00014015f1a0 READS
+//      image_xscale (its result feeds the copy helper func_0x000140001490
+//      and then the yscale write; the read semantics are proven by this
+//      object's own Step event, where the same helper result feeds lerp's
+//      first argument).
+//   3. instance fetch `alpha` (id 0x186da — builtin_ids.json) and zero it
+//      (write of 0; stored for the Step event's lerp target).
+// Remaining func_0x000140001410 calls are RValue destructor/release noise;
+// the puStack_90 save/restore is the self-context push/pop.
+image_xscale = 1.35;
+image_yscale = image_xscale;
+alpha = 0;
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Camera_Static_Create_0(longlong *param_1)
 

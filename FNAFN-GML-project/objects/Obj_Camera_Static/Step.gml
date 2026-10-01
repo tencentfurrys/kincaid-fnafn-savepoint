@@ -1,7 +1,26 @@
-/// @description FNAFN Obj_Camera_Static / Step - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Camera_Static / Step_0 — PORTED from C
+// Ground truth: gml_Object_Obj_Camera_Static_Step_0 (376 B @0x1400aa160)
+// Decoded, in order (uStack_e0 = 1 / 3 are GML line markers):
+//   1. global fetch `delta_factor` (id 0x1870b, +8 on the global context).
+//   2. instance fetch `alpha` (id 0x186da — builtin_ids.json; the Create
+//      event zeroes this same id).
+//   3. read image_alpha (slot uRam00000001405c7b98 — registry name
+//      @0x1405c7b90 "image_alpha", EXE-REGISTRY.md) via the op-operand
+//      read helper func_0x00014015f1a0; the result is COPIED (func_0x000140001490)
+//      and pushed as lerp argument 1 — read semantics proven because a
+//      write-into-lerp-args shape would be nonsensical.
+//   4. build lerp amount: 0.1 (0x3fb999999999999a) * delta_factor
+//      (func_0x0001400053f0 = MUL op helper; same shape decodes as
+//      delta_factor * 0.0065 in Obj_Menu_Fade/Step).
+//   5. lerp(...) call (slot uRam00000001405c8cc0 — registry name
+//      @0x1405c8cb8 "lerp", 3 args: image_alpha, alpha, 0.1*delta_factor),
+//      result written back into image_alpha (func_0x000140160140).
+//   6. customfunct_image_speed_delta(0.3) — argument is exe RValue double
+//      0.3 at 0x1405c4988 (raw 0x3fd3333333333333; the earlier "333333"
+//      string hit in exe_strings.py was the IEEE mantissa bytes, not text).
+image_alpha = lerp(image_alpha, alpha, 0.1 * delta_factor);
+customfunct_image_speed_delta(0.3);
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Camera_Static_Step_0(longlong *param_1,undefined8 param_2)
 

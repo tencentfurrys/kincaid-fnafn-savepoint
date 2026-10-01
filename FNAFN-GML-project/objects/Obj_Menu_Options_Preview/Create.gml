@@ -1,7 +1,29 @@
-/// @description FNAFN Obj_Menu_Options_Preview / Create - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Menu_Options_Preview / Create_0 — PORTED from C
+// Ground truth: gml_Object_Obj_Menu_Options_Preview_Create_0 (@0x1400b45a0)
+// Decoded, in order (uStack_40 = 2..8 are GML line markers):
+//   1. `text` (id 0x18785 — builtin_ids.json) = string constant @0x1406567dc
+//      via the string-assign helper func_0x0001401441e0.
+//      TODO(calibrate): 0x1406567dc is in the exe's runtime-patched RValue
+//      area (VA unmapped on disk) — likely a settings label like
+//      "windowed"/"fullscreen"; confirm in-game.
+//   2. `arrow_surface` (id 0x186e3 — builtin_ids.json) = -1
+//      (0xbff0000000000000; same -1 surface sentinel as Menu_Pause Create).
+//   3. `select` (id 0x1876a) = 0.
+//   4. image_alpha (slot uRam00000001405c7b98 — registry @0x1405c7b90)
+//      = 0 via assignment helper func_0x000140160140.
+//   5. `arrow_alpha` (id 0x186e1) = 0.
+//   6. `select_min` (id 0x1876c) = 0.
+//   7. `select_max` (id 0x1876b) = 0.
+// => options-preview entry starts hidden with its selector clamped to a
+//    0..0 range until its Alarm event seeds the real values.
+text = "<runtime const 0x1406567dc>"; // TODO(calibrate): see header
+arrow_surface = -1;
+select = 0;
+image_alpha = 0;
+arrow_alpha = 0;
+select_min = 0;
+select_max = 0;
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Menu_Options_Preview_Create_0(longlong *param_1)
 

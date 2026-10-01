@@ -1,7 +1,16 @@
-/// @description FNAFN Obj_Menu_Main_Options / Create - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Menu_Main_Options / Create_0 — PORTED from C
+// Ground truth: gml_Object_Obj_Menu_Main_Options_Create_0 (@0x1400a9120)
+// Decoded (uStack_b8 = 3 is the GML line marker):
+//   1. image_xscale (slot uRam00000001405c7c18 — registry name @0x1405c7c10,
+//      EXE-REGISTRY.md) = 1.2 (0x3ff3333333333333) via assignment helper
+//      func_0x000140160140.
+//   2. image_yscale (slot uRam00000001405c7c08 — registry @0x1405c7c00)
+//      = 1.2 (0x3ff3333333333333).
+// => menu options button art rendered 20% larger than its sprite base
+//    size. The rest is RValue destructor noise + self-context push/pop.
+image_xscale = 1.2;
+image_yscale = 1.2;
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Menu_Main_Options_Create_0(undefined8 param_1)
 

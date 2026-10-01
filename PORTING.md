@@ -15,7 +15,7 @@ like GML. Patterns established by cross-referencing many functions:
 | `func_0x000140141d00(self)` | push self as call argument | (implicit) |
 | `func_0x000140141c50(n)` | set argument count = n | (implicit) |
 | `func_0x00014012b840(ret, argc)` | perform the pending builtin/script call into `ret` | the call itself |
-| `func_0x00014015f1a0(self, VARREF, 0x80000000, &val)` | write instance variable (VARREF is a runtime-patched name slot) | `variable = val` |
+| `func_0x00014015f1a0(self, VARREF, 0x80000000, &val[, flags, mask])` | READ instance/property variable into &val (op-operand fetch; CORRECTED 2026-10-01 — result feeds arithmetic/copy in Menu_Static Create, Camera_Static Create/Step; `variable_instance_set` = 0x000140160140 with no extra args) | `x = variable` |
 | `func_0x00014015be60(&val, DOUBLE, VARREF, flags)` / compared `> 0` | read instance variable + compare | `if (variable > x)` |
 | `func_0x000140160140(self, VARREF, 0x80000000, &val)` | write built-in property (image_*, x, y, ...) | `image_alpha = val` |
 | `0x3ff0000000000000` | double 1.0 | `1` |
@@ -38,8 +38,13 @@ disambiguates.
 - `slot_map.py` → `SLOT-MAP.md`: every runtime `uRam` variable slot with
   function/read/write counts and the registry ids co-fetched in the same
   functions (evidence, not proof). 216 slots catalogued.
-- Proven slot: `uRam00000001405c7b98` = `fading` — Disclaimer Step_0
-  fetches id 0x18719 `fading` and writes the same slot in one function.
+- Proven slot: `uRam00000001405c7b98` = `image_alpha` (EXE-REGISTRY.md
+  name-pointer rule; the old `fading` proof conflated id 0x18719 with the
+  slot it feeds).
+- Op-helper semantics (PROVEN 2026-10-01, three coherent sites):
+  `func_0x0001400053f0` = MUL, `func_0x000140005290` = ADD, and
+  `func_0x00014015f1a0` = READ (Menu_Static/Camera_Static decode coherently
+  only with these).
 - Proven op-helper semantics (from Disclaimer KeyPress_1 0.5 constant):
   `func_0x00014015be60` = 3-way compare (neg = less, pos = greater,
   -2 = incomparable).
@@ -118,6 +123,36 @@ if (<input read> > 0) {
 - Annotated machine reference: `gml_all_414_decompiled.annotated.c` (USE THIS, not the plain .c)
 - Registry id map (variables AND functions, 425 entries): `builtin_ids.json`
 - Runtime slot evidence table (216 slots): `SLOT-MAP.md` via `slot_map.py`
+
+### Regular event shapes (batch-portable, established 2026-10-01)
+- **`gml_GlobalScript_*` (all 26)**: pure re-exports — they count/declare
+  script ids (uStack_40 = N) and run NO GML. Port = empty logic + raw C kept.
+  Ported in `scripts/todo/*.gml` (missing todo files for the
+  action_draw_sprite / action_if_next_room / action_next_room /
+  draw_set_blend_mode wrappers were created).
+- **PreCreate 195 B blocks**: single no-arg call `func_0x000140181be0()` =
+  `event_inherited();` (result discarded; PreCreate must be emitted because
+  GML does not auto-chain). 124 B blocks = empty event, NOT emitted.
+  76 `PreCreate.gml` files created for objects whose original PreCreate had
+  the call (obj_OLDTVFilter_Logo has no directory in the generated project).
+- **Draw 236/272 B no-arg blocks**: single call `func_0x000140175460()` =
+  `draw_self()` (TODO calibrate: draw_self vs draw_sprite_ext defaults is
+  indistinguishable in YYC). The `func_0x000140175460(param_1)` variant is a
+  DIFFERENT (arg-passing) shape — do not batch it.
+- Line markers: staged `uStack_XX = 1..N` ints are the ORIGINAL GML source
+  line numbers per statement — use them to order/reconstruct statements.
+- Runtime constants (`0x14065xxxx`) are outside the mapped exe image —
+  mark TODO(calibrate), do not guess.
+- **COMMENT PITFALL**: some Ghidra blocks start with
+  `/* WARNING: Globals starting with '_' ... */` — pasting that verbatim
+  inside a `/* BEGIN DECOMPILED REFERENCE ... */` GML block comment CLOSES
+  the comment early (GML block comments do not nest) and the rest of the C
+  becomes live code. Convert such lines to `// (Ghidra note) ...`.
+- exe const double-vs-string trap: exe_strings.py prints RAW bytes for
+  non-ASCII; a value like `333333\xd3?` is the IEEE mantissa of a double
+  (0x1405c4988 = 0.3), not text. Decode the 8 bytes as a double first.
+
+### Status ledger (ported files)
 - **PORTED to real GML** (with calibrate-TODOs where a slot needs in-game
   verification): Obj_Menu_Disclaimer {Alarm_0, Alarm_1, KeyPress_1},
   Obj_Menu_Warning {Alarm_0, KeyPress_1} (mirror of Disclaimer - identical

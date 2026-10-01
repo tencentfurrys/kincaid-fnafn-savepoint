@@ -3,7 +3,8 @@
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
 /* BEGIN DECOMPILED REFERENCE
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+// (Ghidra note) Globals starting with '_' overlap smaller symbols at the same address
+// - literal slash-star form removed: it would close a GML block comment early.
 
 void gml_Object_Obj_Office_Front_Left_Step_0(longlong *param_1,undefined8 param_2)
 

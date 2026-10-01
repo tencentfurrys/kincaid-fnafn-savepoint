@@ -1,7 +1,8 @@
 /// @description FNAFN script customfunct_game_music_clear - NOT YET PORTED
 // Decompiled C reference (exact machine-level semantics):
 /* BEGIN DECOMPILED REFERENCE
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+// (Ghidra note) Globals starting with '_' overlap smaller symbols at the same address
+// - literal slash-star form removed: it would close a GML block comment early.
 
 undefined8 *
 gml_Script_customfunct_game_music_clear(undefined8 param_1,undefined8 param_2,undefined8 *param_3)

@@ -1,7 +1,16 @@
-/// @description FNAFN Obj_Menu_Static / Step - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Menu_Static / Step_0 — PORTED from C
+// Ground truth: gml_Object_Obj_Menu_Static_Step_0 (376 B @0x1400aa260)
+// Decoded, in order (uStack_98 = 2 is the GML line marker):
+//   1. instance fetch `animate_speed` (id 0x186dd, +8 self fetch).
+//   2. call gml_Script_customfunct_image_speed_delta(self, argc=1,
+//      arg0 = animate_speed, ret discarded — the C passes &uStack_48 for
+//      the return slot but never reads it).
+// That is the whole event: the menu static image advances its
+// image_index by animate_speed * global.delta_factor every frame
+// (see scripts/ported/customfunct_image_speed_delta.gml — corrected to
+// match the real C of that script: image_index += delta * delta_factor).
+customfunct_image_speed_delta(animate_speed);
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Menu_Static_Step_0(longlong *param_1,undefined8 param_2)
 

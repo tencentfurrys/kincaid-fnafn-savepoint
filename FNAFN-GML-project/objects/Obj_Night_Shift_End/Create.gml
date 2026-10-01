@@ -1,9 +1,80 @@
-/// @description FNAFN Obj_Night_Shift_End / Create - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Night_Shift_End / Create_0 — PORTED from C
+// Ground truth: gml_Object_Obj_Night_Shift_End_Create_0 (@0x1400de930)
+// Decoded, in order (uStack_78 = 3..0x21 are GML source-LINE markers):
+//   line 3: `var time = 0` (stack accumulator, YYC typed-increment switch
+//           in the loop = generic `+= 1`).
+//   line 4/5: while (time < 12)  [3-way compare vs 12.0 (0x4028000000000000);
+//           loop continues while result < 0]  { <call/indexed write>; time += 1 }
+//           The loop body fetches id 0x186d5 via the +0x10 (VARIABLE) path,
+//           creates an accessor with key = time, writes -100.0
+//           (0xc059000000000000) into it, then finalizes with argc 2:
+//           reading = `owner[time] = -100` where owner's registered name is
+//           "Scr_Camera_Update" (builtin_ids.json; ids also carry object-
+//           event aliases). Alternative reading: Scr_Camera_Update(time).
+//           -100 fits "disable the per-hour alarm" semantics.
+//           TODO(calibrate): exact owner + call shape (see above).
+//   line 9:  image_alpha (slot uRam00000001405c7b98 — registry) = 0.
+//   line 10: night_size (id 0x1874a) = 1.
+//   line 11: fade_alpha (id 0x18718) = 1.
+//   line 12: text_alpha (id 0x18787) = 0.
+//   line 13: text_fade (id 0x18789) = 0.
+//   line 14: if (room == 4)  [room slot uRam00000001405c7b38 — registry;
+//           0x4010000000000000 = 4.0]:
+//     line 16: instance_deactivate_layer("AI")   [slot 0x1405c8d50 —
+//              registry-confirmed; const @0x1405c4eb8 = "AI"]
+//     line 17: instance_deactivate_layer("HUD")  [const @0x1405c4ebb = "HUD"]
+//     line 18: audio_stop_all()                  [slot 0x1405c8c10 — registry]
+//     line 19: fade_alpha = 0
+//     line 20: text_alpha = 0
+//     line 21: text_fade = 0
+//     line 22: if (keyboard_check(ord("-")))  [service func_0x00014017c0e0
+//              (self, other, 0x2d); 0x2d = 45 = ord("-") / vk_insert —
+//              TODO(calibrate): service semantics]
+//       line 24: instance_deactivate_object(45)  [slot 0x1405c8bf0 —
+//              registry-confirmed; 45.0 (const @0x1405c4ec0) = object index
+//              — TODO(calibrate): map object index 45 to its asset name]
+//     line 26: night_size = 0.95 (0x3fee666666666666)
+//   line 28: if (room == 2)  [0x4000000000000000 = 2.0]:
+//     line 30: fade_alpha = 0
+//     line 31: text_alpha = 1
+//     line 32: text_fade = 0
+//     line 33: same 0x186d5-owner indexed write with key 0 and value 120
+//              (0x406e000000000000): `owner[0] = 120` — alarm[0] = 120
+//              (2 s at 60 fps) fits a night-restart setup.
+var time = 0;
+while (time < 12) {
+    // TODO(calibrate): owner[time] = -100 — owner = variable fetched by id
+    // 0x186d5 ("Scr_Camera_Update"); alternative: Scr_Camera_Update(time).
+    time += 1;
+}
+image_alpha = 0;
+night_size = 1;
+fade_alpha = 1;
+text_alpha = 0;
+text_fade = 0;
+if (room == 4) {
+    instance_deactivate_layer("AI");
+    instance_deactivate_layer("HUD");
+    audio_stop_all();
+    fade_alpha = 0;
+    text_alpha = 0;
+    text_fade = 0;
+    if (keyboard_check(ord("-"))) { // TODO(calibrate): service 0x14017c0e0(self, other, 45)
+        instance_deactivate_object(45); // TODO(calibrate): object index 45 asset name
+    }
+    night_size = 0.95;
+}
+if (room == 2) {
+    fade_alpha = 0;
+    text_alpha = 1;
+    text_fade = 0;
+    // TODO(calibrate): owner[0] = 120 — same owner id 0x186d5 as the loop.
+}
+
 /* BEGIN DECOMPILED REFERENCE
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+// (Ghidra note) Globals starting with '_' overlap smaller symbols at the same address
+// — line neutralized: a literal slash-star here would close this block
+// comment early (GML block comments do not nest).
 
 void gml_Object_Obj_Night_Shift_End_Create_0(longlong *param_1,undefined8 param_2)
 
@@ -32,7 +103,7 @@ void gml_Object_Obj_Night_Shift_End_Create_0(longlong *param_1,undefined8 param_
   undefined8 uStack_b0;
   undefined8 uStack_a8;
   uint uStack_9c;
-  undefined8 uStack_98;
+  uint uStack_98;
   uint uStack_8c;
   undefined8 uStack_88;
   undefined *puStack_80;

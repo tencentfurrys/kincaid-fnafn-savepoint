@@ -1,9 +1,43 @@
-/// @description FNAFN Obj_Filter_Menus / Create - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Filter_Menus / Create — PORTED from C
+// Ground truth: gml_Object_Obj_Filter_Menus_Create_0
+// Decoded, in order:
+//   1. script_execute via func_0x0001401445d0(argc=1, slot 0x1405c8e50 =
+//      script_execute), arg = iRam00000001405c8e60 = script index of
+//      gml_Script_scr_OLDTVFilter_Settings. => script_execute(scr_OLDTVFilter_Settings)
+//   2. write builtin slot 0x1405c7be8 = sprite_index, value
+//      0xbff0000000000000 = -1.0 => sprite_index = -1
+//   3. string const 0x1405c5000 = "disabled" (EXE .data, read via exe_strings.py);
+//      compare game_settings[0] == "disabled". If equal: write instance var
+//      0x18750 = oldtvfilter_enabled = 0 and return (early exit).
+//   4. else oldtvfilter_enabled = 1.0 (0x3ff0000000000000).
+//   5. string switch on game_settings[0] against two lazily-initialized
+//      static strings: 0x140656560 built from 0x1405c5009 = "full", and
+//      0x140656574 built from 0x1405c500e = "low". The static case-ordinal
+//      table at 0x140656570 {0, 1} dispatches:
+//        game_settings[0] == "full" -> ordinal 0 -> transition(self,other,2,0)
+//        game_settings[0] == "low"  -> ordinal 1 -> transition(self,other,2,1)
+//      0x140181c50(self, other, 2, N) = room/event transition service
+//      (mode 2 = goto), decoded as room_goto(N) per project convention.
+// game_settings[0] is the graphics/filter quality level.
+script_execute(scr_OLDTVFilter_Settings);
+sprite_index = -1;
+
+if (game_settings[0] == "disabled") {
+    oldtvfilter_enabled = 0;
+    exit;
+}
+
+oldtvfilter_enabled = 1;
+
+if (game_settings[0] == "full") {
+    room_goto(0);
+} else if (game_settings[0] == "low") {
+    room_goto(1);
+}
+
 /* BEGIN DECOMPILED REFERENCE
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+// (Ghidra note) Globals starting with '_' overlap smaller symbols at the same address
+// - literal slash-star form removed: it would close a GML block comment early.
 
 void gml_Object_Obj_Filter_Menus_Create_0(undefined8 param_1,undefined8 param_2)
 

@@ -1,7 +1,22 @@
-/// @description FNAFN Obj_Night_Camera_Screen_Flash / Step - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Night_Camera_Screen_Flash / Step_0 — PORTED from C
+// Ground truth: gml_Object_Obj_Night_Camera_Screen_Flash_Step_0 (@0x1400e52f0)
+// Decoded, in order (uStack_e0 = 2 is the GML line marker):
+//   1. global fetch `delta_factor` (id 0x1870b, +8 on the global context).
+//   2. read image_alpha (slot uRam00000001405c7b98 — registry name
+//      @0x1405c7b90 "image_alpha", EXE-REGISTRY.md) via the op-operand
+//      read helper func_0x00014015f1a0; copied (func_0x000140001490) and
+//      pushed as lerp argument 1.
+//   3. build lerp amount: 0.015 (0x3f8eb851eb851eb8) * delta_factor
+//      (func_0x0001400053f0 = MUL op helper, proven shape).
+//   4. lerp(image_alpha, <runtime const 0x140657390>, 0.015*delta_factor)
+//      (slot uRam00000001405c8cc0 = lerp, registry), result written back
+//      into image_alpha (func_0x000140160140).
+// TODO(calibrate): lerp target constant @0x140657390 lives in the exe's
+// runtime-patched area (VA unmapped on disk) — most plausible value is 1
+// (white flash fades IN over ~1 s at 0.015/frame) or a brightness cap;
+// confirm in-game / from data.win float pool.
+image_alpha = lerp(image_alpha, 1 /* TODO(calibrate): runtime const 0x140657390 */, 0.015 * delta_factor);
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Night_Camera_Screen_Flash_Step_0(undefined8 param_1,undefined8 param_2)
 

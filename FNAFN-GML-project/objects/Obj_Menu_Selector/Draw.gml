@@ -1,8 +1,22 @@
-/// @description FNAFN Obj_Menu_Selector / Draw - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Menu_Selector / Draw_0 — PORTED from C
+// Ground truth: gml_Object_Obj_Menu_Selector_Draw_0 (272 B @0x1400b03d0)
+// Decoded: the entire event body is ONE no-argument runner call,
+// func_0x000140175460() (global-instance fetch at [rcx+0xcc], VM dispatch
+// through +0x28 with argc=0, result discarded). No variable fetch, no
+// property write, no argument push; the staged uStack = N before the call
+// is the GML source-line marker. An empty Draw event compiles to a bare
+// return, so the original GML was a single statement whose whole effect
+// is "draw this instance normally": the matching no-arg builtin is
+// draw_self(). (obj_OLDTVFilter_* and postprocess Draw events share this
+// shape because the OLDTVFilter pipeline draws them via its own surface
+// pass.)
+// TODO(calibrate): draw_self vs draw_sprite_ext-with-defaults is not
+// distinguishable in YYC for a no-arg builtin — verify rendering in-game.
+draw_self();
+
 /* BEGIN DECOMPILED REFERENCE
+// #### gml_Object_Obj_Menu_Selector_Draw_0  va=0x1400b03d0  size=272 ====
+
 void gml_Object_Obj_Menu_Selector_Draw_0(undefined8 param_1)
 
 {
@@ -22,7 +36,7 @@ void gml_Object_Obj_Menu_Selector_Draw_0(undefined8 param_1)
   undefined8 uStack_18;
   
   uStack_18 = 0xfffffffffffffffe;
-  puStack_78 = &UNK_14043c025;
+  puStack_78 = &UNK_14043c025 /* "gml_Object_Obj_Menu_Selector_Draw_0" */;
   uStack_80 = puRam0000000140657668;
   puRam0000000140657668 = &uStack_80;
   uStack_5c = 0xffffff;

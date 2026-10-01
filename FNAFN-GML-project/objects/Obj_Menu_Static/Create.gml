@@ -1,7 +1,39 @@
-/// @description FNAFN Obj_Menu_Static / Create - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Menu_Static / Create_0 — PORTED from C
+// Ground truth: gml_Object_Obj_Menu_Static_Create_0 (1024 B @0x1400a9b80)
+// Decoded, in order (uStack_58 values are GML source-line markers 2..12):
+//   1. global fetch `game_settings` (id 0x18727, +8 on the global context).
+//   2. instance fetch `alpha_current` (id 0x186db) and zero it (write of 0).
+//   3. image_xscale (slot uRam00000001405c7c18 — registry name @0x1405c7c10,
+//      EXE-REGISTRY.md) = 1.35 (0x3ff599999999999a), via the assignment
+//      write helper func_0x000140160140.
+//   4. image_yscale (slot uRam00000001405c7c08 — registry name @0x1405c7c00)
+//      = image_xscale: line 3 READS image_xscale (func_0x00014015f1a0 is a
+//      read/op-operand helper here — its result feeds the copy helper
+//      func_0x000140001490 and then the yscale write; proven by
+//      Obj_Camera_Static/Step where the same helper feeds lerp's argument).
+//   5. string build of exe constant 0x1405c4da0 (func_0x0001401453a0 =
+//      string format helper; exe_strings.py: the constant is "full").
+//   6. game_settings[0] indexed (type==2 array guard + elem-0 fetch).
+//   7. 3-way compare (func_0x00014015be60, uRam00000001405cd9c0 = runner
+//      context) of game_settings[0] vs "full"; iVar==0 means EQUAL.
+//   8a. EQUAL (fullscreen mode): animate_speed (id 0x186dd) = 0.35
+//       (0x3fd6666666666666); image_alpha (slot uRam00000001405c7b98 —
+//       registry name @0x1405c7b90) = alpha_current (fetch id 0x186db).
+//   8b. NOT equal (windowed mode): animate_speed = 0; image_alpha = 0.
+// The remaining func_0x000140001410 calls are RValue destructor/release
+// noise; puStack_60/uStack_68 save/restore is the self-context push/pop.
+alpha_current = 0;
+image_xscale = 1.35;
+image_yscale = image_xscale;
+
+if (game_settings[0] == "full") {
+    animate_speed = 0.35;
+    image_alpha = alpha_current;
+} else {
+    animate_speed = 0;
+    image_alpha = 0;
+}
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Menu_Static_Create_0(longlong *param_1)
 

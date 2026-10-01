@@ -3,7 +3,8 @@
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
 /* BEGIN DECOMPILED REFERENCE
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+// (Ghidra note) Globals starting with '_' overlap smaller symbols at the same address
+// - literal slash-star form removed: it would close a GML block comment early.
 
 void gml_Object_Obj_Night_1_5_Bonnie_AI_Alarm_0(longlong *param_1,undefined8 param_2)
 
@@ -165,8 +166,8 @@ code_r0x00014009992b:
       uVar5 = (ulonglong)*(uint *)(lVar6 * 0x14 + 0x140655de0);
 joined_r0x00014009af89:
       if (uVar5 < 8) {
-                    /* WARNING: Could not recover jumptable at 0x00014009994b. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
+                    // (Ghidra note) WARNING: Could not recover jumptable at 0x00014009994b. Too many branches
+                    // (Ghidra note) WARNING: Treating indirect jump as call
         (*(code *)(&UNK_14009ba7c + *(int *)(&UNK_14009ba7c + uVar5 * 4)))();
         return;
       }
@@ -246,8 +247,8 @@ code_r0x00014009a890:
       uVar5 = (ulonglong)*(uint *)(lVar6 * 0x14 + 0x140655e90);
 joined_r0x00014009a89c:
       if (uVar5 < 4) {
-                    /* WARNING: Could not recover jumptable at 0x00014009a8b0. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
+                    // (Ghidra note) WARNING: Could not recover jumptable at 0x00014009a8b0. Too many branches
+                    // (Ghidra note) WARNING: Treating indirect jump as call
         (*(code *)(&UNK_14009ba9c + *(int *)(&UNK_14009ba9c + uVar5 * 4)))();
         return;
       }

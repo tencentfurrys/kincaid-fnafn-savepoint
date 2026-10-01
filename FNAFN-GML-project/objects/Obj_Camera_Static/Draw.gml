@@ -1,7 +1,22 @@
-/// @description FNAFN Obj_Camera_Static / Draw - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Camera_Static / Draw_0 — PORTED from C
+// Ground truth: gml_Object_Obj_Camera_Static_Draw_0 (272 B @0x1400aa5a0)
+// The entire event body is ONE no-argument call: func_0x000140175460().
+// Its opcodes (mov ecx,[rcx+0xcc] = global-instance fetch, then a VM
+// dispatch through the fetched value's +0x28 slot with argc=0 and the
+// result discarded) are the runner's no-arg builtin/script invocation.
+// No variable fetch, no property write, no argument push precedes it, and
+// the uStack_60 = 2 right before the call is the GML line marker (same
+// marker pattern as the other *_Static siblings; sibling Draw events show
+// 1..3 there).
+// An empty Draw event compiles to a pure ret, so the original GML was a
+// single statement whose whole effect is "draw this instance normally":
+// the only matching no-arg builtin is draw_self().
+// TODO(calibrate): verify in-game that the static camera image renders
+// (draw_self vs draw_sprite_ext with defaults — the YYC shapes are
+// indistinguishable for a no-arg builtin, and draw_self is the canonical
+// no-arg draw statement in GM 2022 YYC builds).
+draw_self();
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Camera_Static_Draw_0(undefined8 param_1)
 

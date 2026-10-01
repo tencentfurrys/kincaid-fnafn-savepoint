@@ -1,60 +1,47 @@
-/// @description FNAFN script __init_global - NOT YET PORTED
-// Decompiled C reference (exact machine-level semantics):
+/// @description FNAFN gml_GlobalScript___init_global — PORTED from C (YYC re-export stub)
+// Ground truth: gml_GlobalScript___init_global (197 B @0x140040330)
+// A YYC GlobalScript block is a re-export: it calls the runner's id-registration
+// path (a fetch on id 0x18705/0x1870b/... in the annotated C) once per script
+// defined below it in GameMaker's original script list, counting them in
+// uStack_40. No GML statement runs (param_3 return = undefined; no side
+// effects). The functions themselves live in their own gml_Script_* files;
+// in a from-source GM project these become plain script assets in order:
+
+// Registered script ids: 0x186a8 (customfunct_image_speed_delta)
+// This file intentionally contains no executable GML.
+
 /* BEGIN DECOMPILED REFERENCE
-undefined8 * gml_Script___init_global(undefined8 param_1,undefined8 param_2,undefined8 *param_3)
+// #### gml_GlobalScript___init_global  va=0x140040330  size=197 ====
+
+undefined8 *
+gml_GlobalScript___init_global(longlong *param_1,undefined8 param_2,undefined8 *param_3)
 
 {
-  undefined8 *puStack_98;
-  undefined8 *puStack_90;
-  undefined8 uStack_80;
-  undefined *puStack_78;
-  undefined4 uStack_70;
-  undefined8 uStack_68;
-  uint uStack_5c;
-  undefined8 uStack_58;
-  uint uStack_4c;
-  undefined8 uStack_40;
-  undefined8 uStack_38;
-  undefined8 uStack_30;
+  undefined8 uVar1;
+  undefined8 uStack_50;
+  undefined *puStack_48;
+  undefined4 uStack_40;
+  undefined auStack_38 [12];
+  uint uStack_2c;
+  undefined8 uStack_28;
   
-  uStack_30 = 0xfffffffffffffffe;
-  puStack_78 = &UNK_14043a49c;
-  uStack_70 = 0;
-  uStack_80 = puRam0000000140657668;
-  puRam0000000140657668 = &uStack_80;
-  uStack_5c = 0xffffff;
-  uStack_68 = 0;
-  uStack_4c = 0xffffff;
-  uStack_58 = 0;
-  uStack_38 = (ulonglong)(uint)uStack_38;
-  uStack_40 = 0;
-  uRam0000000140657680 = param_1;
+  uStack_28 = 0xfffffffffffffffe;
+  puStack_48 = &UNK_14043a4b5 /* "gml_GlobalScript___init_global" */;
+  uStack_50 = puRam0000000140657668;
+  puRam0000000140657668 = &uStack_50;
+  plRam0000000140657680 = param_1;
   *(undefined4 *)((longlong)param_3 + 0xc) = 5;
   *param_3 = 0;
-  func_0x000140144b20(uRam00000001405c9910);
-  uStack_70 = 5;
-  if ((0x46U >> (uStack_38._4_4_ & 0x1f) & 1) != 0) {
-    func_0x000140001410(&uStack_40);
+  uStack_40 = 1;
+  uVar1 = (**(code **)(*param_1 + 0x10))(param_1,0x186a8 /* customfunct_image_speed_delta */);
+  func_0x0001401452a0(auStack_38,gml_Script___init_global,param_1);
+  func_0x000140141d00(param_1);
+  func_0x000140001490(uVar1,auStack_38);
+  func_0x000140141c50(1);
+  if ((0x46U >> (uStack_2c & 0x1f) & 1) != 0) {
+    func_0x000140001410(auStack_38);
   }
-  uStack_40 = 0;
-  uStack_38 = 0x500000000;
-  func_0x00014000bee0(&uStack_68,0x1405c36b0);
-  puStack_98 = &uStack_68;
-  func_0x00014000bee0(&uStack_58,0x140655428);
-  puStack_90 = &uStack_58;
-  func_0x0001401445d0(param_1,param_2,&uStack_40,2,uRam00000001405c8bd0,&puStack_98);
-  uStack_70 = 6;
-  func_0x00014018d100(0);
-  if ((0x46U >> (uStack_38._4_4_ & 0x1f) & 1) != 0) {
-    func_0x000140001410(&uStack_40);
-  }
-  if ((0x46U >> (uStack_4c & 0x1f) & 1) != 0) {
-    func_0x000140001410(&uStack_58);
-  }
-  if ((0x46U >> (uStack_5c & 0x1f) & 1) != 0) {
-    func_0x000140001410(&uStack_68);
-  }
-  puRam0000000140657668 = (undefined8 *)uStack_80;
+  puRam0000000140657668 = (undefined8 *)uStack_50;
   return param_3;
 }
 END DECOMPILED REFERENCE */

@@ -1,6 +1,18 @@
-/// @description FNAFN script 0 - NOT YET PORTED
-// Decompiled C reference (exact machine-level semantics):
+/// @description FNAFN gml_GlobalScript_0 — PORTED from C (YYC re-export stub)
+// Ground truth: gml_GlobalScript_0 (388 B @0x140129dc0)
+// A YYC GlobalScript block is a re-export: it calls the runner's id-registration
+// path (a fetch on id 0x18705/0x1870b/... in the annotated C) once per script
+// defined below it in GameMaker's original script list, counting them in
+// uStack_40. No GML statement runs (param_3 return = undefined; no side
+// effects). The functions themselves live in their own gml_Script_* files;
+// in a from-source GM project these become plain script assets in order:
+
+// Registered script ids: (none)
+// This file intentionally contains no executable GML.
+
 /* BEGIN DECOMPILED REFERENCE
+// #### gml_GlobalScript_0  va=0x140129dc0  size=388 ====
+
 undefined8 * gml_GlobalScript_0(undefined8 param_1,undefined8 param_2,undefined8 *param_3)
 
 {
@@ -24,7 +36,7 @@ undefined8 * gml_GlobalScript_0(undefined8 param_1,undefined8 param_2,undefined8
   undefined8 uStack_20;
   
   uStack_20 = 0xfffffffffffffffe;
-  puStack_a0 = &UNK_14043deaa;
+  puStack_a0 = &UNK_14043deaa /* "gml_GlobalScript_0" */;
   uStack_a8 = puRam0000000140657668;
   puRam0000000140657668 = &uStack_a8;
   uStack_84 = 0xffffff;

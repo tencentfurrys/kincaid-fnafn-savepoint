@@ -3,7 +3,8 @@
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
 /* BEGIN DECOMPILED REFERENCE
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+// (Ghidra note) Globals starting with '_' overlap smaller symbols at the same address
+// - literal slash-star form removed: it would close a GML block comment early.
 
 void gml_Object_Obj_Menu_Night_Display_Create_0(longlong *param_1)
 
@@ -180,8 +181,8 @@ code_r0x000140057f48:
     }
   }
   if (uVar7 < 6) {
-                    /* WARNING: Could not recover jumptable at 0x000140057f68. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
+                    // (Ghidra note) WARNING: Could not recover jumptable at 0x000140057f68. Too many branches
+                    // (Ghidra note) WARNING: Treating indirect jump as call
     (*(code *)(&UNK_1400587dc + *(int *)(&UNK_1400587dc + uVar7 * 4)))();
     return;
   }

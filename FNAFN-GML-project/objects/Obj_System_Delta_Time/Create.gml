@@ -27,7 +27,9 @@ while (true) {
 // machine-level semantics recovered by Ghidra. Call graph and names are
 // intact (see gml_all_414_decompiled.c).
 /* BEGIN DECOMPILED REFERENCE
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+// (Ghidra note) Globals starting with '_' overlap smaller symbols at the same address
+// — line neutralized: a literal slash-star here would close this block
+// comment early (GML block comments do not nest).
 
 void gml_Object_Obj_System_Delta_Time_Create_0(longlong *param_1)
 

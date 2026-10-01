@@ -89,7 +89,9 @@ else if (paused == 0) {
 }
 
 /* BEGIN DECOMPILED REFERENCE
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+// (Ghidra note) Globals starting with '_' overlap smaller symbols at the same address
+// — line neutralized: a literal slash-star here would close this block
+// comment early (GML block comments do not nest).
 
 void gml_Object_Obj_Pause_KeyPress_27(longlong *param_1,undefined8 param_2)
 

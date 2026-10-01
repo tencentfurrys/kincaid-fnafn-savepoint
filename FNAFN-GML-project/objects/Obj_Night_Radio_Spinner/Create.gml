@@ -1,7 +1,17 @@
-/// @description FNAFN Obj_Night_Radio_Spinner / Create - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Night_Radio_Spinner / Create_0 — PORTED from C
+// Ground truth: gml_Object_Obj_Night_Radio_Spinner_Create_0 (@0x1400e3ec0)
+// Decoded, in order (uStack_88 = 2 / 4 are GML line markers):
+//   1. image_alpha (slot uRam00000001405c7b98 — registry name @0x1405c7b90,
+//      EXE-REGISTRY.md) = 0 via assignment helper func_0x000140160140.
+//   2. `turn_speed` (id 0x18799 — builtin_ids.json) = 0 (fetch-then-zero
+//      via +0x10 path).
+//   3. `turn` (id 0x18798 — builtin_ids.json) = 0.
+// => the radio dial spinner starts invisible and not turning; its Step
+//    drives `turn` (rotation) and re-reveals alpha.
+image_alpha = 0;
+turn_speed = 0;
+turn = 0;
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Night_Radio_Spinner_Create_0(longlong *param_1)
 

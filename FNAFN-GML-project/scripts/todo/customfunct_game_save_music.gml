@@ -1,7 +1,7 @@
 /// @description FNAFN script customfunct_game_save_music - NOT YET PORTED
 // Decompiled C reference (exact machine-level semantics):
 /* BEGIN DECOMPILED REFERENCE
-/* WARNING: Type propagation algorithm not settling */
+// (Ghidra note) WARNING: Type propagation algorithm not settling
 
 undefined8 *
 gml_Script_customfunct_game_save_music(undefined8 param_1,undefined8 param_2,undefined8 *param_3)
