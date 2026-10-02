@@ -123,12 +123,25 @@ Snapshot for machine handoff — read this first on a new RDP box.
    KeyPress_83/87 (S/W), Mouse_53, Step (10720 B), Draw (3600 B)}. The
    C references are all in place now (stub filler ran); the object-tagged
    helper + obj_names.json unlocks make the Create/Draw reads fast.
-3. Re-audit the ~200 object-tagged helper call sites against obj_names.json
-   and name the targets (select_y -> Obj_Menu_Selector etc.); a script could
-   emit the (object, var) ownership table from the tag/var-id pairs.
-4. Port named scripts (customfunct_ui_button_detection etc.) — they unlock
-   meaning at dozens of call sites. customfunct_audio_play_sound_directional_single
-   is still the wrong 2-param skeleton form (see the single variant's fix).
+3. ~~Re-audit the ~200 object-tagged helper call sites~~ — DONE: new tool
+   `obj_var_ownership.py` emits `obj_var_ownership.md` (all 278 sites: 231
+   writes / 47 reads over 25 target objects, 42 (object,var) pairs, 113
+   cross-object rows). All 7 `fea0` property slots resolved via the two-step
+   exe derivation to real builtins: 0x1405c7aa8=image_index, 0x1405c7b78=x,
+   0x1405c7b88=y, 0x1405c7b98=image_alpha, 0x1405c7be8=sprite_index,
+   0x1405c7c08=image_yscale, 0x1405c7c18=image_xscale. Key finding: the
+   tagged helpers are EXCLUSIVELY cross-object (0 self-access sites) --
+   self-writes use the untagged 0x140160140 path -- confirming the semantic
+   split. The table makes the menu-chain reads below trivial (e.g.
+   Obj_Menu_Continue.KeyPress_83/87 drive Obj_Menu_Selector.select_y and the
+   animated Obj_Menu_Main_Back image_alpha/image_index).
+4. ~~customfunct_audio_play_sound_directional_single~~ — DONE: corrected to
+   the 4-arg emitter form (see
+   `FNAFN-GML-project/scripts/ported/...directional_single.gml`; arg
+   count/order certain, names TODO(calibrate) since the only reference is
+   the gml_GlobalScript_Audio re-export). Still open: port
+   customfunct_ui_button_detection and the other named scripts, which
+   unlock meaning at dozens of call sites.
 5. CDN RDP job: api.github.com/repos/tencentfurrys/Cdn/actions/jobs/110021584975
    (6h cap; check timer when on a fresh box).
 

@@ -1,0 +1,204 @@
+#!/usr/bin/env python3
+"""Build the (target object, variable) ownership table for FNAFN.
+
+The object-tagged helper family takes a TARGET OBJECT INDEX as its first
+argument and reads/writes a variable on that object:
+
+    func_0x00014015fea0(obj, slot, ...)   built-in property write (slot)
+    func_0x000140160b90(obj, var_id, ...) custom instance var write
+    func_0x000140160480(obj, var_id, ...) custom instance var read
+
+This script scans gml_all_414_decompiled.annotated.c for all 278 call sites,
+maps the object index to a name via obj_names.json, resolves the fea0
+property slots by the two-step exe derivation (name pointer at slot-8,
+deref once, read the NUL string), and emits obj_var_ownership.md.
+
+Usage:  python obj_var_ownership.py
+"""
+import json
+import re
+import struct
+import sys
+
+from exe_strings import build_map, read_str, va_to_off
+
+EXE = "fnafn/binaries/FNAFN.exe"
+C_FILE = "gml_all_414_decompiled.annotated.c"
+NAMES = "obj_names.json"
+OUT = "obj_var_ownership.md"
+
+# op label, helper address suffix
+HELPERS = {
+    "15fea0": ("prop_write", "func_0x00014015fea0"),
+    "160b90": ("var_write", "func_0x000140160b90"),
+    "160480": ("var_read", "func_0x000140160480"),
+}
+
+MARKER = re.compile(r"^// #### (\S+)\s+va=")
+# b90/480: second arg is a var id with an inline name comment
+CALL_NAMED = re.compile(
+    r"func_0x000140(160b90|160480)\("
+    r"\s*(0x[0-9a-fA-F]+|\d+)\s*,\s*"
+    r"(0x[0-9a-fA-F]+|\d+)\s*/\*\s*(.*?)\s*\*/"
+)
+# fea0: second arg is a bare property slot
+CALL_SLOT = re.compile(
+    r"func_0x00014015fea0\("
+    r"\s*(0x[0-9a-fA-F]+|\d+)\s*,\s*"
+    r"(uRam[0-9a-fA-F]+)"
+)
+
+
+def marker_obj(marker, names):
+    """Return the object an object-event marker belongs to, or None.
+
+    Markers are gml_Object_<ObjName>_<Event>_<n>; the object name is the
+    longest known name that is a prefix followed by '_' (obj_names.json has
+    no name that is a strict prefix of another, so this is unambiguous).
+    """
+    if not marker.startswith("gml_Object_"):
+        return None
+    rest = marker[len("gml_Object_"):]
+    name_list = names.values() if hasattr(names, "values") else names
+    best = None
+    for n in name_list:
+        if rest == n or rest.startswith(n + "_"):
+            if best is None or len(n) > len(best):
+                best = n
+    return best
+
+
+def resolve_slot(va, data, image_base, secs):
+    """Two-step derivation: name pointer at va-8, deref once -> NUL string."""
+    off, _ = va_to_off(va - 8, image_base, secs)
+    if off is None:
+        return None
+    ptr = struct.unpack_from("<Q", data, off)[0]
+    soff, _ = va_to_off(ptr, image_base, secs)
+    if soff is None:
+        return None
+    s = read_str(data, soff).decode(errors="replace")
+    return s if s else None
+
+
+def main():
+    names = {int(k): v for k, v in json.load(open(NAMES)).items()}
+    data = open(EXE, "rb").read()
+    image_base, secs = build_map(data)
+
+    slot_cache = {}
+    lines = open(C_FILE, encoding="utf-8", errors="replace").read().splitlines()
+
+    # accessors[obj_name] -> {target_name: {var: [writes, reads]}}
+    accessors = {}
+    # owned[target_name] -> {var: [writes, reads, var_id_or_slot]}
+    owned = {}
+    unresolved_objs = {}
+    unresolved_slots = set()
+    cur = "?"
+
+    for line in lines:
+        m = MARKER.match(line)
+        if m:
+            cur = m.group(1)
+            continue
+        m = CALL_NAMED.search(line)
+        if m:
+            op, _label = HELPERS[m.group(1)]
+            obj_idx = int(m.group(2), 16) if m.group(2).lower().startswith("0x") else int(m.group(2))
+            var_name, slot = m.group(4), ""
+        else:
+            m = CALL_SLOT.search(line)
+            if not m:
+                continue
+            op, _label = "prop_write", HELPERS["15fea0"][1]
+            obj_idx = int(m.group(1), 16) if m.group(1).lower().startswith("0x") else int(m.group(1))
+            slot = m.group(2)
+            var_name = slot_cache.get(slot)
+            if var_name is None:
+                va = int(slot[4:], 16)
+                var_name = resolve_slot(va, data, image_base, secs) or "UNRESOLVED:" + slot
+                slot_cache[slot] = var_name
+                if var_name.startswith("UNRESOLVED"):
+                    unresolved_slots.add(slot)
+        tgt = names.get(obj_idx)
+        if tgt is None:
+            unresolved_objs.setdefault(obj_idx, 0)
+            unresolved_objs[obj_idx] += 1
+            tgt = f"UNKNOWN_OBJ_0x{obj_idx:x}"
+
+        rec = owned.setdefault(tgt, {}).setdefault(var_name, [0, 0, slot or ""])
+        if op.endswith("write"):
+            rec[0] += 1
+        else:
+            rec[1] += 1
+        acc = accessors.setdefault(cur, {}).setdefault(tgt, {}).setdefault(var_name, [0, 0])
+        if op.endswith("write"):
+            acc[0] += 1
+        else:
+            acc[1] += 1
+
+    # ---- emit markdown ----
+    out = []
+    A = out.append
+    A("# Object-tagged helper ownership table (FNAFN)")
+    A("")
+    A("Auto-generated by `obj_var_ownership.py` from "
+      "`gml_all_414_decompiled.annotated.c` + `obj_names.json` + `FNAFN.exe`.")
+    A("")
+    n_w = sum(v[0] for d in owned.values() for v in d.values())
+    n_r = sum(v[1] for d in owned.values() for v in d.values())
+    A(f"- **{n_w + n_r}** object-tagged call sites "
+      f"({n_w} writes, {n_r} reads)")
+    A(f"- **{len(owned)}** target objects, **{sum(len(d) for d in owned.values())}** distinct target variables")
+    if unresolved_objs:
+        A(f"- **WARNING:** {len(unresolved_objs)} object index(es) missing from obj_names.json: "
+          + ", ".join(f"0x{k:x} ({v}x)" for k, v in sorted(unresolved_objs.items())))
+    if unresolved_slots:
+        A(f"- **WARNING:** {len(unresolved_slots)} property slot(s) failed the two-step derivation: "
+          + ", ".join(sorted(unresolved_slots)))
+    A("")
+
+    A("## Table A - variables each object owns (target's view)")
+    A("")
+    A("| Target object | Variable | Writes | Reads | Var id / slot |")
+    A("|---|---|---|---|---|")
+    for tgt in sorted(owned):
+        for var, (w, r, tag) in sorted(owned[tgt].items()):
+            A(f"| {tgt} | {var} | {w} | {r} | {tag} |")
+    A("")
+
+    A("## Table B - cross-object accesses (accessor's view)")
+    A("")
+    A("Only rows where the accessor is an object event that touches a "
+      "DIFFERENT object (the tagged helper's whole point). "
+      "Self-access omitted.")
+    A("")
+    A("| Accessor (object.event / script) | Target object | Variable | W | R |")
+    A("|---|---|---|---|---|")
+    n_cross = 0
+    n_self = 0
+    for acc in sorted(accessors):
+        acc_obj = marker_obj(acc, names)
+        for tgt in sorted(accessors[acc]):
+            if acc_obj is not None and tgt == acc_obj:
+                n_self += sum(w + r for w, r in accessors[acc][tgt].values())
+                continue
+            for var, (w, r) in sorted(accessors[acc][tgt].items()):
+                n_cross += 1
+                A(f"| {acc} | {tgt} | {var} | {w} | {r} |")
+    A("")
+    A(f"({n_cross} cross-object access rows; {n_self} self-access site(s) omitted.)")
+    A("")
+
+    open(OUT, "w", encoding="utf-8").write("\n".join(out) + "\n")
+    print(f"wrote {OUT}: {n_w + n_r} sites, {len(owned)} objects, "
+          f"{sum(len(d) for d in owned.values())} vars, {n_cross} cross-object rows")
+    if unresolved_objs:
+        print("UNRESOLVED objects:", {hex(k): v for k, v in unresolved_objs.items()})
+    if unresolved_slots:
+        print("UNRESOLVED slots:", sorted(unresolved_slots))
+
+
+if __name__ == "__main__":
+    sys.exit(main())
