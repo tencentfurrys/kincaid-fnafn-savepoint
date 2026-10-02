@@ -1,14 +1,62 @@
-# Session progress (updated 2026-09-30, commit 71c8ed4)
+# Session progress (updated 2026-10-02)
 
 Snapshot for machine handoff — read this first on a new RDP box.
 
 ## Numbers
-- Ported: **~140 / 414 GML functions** (136 files carry the
+- Ported: **~150 / 414 GML functions** (145 files carry the
   "PORTED from C" marker incl. all GlobalScript wrappers + PreCreates;
-  recount with `grep -rl "PORTED from C" FNAFN-GML-project | wc -l`)
-- Remaining: 206 stub files marked "NOT YET PORTED"
-  (`grep -rl "NOT YET PORTED" FNAFN-GML-project | wc -l`) — mostly the
-  big gameplay Step/Alarm events + 10 heavy logic scripts.
+  recount with
+  `Get-ChildItem FNAFN-GML-project -Recurse -Filter *.gml | Select-String "PORTED from C" -List | Measure-Object`
+  — note: pwsh on this box, `grep -rl` works too)
+- Remaining: 199 files still carrying a "NOT YET PORTED" marker — mostly
+  the big gameplay Step/Alarm events + 10 heavy logic scripts.
+
+## Session 2026-10-02 (this session)
+- **`fading` sweep COMPLETE**: slot 0x1405c7b98 = image_alpha everywhere it
+  is written through the property helpers (Pause Create/Step/Draw prose +
+  the `fading = 0` code line, PROJECT.md). The genuinely-custom `fading`
+  flag (variable id 0x18719, written via the id-fetch path in
+  Disclaimer/Warning Alarm_0) was left as-is — it is NOT the same storage.
+  Key distinction now in PORTING.md: property-helper slot writes =
+  builtins (image_alpha); id-fetch writes = custom instance vars.
+- **Obj_Menu_Transition fully ported** {Create, Step, Draw} — the second
+  whole object done. Create builds the 1280x720 transition surface (sized
+  to the display, seeded from bufferSurface or application_surface
+  depending on `game_settings[0] != "disabled"`), deactivates the
+  Main_menu/Back/UI/AI layers per room, sets image_alpha=1. Step fades
+  image_alpha by 0.005*delta_factor and at < -0.5 fires
+  surface_free(surf) + room_goto(Room_to_go_to). Draw = draw_surface_ext.
+- **Obj_Menu_Options {Step, Destroy}** + **Obj_Menu_Continue {Create,
+  KeyPress_81 (Q), Mouse_54 (right-click)}** ported. Continue is the
+  night-select screen: text_night[0..7] = "night 1".."night 6",
+  "custom  night", "exit"; Q/right-click return to the main menu.
+- **BIG UNLOCK — obj_names.json**: parsed data.win's OBJT chunk (77
+  objects; names are NUL strings at the addresses in the chunk's offset
+  array, string table is STRG not NAME). Every object INDEX in the C
+  (instance_create_layer's obj arg, instance_deactivate_object(N),
+  object_set_visible(N,_) and the object-tagged helpers below) now resolves
+  to a name. See PORTING.md "BREAKTHROUGH 2026-10-02".
+- **Object-tagged helper family PROVEN**: func_0x00014015fea0(obj, slot,..)
+  / func_0x000140160b90(obj, var_id,..) / func_0x000140160480(obj,
+  var_id,..) = write/read a variable on a TARGET OBJECT (first arg =
+  object index, e.g. 0x23=Obj_Menu_Selector). Self writes still use
+  func_0x000140160140(self,slot,..) / the direct id-fetch. ~200 call sites
+  affected; each instance var maps to exactly one object tag repo-wide.
+- **Two-step exe slot-name derivation**: "name at X-8" holds a POINTER into
+  .rdata — dereference once, then read the string. Resolves slots absent
+  from EXE-REGISTRY.md (0x1405c7b78=x, 0x1405c7b88=y, 0x1405c7be8=sprite_index).
+- **Generator bug fixed**: gen_gml_project.py emits `_<ev>_0` bodies, so
+  all KeyPress/Mouse sub-events (KeyPress_69, Mouse_53, ...) generated
+  EMPTY stubs (54 files). New `fill_keymouse_stubs.py` regenerated 34 of
+  them (one sanitized comment block per sub-event; protects hand-ported
+  files). Multi-sub-event files now use per-sub-event `/* BEGIN..END */`
+  blocks — never wrap the whole file in one comment or inserted GML is
+  commented out.
+- **Script corrected**: customfunct_audio_play_sound_single is
+  (snd, priority, loop) = audio_stop_sound(snd); audio_play_sound(snd,
+  priority, loop). The skeleton's 2-param/hardcoded-priority form was wrong.
+- Comment-balance validated project-wide (0 files with unbalanced
+  BEGIN/END reference markers).
 
 ## What changed this session (the big unlock)
 - **FNAFN.exe is back** at `fnafn/binaries/FNAFN.exe` (LFS, in repo).
@@ -69,15 +117,19 @@ Snapshot for machine handoff — read this first on a new RDP box.
   state (useful: gives original line numbers per statement).
 
 ## Next moves
-1. Sweep remaining old ports for the invalidated `fading` slot name
-   (grep "fading" in objects/): Obj_Menu_Fade note block, Disclaimer
-   Step_0/Alarm_0/Draw/Alarm_1 header notes, Warning Alarm_0, Pause
-   notes — code semantics mostly fine, header prose needs the rename.
-2. Batch-port menu chain: Obj_Menu_Options, Obj_Menu_Continue,
-   Obj_Menu_Transition (registry makes these fast now).
-3. Port named scripts (customfunct_ui_button_detection etc.) — they
-   unlock meaning at dozens of call sites.
-4. CDN RDP job: api.github.com/repos/tencentfurrys/Cdn/actions/jobs/110021584975
+1. ~~Sweep `fading` slot rename~~ — DONE this session (see above).
+2. Finish the menu chain: Obj_Menu_Options {Create (5580 B), Draw (21253 B),
+   KeyPress_65/68 (WASD), Mouse_53}, Obj_Menu_Continue {KeyPress_69 (E),
+   KeyPress_83/87 (S/W), Mouse_53, Step (10720 B), Draw (3600 B)}. The
+   C references are all in place now (stub filler ran); the object-tagged
+   helper + obj_names.json unlocks make the Create/Draw reads fast.
+3. Re-audit the ~200 object-tagged helper call sites against obj_names.json
+   and name the targets (select_y -> Obj_Menu_Selector etc.); a script could
+   emit the (object, var) ownership table from the tag/var-id pairs.
+4. Port named scripts (customfunct_ui_button_detection etc.) — they unlock
+   meaning at dozens of call sites. customfunct_audio_play_sound_directional_single
+   is still the wrong 2-param skeleton form (see the single variant's fix).
+5. CDN RDP job: api.github.com/repos/tencentfurrys/Cdn/actions/jobs/110021584975
    (6h cap; check timer when on a fresh box).
 
 ## Environment notes for a new RDP box

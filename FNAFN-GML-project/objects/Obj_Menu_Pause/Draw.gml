@@ -19,7 +19,8 @@
 //   5. 8-arg call slot 0x1405c8d70 (co-fetch game_font/arrow_*/pause_text/
 //      back_surface => draw_text-transformed family): args include the
 //      read-modify-write op-helper result on slot uRam00000001405c7b98
-//      (func_0x00014015f1a0 — same shared select/fading slot), consts
+//      (func_0x00014015f1a0 — slot 0x1405c7b98 = image_alpha per
+//      EXE-REGISTRY.md, previously labelled select/fading), consts
 //      0x140656d40, 0x1405c5678, 0x1405c5678, 0x140656d40, 0x1405c5688
 //      and the position-state read. Best fit: draw_text_ext_transformed
 //      on the selection label.

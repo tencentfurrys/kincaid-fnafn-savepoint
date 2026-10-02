@@ -6,7 +6,8 @@
 //      settings value selected in pause menu".
 //   2. `pause_surface` (0x18752) = -1 (0xbff0000000000000), type cleared.
 //   3. `back_surface` (0x186e5) = -1.
-//   4. write `fading` (slot uRam00000001405c7b98 — PROVEN) = 0 via the
+//   4. write image_alpha (slot uRam00000001405c7b98 — REGISTRY-CONFIRMED
+//      image_alpha, NOT a custom `fading` var) = 0 via the
 //      builtin-property-write helper func_0x000140160140.
 //   5. two array-element writes to `pause_text` (0x18753) via the
 //      element-write helper func_0x00014012b840(elem, index) +
@@ -23,7 +24,8 @@
 //   7. same pattern for back_surface with constant @0x1405c55d0.
 //   8. if back_surface was created: 4-arg call, slot uRam00000001405c8d40,
 //      args = (back_surface, const @0x140656d20, const @0x140656d20,
-//      fading slot) — draw-position setup on the new surface.
+//      image_alpha slot) — draw-position setup on the new surface.
+//      (slot 0x1405c7b98 = image_alpha per EXE-REGISTRY.md)
 //   9. two 4-arg calls, slot uRam00000001405c8d90 (high co-fetch with
 //      draw_alpha/select/Room_to_go_to => draw-dimension getter/best-fit
 //      draw_text_transformed family), args =
@@ -39,17 +41,17 @@
 //            <index the array, elem 0>
 //            if (<3-way compare of array elem vs the loop counter == 0>) {
 //                animate_speed (0x186dd) = 0;
-//                fading (slot 0x1405c7b98) = 0;
+//                image_alpha (slot 0x1405c7b98) = 0;
 //            } else {
 //                animate_speed (0x186dd) = 0.35 (0x3fd6666666666666);
 //                fade_ref = alpha_current (0x186db, +8 self fetch);
-//                fading (slot 0x1405c7b98) = <same value>;
+//                image_alpha (slot 0x1405c7b98) = <same value>;
 //            }
 //        }
 //      Loop runs all iterations, no break: last matching index wins.
 // Constants 0x1405c55xx / 0x140656d20 / 0x140656d40 are exe-data strings /
 // shared numeric RValues — not resolvable offline (see SLOT-MAP.md).
-fading = 0; // NOTE: slot 0x1405c7b98 registry-confirms as image_alpha (EXE-REGISTRY.md)
+image_alpha = 0; // slot 0x1405c7b98 = image_alpha (EXE-REGISTRY.md name-pointer rule)
 pause_surface = -1;
 back_surface = -1;
 pause_text[0] = "return"; // exe const @0x1405c5590

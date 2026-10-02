@@ -3,33 +3,34 @@
 // Decoded, in order:
 //   1. global fetch `delta_factor` (id 0x1870b, +8 on the runner context
 //      global plRam000000014065e080).
-//   2. read-modify-write of `select` (slot uRam00000001405c7b98; slot
-//      ledger co-fetches 0x1876a select x54 — same slot as fading, both
-//      live here) via the 6-arg op helper func_0x00014015f1a0, then
-//      assign/copy. Operand staged: select RValue + constant
-//      @0x1405c5600, multiplied by delta_factor
-//      (func_0x0001400053f0), 3-arg call on slot uRam00000001405c8cc0
-//      (high co-fetch with delta_factor/draw_alpha/select_x/y => a
-//      numeric-clamp/step helper; best fit clamp/lerp on the selection
-//      coordinate), result written back into the select slot via
+//   2. read-modify-write of image_alpha (slot uRam00000001405c7b98 —
+//      REGISTRY-CONFIRMED image_alpha; the old `select`/`fading` labels
+//      came from SLOT-MAP co-fetch evidence, which the registry
+//      supersedes) via the 6-arg op helper func_0x00014015f1a0, then
+//      assign/copy. Operand staged: image_alpha RValue + constant
+//      @0x1405c5600 (= double 0.5, EXE-CONSTANTS.md), and
+//      0x3fa999999999999a (= 0.05) multiplied by delta_factor
+//      (func_0x0001400053f0 = MUL); 3-arg call on slot uRam00000001405c8cc0
+//      (REGISTRY-CONFIRMED lerp), result written back into image_alpha via
 //      func_0x000140160140.
-//   3. slot uRam00000001405c7bf8 (co-fetches delta_factor/cx/cy/
-//      Night_camera/Player_rotation_mode => room-position state) read
+//   3. slot uRam00000001405c7bf8 (REGISTRY-CONFIRMED view_camera) read
 //      via func_0x00014015ef90, then a 3-arg call on slot
-//      uRam00000001405c8ce0 (same co-fetch family, args = the position
-//      value and 0x140656d30 twice — shared numeric constant). No return
+//      uRam00000001405c8ce0 (REGISTRY-CONFIRMED camera_set_view_pos), args
+//      = view_camera and runtime const 0x140656d30 twice. No return
 //      capture: fire-and-forget position-sync call.
-// TODO(calibrate): exact callees of slots 0x1405c8cc0 and 0x1405c8ce0,
-// and the constant @0x1405c5600 / @0x140656d30 (exe data section gone).
-var delta = delta_factor;
+// TODO(calibrate): camera_set_view_pos arg values (consts 0x140656d30 x2).
 // REGISTRY-CONFIRMED (EXE-REGISTRY.md): slot 0x1405c8cc0 = lerp;
 // slot 0x1405c8ce0 = camera_set_view_pos; slot 0x1405c7bf8 = view_camera;
-// constant @0x1405c5600 = 0.5, @0x140656d30 = camera position value.
-// So the Step is: select = lerp(select, 0.5-shape operand, delta-scaled t)
-// followed by camera_set_view_pos(cam, x, y) sync.
-// TODO(calibrate): exact lerp argument order from the C (3 args staged:
-// slot value, const @0x1405c5600, delta_factor * 0.05 shape).
-// TODO(calibrate): camera_set_view_pos arg values (consts 0x140656d30 x2).
+// constant @0x1405c5600 = 0.5 (EXE-CONSTANTS.md).
+// C arg order (staged into puStack_128/120/118): lerp(image_alpha, 0.5,
+// 0.05 * delta_factor) -- arg1 = slot read, arg2 = 0.5, arg3 = 0.05 MUL
+// delta_factor; result written back into image_alpha. Then a fire-and-forget
+// camera_set_view_pos(view_camera, x, y) with x == y == runtime const
+// 0x140656d30 (0x14065xxxx is outside the mapped exe image -- not
+// resolvable offline).
+image_alpha = lerp(image_alpha, 0.5, 0.05 * delta_factor);
+// TODO(calibrate): both args are the unresolved runtime const @0x140656d30.
+// camera_set_view_pos(view_camera, <0x140656d30>, <0x140656d30>);
 
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Menu_Pause_Step_0(undefined8 param_1,undefined8 param_2)

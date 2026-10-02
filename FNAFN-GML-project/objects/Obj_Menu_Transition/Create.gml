@@ -1,7 +1,67 @@
-/// @description FNAFN Obj_Menu_Transition / Create - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Menu_Transition / Create_0 — PORTED from C
+// Ground truth: gml_Object_Obj_Menu_Transition_Create_0 (3675 B @0x14004a800)
+// Globals fetched (+8 on runner context): game_settings (0x18727),
+// oldtvfilter_enabled (0x18750), bufferSurface (0x186e9).
+// Decoded, in order (uStack_a0 = GML line markers):
+//   1-2. `surf` (0x18779) = -1; `Room_to_go_to` (0x18760) = -1.
+//   3. if (!surface_exists(surf)) [slot 0x1405c8a50]:
+//   5.    surf = surface_create(1280, 720) [slot 0x1405c8a60; exe consts
+//         0x1405c3990 = 1280.0, 0x1405c39a0 = 720.0].
+//   6.    surface_resize(surf, display_get_width(), display_get_height())
+//         [slots 0x1405c8a20 / 0x1405c8d20 / 0x1405c8d30 — 0-arg getters].
+//   7.    if (game_settings[0] != "disabled") [exe string 0x1405c3960]:
+//   9.       oldtvfilter_enabled = 0;
+//  10.       surface_copy(surf, x, y, bufferSurface[0]) [slot 0x1405c8d40;
+//            bufferSurface indexed with a bounds check].
+//  13.    else (game_settings[0] == "disabled"):
+//  15.       surface_copy(surf, x, y, application_surface)
+//            [slot 0x1405c7ba8 read via func_0x00014015ef90].
+//  18. if (room == 1) [slot 0x1405c7b38, const 1.0]:
+//  20-21.   instance_deactivate_layer("Main_menu" / "Back")
+//          [slot 0x1405c8d50; exe strings 0x1405c3969 / 0x1405c3973].
+//  23. if (room == 0) [const 0.0]:
+//  25-26.   instance_deactivate_layer("Main_menu" / "Back").
+//  27.    layer_background_visible(layer_background_get_id("Background"),
+//            <0x140655510>) [slots 0x1405c8d60 / 0x1405c88c0; exe string
+//            0x1405c3978 = "Background"].
+//  29. if (room == 7) [const 0x401c000000000000 = 7.0]:
+//  31-32.   instance_deactivate_layer("UI" / "AI") [0x1405c3983 / 0x1405c3986].
+//  34. image_alpha = 1 [slot 0x1405c7b98, const 1.0].
+// Reading: set up the fullscreen transition overlay (1280x720 resized to
+// the display), seeded from the old-TV-filter buffer or the plain
+// application surface depending on the graphics setting; deactivate the
+// menu layers for the room being left; start fully opaque. The Step event
+// then fades image_alpha toward -0.5 and fires surface_free + room_goto.
+// TODO(calibrate): the runtime const @0x140655510 (0x14065xxxx, outside the
+// exe image) supplies surface_copy x/y and the layer_background_visible
+// flag — 0 by convention for all three.
+surf = -1;
+Room_to_go_to = -1;
+if (!surface_exists(surf)) {
+    surf = surface_create(1280, 720);
+    surface_resize(surf, display_get_width(), display_get_height());
+    if (game_settings[0] != "disabled") {
+        oldtvfilter_enabled = 0;
+        surface_copy(surf, 0, 0, bufferSurface[0]);
+    } else {
+        surface_copy(surf, 0, 0, application_surface);
+    }
+}
+if (room == 1) {
+    instance_deactivate_layer("Main_menu");
+    instance_deactivate_layer("Back");
+}
+if (room == 0) {
+    instance_deactivate_layer("Main_menu");
+    instance_deactivate_layer("Back");
+    layer_background_visible(layer_background_get_id("Background"), 0);
+}
+if (room == 7) {
+    instance_deactivate_layer("UI");
+    instance_deactivate_layer("AI");
+}
+image_alpha = 1;
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Menu_Transition_Create_0(longlong *param_1,undefined8 param_2)
 

@@ -1,7 +1,27 @@
-/// @description FNAFN Obj_Menu_Transition / Draw - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Menu_Transition / Draw_0 — PORTED from C
+// Ground truth: gml_Object_Obj_Menu_Transition_Draw_0 (1068 B @0x14004c010)
+// Decoded, in order (uStack_110 = 1/2 are GML line markers):
+//   1. line 1: fetch custom variable `surf` (id 0x18779, +8 on self), then
+//      a 1-arg call on slot uRam00000001405c8a50 (REGISTRY-CONFIRMED
+//      surface_exists); boolean-coerce the result (func_0x00014012bb70).
+//   2. line 2 (only if surface_exists(surf)): read image_alpha (slot
+//      uRam00000001405c7b98 via op helper func_0x00014015f1a0), then an
+//      8-arg call on slot uRam00000001405c8d70 (REGISTRY-CONFIRMED
+//      draw_surface_ext). C arg order (puStack_160..128):
+//        (surf, 0x140655520, 0x140655520, 0x1405c39b0, 0x1405c39b0,
+//         0x140655520, 0x1405c39c0, image_alpha)
+//      Resolved from the exe (exe_strings.py):
+//        0x1405c39b0 = double 1.0  -> xscale/yscale
+//        0x1405c39c0 = double 16777215.0 -> c_white (colour)
+//        0x140655520 = runtime const (0x14065xxxx, outside the exe image)
+//      used for x, y AND rot -- 0 by convention for a fullscreen surface.
+// Reading: draw the transition surface fullscreen, tinted white, at the
+// object's fading image_alpha (the Step event decrements it).
+if (surface_exists(surf)) {
+    // TODO(calibrate): x/y/rot are the unresolved runtime const @0x140655520.
+    draw_surface_ext(surf, 0, 0, 1, 1, 0, c_white, image_alpha);
+}
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Menu_Transition_Draw_0(longlong *param_1,undefined8 param_2)
 

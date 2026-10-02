@@ -1,7 +1,21 @@
-/// @description FNAFN Obj_Menu_Options / Step - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Menu_Options / Step_0 — PORTED from C
+// Ground truth: gml_Object_Obj_Menu_Options_Step_0 (859 B @0x140076c50)
+// Decoded, in order (uStack_f0 = 1/3 are GML line markers):
+//   0. global fetch `delta_factor` (id 0x1870b, +8 on the runner global).
+//   1. line 1: `draw_alpha` (id 0x18712) = lerp(draw_alpha, 1.0, 0.05 *
+//      delta_factor) -- args staged into puStack_e8/e0/d8: the current
+//      draw_alpha, exe const 0x1405c4530 (= double 1.0), and
+//      0x3fa999999999999a (= 0.05) MUL delta_factor; 3-arg call on slot
+//      uRam00000001405c8cc0 (REGISTRY-CONFIRMED lerp), result assigned back
+//      into draw_alpha.
+//   2. line 3: `select_y_final` (id 0x1876e) = lerp(select_y_final,
+//      `select_y` (id 0x1876d), 0.5 * delta_factor) -- same 3-arg lerp
+//      shape, const 0x3fe0000000000000 = 0.5.
+// Reading: ease the menu draw alpha in to full and glide the selector's
+// current Y toward the target selection Y each step (delta-scaled).
+draw_alpha = lerp(draw_alpha, 1, 0.05 * delta_factor);
+select_y_final = lerp(select_y_final, select_y, 0.5 * delta_factor);
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Menu_Options_Step_0(longlong *param_1,undefined8 param_2)
 

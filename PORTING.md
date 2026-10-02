@@ -89,6 +89,60 @@ if (<input read> > 0) {
 }
 ```
 
+## BREAKTHROUGH 2026-10-02: object table + object-tagged write helpers
+
+### `obj_names.json` -- every object index -> name (from data.win OBJT)
+`data.win`'s OBJT chunk holds the 77 game objects; each entry's name lives
+as a NUL-terminated string at the address stored in the chunk's offset
+array (absolute file offsets; the string table is the STRG chunk, NOT
+"NAME"). Built by walking the chunk directory (see `vari_extract.py`'s
+`read_chunks`) and reading `OBJT[count=77][77 * int32 offsets]`.
+Run `python exe_strings.py` style lookups are unnecessary now -- just
+`json.load(open('obj_names.json'))`. Samples: 2=Obj_Menu_Transition,
+12=Obj_Menu_Fade, 29=Obj_Menu_Main_Back, 35=Obj_Menu_Selector,
+45=Obj_Pause, 48=Obj_Menu_Pause, 50=Obj_Menu_Options_Icons.
+This clears every `instance_deactivate_object(50)` / `object_set_visible(...)`
+/ `instance_create_layer(...,obj)` style object-index TODO -- the index is
+a real object you can now name.
+
+### Object-tagged variable/property helpers (PROVEN this session)
+Three helpers take a **target object index** as their first argument and
+read/write a variable on that object (NOT self):
+
+| C pattern | Meaning | GML |
+|---|---|---|
+| `func_0x00014015fea0(OBJ, builtin_slot, 0x80000000, &val)` | set built-in property on object OBJ | `Obj_Name.image_alpha = val` |
+| `func_0x000140160b90(OBJ, var_id, 0x80000000, &val)` | set instance variable (by id) on object OBJ | `Obj_Name.select_y = val` |
+| `func_0x000140160480(OBJ, var_id, 0x80000000, &out[, flags])` | read instance variable (by id) from object OBJ | `x = Obj_Name.select_y` |
+
+Proof: Obj_Menu_Continue reads/writes `select_y` (id 0x1876d) only through
+the `0x23`-tagged pair above, while `select`/`surface`/`draw_alpha` use the
+direct self-fetch (`(*param_1 + 0x10/8)(self, id)`) path in the SAME
+function -- the compiler uses two mechanisms because the targets differ.
+`0x23` = object 35 = Obj_Menu_Selector, and every writer of `select_y`
+(Continue, Customize, Main_Title) tags it `0x23` because they all drive the
+shared selector object. Each instance var maps to exactly one tag across
+the whole codebase (`arrow_alpha`->0x2e=Obj_Game_Over_Tablet,
+`camera_text`->0x2c=Obj_Night_Camera_Tablet, ...). Small tags are real
+object indices too: `fade_alpha` tag 1 = Obj_Office_Camera_Control,
+`Room_to_go_to` tag 2 = Obj_Menu_Transition, `Tablet_Sprite_Speed` tag 4 =
+Obj_Night_Camera_Tablet. The single self-arg property writer
+`func_0x000140160140(self, slot, ...)` remains the SELF write.
+NOTE: the first arg is the object index, so prefer `Obj_Name.var = value`;
+whether the source was a `with(){}` block or a dotted object reference is
+not distinguishable from the C -- use the dotted form.
+
+### Slot-name derivation direct from the exe (no EXE-REGISTRY.md needed)
+The registry rule "slot `uRam X` -> name at `X-8`" stores a POINTER at
+`X-8` into .rdata, not the string itself. Two-step lookup:
+1. read the 8-byte little-endian pointer at `X-8`;
+2. read the NUL-terminated string at that address.
+`exe_strings.py 0x<ptr>` does step 2. Verified: slot 0x1405c7b98 ->
+ptr@0x1405c7b90 = 0x14043eecf -> "image_alpha". Resolves slots missing from
+EXE-REGISTRY.md (e.g. 0x1405c7b78 = x, 0x1405c7b88 = y, 0x1405c7be8 =
+sprite_index). Strings in the STRG-style .data region read directly
+(`exe_strings.py 0x1405c39d0` -> "night 1").
+
 ## BREAKTHROUGH 2026-09-30: FNAFN.exe registry decoded
 - `fnafn/binaries/FNAFN.exe` is BACK in the repo (LFS, restored 18:09).
 - The exe's .data section contains the full GML registry as 16-byte
@@ -148,6 +202,16 @@ if (<input read> > 0) {
   inside a `/* BEGIN DECOMPILED REFERENCE ... */` GML block comment CLOSES
   the comment early (GML block comments do not nest) and the rest of the C
   becomes live code. Convert such lines to `// (Ghidra note) ...`.
+  All 763 WARNING comments in `gml_all_414_decompiled.c` are single-line.
+- **KEY/MOUSE STUBS WERE EMPTY**: gen_gml_project.py looks up event bodies
+  as `gml_Object_<obj>_<ev>_0`, but key/mouse events are numbered
+  (KeyPress_69, Mouse_53, ...), so those files generated with EMPTY
+  reference bodies. `fill_keymouse_stubs.py` regenerates them with one
+  `/* BEGIN ... END */` block per sub-event (WARNING comments sanitized),
+  and refuses to overwrite a file containing a real port. Multi-sub-event
+  files use per-sub-event comment blocks — do NOT wrap the whole file in
+  one outer comment or inserted GML will be commented out (nesting hazard
+  above). 34 files fixed 2026-10-02.
 - exe const double-vs-string trap: exe_strings.py prints RAW bytes for
   non-ASCII; a value like `333333\xd3?` is the IEEE mantissa of a double
   (0x1405c4988 = 0.3), not text. Decode the 8 bytes as a double first.
@@ -161,6 +225,18 @@ if (<input read> > 0) {
   Obj_System_Delta_Time Create_0 (reference kept in-file),
   Obj_Menu_Pause {Create_0, Destroy_0, Step_0, Draw_0, Mouse_53},
   Obj_Pause {Create_0, KeyPress_27} (reference kept in-file).
+  Session 2026-10-02: Obj_Menu_Transition {Create_0, Step_0, Draw_0}
+  (fullscreen transition: surface setup + room-layer deactivation, fade
+  image_alpha toward -0.5, then surface_free + room_goto(Room_to_go_to);
+  Draw = draw_surface_ext at image_alpha), Obj_Menu_Options {Step_0,
+  Destroy_0} (lerp draw_alpha->1 and select_y_final->select_y; on destroy
+  instance_deactivate_object/display_reset/window_set_fullscreen/batch room
+  service/object_set_visible), Obj_Menu_Continue {Create_0, KeyPress_81,
+  Mouse_54} (night-select screen: text_night[0..7] = "night 1".."custom
+  night", "exit"; Q / right-click = spawn Obj_Menu_Main_Title on "Main_menu"
+  + room_goto_next). Script corrected: customfunct_audio_play_sound_single
+  is (snd, priority, loop) = audio_stop_sound(snd); audio_play_sound(...)
+  -- the skeleton's 2-param hardcoded-priority form was wrong.
   Corrections 2026-09-30: Disclaimer/Warning KeyPress_1 is
   `if (fading > 0.5)` (exact 0.5 constant decoded), not `> 0`.
   Pause decode notes 2026-09-30: Obj_Pause/KeyPress_27 toggles

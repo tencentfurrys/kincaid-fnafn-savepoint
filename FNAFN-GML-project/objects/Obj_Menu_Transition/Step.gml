@@ -1,7 +1,28 @@
-/// @description FNAFN Obj_Menu_Transition / Step - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Menu_Transition / Step_0 — PORTED from C
+// Ground truth: gml_Object_Obj_Menu_Transition_Step_0 (771 B @0x14004ba70)
+// Decoded, in order (uStack_80 = 1/3/5/6 are GML line markers):
+//   1. global fetch `delta_factor` (id 0x1870b, +8 on the runner global).
+//   2. line 1: read image_alpha (slot uRam00000001405c7b98 — REGISTRY-
+//      CONFIRMED image_alpha) via op helper func_0x00014015f1a0; multiply
+//      0.005 (0x3f747ae147ae147b) by delta_factor (func_0x0001400053f0 =
+//      MUL); subtract from image_alpha (func_0x00014000bdb0 = SUB); write
+//      back (func_0x000140160140).
+//   3. line 3: re-read image_alpha, 3-way compare against -0.5
+//      (func_0x00014015be60, 0xbfe0000000000000). Branch taken when
+//      (iVar1 != -2) && (iVar1 < 0)  =>  image_alpha < -0.5.
+//   4. line 5: 1-arg call on slot uRam00000001405c8c20 (REGISTRY-CONFIRMED
+//      surface_free) with the custom variable `surf` (id 0x18779, +8 fetch).
+//   5. line 6: 1-arg call on slot uRam00000001405c8cb0 (REGISTRY-CONFIRMED
+//      room_goto) with the custom variable `Room_to_go_to` (id 0x18760).
+// Reading: the transition overlay fades its image_alpha out at
+// 0.005 * delta_factor per step; once it has faded past -0.5 it frees its
+// surface and goes to the room stored in Room_to_go_to.
+image_alpha -= 0.005 * delta_factor;
+if (image_alpha < -0.5) {
+    surface_free(surf);
+    room_goto(Room_to_go_to);
+}
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Menu_Transition_Step_0(longlong *param_1,undefined8 param_2)
 

@@ -15,7 +15,9 @@ Generated from the YYC build of "Five Nights at Freddy's: Nightshift"
   evidence now lives in ../SLOT-MAP.md (generate with ../slot_map.py).
   Newly ported: Obj_Menu_Fade {Create, Step, Draw},
   Obj_System_Delta_Time Create; KeyPress_1 ports corrected to
-  `fading > 0.5`. Pause objects fully ported: Obj_Menu_Pause
+  `image_alpha > 0.5` (slot 0x1405c7b98 = image_alpha per EXE-REGISTRY.md;
+  the old `fading` label conflated variable id 0x18719 with that built-in
+  slot). Pause objects fully ported: Obj_Menu_Pause
   {Create, Destroy, Step, Draw, Mouse} + Obj_Pause {Create, KeyPress}.
   See ../PORTING.md status ledger for helper semantics.
 - Assets (sprites/sounds/rooms) are NOT in this skeleton yet; they export

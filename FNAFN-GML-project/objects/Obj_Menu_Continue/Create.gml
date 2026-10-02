@@ -1,7 +1,50 @@
-/// @description FNAFN Obj_Menu_Continue / Create - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Menu_Continue / Create_0 — PORTED from C
+// Ground truth: gml_Object_Obj_Menu_Continue_Create_0 (1854 B @0x14004c840)
+// Object-index helper decode (PROVEN this session via obj_names.json, built
+// from data.win's OBJT chunk): func_0x00014015fea0(obj_index, builtin_slot,
+// flags, &val) and func_0x000140160b90(obj_index, var_id, flags, &val) set a
+// property/variable on a TARGET OBJECT (not self) -- here 0x1d = 29 =
+// Obj_Menu_Main_Back and 0x23 = 35 = Obj_Menu_Selector. Self writes use the
+// direct id-fetch path instead, which is how `select`/`surface`/`draw_alpha`
+// below are distinguished from the dotted object writes.
+// Decoded, in order (uStack_30 = GML line markers):
+//   0. customfunct_audio_play_sound_single(22, <?>, <?>) -- DIRECT script
+//      call, argc=3; exe const 0x1405c3a18 = 22.0 (the menu-blip sound);
+//      priority and loop are the same runtime const @0x140655530.
+//   2. Obj_Menu_Main_Back.sprite_index = 1   [slot 0x1405c7be8, const 1.0].
+//   3. Obj_Menu_Main_Back.image_alpha = 0    [slot 0x1405c7b98, const 0.0].
+//   5. surface = -1                          [self var 0x1877a].
+//   6. Obj_Menu_Selector.x = 94              [slot 0x1405c7b78, 94.0].
+//   7. Obj_Menu_Selector.select_y = 295      [self-ish var 0x1876d on the
+//      shared selector object; 295.0 = 0x4072700000000000].
+//   8. select = 0                            [self var 0x1876a].
+//  10-17. text_night[0..7] = the eight exe strings 0x1405c39d0..0x1405c3a0e:
+//      "night 1".."night 6", "custom  night", "exit".
+//  20. draw_alpha = 0                       [self var 0x18712].
+// Reading: this is the NIGHT-SELECT ("continue") screen -- it swaps the
+// shared backdrop to sprite 1 (starting invisible), parks the shared
+// selector at (94, 295), resets the selection to 0, fills the night-label
+// array, and plays the menu blip.
+// TODO(calibrate): audio priority+loop are runtime const @0x140655530
+// (0x14065xxxx, outside the exe image); loop is certainly false for a
+// "single" UI blip, priority assumed 0.
+customfunct_audio_play_sound_single(22, /*priority*/ 0, /*loop*/ false);
+Obj_Menu_Main_Back.sprite_index = 1;
+Obj_Menu_Main_Back.image_alpha = 0;
+surface = -1;
+Obj_Menu_Selector.x = 94;
+Obj_Menu_Selector.select_y = 295;
+select = 0;
+text_night[0] = "night 1";
+text_night[1] = "night 2";
+text_night[2] = "night 3";
+text_night[3] = "night 4";
+text_night[4] = "night 5";
+text_night[5] = "night 6";
+text_night[6] = "custom  night";
+text_night[7] = "exit";
+draw_alpha = 0;
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Menu_Continue_Create_0(longlong *param_1,undefined8 param_2)
 
