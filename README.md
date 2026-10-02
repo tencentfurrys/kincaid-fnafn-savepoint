@@ -27,8 +27,4 @@ Save-point of two reverse-engineering efforts, 2026-09-30.
   - kincaid-v2025.9-INPUTFIX.apk sha256 4dea80c156f91e09dc40aca13c9364492cb62b24ce40309e83169bb3833481b3
   - fnafn-work/kincaid-261-FNAFN-donor-test.apk (one-off test artifact)
 
-## Legal note
-FNAFN is a fan game built on the Five Nights at Freddy's IP (Scott Cawthon).
-This repository exists for interoperability/reconstruction study of a
-freely-distributed build; do not redistribute assets or derived games
-without the original author's permission.
+.
