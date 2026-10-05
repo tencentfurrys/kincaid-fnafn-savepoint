@@ -1,11 +1,113 @@
-/// @description FNAFN Obj_Menu_Options / Mouse - PARTIALLY PORTED (Mouse_54; Mouse_53 pending)
+/// @description FNAFN Obj_Menu_Options / Mouse - PARTIALLY PORTED (Mouse_54 done; Mouse_53 tab clicks done, settings rows pending)
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
 // 2 sub-event(s): Mouse_53, Mouse_54  (one reference block each; port a sub-event by
 //  editing its ---- header to PORTED and inserting GML above its block)
 
-// ---- sub-event Mouse_53 — NOT YET PORTED ----
+// ---- sub-event Mouse_53 (left click) - PARTIALLY PORTED from C ----
+// ground truth: gml_Object_Obj_Menu_Options_Mouse_53 (65 KB)
+// Clicking one of the five category tabs along the top of the options
+// screen. One block per tab, all the same shape:
+//   hit test = customfunct_ui_button_detection_x(<x1>, <x2>, <y/height>)
+//     where x1 = 94 - w and x2 = 94 + w (const 0x4057800000000000 = 94.0,
+//     helper 0x14000bdb0 subtract / 0x140005290 add) and w is derived from
+//     string_width(text_options[n]) (slot 0x1405c8d80 string_width,
+//     REGISTRY-CONFIRMED) through helper 0x14001f910.
+//     TODO(calibrate): 0x14001f910 is almost certainly a halving/scale op
+//     (w = string_width(...) / 2) but is NOT yet proven; the 3rd argument
+//     is RUNTIME const 0x140655a20, not in the exe .data image.
+//   guard = menu (0x18737) \!= "<tab>" so a click on the active tab is a
+//     no-op; strings at 0x1405c45b0/45b6/45bc/45c8/45d6.
+//   on change: customfunct_audio_play_sound_single with consts
+//     0x1405c45e8 = 48.0 and 0x1405c45f8 = 31.0 (TODO(calibrate): which of
+//     these is the sound and which the priority is still unproven -- the
+//     same ambiguity flagged in Obj_Menu_Continue/Step);
+//     menu = "<tab>"; select (0x1876a) = 1; text_scale (0x1878f)[0..4] =
+//     0.95 on the active tab and 0.7 elsewhere, exactly as in KeyPress_65/68;
+//     static_magnetude (0x18774, read off the global instance) = 1;
+//     and a cross-object write 0x140160b90(0x2e, 0x186e1, ...) putting
+//     arrow_alpha (0x186ee) into Obj_Menu_Options_Preview.buttons_x
+//     (object 0x2e = 46 = Obj_Menu_Options_Preview per obj_names.json).
+//     TODO(calibrate): the exact value/direction of that pair needs the
+//     obj_var_ownership table re-checked for 0x186e1 on object 46.
+// NOT PORTED in this pass: the trailing jump-table dispatch at the end of
+//   the C (indirect jumptable at 0x14007ba01 over 5 cases, comparing menu
+//   against RUNTIME string consts 0x140655a30/a44/a58/a6c/a80). That block
+//   is the per-tab settings-row click handling and needs those runtime
+//   constants resolved first.
+// --- tab 0: "video" ---
+if (customfunct_ui_button_detection_x(94 - string_width(text_options[0]) / 2, 94 + string_width(text_options[0]) / 2, <runtime const>) && menu \!= "video") {
+    customfunct_audio_play_sound_single(48, 31, <click snd>);
+    menu = "video";
+    select = 1;
+    text_scale[0] = 0.95;
+    text_scale[1] = 0.7;
+    text_scale[2] = 0.7;
+    text_scale[3] = 0.7;
+    text_scale[4] = 0.7;
+    static_magnetude = 1;
+    Obj_Menu_Options_Preview.buttons_x = arrow_alpha; // TODO(calibrate): tagged write 0x140160b90(0x2e, 0x186e1, ..)
+}
+
+// --- tab 1: "audio" ---
+if (customfunct_ui_button_detection_x(94 - string_width(text_options[1]) / 2, 94 + string_width(text_options[1]) / 2, <runtime const>) && menu \!= "audio") {
+    customfunct_audio_play_sound_single(48, 31, <click snd>);
+    menu = "audio";
+    select = 1;
+    text_scale[0] = 0.7;
+    text_scale[1] = 0.95;
+    text_scale[2] = 0.7;
+    text_scale[3] = 0.7;
+    text_scale[4] = 0.7;
+    static_magnetude = 1;
+    Obj_Menu_Options_Preview.buttons_x = arrow_alpha; // TODO(calibrate): tagged write 0x140160b90(0x2e, 0x186e1, ..)
+}
+
+// --- tab 2: "preferences" ---
+if (customfunct_ui_button_detection_x(94 - string_width(text_options[2]) / 2, 94 + string_width(text_options[2]) / 2, <runtime const>) && menu \!= "preferences") {
+    customfunct_audio_play_sound_single(48, 31, <click snd>);
+    menu = "preferences";
+    select = 1;
+    text_scale[0] = 0.7;
+    text_scale[1] = 0.7;
+    text_scale[2] = 0.95;
+    text_scale[3] = 0.7;
+    text_scale[4] = 0.7;
+    static_magnetude = 1;
+    Obj_Menu_Options_Preview.buttons_x = arrow_alpha; // TODO(calibrate): tagged write 0x140160b90(0x2e, 0x186e1, ..)
+}
+
+// --- tab 3: "accessibility" ---
+if (customfunct_ui_button_detection_x(94 - string_width(text_options[3]) / 2, 94 + string_width(text_options[3]) / 2, <runtime const>) && menu \!= "accessibility") {
+    customfunct_audio_play_sound_single(48, 31, <click snd>);
+    menu = "accessibility";
+    select = 1;
+    text_scale[0] = 0.7;
+    text_scale[1] = 0.7;
+    text_scale[2] = 0.7;
+    text_scale[3] = 0.95;
+    text_scale[4] = 0.7;
+    static_magnetude = 1;
+    Obj_Menu_Options_Preview.buttons_x = arrow_alpha; // TODO(calibrate): tagged write 0x140160b90(0x2e, 0x186e1, ..)
+}
+
+// --- tab 4: "credits" ---
+if (customfunct_ui_button_detection_x(94 - string_width(text_options[4]) / 2, 94 + string_width(text_options[4]) / 2, <runtime const>) && menu \!= "credits") {
+    customfunct_audio_play_sound_single(48, 31, <click snd>);
+    menu = "credits";
+    select = 1;
+    text_scale[0] = 0.7;
+    text_scale[1] = 0.7;
+    text_scale[2] = 0.7;
+    text_scale[3] = 0.7;
+    text_scale[4] = 0.95;
+    static_magnetude = 1;
+    Obj_Menu_Options_Preview.buttons_x = arrow_alpha; // TODO(calibrate): tagged write 0x140160b90(0x2e, 0x186e1, ..)
+}
+
+// TODO: per-tab settings-row clicks (jump table over the 5 menu values).
+
 // ground truth: gml_Object_Obj_Menu_Options_Mouse_53 (17218 B @0x140077bf0)
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) WARNING: Globals starting with '_' overlap smaller symbols at the same address */
