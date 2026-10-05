@@ -1,4 +1,130 @@
-/// @description FNAFN Obj_Menu_Options / Draw - NOT YET PORTED
+/// @description FNAFN Obj_Menu_Options / Draw - PARTIALLY PORTED from C
+// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
+// machine-level semantics recovered by Ghidra.
+//
+// The options screen render. Overall shape, by uStack_80 line marker:
+//   0x01-0x16: ensure the five surfaces exist. For each of main_surface
+//     (0x18734), video_surface (0x1879a), audio_surface (0x186e4),
+//     pref_surface (0x1875c) and the oddly-named instance var
+//     customfunct_ui_button_detection_x (0x186d1):
+//       if (\!surface_exists(S)) S = surface_create(<w>, room_height)
+//     where <w> comes from room_width through helper 0x14001f910 - the
+//     same helper used in Mouse_53, so the same TODO(calibrate) applies
+//     (assumed room_width / 2).
+//     [0x1405c8a50 surface_exists, 0x1405c8a60 surface_create,
+//      0x1405c7b08 room_width, 0x1405c7b18 room_height - all confirmed]
+//   0x17-0x1a: draw_clear_alpha, draw_set_alpha(draw_alpha),
+//     draw_set_font(game_font[0]), draw_set_color(colour_pink).
+//   0x1c-0x1d: draw_set_alpha(<const>) then draw_rectangle_colour with 9
+//     args - the pink selection bar: x from 8 (0x1405c46a8) to 600
+//     (0x1405c46b8), y from select_y_final (0x1876e) to select_y_final + 48
+//     (helper 0x14000bf90 adds 0x30), the same colour passed four times,
+//     and a trailing runtime const 0x140655aa0 (the outline flag).
+//     [0x1405c8ee0 draw_rectangle_colour - REGISTRY-CONFIRMED]
+//   0x1e-0x22: draw_set_alpha(<const>), draw_set_halign(2),
+//     draw_set_valign(1) [helpers 0x140175540 / 0x140175530], then five
+//     draw_text_transformed calls - one per category tab:
+//       draw_text_transformed(<x>, 108, text_options[n], text_scale[n],
+//                             text_scale[n], <runtime const angle>)
+//     [0x1405c8ef0 draw_text_transformed - REGISTRY-CONFIRMED; y = 108 from
+//      0x1405c46d8; the per-tab x constants are 94 / 320 / 640 / 960 / 1186
+//      (0x1405c46c8, 46e8, 46f8, 4708, 4718).
+//      TODO(calibrate): the x-to-tab pairing above follows the order the
+//      constants appear in; it is NOT individually proven per block.]
+//   0x31-0x5b: the per-tab settings text, each drawn into its own surface:
+//       surface_set_target(video_surface);
+//         draw_text(384, 192|256|320|384|448, text_video[0..4]);
+//       surface_reset_target();
+//     and the same pattern for audio_surface (text_audio[0..1]),
+//     pref_surface (text_pref[0..1]) and the accessibility surface
+//     (text_access[0..4]). x = 384 (0x1405c4728) throughout; the y values
+//     192 / 256 / 320 / 384 / 448 come from 0x1405c4738, 4748, 46e8, 4728,
+//     4758. [0x1405c8da0 draw_text - REGISTRY-CONFIRMED]
+//   0x5c-0x5f: three draw_line calls framing the panel - (118, 1280, 118),
+//     (646, 540, 646) and (740, 646, 1280, 646) read off 0x1405c4768 = 118,
+//     4778 = 1280, 4788 = 646, 4798 = 540, 47a8 = 740. Each call takes 4
+//     args with a leading runtime const 0x140655aa0.
+//     [0x1405c8f00 draw_line - REGISTRY-CONFIRMED]
+//     TODO(calibrate): the exact (x1,y1,x2,y2) assignment per line is not
+//     yet pinned down - the runtime const occupies one of the slots.
+//   0x60-0x61: draw_text(1186, 656, text_options[6]) = the "reset data"
+//     label bottom-right, then draw_set_valign(0).
+//   tail: draw_surface(main_surface, ...) [0x1405c8ab0 draw_surface] and
+//     the halign/valign/font resets, then a dispatch on menu (0x18737)
+//     that selects which of the four per-tab surfaces is composited.
+//     NOT PORTED: that final menu dispatch, for the same reason as the
+//     Mouse_53 jump table - it compares menu against runtime string
+//     constants absent from the exe .data image.
+//
+// Written as the structure below. Angles, alpha constants and the surface
+// width divisor are marked where they are not proven.
+if (\!surface_exists(main_surface)) main_surface = surface_create(room_width / 2, room_height);
+if (\!surface_exists(video_surface)) video_surface = surface_create(room_width / 2, room_height);
+if (\!surface_exists(audio_surface)) audio_surface = surface_create(room_width / 2, room_height);
+if (\!surface_exists(pref_surface)) pref_surface = surface_create(room_width / 2, room_height);
+if (\!surface_exists(customfunct_ui_button_detection_x)) customfunct_ui_button_detection_x = surface_create(room_width / 2, room_height);
+// TODO(calibrate): surface width via helper 0x14001f910, assumed room_width / 2.
+
+draw_clear_alpha(c_black, 0);
+draw_set_alpha(draw_alpha);
+draw_set_font(game_font[0]);
+draw_set_color(colour_pink);
+draw_set_alpha(<alpha const>); // TODO(calibrate): _UNK_14043b460
+draw_rectangle_colour(8, select_y_final, 600, select_y_final + 48,
+                      colour_pink, colour_pink, colour_pink, colour_pink, <outline>);
+draw_set_alpha(<alpha const>); // TODO(calibrate): _UNK_14043b464
+draw_set_halign(2);
+draw_set_valign(1);
+
+draw_text_transformed(94, 108, text_options[0], text_scale[0], text_scale[0], <angle>); // "video"
+draw_text_transformed(320, 108, text_options[1], text_scale[1], text_scale[1], <angle>); // "audio"
+draw_text_transformed(640, 108, text_options[2], text_scale[2], text_scale[2], <angle>); // "preferences"
+draw_text_transformed(960, 108, text_options[3], text_scale[3], text_scale[3], <angle>); // "accessibility"
+draw_text_transformed(1186, 108, text_options[4], text_scale[4], text_scale[4], <angle>); // "credits"
+
+draw_set_halign(0);
+draw_set_valign(2);
+draw_set_font(0);
+
+surface_set_target(video_surface);
+    draw_text(384, 192, text_video[0]);
+    draw_text(384, 256, text_video[1]);
+    draw_text(384, 320, text_video[2]);
+    draw_text(384, 384, text_video[3]);
+    draw_text(384, 448, text_video[4]);
+surface_reset_target();
+
+surface_set_target(audio_surface);
+    draw_text(384, 192, text_audio[0]);
+    draw_text(384, 256, text_audio[1]);
+surface_reset_target();
+
+surface_set_target(pref_surface);
+    draw_text(384, 192, text_pref[0]);
+    draw_text(384, 256, text_pref[1]);
+surface_reset_target();
+
+surface_set_target(customfunct_ui_button_detection_x);
+    draw_text(384, 192, text_access[0]);
+    draw_text(384, 256, text_access[1]);
+    draw_text(384, 320, text_access[2]);
+    draw_text(384, 384, text_access[3]);
+    draw_text(384, 448, text_access[4]);
+surface_reset_target();
+
+// TODO(calibrate): argument order of these three lines.
+draw_line(<c>, 118, 1280, 118);
+draw_line(<c>, 646, 540, 646);
+draw_line(740, 646, 1280, 646);
+
+draw_text(1186, 656, text_options[6]);
+draw_set_valign(0);
+
+draw_surface(main_surface, 0, 0);
+draw_set_font(0);
+// TODO: trailing dispatch on `menu` selecting which per-tab surface is
+// composited - blocked on the runtime string constants.
+
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
