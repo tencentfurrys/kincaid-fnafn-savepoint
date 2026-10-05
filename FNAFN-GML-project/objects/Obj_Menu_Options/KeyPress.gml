@@ -1,4 +1,4 @@
-/// @description FNAFN Obj_Menu_Options / KeyPress - NOT YET PORTED
+/// @description FNAFN Obj_Menu_Options / KeyPress - PARTIALLY PORTED (KeyPress_81; 65/68 pending)
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
@@ -1440,8 +1440,33 @@ code_r0x000140087a36:
 }
 END DECOMPILED REFERENCE */
 
-// ---- sub-event KeyPress_81 — NOT YET PORTED ----
+// ---- sub-event KeyPress_81 (Q) - PORTED from C ----
 // ground truth: gml_Object_Obj_Menu_Options_KeyPress_81 (1237 B @0x140088530)
+// Q = leave the options screen, saving first. Lines (uStack_70 markers):
+//   1: customfunct_game_save()        (0-arg script call)
+//   2: customfunct_options_update()   (0-arg script call)
+//   3: instance_create_layer(-32, 352, "Main_menu", 35)
+//      [consts 0x1405c4848 = -32.0, 0x1405c4858 = 352.0,
+//       0x1405c4838 = "Main_menu", 0x1405c4868 = 35.0 -> object index 35;
+//       slot 0x1405c8d90 instance_create_layer is REGISTRY-CONFIRMED]
+//   4-6: `with (9)` iterator (const 0x4022000000000000 = 9.0) running the
+//      no-arg room service 0x14017c070 per instance.
+//      TODO(calibrate): same 0x140144bd0/1401451f0/1401449f0 with-iterator
+//      trio seen in Create; target 9 is the object spawned at (12, 12) there.
+//   8: instance_create_layer(32, 160, "Main_menu", 63 = Obj_Menu_Main_Title)
+//      [0x1405c4878 = 32.0, 0x1405c4888 = 160.0, 0x1405c4898 = 63.0] -- the
+//      same main-menu return spawn as Obj_Menu_Continue KeyPress_81.
+//   10: room service 0x14017c070(self, other, 0, 0) -> room_goto_next().
+customfunct_game_save();
+customfunct_options_update();
+instance_create_layer(-32, 352, "Main_menu", 35);
+// TODO(calibrate): `with (<object 9>)` iterator calling service 0x14017c070.
+with (9) {
+    room_goto_next();
+}
+instance_create_layer(32, 160, "Main_menu", Obj_Menu_Main_Title);
+room_goto_next(); // TODO(calibrate): helper 0x14017c070, as in Obj_Menu_Continue KeyPress_81
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Menu_Options_KeyPress_81(undefined8 param_1,undefined8 param_2)
 
