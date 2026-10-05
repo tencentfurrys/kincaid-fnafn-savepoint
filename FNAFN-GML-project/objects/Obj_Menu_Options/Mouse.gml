@@ -1,4 +1,4 @@
-/// @description FNAFN Obj_Menu_Options / Mouse - NOT YET PORTED
+/// @description FNAFN Obj_Menu_Options / Mouse - PARTIALLY PORTED (Mouse_54; Mouse_53 pending)
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
@@ -1645,8 +1645,24 @@ code_r0x00014007bb70:
 }
 END DECOMPILED REFERENCE */
 
-// ---- sub-event Mouse_54 — NOT YET PORTED ----
+// ---- sub-event Mouse_54 (right click) - PORTED from C ----
 // ground truth: gml_Object_Obj_Menu_Options_Mouse_54 (1237 B @0x1400773c0)
+// Right-click = leave the options screen, saving first. Byte-for-byte the
+// same body as KeyPress_81 (Q) apart from the const addresses:
+//   0x1405c4550 = -32.0, 0x1405c4560 = 352.0, 0x1405c4540 = "Main_menu",
+//   0x1405c4570 = 35.0, 0x1405c4580 = 32.0, 0x1405c4590 = 160.0,
+//   0x1405c45a0 = 63.0 (Obj_Menu_Main_Title). Same with(9) iterator const
+//   0x4022000000000000 and the same 0x14017c070 room service.
+customfunct_game_save();
+customfunct_options_update();
+instance_create_layer(-32, 352, "Main_menu", 35);
+// TODO(calibrate): `with (<object 9>)` iterator calling service 0x14017c070.
+with (9) {
+    room_goto_next();
+}
+instance_create_layer(32, 160, "Main_menu", Obj_Menu_Main_Title);
+room_goto_next(); // TODO(calibrate): helper 0x14017c070, as in KeyPress_81
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Menu_Options_Mouse_54(undefined8 param_1,undefined8 param_2)
 
