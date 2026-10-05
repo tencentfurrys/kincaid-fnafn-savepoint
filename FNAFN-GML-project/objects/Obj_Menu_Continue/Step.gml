@@ -4,8 +4,8 @@
 //
 // Mouse-hover highlighting for the 8 night-select rows. Each row n:
 //   box = (94, 295+45n) .. (string_width(text_night[n]) + 94, 335+45n),
-//   5th arg 94 as in Mouse_53 (TODO(calibrate): its meaning needs
-//   customfunct_ui_button_detection ported).
+//   5th arg 94 as in Mouse_53 = the optional RIGHT-EDGE PAD, per the
+//   now-ported customfunct_ui_button_detection (x1, y1, x2, y2, [pad]).
 //   On hit: Obj_Menu_Selector (obj 0x23).select_y = 295+45n (exact doubles
 //   0x40727.. 0x40831), Obj_Menu_Main_Back (obj 0x1d).image_index = n
 //   (slot 0x1405c7aa8). Only when select \!= n does it play the hover sound
@@ -15,18 +15,17 @@
 //   fade-in, token-identical to the KeyPress_83/87 tail.
 // Consts via exe_strings.py: 0x1405c3a28=94, a38=295, a48=335, a58=31,
 //   a68=340, a78=380, ... b28=610, b38=650, b48=1.0.
-// TODO(calibrate): audio arg 0x140655540 is a RUNTIME const (not in the exe
-//   .data image), so the hover sound asset id is unknown; args 2 and 3 are
-//   the same const. First arg 31 = priority per the ported
-//   customfunct_audio_play_sound_single signature (snd, priority, loop)
-//   -- TODO(calibrate): arg order here reads (31, snd, snd), so either the
-//   script's param order differs or 31 is the sound. Do not trust blindly.
+// RESOLVED 2026-10-05: the ported customfunct_audio_play_sound_single is
+//   (snd, priority, loop), so the FIRST arg is the sound -- hover sound = 31.
+//   Args 2 and 3 are both runtime const 0x140655540 (absent from the exe
+//   .data image) = the priority and loop values. TODO(calibrate): those two
+//   values only; the sound id itself is now settled.
 
 if (customfunct_ui_button_detection(94, 295, string_width(text_night[0]) + 94, 335, 94) == 1) {
     Obj_Menu_Selector.select_y = 295;
     Obj_Menu_Main_Back.image_index = 0;
     if (select \!= 0) {
-        customfunct_audio_play_sound_single(31, <hover snd>, <hover snd>); // TODO(calibrate): runtime const 0x140655540
+        customfunct_audio_play_sound_single(31, <priority>, <loop>); // TODO(calibrate): args 2/3 are runtime const 0x140655540
         Obj_Menu_Main_Back.image_alpha = 0;
         select = 0;
     }
@@ -35,7 +34,7 @@ if (customfunct_ui_button_detection(94, 340, string_width(text_night[1]) + 94, 3
     Obj_Menu_Selector.select_y = 340;
     Obj_Menu_Main_Back.image_index = 1;
     if (select \!= 1) {
-        customfunct_audio_play_sound_single(31, <hover snd>, <hover snd>); // TODO(calibrate): runtime const 0x140655540
+        customfunct_audio_play_sound_single(31, <priority>, <loop>); // TODO(calibrate): args 2/3 are runtime const 0x140655540
         Obj_Menu_Main_Back.image_alpha = 0;
         select = 1;
     }
@@ -44,7 +43,7 @@ if (customfunct_ui_button_detection(94, 385, string_width(text_night[2]) + 94, 4
     Obj_Menu_Selector.select_y = 385;
     Obj_Menu_Main_Back.image_index = 2;
     if (select \!= 2) {
-        customfunct_audio_play_sound_single(31, <hover snd>, <hover snd>); // TODO(calibrate): runtime const 0x140655540
+        customfunct_audio_play_sound_single(31, <priority>, <loop>); // TODO(calibrate): args 2/3 are runtime const 0x140655540
         Obj_Menu_Main_Back.image_alpha = 0;
         select = 2;
     }
@@ -53,7 +52,7 @@ if (customfunct_ui_button_detection(94, 430, string_width(text_night[3]) + 94, 4
     Obj_Menu_Selector.select_y = 430;
     Obj_Menu_Main_Back.image_index = 3;
     if (select \!= 3) {
-        customfunct_audio_play_sound_single(31, <hover snd>, <hover snd>); // TODO(calibrate): runtime const 0x140655540
+        customfunct_audio_play_sound_single(31, <priority>, <loop>); // TODO(calibrate): args 2/3 are runtime const 0x140655540
         Obj_Menu_Main_Back.image_alpha = 0;
         select = 3;
     }
@@ -62,7 +61,7 @@ if (customfunct_ui_button_detection(94, 475, string_width(text_night[4]) + 94, 5
     Obj_Menu_Selector.select_y = 475;
     Obj_Menu_Main_Back.image_index = 4;
     if (select \!= 4) {
-        customfunct_audio_play_sound_single(31, <hover snd>, <hover snd>); // TODO(calibrate): runtime const 0x140655540
+        customfunct_audio_play_sound_single(31, <priority>, <loop>); // TODO(calibrate): args 2/3 are runtime const 0x140655540
         Obj_Menu_Main_Back.image_alpha = 0;
         select = 4;
     }
@@ -71,7 +70,7 @@ if (customfunct_ui_button_detection(94, 520, string_width(text_night[5]) + 94, 5
     Obj_Menu_Selector.select_y = 520;
     Obj_Menu_Main_Back.image_index = 5;
     if (select \!= 5) {
-        customfunct_audio_play_sound_single(31, <hover snd>, <hover snd>); // TODO(calibrate): runtime const 0x140655540
+        customfunct_audio_play_sound_single(31, <priority>, <loop>); // TODO(calibrate): args 2/3 are runtime const 0x140655540
         Obj_Menu_Main_Back.image_alpha = 0;
         select = 5;
     }
@@ -80,7 +79,7 @@ if (customfunct_ui_button_detection(94, 565, string_width(text_night[6]) + 94, 6
     Obj_Menu_Selector.select_y = 565;
     Obj_Menu_Main_Back.image_index = 6;
     if (select \!= 6) {
-        customfunct_audio_play_sound_single(31, <hover snd>, <hover snd>); // TODO(calibrate): runtime const 0x140655540
+        customfunct_audio_play_sound_single(31, <priority>, <loop>); // TODO(calibrate): args 2/3 are runtime const 0x140655540
         Obj_Menu_Main_Back.image_alpha = 0;
         select = 6;
     }
@@ -89,7 +88,7 @@ if (customfunct_ui_button_detection(94, 610, string_width(text_night[7]) + 94, 6
     Obj_Menu_Selector.select_y = 610;
     Obj_Menu_Main_Back.image_index = 7;
     if (select \!= 7) {
-        customfunct_audio_play_sound_single(31, <hover snd>, <hover snd>); // TODO(calibrate): runtime const 0x140655540
+        customfunct_audio_play_sound_single(31, <priority>, <loop>); // TODO(calibrate): args 2/3 are runtime const 0x140655540
         Obj_Menu_Main_Back.image_alpha = 0;
         select = 7;
     }

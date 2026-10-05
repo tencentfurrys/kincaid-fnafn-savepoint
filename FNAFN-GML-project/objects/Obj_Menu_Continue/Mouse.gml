@@ -16,8 +16,9 @@
 //   32, 160, "Main_menu", 63=Obj_Menu_Main_Title) + room service 0x14017c070.
 // Consts via exe_strings.py: 0x1405c3ba8=94, bb8=565, bc8=605, bd8=610,
 //   be8=650, bf8=32, c08=160, c18=63, b98="Main_menu".
-// TODO(calibrate): arg order/meaning of customfunct_ui_button_detection
-//   (5 args; the 5th = 94 is unexplained until that script is ported).
+// RESOLVED 2026-10-05: customfunct_ui_button_detection is now ported as
+//   (x1, y1, x2, y2, [pad]); the trailing 94 is an optional RIGHT-EDGE PAD
+//   added to x2, so each row spans x = 94 .. string_width + 94 + 94.
 if (draw_alpha > 0.975) {
     if (customfunct_ui_button_detection(94, 565, string_width(text_night[6]) + 94, 605, 94) == 1) {
         // TODO(calibrate): room = runtime const 0x140655550 (custom-night room).

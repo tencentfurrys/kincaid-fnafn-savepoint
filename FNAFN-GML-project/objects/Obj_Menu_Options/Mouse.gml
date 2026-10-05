@@ -15,14 +15,16 @@
 //     string_width(text_options[n]) (slot 0x1405c8d80 string_width,
 //     REGISTRY-CONFIRMED) through helper 0x14001f910.
 //     TODO(calibrate): 0x14001f910 is almost certainly a halving/scale op
-//     (w = string_width(...) / 2) but is NOT yet proven; the 3rd argument
-//     is RUNTIME const 0x140655a20, not in the exe .data image.
+//     (w = string_width(...) / 2) but is NOT yet proven. The 3rd argument
+//     is RUNTIME const 0x140655a20; per the now-ported
+//     customfunct_ui_button_detection_x it is the optional RIGHT-EDGE PAD,
+//     not a y coordinate -- the tab hit test is horizontal only.
 //   guard = menu (0x18737) \!= "<tab>" so a click on the active tab is a
 //     no-op; strings at 0x1405c45b0/45b6/45bc/45c8/45d6.
 //   on change: customfunct_audio_play_sound_single with consts
-//     0x1405c45e8 = 48.0 and 0x1405c45f8 = 31.0 (TODO(calibrate): which of
-//     these is the sound and which the priority is still unproven -- the
-//     same ambiguity flagged in Obj_Menu_Continue/Step);
+//     0x1405c45e8 = 48.0 and 0x1405c45f8 = 31.0. RESOLVED 2026-10-05
+//     against the ported (snd, priority, loop) signature: click sound = 48,
+//     priority = 31, loop = the runtime const third arg;
 //     menu = "<tab>"; select (0x1876a) = 1; text_scale (0x1878f)[0..4] =
 //     0.95 on the active tab and 0.7 elsewhere, exactly as in KeyPress_65/68;
 //     static_magnetude (0x18774, read off the global instance) = 1;
@@ -37,8 +39,8 @@
 //   is the per-tab settings-row click handling and needs those runtime
 //   constants resolved first.
 // --- tab 0: "video" ---
-if (customfunct_ui_button_detection_x(94 - string_width(text_options[0]) / 2, 94 + string_width(text_options[0]) / 2, <runtime const>) && menu \!= "video") {
-    customfunct_audio_play_sound_single(48, 31, <click snd>);
+if (customfunct_ui_button_detection_x(94 - string_width(text_options[0]) / 2, 94 + string_width(text_options[0]) / 2, <pad>) && menu \!= "video") {
+    customfunct_audio_play_sound_single(48, 31, <loop>); // TODO(calibrate): loop arg is a runtime const
     menu = "video";
     select = 1;
     text_scale[0] = 0.95;
@@ -51,8 +53,8 @@ if (customfunct_ui_button_detection_x(94 - string_width(text_options[0]) / 2, 94
 }
 
 // --- tab 1: "audio" ---
-if (customfunct_ui_button_detection_x(94 - string_width(text_options[1]) / 2, 94 + string_width(text_options[1]) / 2, <runtime const>) && menu \!= "audio") {
-    customfunct_audio_play_sound_single(48, 31, <click snd>);
+if (customfunct_ui_button_detection_x(94 - string_width(text_options[1]) / 2, 94 + string_width(text_options[1]) / 2, <pad>) && menu \!= "audio") {
+    customfunct_audio_play_sound_single(48, 31, <loop>); // TODO(calibrate): loop arg is a runtime const
     menu = "audio";
     select = 1;
     text_scale[0] = 0.7;
@@ -65,8 +67,8 @@ if (customfunct_ui_button_detection_x(94 - string_width(text_options[1]) / 2, 94
 }
 
 // --- tab 2: "preferences" ---
-if (customfunct_ui_button_detection_x(94 - string_width(text_options[2]) / 2, 94 + string_width(text_options[2]) / 2, <runtime const>) && menu \!= "preferences") {
-    customfunct_audio_play_sound_single(48, 31, <click snd>);
+if (customfunct_ui_button_detection_x(94 - string_width(text_options[2]) / 2, 94 + string_width(text_options[2]) / 2, <pad>) && menu \!= "preferences") {
+    customfunct_audio_play_sound_single(48, 31, <loop>); // TODO(calibrate): loop arg is a runtime const
     menu = "preferences";
     select = 1;
     text_scale[0] = 0.7;
@@ -79,8 +81,8 @@ if (customfunct_ui_button_detection_x(94 - string_width(text_options[2]) / 2, 94
 }
 
 // --- tab 3: "accessibility" ---
-if (customfunct_ui_button_detection_x(94 - string_width(text_options[3]) / 2, 94 + string_width(text_options[3]) / 2, <runtime const>) && menu \!= "accessibility") {
-    customfunct_audio_play_sound_single(48, 31, <click snd>);
+if (customfunct_ui_button_detection_x(94 - string_width(text_options[3]) / 2, 94 + string_width(text_options[3]) / 2, <pad>) && menu \!= "accessibility") {
+    customfunct_audio_play_sound_single(48, 31, <loop>); // TODO(calibrate): loop arg is a runtime const
     menu = "accessibility";
     select = 1;
     text_scale[0] = 0.7;
@@ -93,8 +95,8 @@ if (customfunct_ui_button_detection_x(94 - string_width(text_options[3]) / 2, 94
 }
 
 // --- tab 4: "credits" ---
-if (customfunct_ui_button_detection_x(94 - string_width(text_options[4]) / 2, 94 + string_width(text_options[4]) / 2, <runtime const>) && menu \!= "credits") {
-    customfunct_audio_play_sound_single(48, 31, <click snd>);
+if (customfunct_ui_button_detection_x(94 - string_width(text_options[4]) / 2, 94 + string_width(text_options[4]) / 2, <pad>) && menu \!= "credits") {
+    customfunct_audio_play_sound_single(48, 31, <loop>); // TODO(calibrate): loop arg is a runtime const
     menu = "credits";
     select = 1;
     text_scale[0] = 0.7;
