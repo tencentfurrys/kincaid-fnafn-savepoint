@@ -1,4 +1,29 @@
-/// @description FNAFN script customfunct_ui_button_detection_x - NOT YET PORTED
+/// @description FNAFN script customfunct_ui_button_detection_x - PORTED from C
+// Signature recovered: (x1, x2, [pad]) - the X-ONLY sibling of
+// customfunct_ui_button_detection. Same decode rules, same shape, but it
+// never touches mouse_y.
+//   Reads 0x1405c7bc8 = mouse_x only (REGISTRY-CONFIRMED). Compare helper
+//   0x14015be60 flag 1 = ordered comparison; 0x140005290 = ADD.
+//   Argument slots are bounds-checked against param_4 (argument_count), so
+//   the 3rd argument is OPTIONAL: when absent the undefined RValue is
+//   zeroed by 0x14003ba60 and contributes 0.
+// Test performed:
+//   mouse_x > argument0 && mouse_x < (argument1 + argument2)
+//   -> returns runtime const _UNK_140439dd0 (1) on a hit, else 0.
+// This confirms the reading of Obj_Menu_Options/Mouse_53: its tab hit tests
+// pass (left edge, right edge, pad) and do NO vertical test at all -- the
+// tab row is matched horizontally only, which is why the 3rd argument there
+// is a runtime const rather than a y coordinate.
+// TODO(calibrate): hit return value is runtime const _UNK_140439dd0; all
+//   call sites compare it against 1, so 1 is used here.
+function customfunct_ui_button_detection_x(argument0, argument1, argument2) {
+    if (argument2 == undefined) argument2 = 0;
+    if (mouse_x > argument0 && mouse_x < (argument1 + argument2)) {
+        return 1;
+    }
+    return 0;
+}
+
 // Decompiled C reference (exact machine-level semantics):
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) Globals starting with '_' overlap smaller symbols at the same address

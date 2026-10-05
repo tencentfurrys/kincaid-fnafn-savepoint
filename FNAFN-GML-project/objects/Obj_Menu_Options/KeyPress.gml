@@ -1,12 +1,63 @@
-/// @description FNAFN Obj_Menu_Options / KeyPress - NOT YET PORTED
+/// @description FNAFN Obj_Menu_Options / KeyPress - PORTED from C (KeyPress_65/68/81)
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
 // 3 sub-event(s): KeyPress_65, KeyPress_68, KeyPress_81  (one reference block each; port a sub-event by
 //  editing its ---- header to PORTED and inserting GML above its block)
 
-// ---- sub-event KeyPress_65 — NOT YET PORTED ----
+// ---- sub-event KeyPress_65 (A) - PORTED from C ----
 // ground truth: gml_Object_Obj_Menu_Options_KeyPress_65 (6797 B @0x140083d00)
+// Line 1/3: compare select vs 0.0 with flag 1 (greater) -> helper
+//   0x14000bdb0(select, 1.0) = subtract: if (select > 0) select -= 1.
+// Category cycling on the options screen. select (0x1876a) indexes the
+// five category tabs; menu (0x18737) is the active tab name and
+// text_scale (0x1878f)[0..4] is the per-tab text scale, 0.95 for the
+// active tab and 0.7 for the rest (doubles 0x3fee666666666666 /
+// 0x3fe6666666666666). Each tab block only fires when menu is not already
+// that string, so the scales are rewritten once per change, not per press.
+// Tab name strings read with exe_strings.py.
+if (select > 0) select -= 1;
+if (select == 0 && menu \!= "video") {
+    menu = "video";
+    text_scale[0] = 0.95;
+    text_scale[1] = 0.7;
+    text_scale[2] = 0.7;
+    text_scale[3] = 0.7;
+    text_scale[4] = 0.7;
+}
+if (select == 1 && menu \!= "audio") {
+    menu = "audio";
+    text_scale[0] = 0.7;
+    text_scale[1] = 0.95;
+    text_scale[2] = 0.7;
+    text_scale[3] = 0.7;
+    text_scale[4] = 0.7;
+}
+if (select == 2 && menu \!= "preferences") {
+    menu = "preferences";
+    text_scale[0] = 0.7;
+    text_scale[1] = 0.7;
+    text_scale[2] = 0.95;
+    text_scale[3] = 0.7;
+    text_scale[4] = 0.7;
+}
+if (select == 3 && menu \!= "accessibility") {
+    menu = "accessibility";
+    text_scale[0] = 0.7;
+    text_scale[1] = 0.7;
+    text_scale[2] = 0.7;
+    text_scale[3] = 0.95;
+    text_scale[4] = 0.7;
+}
+if (select == 4 && menu \!= "credits") {
+    menu = "credits";
+    text_scale[0] = 0.7;
+    text_scale[1] = 0.7;
+    text_scale[2] = 0.7;
+    text_scale[3] = 0.7;
+    text_scale[4] = 0.95;
+}
+
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
@@ -725,8 +776,63 @@ code_r0x000140085606:
 }
 END DECOMPILED REFERENCE */
 
-// ---- sub-event KeyPress_68 — NOT YET PORTED ----
+// ---- sub-event KeyPress_68 (D) - PORTED from C ----
 // ground truth: gml_Object_Obj_Menu_Options_KeyPress_68 (6717 B @0x140086180)
+// Line 1/3: compare select vs 4.0 (0x4010000000000000) with flag 1, taken
+//   when the result is negative -> helper 0x14000bf90(select, 1) = add:
+//   if (select < 4) select += 1.
+// Cascade below is token-identical to KeyPress_65's apart from the string
+//   constant addresses (0x1405c4808.. vs 0x1405c47d8..), which hold the
+//   same five tab names.
+// Category cycling on the options screen. select (0x1876a) indexes the
+// five category tabs; menu (0x18737) is the active tab name and
+// text_scale (0x1878f)[0..4] is the per-tab text scale, 0.95 for the
+// active tab and 0.7 for the rest (doubles 0x3fee666666666666 /
+// 0x3fe6666666666666). Each tab block only fires when menu is not already
+// that string, so the scales are rewritten once per change, not per press.
+// Tab name strings read with exe_strings.py.
+if (select < 4) select += 1;
+if (select == 0 && menu \!= "video") {
+    menu = "video";
+    text_scale[0] = 0.95;
+    text_scale[1] = 0.7;
+    text_scale[2] = 0.7;
+    text_scale[3] = 0.7;
+    text_scale[4] = 0.7;
+}
+if (select == 1 && menu \!= "audio") {
+    menu = "audio";
+    text_scale[0] = 0.7;
+    text_scale[1] = 0.95;
+    text_scale[2] = 0.7;
+    text_scale[3] = 0.7;
+    text_scale[4] = 0.7;
+}
+if (select == 2 && menu \!= "preferences") {
+    menu = "preferences";
+    text_scale[0] = 0.7;
+    text_scale[1] = 0.7;
+    text_scale[2] = 0.95;
+    text_scale[3] = 0.7;
+    text_scale[4] = 0.7;
+}
+if (select == 3 && menu \!= "accessibility") {
+    menu = "accessibility";
+    text_scale[0] = 0.7;
+    text_scale[1] = 0.7;
+    text_scale[2] = 0.7;
+    text_scale[3] = 0.95;
+    text_scale[4] = 0.7;
+}
+if (select == 4 && menu \!= "credits") {
+    menu = "credits";
+    text_scale[0] = 0.7;
+    text_scale[1] = 0.7;
+    text_scale[2] = 0.7;
+    text_scale[3] = 0.7;
+    text_scale[4] = 0.95;
+}
+
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
@@ -1440,8 +1546,33 @@ code_r0x000140087a36:
 }
 END DECOMPILED REFERENCE */
 
-// ---- sub-event KeyPress_81 — NOT YET PORTED ----
+// ---- sub-event KeyPress_81 (Q) - PORTED from C ----
 // ground truth: gml_Object_Obj_Menu_Options_KeyPress_81 (1237 B @0x140088530)
+// Q = leave the options screen, saving first. Lines (uStack_70 markers):
+//   1: customfunct_game_save()        (0-arg script call)
+//   2: customfunct_options_update()   (0-arg script call)
+//   3: instance_create_layer(-32, 352, "Main_menu", 35)
+//      [consts 0x1405c4848 = -32.0, 0x1405c4858 = 352.0,
+//       0x1405c4838 = "Main_menu", 0x1405c4868 = 35.0 -> object index 35;
+//       slot 0x1405c8d90 instance_create_layer is REGISTRY-CONFIRMED]
+//   4-6: `with (9)` iterator (const 0x4022000000000000 = 9.0) running the
+//      no-arg room service 0x14017c070 per instance.
+//      TODO(calibrate): same 0x140144bd0/1401451f0/1401449f0 with-iterator
+//      trio seen in Create; target 9 is the object spawned at (12, 12) there.
+//   8: instance_create_layer(32, 160, "Main_menu", 63 = Obj_Menu_Main_Title)
+//      [0x1405c4878 = 32.0, 0x1405c4888 = 160.0, 0x1405c4898 = 63.0] -- the
+//      same main-menu return spawn as Obj_Menu_Continue KeyPress_81.
+//   10: room service 0x14017c070(self, other, 0, 0) -> room_goto_next().
+customfunct_game_save();
+customfunct_options_update();
+instance_create_layer(-32, 352, "Main_menu", 35);
+// TODO(calibrate): `with (<object 9>)` iterator calling service 0x14017c070.
+with (9) {
+    room_goto_next();
+}
+instance_create_layer(32, 160, "Main_menu", Obj_Menu_Main_Title);
+room_goto_next(); // TODO(calibrate): helper 0x14017c070, as in Obj_Menu_Continue KeyPress_81
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Menu_Options_KeyPress_81(undefined8 param_1,undefined8 param_2)
 

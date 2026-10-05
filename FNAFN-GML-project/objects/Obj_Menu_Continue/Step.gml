@@ -1,4 +1,106 @@
-/// @description FNAFN Obj_Menu_Continue / Step - NOT YET PORTED
+/// @description FNAFN Obj_Menu_Continue / Step - PORTED from C
+// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
+// machine-level semantics recovered by Ghidra. Port verified against it.
+//
+// Mouse-hover highlighting for the 8 night-select rows. Each row n:
+//   box = (94, 295+45n) .. (string_width(text_night[n]) + 94, 335+45n),
+//   5th arg 94 as in Mouse_53 = the optional RIGHT-EDGE PAD, per the
+//   now-ported customfunct_ui_button_detection (x1, y1, x2, y2, [pad]).
+//   On hit: Obj_Menu_Selector (obj 0x23).select_y = 295+45n (exact doubles
+//   0x40727.. 0x40831), Obj_Menu_Main_Back (obj 0x1d).image_index = n
+//   (slot 0x1405c7aa8). Only when select \!= n does it play the hover sound
+//   and reset image_alpha (slot 0x1405c7b98) = 0, then select = n -- i.e.
+//   the thumbnail fade restarts once per row change, not every step.
+// Tail (lines 97..100): selector y + secondary_x lerps and the draw_alpha
+//   fade-in, token-identical to the KeyPress_83/87 tail.
+// Consts via exe_strings.py: 0x1405c3a28=94, a38=295, a48=335, a58=31,
+//   a68=340, a78=380, ... b28=610, b38=650, b48=1.0.
+// RESOLVED 2026-10-05: the ported customfunct_audio_play_sound_single is
+//   (snd, priority, loop), so the FIRST arg is the sound -- hover sound = 31.
+//   Args 2 and 3 are both runtime const 0x140655540 (absent from the exe
+//   .data image) = the priority and loop values. TODO(calibrate): those two
+//   values only; the sound id itself is now settled.
+
+if (customfunct_ui_button_detection(94, 295, string_width(text_night[0]) + 94, 335, 94) == 1) {
+    Obj_Menu_Selector.select_y = 295;
+    Obj_Menu_Main_Back.image_index = 0;
+    if (select \!= 0) {
+        customfunct_audio_play_sound_single(31, <priority>, <loop>); // TODO(calibrate): args 2/3 are runtime const 0x140655540
+        Obj_Menu_Main_Back.image_alpha = 0;
+        select = 0;
+    }
+}
+if (customfunct_ui_button_detection(94, 340, string_width(text_night[1]) + 94, 380, 94) == 1) {
+    Obj_Menu_Selector.select_y = 340;
+    Obj_Menu_Main_Back.image_index = 1;
+    if (select \!= 1) {
+        customfunct_audio_play_sound_single(31, <priority>, <loop>); // TODO(calibrate): args 2/3 are runtime const 0x140655540
+        Obj_Menu_Main_Back.image_alpha = 0;
+        select = 1;
+    }
+}
+if (customfunct_ui_button_detection(94, 385, string_width(text_night[2]) + 94, 425, 94) == 1) {
+    Obj_Menu_Selector.select_y = 385;
+    Obj_Menu_Main_Back.image_index = 2;
+    if (select \!= 2) {
+        customfunct_audio_play_sound_single(31, <priority>, <loop>); // TODO(calibrate): args 2/3 are runtime const 0x140655540
+        Obj_Menu_Main_Back.image_alpha = 0;
+        select = 2;
+    }
+}
+if (customfunct_ui_button_detection(94, 430, string_width(text_night[3]) + 94, 470, 94) == 1) {
+    Obj_Menu_Selector.select_y = 430;
+    Obj_Menu_Main_Back.image_index = 3;
+    if (select \!= 3) {
+        customfunct_audio_play_sound_single(31, <priority>, <loop>); // TODO(calibrate): args 2/3 are runtime const 0x140655540
+        Obj_Menu_Main_Back.image_alpha = 0;
+        select = 3;
+    }
+}
+if (customfunct_ui_button_detection(94, 475, string_width(text_night[4]) + 94, 515, 94) == 1) {
+    Obj_Menu_Selector.select_y = 475;
+    Obj_Menu_Main_Back.image_index = 4;
+    if (select \!= 4) {
+        customfunct_audio_play_sound_single(31, <priority>, <loop>); // TODO(calibrate): args 2/3 are runtime const 0x140655540
+        Obj_Menu_Main_Back.image_alpha = 0;
+        select = 4;
+    }
+}
+if (customfunct_ui_button_detection(94, 520, string_width(text_night[5]) + 94, 560, 94) == 1) {
+    Obj_Menu_Selector.select_y = 520;
+    Obj_Menu_Main_Back.image_index = 5;
+    if (select \!= 5) {
+        customfunct_audio_play_sound_single(31, <priority>, <loop>); // TODO(calibrate): args 2/3 are runtime const 0x140655540
+        Obj_Menu_Main_Back.image_alpha = 0;
+        select = 5;
+    }
+}
+if (customfunct_ui_button_detection(94, 565, string_width(text_night[6]) + 94, 605, 94) == 1) {
+    Obj_Menu_Selector.select_y = 565;
+    Obj_Menu_Main_Back.image_index = 6;
+    if (select \!= 6) {
+        customfunct_audio_play_sound_single(31, <priority>, <loop>); // TODO(calibrate): args 2/3 are runtime const 0x140655540
+        Obj_Menu_Main_Back.image_alpha = 0;
+        select = 6;
+    }
+}
+if (customfunct_ui_button_detection(94, 610, string_width(text_night[7]) + 94, 650, 94) == 1) {
+    Obj_Menu_Selector.select_y = 610;
+    Obj_Menu_Main_Back.image_index = 7;
+    if (select \!= 7) {
+        customfunct_audio_play_sound_single(31, <priority>, <loop>); // TODO(calibrate): args 2/3 are runtime const 0x140655540
+        Obj_Menu_Main_Back.image_alpha = 0;
+        select = 7;
+    }
+}
+
+// ---- tail ----
+with (Obj_Menu_Selector) {
+    y = lerp(y, select_y, 0.2 * delta_factor);
+    secondary_x = lerp(secondary_x, string_width(other.text_night[other.select]) + 94, 0.2 * delta_factor);
+}
+draw_alpha = lerp(draw_alpha, 1, 0.05 * delta_factor);
+
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).

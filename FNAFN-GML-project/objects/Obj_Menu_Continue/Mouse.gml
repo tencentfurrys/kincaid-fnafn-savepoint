@@ -1,11 +1,35 @@
-/// @description FNAFN Obj_Menu_Continue / Mouse - NOT YET PORTED
+/// @description FNAFN Obj_Menu_Continue / Mouse - PARTIALLY PORTED (Mouse_53; Mouse_54 already PORTED from C)
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
 // 2 sub-event(s): Mouse_53, Mouse_54  (one reference block each; port a sub-event by
 //  editing its ---- header to PORTED and inserting GML above its block)
 
-// ---- sub-event Mouse_53 — NOT YET PORTED ----
+// ---- sub-event Mouse_53 (left click) - PARTIALLY PORTED from C ----
+// Line 1: if (draw_alpha > 0.975).
+// Line 3: text_night[6] ("custom  night", bounds-checked array read) ->
+//   gml_Script_customfunct_ui_button_detection(94, 565,
+//   string_width(text_night[6]) + 94, 605, 94) == 1 -> 1-arg room_goto
+//   (slot 0x1405c8cb0) with RUNTIME const 0x140655550 (unmapped; note it is
+//   NOT the same const as KeyPress_69's 0x140655570).
+// Line 7: text_night[7] ("exit") box 94,610 .. sw+94,650 -> instance_create_layer(
+//   32, 160, "Main_menu", 63=Obj_Menu_Main_Title) + room service 0x14017c070.
+// Consts via exe_strings.py: 0x1405c3ba8=94, bb8=565, bc8=605, bd8=610,
+//   be8=650, bf8=32, c08=160, c18=63, b98="Main_menu".
+// RESOLVED 2026-10-05: customfunct_ui_button_detection is now ported as
+//   (x1, y1, x2, y2, [pad]); the trailing 94 is an optional RIGHT-EDGE PAD
+//   added to x2, so each row spans x = 94 .. string_width + 94 + 94.
+if (draw_alpha > 0.975) {
+    if (customfunct_ui_button_detection(94, 565, string_width(text_night[6]) + 94, 605, 94) == 1) {
+        // TODO(calibrate): room = runtime const 0x140655550 (custom-night room).
+        // room_goto(<custom night room>);
+    }
+    if (customfunct_ui_button_detection(94, 610, string_width(text_night[7]) + 94, 650, 94) == 1) {
+        instance_create_layer(32, 160, "Main_menu", Obj_Menu_Main_Title);
+        room_goto_next(); // TODO(calibrate): helper 0x14017c070, as in KeyPress_81
+    }
+}
+
 // ground truth: gml_Object_Obj_Menu_Continue_Mouse_53 (2266 B @0x140050c90)
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Menu_Continue_Mouse_53(longlong *param_1,undefined8 param_2)

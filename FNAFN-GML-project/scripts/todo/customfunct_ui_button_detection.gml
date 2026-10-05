@@ -1,4 +1,40 @@
-/// @description FNAFN script customfunct_ui_button_detection - NOT YET PORTED
+/// @description FNAFN script customfunct_ui_button_detection - PORTED from C
+// Signature recovered: (x1, y1, x2, y2, [pad])
+// Decoded from the C:
+//   param_5[0..4] are the GML arguments; param_4 is argument_count, and each
+//   access is bounds-checked against it (missing args fall back to the
+//   undefined RValue &DAT_1405c3000), so the 5th argument is OPTIONAL.
+//   Reads: 0x1405c7bc8 = mouse_x, 0x1405c7bd8 = mouse_y (both
+//   REGISTRY-CONFIRMED). Compare helper 0x14015be60 with flag 1 is the
+//   ordered comparison; 0x140005290 is ADD (per PORTING.md).
+// Test performed, in order:
+//   mouse_x > argument0
+//   && mouse_x < (argument2 + argument4)   <- the optional 5th arg is added
+//                                             to the RIGHT edge; when absent
+//                                             the slot is the undefined
+//                                             RValue and 0x14003ba60 zeroes
+//                                             it, so it contributes 0.
+//   && mouse_y > argument1
+//   && mouse_y < argument3
+//   -> returns runtime const _UNK_140439dd0 (the true RValue, 1) on a hit
+//      and 0 otherwise (the uStack_e0 = 0xb fallthrough path).
+// THIS RESOLVES the open question from Obj_Menu_Continue/Step and
+// Obj_Menu_Options/Mouse_53: the trailing 94 in calls like
+//   customfunct_ui_button_detection(94, 295, string_width(...) + 94, 335, 94)
+// is a right-edge PAD, not a separate coordinate. Those call sites read as
+// "x from 94 to string_width + 94 + 94".
+// TODO(calibrate): the exact return RValue for the hit case is a runtime
+//   const (_UNK_140439dd0); every call site compares it against 1, so 1 is
+//   used here.
+function customfunct_ui_button_detection(argument0, argument1, argument2, argument3, argument4) {
+    if (argument4 == undefined) argument4 = 0;
+    if (mouse_x > argument0 && mouse_x < (argument2 + argument4)
+     && mouse_y > argument1 && mouse_y < argument3) {
+        return 1;
+    }
+    return 0;
+}
+
 // Decompiled C reference (exact machine-level semantics):
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) Globals starting with '_' overlap smaller symbols at the same address

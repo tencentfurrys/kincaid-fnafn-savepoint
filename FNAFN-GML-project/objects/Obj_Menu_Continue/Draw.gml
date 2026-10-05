@@ -1,4 +1,51 @@
-/// @description FNAFN Obj_Menu_Continue / Draw - NOT YET PORTED
+/// @description FNAFN Obj_Menu_Continue / Draw - PORTED from C
+// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
+// machine-level semantics recovered by Ghidra. Port verified against it.
+//
+// Night-select screen render, drawn into the object's own surface.
+// Lines (uStack_80 markers) in order:
+//   1/3: if (\!surface_exists(surface)) surface = surface_create(room_width,
+//        room_height)   [slots 0x1405c8a50 surface_exists, 0x1405c8a60
+//        surface_create, 0x1405c7b08 room_width, 0x1405c7b18 room_height,
+//        var 0x1877a surface - all REGISTRY-CONFIRMED]
+//   6:   surface_set_target(surface)            TODO(calibrate): helper 0x1401756b0
+//   7:   draw_clear_alpha(c_black, 0)           TODO(calibrate): helper 0x140175550(self, 0x2a, 0, 0, 0)
+//   8:   draw_set_font(game_font[1])            TODO(calibrate): helper 0x140175520
+//        (game_font = var 0x18725, read off the global instance 0x14065e080)
+//   9:   draw_set_alpha(draw_alpha)             TODO(calibrate): helper 0x14018d0b0
+//   10:  draw_text(32, 185, "continue")         [0x1405c8da0 draw_text, consts
+//        0x1405c3c38=32, c48=185, c28="continue"]
+//   0xb: draw_set_font(game_font[0])
+//   0xc: draw_set_color(make_color_rgb(255, 0, 110))  TODO(calibrate):
+//        helpers 0x1401756a0(0xff, 0, 0x6e) + 0x14018d100
+//   0xe..0x15: the 8 night rows, draw_text(94, 295+45n, text_night[n])
+//        [consts 0x1405c3c58=94, c68=295, c78=340, c88=385, c98=430,
+//         ca8=475, cb8=520, cc8=565, cd8=610]
+//   0x16: surface_reset_target()                TODO(calibrate): helper 0x140183c00 (no args)
+//   0x18: draw_surface(surface, 0, 0)           [0x1405c8ab0 draw_surface;
+//        args 2 and 3 are RUNTIME const 0x140655560, not in the exe .data
+//        image - almost certainly 0, but TODO(calibrate).]
+if (\!surface_exists(surface)) {
+    surface = surface_create(room_width, room_height);
+}
+surface_set_target(surface);
+draw_clear_alpha(c_black, 0);
+draw_set_font(game_font[1]);
+draw_set_alpha(draw_alpha);
+draw_text(32, 185, "continue");
+draw_set_font(game_font[0]);
+draw_set_color(make_color_rgb(255, 0, 110));
+draw_text(94, 295, text_night[0]);
+draw_text(94, 340, text_night[1]);
+draw_text(94, 385, text_night[2]);
+draw_text(94, 430, text_night[3]);
+draw_text(94, 475, text_night[4]);
+draw_text(94, 520, text_night[5]);
+draw_text(94, 565, text_night[6]);
+draw_text(94, 610, text_night[7]);
+surface_reset_target();
+draw_surface(surface, 0, 0);
+
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).

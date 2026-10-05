@@ -1,4 +1,31 @@
-/// @description FNAFN script customfunct_game_music_clear - NOT YET PORTED
+/// @description FNAFN script customfunct_game_music_clear - PORTED from C
+// Signature: no arguments. Side-effect only (the C pre-sets the return
+// RValue to 0 and returns it unchanged).
+// Decoded from the C:
+//   custom_music (var 0x186fc) is read off the GLOBAL instance
+//   (plRam14065e080), not self - it is a global array of music entries.
+//   The loop is a plain counted for over array_length(custom_music)
+//   [slot 0x1405c8ba0 array_length - REGISTRY-CONFIRMED]. The sprawling
+//   switch on (uStack_74 & 0xffffff) is Ghidra showing the RValue type tag
+//   dispatch for `i += 1` across int/double/long representations - it is
+//   NOT game logic, every arm is the same increment.
+//   Body of the loop: a 1-arg call on slot 0x1405c8bb0 applied to
+//   custom_music[i].
+//   TODO(calibrate): 0x1405c8bb0 is NOT in EXE-REGISTRY.md. Given the
+//   script name and that the argument is a music/audio entry, the obvious
+//   candidates are audio_stop_sound or audio_destroy_stream; the latter
+//   fits "clear" and pairs with customfunct_game_create_music_stream.
+//   Do not trust the name below until that slot is resolved.
+//   Tail: a 1-arg call 0x140181c60 on exe const 0x1405c3548 - resetting
+//   the custom_music global itself.
+//   TODO(calibrate): 0x140181c60 and the 0x1405c3548 operand.
+function customfunct_game_music_clear() {
+    for (var i = 0; i < array_length(custom_music); i += 1) {
+        audio_destroy_stream(custom_music[i]); // TODO(calibrate): slot 0x1405c8bb0
+    }
+    // TODO(calibrate): trailing reset of custom_music via helper 0x140181c60.
+}
+
 // Decompiled C reference (exact machine-level semantics):
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) Globals starting with '_' overlap smaller symbols at the same address
