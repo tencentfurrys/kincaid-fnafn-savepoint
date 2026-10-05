@@ -1,20 +1,92 @@
-# Session progress (updated 2026-10-05)
+# Session progress (updated 2026-10-05, after run #2)
 
 Snapshot for machine handoff - read this first on a new RDP box.
 
-## Numbers (recounted 2026-10-05 on branch ray/menu-continue-ports)
+## Numbers (recounted 2026-10-05 after run #2, branch ray/menu-continue-ports)
 - 350 .gml files in FNAFN-GML-project.
-- **150 files carry the "PORTED from C" marker** (plus 7 canonical scripts in
+- **155 files carry the "PORTED from C" marker** (150 after run #1) (plus 7 canonical scripts in
   scripts/ported/ that were always real GML) -> ~45% of files.
-- **192 files still carry "NOT YET PORTED"**; a few carry both because only
+- **187 files still carry "NOT YET PORTED"** (192 after run #1); a few carry both because only
   some sub-events in them are done.
-- By function count this is roughly **161 / 414 (~39%)**, up from ~150 (~36%)
+- By function count this is roughly **166 / 414 (~40%)**, up from ~150 (~36%)
   at the 2026-10-02 save point.
 - Recount with:
   `grep -rl "PORTED from C" --include=*.gml FNAFN-GML-project | wc -l`
   `grep -rl "NOT YET PORTED" --include=*.gml FNAFN-GML-project | wc -l`
 
-## Session 2026-10-05 (assistant batch run, branch ray/menu-continue-ports)
+## Session 2026-10-05, run #2 (assistant batch run, branch ray/menu-continue-ports)
+
+Recount after run #2: **155 files PORTED, 187 NOT YET PORTED**, roughly
+**166 / 414 functions (~40%)**.
+
+### Scripts ported
+- **customfunct_ui_button_detection** = `(x1, y1, x2, y2, [pad])`:
+  `mouse_x > x1 && mouse_x < x2 + pad && mouse_y > y1 && mouse_y < y2`.
+  Argument slots are bounds-checked against argument_count, so the 5th is
+  optional and the undefined RValue is zeroed. **The trailing 94 at every
+  menu call site is a RIGHT-EDGE PAD, not a coordinate** - rows span
+  x = 94 .. string_width + 94 + 94.
+- **customfunct_ui_button_detection_x** = `(x1, x2, [pad])`: the same test
+  with NO vertical component. Confirms the options tab row is matched
+  horizontally only, which is why its 3rd arg is a runtime const.
+- **customfunct_game_music_clear**: no-arg loop over the global
+  custom_music array calling audio_destroy_stream(custom_music[i]), then a
+  reset keyed to the exe string "music cleared". The big switch in the C is
+  Ghidra's RValue type-tag dispatch for `i += 1`, NOT game logic - expect
+  this shape in other loops.
+- **customfunct_options_update** (partial): audio_master_gain(clamp(
+  game_settings[9], <min>, 100) / 100) and surface_resize(<target>, 1280,
+  720). The game_settings[0] branch over "full" / "disabled" / "low" writes
+  runtime globals 0x1406550a0 / 0x1406550b4 inside helpers 0x1403f6320 /
+  0x1403f62c0 - left unported rather than guessed.
+
+### Objects
+- **Obj_Menu_Options/Draw** (49 KB, structure ported): five surfaces
+  ensured via surface_exists/surface_create; draw_clear_alpha;
+  draw_set_alpha(draw_alpha); draw_set_font(game_font[0]);
+  draw_set_color(colour_pink); the pink selection bar
+  draw_rectangle_colour(8, select_y_final, 600, select_y_final + 48,
+  colour x4, outline); five tab labels via draw_text_transformed(x, 108,
+  text_options[n], text_scale[n], text_scale[n], angle) with
+  x = 94/320/640/960/1186; per-tab settings text drawn into each surface at
+  x = 384, y = 192/256/320/384/448; three draw_line rules;
+  draw_text(1186, 656, text_options[6]); draw_surface(main_surface).
+  NOT ported: the trailing dispatch on `menu` selecting which per-tab
+  surface is composited.
+
+### Resolved from run #1
+- The ui_button_detection 5th-arg question (now: pad).
+- The ui_button_detection_x 3rd-arg question (now: pad, horizontal only).
+- The **audio arg-order contradiction**: against the already-correct
+  (snd, priority, loop) signature, the FIRST arg is the sound. Hover sound
+  = 31; options click sound = 48 with priority 31. Only the runtime-const
+  priority/loop values remain unknown.
+
+### The one structural blocker
+A family of arguments lives at 0x14065xxxx, OUTSIDE the exe .data image
+(exe_strings.py: "not mapped") - they are patched in at load time. This now
+blocks four separate things:
+1. the custom-night room (0x140655570 via E, 0x140655550 via click);
+2. assorted sound/priority/loop values (0x140655540, 0x140655a10);
+3. draw args: surface x/y 0x140655560, angles/alpha 0x140655aa0;
+4. **the five menu-name strings 0x140655a30/a44/a58/a6c/a80** that both the
+   Mouse_53 settings jump table AND the Draw menu dispatch compare against.
+Items 1-3 are cosmetic gaps. Item 4 is the real wall: the two biggest
+remaining pieces of the options screen cannot be finished from the exe
+alone. **A memory dump or a live trace of the running game is needed.**
+
+### Next moves
+1. Dump 0x140655000-0x140656000 from a running FNAFN process. That single
+   artifact unblocks the Mouse_53 jump table, the Draw dispatch, and every
+   cosmetic const above.
+2. Port the remaining customfunct_game_* scripts (save, load, save_music,
+   load_music, create_music_stream) - the largest untouched script group.
+3. Find where gpu_set_tex_filter (0x1405c8a30) and display_set_gui_size
+   (0x1405c8a40) are called; options_update does NOT call them.
+4. Then leave the menus for the gameplay Step/Alarm events, the bulk of the
+   remaining 187 files.
+
+## Session 2026-10-05, run #1 (assistant batch run, branch ray/menu-continue-ports)
 **Obj_Menu_Continue is now COMPLETE** (all five event files):
 - `KeyPress_83` (S) / `KeyPress_87` (W): `select` +/- with bounds, then the
   8-row cascade - Obj_Menu_Selector.select_y = 295 + 45*select,
