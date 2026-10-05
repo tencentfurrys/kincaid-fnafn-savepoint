@@ -1,4 +1,41 @@
-/// @description FNAFN script customfunct_options_update - NOT YET PORTED
+/// @description FNAFN script customfunct_options_update - PARTIALLY PORTED from C
+// Signature: no arguments. Side-effect only (return RValue pre-set to 0).
+// Applies the saved settings to the running game. Reads game_settings
+// (var 0x18727, a global array read off plRam14065e080) and
+// oldtvfilter_enabled (var 0x18750).
+// Decoded, in order:
+//   1. audio_master_gain(clamp(game_settings[9], <runtime const 0x140655090>,
+//      100) / <const>)
+//      [0x1405c8a00 clamp and 0x1405c8a10 audio_master_gain are both
+//      REGISTRY-CONFIRMED; 0x1405c3188 = 100.0; the lower clamp bound is a
+//      runtime const. The division is helper 0x14001f910 again - the same
+//      unproven scale helper, here almost certainly /100 to turn the 0..100
+//      slider into a 0..1 gain.]
+//      TODO(calibrate): lower clamp bound and the 0x14001f910 divisor.
+//   2. a branch comparing game_settings[0] against the exe strings
+//      "full" (0x1405c3170), "disabled" (0x1405c3175) and "low"
+//      (0x1405c317e), writing results through runtime slots
+//      0x1406550a0 / 0x1406550b4 and calling 0x1403f6320 / 0x1403f62c0
+//      around them (a paired begin/end, most likely the fullscreen or
+//      display-mode apply).
+//      TODO(calibrate): this whole branch writes to RUNTIME globals, so
+//      which setting it drives is not provable from the exe alone. Left
+//      unported rather than guessed.
+//   3. surface_resize(<target>, 1280, 720)
+//      [0x1405c8a20 surface_resize REGISTRY-CONFIRMED; 0x1405c3198 = 1280.0,
+//      0x1405c31a8 = 720.0]
+// Note the sibling slots in the same registry block that this script does
+// NOT call - gpu_set_tex_filter (0x1405c8a30) and display_set_gui_size
+// (0x1405c8a40) - they belong to the edge-filtering and GUI options and
+// should show up in whichever routine applies those.
+function customfunct_options_update() {
+    audio_master_gain(clamp(game_settings[9], <min>, 100) / 100); // TODO(calibrate)
+    // TODO(calibrate): game_settings[0] branch over "full" / "disabled" /
+    // "low" writing runtime globals 0x1406550a0 / 0x1406550b4, wrapped in
+    // helpers 0x1403f6320 and 0x1403f62c0.
+    surface_resize(<surface>, 1280, 720); // TODO(calibrate): target surface
+}
+
 // Decompiled C reference (exact machine-level semantics):
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) Globals starting with '_' overlap smaller symbols at the same address
