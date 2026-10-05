@@ -1,12 +1,63 @@
-/// @description FNAFN Obj_Menu_Options / KeyPress - PARTIALLY PORTED (KeyPress_81; 65/68 pending)
+/// @description FNAFN Obj_Menu_Options / KeyPress - PORTED from C (KeyPress_65/68/81)
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
 // 3 sub-event(s): KeyPress_65, KeyPress_68, KeyPress_81  (one reference block each; port a sub-event by
 //  editing its ---- header to PORTED and inserting GML above its block)
 
-// ---- sub-event KeyPress_65 — NOT YET PORTED ----
+// ---- sub-event KeyPress_65 (A) - PORTED from C ----
 // ground truth: gml_Object_Obj_Menu_Options_KeyPress_65 (6797 B @0x140083d00)
+// Line 1/3: compare select vs 0.0 with flag 1 (greater) -> helper
+//   0x14000bdb0(select, 1.0) = subtract: if (select > 0) select -= 1.
+// Category cycling on the options screen. select (0x1876a) indexes the
+// five category tabs; menu (0x18737) is the active tab name and
+// text_scale (0x1878f)[0..4] is the per-tab text scale, 0.95 for the
+// active tab and 0.7 for the rest (doubles 0x3fee666666666666 /
+// 0x3fe6666666666666). Each tab block only fires when menu is not already
+// that string, so the scales are rewritten once per change, not per press.
+// Tab name strings read with exe_strings.py.
+if (select > 0) select -= 1;
+if (select == 0 && menu \!= "video") {
+    menu = "video";
+    text_scale[0] = 0.95;
+    text_scale[1] = 0.7;
+    text_scale[2] = 0.7;
+    text_scale[3] = 0.7;
+    text_scale[4] = 0.7;
+}
+if (select == 1 && menu \!= "audio") {
+    menu = "audio";
+    text_scale[0] = 0.7;
+    text_scale[1] = 0.95;
+    text_scale[2] = 0.7;
+    text_scale[3] = 0.7;
+    text_scale[4] = 0.7;
+}
+if (select == 2 && menu \!= "preferences") {
+    menu = "preferences";
+    text_scale[0] = 0.7;
+    text_scale[1] = 0.7;
+    text_scale[2] = 0.95;
+    text_scale[3] = 0.7;
+    text_scale[4] = 0.7;
+}
+if (select == 3 && menu \!= "accessibility") {
+    menu = "accessibility";
+    text_scale[0] = 0.7;
+    text_scale[1] = 0.7;
+    text_scale[2] = 0.7;
+    text_scale[3] = 0.95;
+    text_scale[4] = 0.7;
+}
+if (select == 4 && menu \!= "credits") {
+    menu = "credits";
+    text_scale[0] = 0.7;
+    text_scale[1] = 0.7;
+    text_scale[2] = 0.7;
+    text_scale[3] = 0.7;
+    text_scale[4] = 0.95;
+}
+
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
@@ -725,8 +776,63 @@ code_r0x000140085606:
 }
 END DECOMPILED REFERENCE */
 
-// ---- sub-event KeyPress_68 — NOT YET PORTED ----
+// ---- sub-event KeyPress_68 (D) - PORTED from C ----
 // ground truth: gml_Object_Obj_Menu_Options_KeyPress_68 (6717 B @0x140086180)
+// Line 1/3: compare select vs 4.0 (0x4010000000000000) with flag 1, taken
+//   when the result is negative -> helper 0x14000bf90(select, 1) = add:
+//   if (select < 4) select += 1.
+// Cascade below is token-identical to KeyPress_65's apart from the string
+//   constant addresses (0x1405c4808.. vs 0x1405c47d8..), which hold the
+//   same five tab names.
+// Category cycling on the options screen. select (0x1876a) indexes the
+// five category tabs; menu (0x18737) is the active tab name and
+// text_scale (0x1878f)[0..4] is the per-tab text scale, 0.95 for the
+// active tab and 0.7 for the rest (doubles 0x3fee666666666666 /
+// 0x3fe6666666666666). Each tab block only fires when menu is not already
+// that string, so the scales are rewritten once per change, not per press.
+// Tab name strings read with exe_strings.py.
+if (select < 4) select += 1;
+if (select == 0 && menu \!= "video") {
+    menu = "video";
+    text_scale[0] = 0.95;
+    text_scale[1] = 0.7;
+    text_scale[2] = 0.7;
+    text_scale[3] = 0.7;
+    text_scale[4] = 0.7;
+}
+if (select == 1 && menu \!= "audio") {
+    menu = "audio";
+    text_scale[0] = 0.7;
+    text_scale[1] = 0.95;
+    text_scale[2] = 0.7;
+    text_scale[3] = 0.7;
+    text_scale[4] = 0.7;
+}
+if (select == 2 && menu \!= "preferences") {
+    menu = "preferences";
+    text_scale[0] = 0.7;
+    text_scale[1] = 0.7;
+    text_scale[2] = 0.95;
+    text_scale[3] = 0.7;
+    text_scale[4] = 0.7;
+}
+if (select == 3 && menu \!= "accessibility") {
+    menu = "accessibility";
+    text_scale[0] = 0.7;
+    text_scale[1] = 0.7;
+    text_scale[2] = 0.7;
+    text_scale[3] = 0.95;
+    text_scale[4] = 0.7;
+}
+if (select == 4 && menu \!= "credits") {
+    menu = "credits";
+    text_scale[0] = 0.7;
+    text_scale[1] = 0.7;
+    text_scale[2] = 0.7;
+    text_scale[3] = 0.7;
+    text_scale[4] = 0.95;
+}
+
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
