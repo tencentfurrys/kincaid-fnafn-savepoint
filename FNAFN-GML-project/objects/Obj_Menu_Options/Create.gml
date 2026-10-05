@@ -1,4 +1,110 @@
-/// @description FNAFN Obj_Menu_Options / Create - NOT YET PORTED
+/// @description FNAFN Obj_Menu_Options / Create - PORTED from C
+// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
+// machine-level semantics recovered by Ghidra. Port verified against it.
+//
+// Options-screen setup. Decoded line by line (uStack_58 markers):
+//   1:    customfunct_audio_play_sound_single(22, <snd>, <snd>)
+//         [const 0x1405c4490 = 22.0; args 2/3 are RUNTIME const 0x140655a10,
+//         not in the exe .data image -> TODO(calibrate) sound asset id]
+//   2-9:  if (room == 1) { Obj_Menu_Main_Back.sprite_index = 92 (0x40570...);
+//         Obj_Menu_Main_Back.image_alpha = 0; with (<instance set, const 35.0>)
+//         room_goto_next-style service 0x14017c070 per iteration }
+//         [room = slot 0x1405c7b38, REGISTRY-CONFIRMED; 0x1d = Obj_Menu_Main_Back;
+//         sprite_index = slot 0x1405c7be8, image_alpha = 0x1405c7b98.
+//         TODO(calibrate): the 0x140144bd0/1401451f0/1401449f0 trio is a
+//         `with (...)` iterator; the loop target const 0x4041800000000000 = 35.0
+//         is an object/instance id that obj_names.json does not resolve.]
+//   0xb-0xd: if (room == 4) object_set_visible(48, <runtime const>)
+//         [0x1405c8ed0 object_set_visible REGISTRY-CONFIRMED; const
+//         0x1405c44a0 = 48.0; 2nd arg runtime const -> TODO(calibrate)]
+//   0xf:  alarm-style service 0x14017bda0(self, other, 0x32) -> alarm[?] = 50
+//         TODO(calibrate): helper not yet proven.
+//   0x11: instance_create_layer(12, 12, "Main_menu", 9)
+//         [consts 0x1405c44b0 = 12.0 twice, 0x1405c4360 = "Main_menu",
+//         0x1405c44c0 = 9.0 -> object index 9]
+//   0x12: instance_create_layer(1240, 540, "Main_menu", 46)
+//         [0x1405c44d0 = 1240.0, 0x1405c44e0 = 540.0, 0x1405c44f0 = 46.0]
+//   0x14-0x1c: surface handles seeded to -1 (0xbff0000000000000):
+//         main_surface (0x18734), video_surface (0x1879a),
+//         audio_surface (0x186e4), pref_surface (0x1875c),
+//         customfunct_ui_button_detection_x (0x186d1); select (0x1876a) = 1;
+//         select_y (0x1876d) = select_y_final (0x1876e) = 192 (0x40680...);
+//         colour_pink (0x186f5) = make_color_rgb(255, 0, 110)
+//         [same 0x1401756a0(0xff,0,0x6e) helper as Obj_Menu_Continue/Draw];
+//         draw_alpha (0x18712) = 0.
+//   0x1d-0x21: text_scale (0x1878f)[0..4] = 0.95, 0.7, 0.7, 0.7, 0.7
+//   0x23-0x27+: text_options (0x1878d)[0..6] = video, audio, preferences,
+//         accessibility, credits, exit, reset data
+//   0x30-0x34: text_video (0x18790)[0..4] = VHS filter:, fullscreen:,
+//         vsync:, edge filtering:, FXAA:
+//   0x36-0x37: text_audio (0x18788)[0..1] = quieter ambience:, master volume:
+//   0x39-0x3a: text_pref (0x1878e)[0..1] = gamemode type:, futa mode:
+//   0x3c-0x40: text_access (0x18786)[0..4] = subtitles:, subt. language:,
+//         subtitle font:, navigation type:, nav. threshold:
+// All strings read with exe_strings.py from 0x1405c4360..0x1405c4480.
+customfunct_audio_play_sound_single(22, <open snd>, <open snd>); // TODO(calibrate): runtime const 0x140655a10
+
+if (room == 1) {
+    Obj_Menu_Main_Back.sprite_index = 92;
+    Obj_Menu_Main_Back.image_alpha = 0;
+    // TODO(calibrate): `with (<id 35>)` iterator calling service 0x14017c070.
+    with (35) {
+        room_goto_next();
+    }
+}
+
+if (room == 4) {
+    object_set_visible(48, <runtime const>); // TODO(calibrate): 2nd arg 0x140655a10-class runtime const
+}
+
+alarm[0] = 50; // TODO(calibrate): helper 0x14017bda0(self, other, 0x32); alarm index unproven
+
+instance_create_layer(12, 12, "Main_menu", 9);
+instance_create_layer(1240, 540, "Main_menu", 46);
+
+main_surface = -1;
+video_surface = -1;
+audio_surface = -1;
+pref_surface = -1;
+customfunct_ui_button_detection_x = -1;
+select = 1;
+select_y = 192;
+select_y_final = 192;
+colour_pink = make_color_rgb(255, 0, 110);
+draw_alpha = 0;
+
+text_scale[0] = 0.95;
+text_scale[1] = 0.7;
+text_scale[2] = 0.7;
+text_scale[3] = 0.7;
+text_scale[4] = 0.7;
+
+text_options[0] = "video";
+text_options[1] = "audio";
+text_options[2] = "preferences";
+text_options[3] = "accessibility";
+text_options[4] = "credits";
+text_options[5] = "exit";
+text_options[6] = "reset data";
+
+text_video[0] = "VHS filter:";
+text_video[1] = "fullscreen:";
+text_video[2] = "vsync:";
+text_video[3] = "edge filtering:";
+text_video[4] = "FXAA:";
+
+text_audio[0] = "quieter ambience:";
+text_audio[1] = "master volume:";
+
+text_pref[0] = "gamemode type:";
+text_pref[1] = "futa mode:";
+
+text_access[0] = "subtitles:";
+text_access[1] = "subt. language:";
+text_access[2] = "subtitle font:";
+text_access[3] = "navigation type:";
+text_access[4] = "nav. threshold:";
+
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
