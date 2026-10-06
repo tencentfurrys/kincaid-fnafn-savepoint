@@ -14,10 +14,13 @@
 //      static strings: 0x140656560 built from 0x1405c5009 = "full", and
 //      0x140656574 built from 0x1405c500e = "low". The static case-ordinal
 //      table at 0x140656570 {0, 1} dispatches:
-//        game_settings[0] == "full" -> ordinal 0 -> transition(self,other,2,0)
-//        game_settings[0] == "low"  -> ordinal 1 -> transition(self,other,2,1)
-//      0x140181c50(self, other, 2, N) = room/event transition service
-//      (mode 2 = goto), decoded as room_goto(N) per project convention.
+//        game_settings[0] == "full" -> ordinal 0 -> event_perform(ev_alarm, 0)
+//        game_settings[0] == "low"  -> ordinal 1 -> event_perform(ev_alarm, 1)
+//      0x140181c50(self, other, type, number) = event_perform() (PROVEN
+//      2026-10-06 by disassembly: it tail-calls the runner's event-fire
+//      routine with the standard GM event-type constants -- the
+//      instance_destroy() path in func_0x00014017c070 fires types 1
+//      (ev_destroy) and 12 (ev_cleanup) through the same routine).
 // game_settings[0] is the graphics/filter quality level.
 script_execute(scr_OLDTVFilter_Settings);
 sprite_index = -1;
@@ -30,9 +33,9 @@ if (game_settings[0] == "disabled") {
 oldtvfilter_enabled = 1;
 
 if (game_settings[0] == "full") {
-    room_goto(0);
+    event_perform(ev_alarm, 0);
 } else if (game_settings[0] == "low") {
-    room_goto(1);
+    event_perform(ev_alarm, 1);
 }
 
 /* BEGIN DECOMPILED REFERENCE

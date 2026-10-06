@@ -6,28 +6,26 @@
 //      => a surface-free function; best fit surface_free), argument =
 //      fetch(+8) of `pause_surface` (0x18752).
 //   2. same callee, argument = `back_surface` (0x186e5).
-//   3. for-loop over 0..48 (repeat const 0x4044800000000000 = 49.0 =>
-//      indices 0..48; loop helpers func_0x000140144bd0/0x0001401451f0/
-//      0x0001401449f0), body = no-arg room/event service
-//      func_0x00014017c070(self, other, 0, 0) — proven best-fit
-//      room_goto_next() at 49 sites repo-wide. Repeated inside a loop =>
-//      caller-visible batch call.
-//   4. second for-loop over 0..48 (repeat const 0x4040000000000000 = 48.0
-//      => indices 0..47), same no-arg service body.
+//   3. with() block over object 49 (helpers func_0x000140144bd0/
+//      0x0001401451f0/0x0001401449f0; the "repeat const"
+//      0x4044800000000000 = 49.0 is the OBJECT INDEX 49 = Obj_RoundedRoom,
+//      NOT a loop count — proven 2026-10-06). Body = instance_destroy()
+//      (func_0x00014017c070(self, other, 0, 0): scope -1 = self, fires
+//      ev_destroy + ev_cleanup).
+//   4. second with() block over object 48 (const 0x4040000000000000 =
+//      48.0 = Obj_Menu_Pause), same instance_destroy() body.
+// Reading: closing the pause menu frees its surfaces, then destroys every
+// RoundedRoom overlay instance and every Menu_Pause instance (including
+// itself).
 // TODO(calibrate): exact callee of slot 0x1405c8c20 (surface_free shape).
-// NOTE: the two loops' repeat constants differ (49.0 vs 48.0) — kept as
-// written in C; verify intended counts in-game.
 surface_free(pause_surface);
 surface_free(back_surface);
 
-for (var i = 0; i < 49; i++) {
-    // TODO(calibrate): helper 0x14017c070(self, other, 0, 0) - no-arg
-    // room/event service; best fit room_goto_next() (49 sites repo-wide).
-    room_goto_next();
+with (Obj_RoundedRoom) {
+    instance_destroy();
 }
-for (var i = 0; i < 48; i++) {
-    // TODO(calibrate): same no-arg service as above.
-    room_goto_next();
+with (Obj_Menu_Pause) {
+    instance_destroy();
 }
 
 /* BEGIN DECOMPILED REFERENCE

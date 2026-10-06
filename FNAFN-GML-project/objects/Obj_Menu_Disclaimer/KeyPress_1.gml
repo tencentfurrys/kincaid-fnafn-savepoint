@@ -6,13 +6,12 @@
 //   1. op-helper read of image_alpha (slot 0x1405c7b98, operand preset 0),
 //      then 3-way compare against 0.5 (func_0x00014015be60; 0x3fe0...),
 //      branch taken when 0 < result  =>  image_alpha > 0.5.
-//   2. on branch: runtime transition service func_0x000140181c50
-//      (self, other, 2, 1) -- first service arg is always 2 across all 50
-//      call sites; second arg observed as 0, 1, or a variable
-//      (0x18760 Room_to_go_to fits).
+//   2. on branch: event service func_0x000140181c50(self, other, 2, 1) =
+//      event_perform(ev_alarm, 1) (PROVEN 2026-10-06: 0x140181c50 tail-calls
+//      the runner's event-fire routine with the standard GM event-type
+//      constants; type 2 = ev_alarm). Alarm_1 of this object runs
+//      surface_free(surface) + room_goto(1) => any key advances
+//      Disclaimer -> Rm_Menu once the fade-in is far enough along.
 if (image_alpha > 0.5) {
-    // TODO(calibrate): 0x140181c50(self, other, 2, 1) -- (mode 2, target 1).
-    // GML shape unknown: room_goto? goto_next with a direction flag?
-    // Expected behaviour: advance Disclaimer -> Warning.
-    // room_goto(1);
+    event_perform(ev_alarm, 1);
 }

@@ -1,7 +1,116 @@
-/// @description FNAFN Obj_Menu_Continue / Step - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Menu_Continue / Step_0 — PORTED from C
+// Ground truth: gml_Object_Obj_Menu_Continue_Step_0 (10720 B @0x1400510f0)
+// The MOUSE-DRIVEN half of the night-select screen (the keyboard half lives
+// in KeyPress_69/81/83/87). uStack_180 = delta_factor (global 0x1870b),
+// fetched once at the top and reused by every lerp below.
+//
+// Eight identical hit-box blocks, one per menu entry. Entry i tests
+// customfunct_ui_button_detection(94, y1_i, 94 + string_width(text_night[i]),
+// y2_i, 94) == 1 — the now-PORTED script (x1, y1, x2, x2_offset, y2 form);
+// 94.0 = 0x4057800000000000 is ADDed to string_width via func_0x000140005290
+// (not multiplied — an old note misread the helper). On hover the shared
+// selector is parked on that entry:
+//   Obj_Menu_Selector.select_y = y1_i        (0x1876d, 0x23-tagged write)
+//   Obj_Menu_Main_Back.image_index = i       (slot 0x1405c7aa8, 0x1d-tagged)
+// and, only when select was NOT already i (compare `iVar1 != 0`):
+//   customfunct_audio_play_sound_single(31, 0, false)
+//      — consts 0x1405c3a58 = 31.0, 0x140655540 x2 = BSS-zero globals
+//   Obj_Menu_Main_Back.image_alpha = 0       (slot 0x1405c7b98)
+//   select = i
+// Hit-box rows (exe consts, y2 = y1 + 40 in every case):
+//   i  y1 const        y1   y2 const        y2
+//   0  0x1405c3a38     295  0x1405c3a48     335
+//   1  0x1405c3a68     340  0x1405c3a78     380
+//   2  0x1405c3a88     385  0x1405c3a98     425
+//   3  0x1405c3aa8     430  0x1405c3ab8     470
+//   4  0x1405c3ac8     475  0x1405c3ad8     515
+//   5  0x1405c3ae8     520  0x1405c3af8     560
+//   6  0x1405c3b08     565  0x1405c3b18     605
+//   7  0x1405c3b28     610  0x1405c3b38     650
+// (These y1 values match the KeyPress_83/87 select_y targets exactly.)
+//
+// Then the same three delta-scaled eases the keyboard handlers run:
+//   Obj_Menu_Selector.y = lerp(y, select_y, 0.2 * delta_factor)
+//   Obj_Menu_Selector.secondary_x = lerp(secondary_x,
+//       94 + string_width(text_night[select]), 0.2 * delta_factor)
+//   draw_alpha = lerp(draw_alpha, 1, 0.05 * delta_factor)
+// (lerp slot 0x1405c8cc0; 0x3fc999999999999a = 0.2; 0x3fa999999999999a =
+//  0.05; draw_alpha target const 0x1405c3b48 = 1.0.)
+if (customfunct_ui_button_detection(94, 295, 94 + string_width(text_night[0]), 335, 94) == 1) {
+    Obj_Menu_Selector.select_y = 295;
+    Obj_Menu_Main_Back.image_index = 0;
+    if (select != 0) {
+        customfunct_audio_play_sound_single(31, 0, false);
+        Obj_Menu_Main_Back.image_alpha = 0;
+        select = 0;
+    }
+}
+if (customfunct_ui_button_detection(94, 340, 94 + string_width(text_night[1]), 380, 94) == 1) {
+    Obj_Menu_Selector.select_y = 340;
+    Obj_Menu_Main_Back.image_index = 1;
+    if (select != 1) {
+        customfunct_audio_play_sound_single(31, 0, false);
+        Obj_Menu_Main_Back.image_alpha = 0;
+        select = 1;
+    }
+}
+if (customfunct_ui_button_detection(94, 385, 94 + string_width(text_night[2]), 425, 94) == 1) {
+    Obj_Menu_Selector.select_y = 385;
+    Obj_Menu_Main_Back.image_index = 2;
+    if (select != 2) {
+        customfunct_audio_play_sound_single(31, 0, false);
+        Obj_Menu_Main_Back.image_alpha = 0;
+        select = 2;
+    }
+}
+if (customfunct_ui_button_detection(94, 430, 94 + string_width(text_night[3]), 470, 94) == 1) {
+    Obj_Menu_Selector.select_y = 430;
+    Obj_Menu_Main_Back.image_index = 3;
+    if (select != 3) {
+        customfunct_audio_play_sound_single(31, 0, false);
+        Obj_Menu_Main_Back.image_alpha = 0;
+        select = 3;
+    }
+}
+if (customfunct_ui_button_detection(94, 475, 94 + string_width(text_night[4]), 515, 94) == 1) {
+    Obj_Menu_Selector.select_y = 475;
+    Obj_Menu_Main_Back.image_index = 4;
+    if (select != 4) {
+        customfunct_audio_play_sound_single(31, 0, false);
+        Obj_Menu_Main_Back.image_alpha = 0;
+        select = 4;
+    }
+}
+if (customfunct_ui_button_detection(94, 520, 94 + string_width(text_night[5]), 560, 94) == 1) {
+    Obj_Menu_Selector.select_y = 520;
+    Obj_Menu_Main_Back.image_index = 5;
+    if (select != 5) {
+        customfunct_audio_play_sound_single(31, 0, false);
+        Obj_Menu_Main_Back.image_alpha = 0;
+        select = 5;
+    }
+}
+if (customfunct_ui_button_detection(94, 565, 94 + string_width(text_night[6]), 605, 94) == 1) {
+    Obj_Menu_Selector.select_y = 565;
+    Obj_Menu_Main_Back.image_index = 6;
+    if (select != 6) {
+        customfunct_audio_play_sound_single(31, 0, false);
+        Obj_Menu_Main_Back.image_alpha = 0;
+        select = 6;
+    }
+}
+if (customfunct_ui_button_detection(94, 610, 94 + string_width(text_night[7]), 650, 94) == 1) {
+    Obj_Menu_Selector.select_y = 610;
+    Obj_Menu_Main_Back.image_index = 7;
+    if (select != 7) {
+        customfunct_audio_play_sound_single(31, 0, false);
+        Obj_Menu_Main_Back.image_alpha = 0;
+        select = 7;
+    }
+}
+Obj_Menu_Selector.y = lerp(Obj_Menu_Selector.y, Obj_Menu_Selector.select_y, 0.2 * delta_factor);
+Obj_Menu_Selector.secondary_x = lerp(Obj_Menu_Selector.secondary_x, 94 + string_width(text_night[select]), 0.2 * delta_factor);
+draw_alpha = lerp(draw_alpha, 1, 0.05 * delta_factor);
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Menu_Continue_Step_0(longlong *param_1,undefined8 param_2)
 

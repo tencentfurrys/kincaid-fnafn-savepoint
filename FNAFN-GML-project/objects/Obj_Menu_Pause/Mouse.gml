@@ -1,62 +1,48 @@
 /// @description FNAFN Obj_Menu_Pause / Mouse_53 — PORTED from C
 // Ground truth: gml_Object_Obj_Menu_Pause_Mouse_53 (2020 B @0x1400d7430)
 // Event 53 = Mouse Left Released (ev_left_released family).
-// Decoded, in order:
-//   1. fetch `pause_text` (0x18753), index [0] (the first option label).
-//   2. 1-arg funcid call on slot uRam00000001405c8d80 (co-fetch
-//      draw_alpha/select/secondary_x/delta_factor/select_y => a
-//      string-measure helper; best fit string_width) with arg
-//      (pause_text[0], const @0x1405c5610, const @0x1405c5620); result
-//      multiplied by 95.0 (0x4057800000000000, func_0x000140005290)
-//      and copied into a local (func_0x000140001490).
-//   3. gml_Script_customfunct_ui_button_detection(self, other, &ret,
-//      argc=5, args = (pause_text[0], 0x1405c5610, 0x1405c5630,
-//      <measured*95>, 0x1405c5610)) — named script call, direct symbol.
-//      Result compared 3-way against 1.0 (func_0x00014015be60):
-//      if == 0 (equal):
-//        for-loop over 0..46 (repeat const 0x4046800000000000 = 46.0):
-//          event service func_0x000140181c50(self, other, 9, 0x1b) —
-//          first service arg 9 (not the usual 2). TODO(calibrate).
-//   4. fetch `pause_text`, index [1] (second option label).
-//   5. same string-measure call with consts @0x1405c5610 /
-//      @0x1405c5640, multiply by 95.0.
-//   6. customfunct_ui_button_detection(pause_text[1], 0x1405c5610,
-//      0x1405c5650, <measured*95>, 0x1405c5610); if == 1:
-//        1-arg funcid call slot uRam00000001405c8cb0 with constant
-//        @0x1405c5660 (TODO(calibrate); same slot as the Disclaimer
-//        Alarm_1 second call — a log/cleanup/string helper).
-// RESOLVED 2026-09-30: all @0x1405c56xx constants + the funcid slots are
-// decoded via the exe registry (EXE-REGISTRY.md / EXE-CONSTANTS.md).
-// NOTE: the first service call uses first-arg 9 vs the more common 2 —
-// different event/room service variant; confirm in-game.
-// REGISTRY-CONFIRMED (EXE-REGISTRY.md): slot 0x1405c8d80 = string_width.
-// Exe constants (EXE-CONSTANTS.md): 0x1405c5610 = 94.0, 0x1405c5620 = 340.0,
-// 0x1405c5630 = 380.0, 0x1405c5640 = 385.0, 0x1405c5650 = 425.0,
-// 0x1405c5660 = 1.0.
+// The pause menu's two text buttons. Each is a hit-box test through the
+// named script customfunct_ui_button_detection (now PORTED -- signature
+// (x1, y1, x2, x2_offset, y2): returns 1 iff mouse_x > x1 &&
+// mouse_x < x2 + x2_offset && mouse_y > y1 && mouse_y < y2).
+// Args staged per button, in order (puStack_190..170 = argv[0..4]):
+//   button 0 ("return"): (94, 340, 94 + string_width(pause_text[0]), 380, 94)
+//   button 1 ("exit"):   (94, 385, 94 + string_width(pause_text[1]), 425, 94)
+// Exe constants (EXE-CONSTANTS.md / exe_strings.py): 0x1405c5610 = 94.0,
+// 0x1405c5620 = 340.0, 0x1405c5630 = 380.0, 0x1405c5640 = 385.0,
+// 0x1405c5650 = 425.0, 0x1405c5660 = 1.0. NOTE: the 94.0 added to
+// string_width is func_0x000140005290 = ADD (not a multiply -- the old
+// "* 95" note misread the helper); 0x4057800000000000 is the double 94.0.
+// Branch bodies (PROVEN 2026-10-06):
+//   "return" -> with (45) { event_perform(ev_keypress, 27) }: the with()
+//     block is helper func_0x000140144bd0/0x0001401451f0/0x0001401449f0
+//     (its "repeat const" 0x4046800000000000 = 45.0 is the OBJECT INDEX
+//     45 = Obj_Pause, not a loop count). func_0x000140181c50(self, other,
+//     type, number) = event_perform(); type 9 = ev_keypress, 0x1b = 27 =
+//     vk_escape. So clicking "return" forwards an Esc keypress to the
+//     pause controller, which toggles the pause off (Obj_Pause KeyPress_27).
+//   "exit" -> 1-arg call slot 0x1405c8cb0 (REGISTRY-CONFIRMED room_goto)
+//     with const 1.0 -> room_goto(Rm_Menu) (room_names.json index 1).
 if (customfunct_ui_button_detection(
-        pause_text[0],        // "return"
-        94.0,
-        340.0, 380.0,         // button hitbox y-range
-        string_width(pause_text[0]) * 95,
-        94.0
+        94,
+        340,
+        94 + string_width(pause_text[0]),
+        380,
+        94
     ) == 1) {
-    for (var i = 0; i < 46; i++) {
-        // TODO(calibrate): helper 0x140181c50(self, other, 9, 0x1b) —
-        // event/room service variant with first service arg 9.
+    with (Obj_Pause) {
+        event_perform(ev_keypress, vk_escape);
     }
 }
 
 if (customfunct_ui_button_detection(
-        pause_text[1],        // "exit"
-        94.0,
-        385.0, 425.0,
-        string_width(pause_text[1]) * 95,
-        94.0
+        94,
+        385,
+        94 + string_width(pause_text[1]),
+        425,
+        94
     ) == 1) {
-    // REGISTRY-CONFIRMED: slot 0x1405c8cb0 = room_goto; the pushed
-    // constant @0x1405c5660 is 1.0 (first room). This is the "exit"
-    // button -> go to room 1.
-    room_goto(1);
+    room_goto(Rm_Menu);
 }
 
 /* BEGIN DECOMPILED REFERENCE

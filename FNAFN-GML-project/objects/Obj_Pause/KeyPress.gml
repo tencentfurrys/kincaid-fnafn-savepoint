@@ -60,12 +60,16 @@ if (paused == 1) {
     Parallax_enabled = 1;
     // REGISTRY-CONFIRMED: slot 0x1405c8fb0 = audio_resume_all.
     audio_resume_all();
-    // TODO(calibrate): helper 0x14017c0e0(self, other, 0x30) gate.
-    if (false /* helper 0x14017c0e0(self, other, 0x30) */) {
-        for (var i = 0; i < 49; i++) {
-            // TODO(calibrate): no-arg room service 0x14017c070
-            // (best fit room_goto_next()).
-            room_goto_next();
+    // PROVEN 2026-10-06: func_0x00014017c0e0(self, other, N) =
+    // instance_exists(N) (iterates scope N, returns true if an active
+    // instance remains). 0x30 = 48 = Obj_Menu_Pause. When the pause-menu
+    // object still exists, clean up the RoundedRoom overlays via a with()
+    // block over object 49 (Obj_RoundedRoom) whose body is
+    // instance_destroy() -- the with() "repeat const" is the OBJECT INDEX,
+    // not a loop count.
+    if (instance_exists(Obj_Menu_Pause)) {
+        with (Obj_RoundedRoom) {
+            instance_destroy();
         }
     }
     fade_alpha = 1;

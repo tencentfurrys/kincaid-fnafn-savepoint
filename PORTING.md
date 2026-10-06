@@ -18,6 +18,10 @@ like GML. Patterns established by cross-referencing many functions:
 | `func_0x00014015f1a0(self, VARREF, 0x80000000, &val[, flags, mask])` | READ instance/property variable into &val (op-operand fetch; CORRECTED 2026-10-01 — result feeds arithmetic/copy in Menu_Static Create, Camera_Static Create/Step; `variable_instance_set` = 0x000140160140 with no extra args) | `x = variable` |
 | `func_0x00014015be60(&val, DOUBLE, VARREF, flags)` / compared `> 0` | read instance variable + compare | `if (variable > x)` |
 | `func_0x000140160140(self, VARREF, 0x80000000, &val)` | write built-in property (image_*, x, y, ...) | `image_alpha = val` |
+| `func_0x00014017c070(self, other, 0, 0)` | **instance_destroy()** (PROVEN 2026-10-06; was wrongly guessed room_goto_next — see below) | `instance_destroy()` |
+| `func_0x00014017c0e0(self, other, N)` | **instance_exists(N)** (PROVEN 2026-10-06) | `if (instance_exists(Obj_N))` |
+| `func_0x000140181c50(self, other, TYPE, NUM)` | **event_perform(TYPE, NUM)** (PROVEN 2026-10-06; was wrongly guessed room/goto service). TYPE uses standard GM event constants: 2 = ev_alarm, 9 = ev_keypress | `event_perform(ev_alarm, 1)` |
+| for-loop over helpers 0x140144bd0/0x1401451f0/0x1401449f0 with "repeat const" C | **`with (object C) {}` block** — the repeat const is the OBJECT INDEX, not a loop count (PROVEN 2026-10-06) | `with (Obj_RoundedRoom) { ... }` |
 | `0x3ff0000000000000` | double 1.0 | `1` |
 | `0x3fe0000000000000` | double 0.5 | `0.5` |
 | `0x3ff4000000000000` | double 1.25 | `1.25` |
@@ -88,6 +92,38 @@ if (<input read> > 0) {
     <advance>(2, 1);   // room/event transition with args (2,1)
 }
 ```
+
+## BREAKTHROUGH 2026-10-06: instance_destroy / event_perform / instance_exists proven; with() loops decoded
+
+Three high-frequency helpers were misguessed earlier and are now PROVEN by
+disassembly. Every port using the old guesses was corrected this session.
+
+1. **`func_0x00014017c070(self, other, 0, 0)` = `instance_destroy()`**
+   (49 sites; old guess "room_goto_next" was WRONG). It iterates instances
+   with scope -1 = self and fires event types 1 (ev_destroy) and 12
+   (ev_cleanup) through the runner's event-fire routine. Example:
+   Obj_Menu_Fade/Step removes itself when the fade completes — it does NOT
+   change rooms.
+2. **`func_0x000140181c50(self, other, TYPE, NUM)` = `event_perform(TYPE, NUM)`**
+   (50 sites; old guess "room/event transition service / room_goto(N)" was
+   WRONG). It tail-calls the runner's event-fire routine with standard GM
+   event-type constants. TYPE 2 = ev_alarm. Obj_Menu_Disclaimer/KeyPress_1
+   = `event_perform(ev_alarm, 1)`; its Alarm_1 does surface_free + room_goto(1),
+   which is how the screen actually advances. Obj_Menu_Pause/Mouse calls
+   `event_perform(ev_keypress, vk_escape)` on Obj_Pause to forward the
+   click. NOTE: earlier ports that wrote `room_goto(N)` for this helper
+   have been fixed; if you find a stale one, re-read it as event_perform.
+3. **`func_0x00014017c0e0(self, other, N)` = `instance_exists(N)`**.
+   Obj_Pause/KeyPress gates the RoundedRoom cleanup on
+   `instance_exists(Obj_Menu_Pause)`.
+
+**The "repeat const" for-loop is a `with()` block.** The shape
+`for (helpers 0x140144bd0/0x1401451f0/0x1401449f0; repeat const C)` with body
+`0x14017c070(...)` is `with (object C) { instance_destroy(); }` — C is the
+OBJECT INDEX (obj_names.json), NOT a loop count. Proven sites: const 49.0 =
+Obj_RoundedRoom, 48.0 = Obj_Menu_Pause, 46.0 = Obj_Menu_Options_Preview.
+Obj_Menu_Pause/Destroy therefore frees its two surfaces, then destroys every
+RoundedRoom overlay and every Menu_Pause instance (itself included).
 
 ## BREAKTHROUGH 2026-10-02: object table + object-tagged write helpers
 

@@ -6,9 +6,9 @@
 // Byte-identical logic to Obj_Menu_Disclaimer_KeyPress_1 (same size, same
 // compare constant, same transition service -- identical function sizes was
 // the original mirror observation and it holds):
-//   image_alpha (slot 0x1405c7b98) > 0.5  =>  transition 0x140181c50(self, other, 2, 1).
+//   image_alpha (slot 0x1405c7b98) > 0.5  =>  event_perform(ev_alarm, 1)
+//   (0x140181c50 = event_perform, PROVEN 2026-10-06; Alarm_1 of this object
+//   runs surface_free + room_goto(1), so any key advances Warning -> menu).
 if (image_alpha > 0.5) {
-    // TODO(calibrate): 0x140181c50(self, other, 2, 1) -- (mode 2, target 1).
-    // Expected behaviour: advance Warning -> main menu.
-    // room_goto(1);
+    event_perform(ev_alarm, 1);
 }

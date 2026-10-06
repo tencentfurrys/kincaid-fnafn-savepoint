@@ -11,29 +11,30 @@
 //      (each indexed with an array bounds check via the standard helpers).
 //   3. line 3: 1-arg call, slot uRam00000001405c8b60 (REGISTRY-CONFIRMED
 //      window_set_fullscreen), arg = game_settings[1].
-//   4. line 4-6: for-loop over 0..46 (repeat const 0x4047000000000000 =
-//      46.0; loop helpers func_0x000140144bd0/0x0001401451f0/0x0001401449f0),
-//      body = no-arg room/event service func_0x00014017c070(self, other, 0,
-//      0) -- best fit room_goto_next() (49 sites repo-wide; same shape as
-//      the double loop in Obj_Menu_Pause/Destroy).
+//   4. line 4-6: with() block over object 46 (helpers
+//      func_0x000140144bd0/0x0001401451f0/0x0001401449f0; its "repeat
+//      const" 0x4047000000000000 = 46.0 is the OBJECT INDEX
+//      46 = Obj_Menu_Options_Preview, NOT a loop count — proven
+//      2026-10-06). Body = instance_destroy() (func_0x00014017c070(self,
+//      other, 0, 0): scope -1 = self, fires ev_destroy + ev_cleanup).
+//      Reading: leaving the options screen destroys every options-preview
+//      instance the screen had spawned.
 //   5. line 8: read room (slot uRam00000001405c7b38) and compare == 4.0
 //      (0x4010000000000000). Branch when equal.
 //   6. line 10: 2-arg call, slot uRam00000001405c8ed0 (REGISTRY-CONFIRMED
 //      object_set_visible), args = exe consts 0x1405c4510 (= 48.0, object
 //      index) and 0x1405c4520 (= 1.0).
 // Reading: leaving the options screen deactivates a system object, applies
-// the saved display/fullscreen settings, runs the batch room service, and
-// (only in room 4) re-shows object 48.
+// the saved display/fullscreen settings, destroys every options-preview
+// instance, and (only in room 4) re-shows object 48.
 // TODO(calibrate): object indices 50 and 48 need the resource table to name.
 // TODO(calibrate): display_reset is documented 0-arg in GMS2 but the C
 // stages 2 args -- the source may have passed settings the runner ignores.
 instance_deactivate_object(50);
 display_reset(game_settings[3], game_settings[2]);
 window_set_fullscreen(game_settings[1]);
-for (var i = 0; i < 46; i++) {
-    // TODO(calibrate): helper 0x14017c070(self, other, 0, 0) - no-arg
-    // room/event service; best fit room_goto_next() (49 sites repo-wide).
-    room_goto_next();
+with (Obj_Menu_Options_Preview) {
+    instance_destroy();
 }
 if (room == 4) {
     object_set_visible(48, 1);

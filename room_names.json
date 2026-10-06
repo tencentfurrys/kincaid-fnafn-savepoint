@@ -1,0 +1,56 @@
+[
+ {
+  "index": 0,
+  "name": "Rm_Menu_Custom_Night",
+  "width": 1280,
+  "height": 720
+ },
+ {
+  "index": 1,
+  "name": "Rm_Menu",
+  "width": 1280,
+  "height": 720
+ },
+ {
+  "index": 2,
+  "name": "Rm_NightEnd",
+  "width": 1280,
+  "height": 720
+ },
+ {
+  "index": 3,
+  "name": "Rm_Debug",
+  "width": 1024,
+  "height": 768
+ },
+ {
+  "index": 4,
+  "name": "Rm_Office",
+  "width": 3840,
+  "height": 720
+ },
+ {
+  "index": 5,
+  "name": "Rm_Loading",
+  "width": 1280,
+  "height": 720
+ },
+ {
+  "index": 6,
+  "name": "Rm_Warning",
+  "width": 1280,
+  "height": 720
+ },
+ {
+  "index": 7,
+  "name": "Rm_Jumpscare",
+  "width": 1280,
+  "height": 720
+ },
+ {
+  "index": 8,
+  "name": "Rm_Initialize",
+  "width": 1280,
+  "height": 720
+ }
+]

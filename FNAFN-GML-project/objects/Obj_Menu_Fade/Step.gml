@@ -12,18 +12,18 @@
 //      (func_0x00014015be60, flags=1). Branch taken when
 //      (iVar1 != -2) && (iVar1 < 0)  =>  image_alpha < 0 exactly
 //      (== 0 does NOT branch; incomparable does NOT branch).
-//   4. line 5: no-arg room service func_0x00014017c070(self, other, 0, 0)
-//      the moment the fade drops below zero.
+//   4. line 5: instance_destroy() — helper func_0x00014017c070(self, other,
+//      0, 0) (PROVEN 2026-10-06 by disassembly: it iterates instances with
+//      scope -1 = self and fires event types 1 (ev_destroy) and 12
+//      (ev_cleanup) through the same event-fire routine used by
+//      event_perform). The old "room_goto_next()" best-fit guess was wrong
+//      — the fade controller simply removes itself once the fade completes.
 // CORRECTIONS vs the old port: variable is image_alpha (registry), the
 // branch is strictly < 0 (not <=), and the C contains NO zero-clamp
 // assignment inside the branch (the old `fading = 0;` line was invented).
-// TODO(calibrate): helper 0x14017c070(self, other, 0, 0) — no-arg
-// room/event service (49 call sites, always (0,0)). Best fit for this
-// flow: room_goto_next() (Disclaimer -> Warning -> Menu advance).
 image_alpha -= 0.0065 * delta_factor;
 if (image_alpha < 0) {
-    // TODO(calibrate): 0x14017c070 no-arg room service — best fit:
-    room_goto_next();
+    instance_destroy();
 }
 
 /* BEGIN DECOMPILED REFERENCE

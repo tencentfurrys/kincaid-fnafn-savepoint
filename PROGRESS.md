@@ -1,17 +1,92 @@
-# Session progress (updated 2026-10-02)
+# Session progress (updated 2026-10-06)
 
 Snapshot for machine handoff — read this first on a new RDP box.
 
 ## Numbers
-- Ported: **~150 / 414 GML functions** (145 files carry the
-  "PORTED from C" marker incl. all GlobalScript wrappers + PreCreates;
-  recount with
+- Ported: **146 / 350 tracked .gml files** carry the "PORTED from C"
+  marker (recount with
   `Get-ChildItem FNAFN-GML-project -Recurse -Filter *.gml | Select-String "PORTED from C" -List | Measure-Object`
-  — note: pwsh on this box, `grep -rl` works too)
-- Remaining: 199 files still carrying a "NOT YET PORTED" marker — mostly
-  the big gameplay Step/Alarm events + 10 heavy logic scripts.
+  — note: pwsh on this box, `grep -rl` works too). Up from 145 at commit
+  f5c22ff: +1 file genuinely flipped to PORTED this session.
+- Remaining: 196 files still carrying a "NOT YET PORTED" marker — mostly
+  the big gameplay Step/Alarm/Draw events + heavy logic scripts. Many of
+  those now carry their decompiled C reference body (fill_empty_stubs.py
+  backfill, see below), so they are ready to port.
 
-## Session 2026-10-02 (this session)
+## Session 2026-10-06 (this session)
+- **THREE helper identities PROVEN by disassembly** (unlocks ~100 call
+  sites repo-wide; corrections applied across already-ported files):
+  1. `func_0x00014017c070(self, other, 0, 0)` = **instance_destroy()**
+     (NOT room_goto_next — that best-fit guess was WRONG). It iterates
+     instances with scope -1 = self and fires event types 1 (ev_destroy)
+     + 12 (ev_cleanup) through the runner's event-fire routine. 49 sites.
+     Obj_Menu_Fade/Step: the fade controller just removes itself when the
+     fade completes.
+  2. `func_0x000140181c50(self, other, type, number)` =
+     **event_perform(type, number)** (NOT a room/goto service). Type 2 =
+     ev_alarm. Disclaimer/Warning KeyPress_1 = event_perform(ev_alarm, 1)
+     -> Alarm_1 does surface_free + room_goto(1). 50 sites re-read.
+  3. `func_0x00014017c0e0(self, other, N)` = **instance_exists(N)**.
+     Obj_Pause/KeyPress gates the RoundedRoom cleanup on
+     instance_exists(Obj_Menu_Pause).
+  - **The with() "repeat const" is the OBJECT INDEX, not a loop count.**
+    The for-loop shape around helpers 0x140144bd0/0x1401451f0/0x1401449f0
+    with a "repeat const" is a `with (Obj_N) {}` block: const 49.0 =
+    Obj_RoundedRoom, 48.0 = Obj_Menu_Pause, 46.0 =
+    Obj_Menu_Options_Preview. Rewrites landed in Obj_Menu_Pause/Destroy
+    (free surfaces, then with(Obj_RoundedRoom) instance_destroy() +
+    with(Obj_Menu_Pause) instance_destroy()), Obj_Menu_Options/Destroy,
+    Obj_Pause/KeyPress, Obj_Menu_Pause/Mouse.
+- **Newly PORTED: Obj_Menu_Continue/Step** (the mouse-driven half of the
+  night-select screen; keyboard half was already done). Eight hit-box
+  blocks, one per menu entry: each tests
+  customfunct_ui_button_detection(94, y1, 94 + string_width(text_night[i]),
+  y2, 94); on hover parks the shared selector
+  (Obj_Menu_Selector.select_y = y1, Obj_Menu_Main_Back.image_index = i)
+  and, only when select changed, plays snd 31 and resets Main_Back
+  image_alpha to 0. Rows: y1 = 295/340/385/... (exe consts 0x1405c3a38+).
+- **Obj_Menu_Continue/KeyPress completed**: KeyPress_69 (E = confirm)
+  ported; file now fully PORTED (all 4 sub-events). E confirms the
+  current entry once draw_alpha >= 0.95 (faded-in gate); select 6 ->
+  room_goto(0) = Rm_Menu_Custom_Night, select 7 -> spawn Obj_Menu_Pause
+  on "Main_menu" + room_goto_next.
+- **customfunct_ui_button_detection PORTED** (moved scripts/todo ->
+  scripts/ported). 5-arg point/box test:
+  `mouse_x > x1 && mouse_x < x2 + x_offset && mouse_y > y1 && mouse_y < y2`.
+  Called from every menu/camera UI button handler (Continue Step/Pause
+  Mouse/Options Mouse/Main_Title Mouse+KeyPress). Slots 0x1405c7bc8 =
+  mouse_x, 0x1405c7bd8 = mouse_y. This was the last named script with a
+  raw-C todo file.
+- **room_names.json + room_names.py**: room index -> name from data.win's
+  ROOM chunk (9 rooms: 0=Rm_Menu_Custom_Night, 1=Rm_Menu, 2=Rm_NightEnd,
+  3=Rm_Debug, 4=Rm_Office, 5=Rm_Loading, 6=Rm_Warning, 7=Rm_Jumpscare,
+  8=Rm_Initialize, all with width/height). Every room_goto(N) /
+  room_goto_next() in the ports can now name its target. Obj_Menu_Pause
+  Mouse's exit button is room_goto(Rm_Menu) (was room_goto(1) + comment).
+- **fill_empty_stubs.py + backfill run**: gen_gml_project.py's
+  `<obj>_<ev>_0` lookup missed ALL Draw_75 / Step_1 / Other_5 style
+  events (they are numbered by GM, not _0), so those files generated
+  EMPTY reference blocks. New script finds the real
+  `gml_Object_<obj>_<ev>_<n>` block in the annotated C and injects one
+  wrapped `/* BEGIN..END */` reference per sub-event (refuses to
+  overwrite files containing real ports; sanitizes Ghidra WARNING lines).
+  19 files backfilled this session with their exact C: Obj_Night_Time
+  {Step (3309 B), Draw}, Obj_Menu_Loading {Step, Draw}, postprocess/Draw
+  (2418 B), Obj_System_RAM_Usage/Draw, Obj_System_Stats_Check/Draw,
+  Obj_Office_Front_Middle {Step, Other}, Obj_Office_Front_Left/Right Other,
+  Obj_Office_Camera_Control/Draw, Obj_Night_UI_{Power,Camera_Button}/Draw,
+  Obj_RoundedRoom{,Deactivated}/Draw, Obj_Night_Shift_End/Draw,
+  Obj_Menu_Night_Display/Draw, obj_OLDTVFilter_PresetBase/Draw,
+  Obj_Game_Over_Tablet/Draw.
+- Corrections to already-ported files driven by the three proofs above:
+  Obj_Menu_Disclaimer/Warning KeyPress_1 (event_perform(ev_alarm, 1)),
+  Obj_Filter_Menus/Create (event_perform(ev_alarm, N), not room_goto),
+  Obj_Menu_Fade/Step (instance_destroy at fade end), Obj_Menu_Options/
+  Destroy (with(Obj_Menu_Options_Preview) instance_destroy()).
+- Comment-balance still validates project-wide (0 files with unbalanced
+  BEGIN/END reference markers).
+
+## Session 2026-10-02
 - **`fading` sweep COMPLETE**: slot 0x1405c7b98 = image_alpha everywhere it
   is written through the property helpers (Pause Create/Step/Draw prose +
   the `fading = 0` code line, PROJECT.md). The genuinely-custom `fading`
@@ -117,32 +192,25 @@ Snapshot for machine handoff — read this first on a new RDP box.
   state (useful: gives original line numbers per statement).
 
 ## Next moves
-1. ~~Sweep `fading` slot rename~~ — DONE this session (see above).
+1. ~~Sweep `fading` slot rename~~ — DONE (2026-10-02).
 2. Finish the menu chain: Obj_Menu_Options {Create (5580 B), Draw (21253 B),
-   KeyPress_65/68 (WASD), Mouse_53}, Obj_Menu_Continue {KeyPress_69 (E),
-   KeyPress_83/87 (S/W), Mouse_53, Step (10720 B), Draw (3600 B)}. The
-   C references are all in place now (stub filler ran); the object-tagged
-   helper + obj_names.json unlocks make the Create/Draw reads fast.
-3. ~~Re-audit the ~200 object-tagged helper call sites~~ — DONE: new tool
-   `obj_var_ownership.py` emits `obj_var_ownership.md` (all 278 sites: 231
-   writes / 47 reads over 25 target objects, 42 (object,var) pairs, 113
-   cross-object rows). All 7 `fea0` property slots resolved via the two-step
-   exe derivation to real builtins: 0x1405c7aa8=image_index, 0x1405c7b78=x,
-   0x1405c7b88=y, 0x1405c7b98=image_alpha, 0x1405c7be8=sprite_index,
-   0x1405c7c08=image_yscale, 0x1405c7c18=image_xscale. Key finding: the
-   tagged helpers are EXCLUSIVELY cross-object (0 self-access sites) --
-   self-writes use the untagged 0x140160140 path -- confirming the semantic
-   split. The table makes the menu-chain reads below trivial (e.g.
-   Obj_Menu_Continue.KeyPress_83/87 drive Obj_Menu_Selector.select_y and the
-   animated Obj_Menu_Main_Back image_alpha/image_index).
-4. ~~customfunct_audio_play_sound_directional_single~~ — DONE: corrected to
-   the 4-arg emitter form (see
-   `FNAFN-GML-project/scripts/ported/...directional_single.gml`; arg
-   count/order certain, names TODO(calibrate) since the only reference is
-   the gml_GlobalScript_Audio re-export). Still open: port
-   customfunct_ui_button_detection and the other named scripts, which
-   unlock meaning at dozens of call sites.
-5. CDN RDP job: api.github.com/repos/tencentfurrys/Cdn/actions/jobs/110021584975
+   KeyPress_65/68 (WASD), Mouse_53}. Obj_Menu_Continue is now COMPLETE
+   (all 8 events ported this session incl. Step + KeyPress_69). The
+   Options Create/Draw C references are in place (stub filler ran).
+3. ~~Re-audit the ~200 object-tagged helper call sites~~ — DONE (2026-10-02):
+   `obj_var_ownership.py` -> `obj_var_ownership.md` (278 sites: 231 writes /
+   47 reads, 42 (object,var) pairs). All 7 `fea0` property slots resolved:
+   0x1405c7aa8=image_index, 0x1405c7b78=x, 0x1405c7b88=y,
+   0x1405c7b98=image_alpha, 0x1405c7be8=sprite_index, 0x1405c7c08=image_yscale,
+   0x1405c7c18=image_xscale. Tagged helpers are EXCLUSIVELY cross-object;
+   self-writes use the untagged 0x140160140 path.
+4. ~~customfunct_ui_button_detection~~ — DONE this session (scripts/ported/,
+   5-arg box test). All named scripts are now ported.
+5. Port the 19 backfilled events (their C is now in-file, ready):
+   Obj_Night_Time {Step, Draw} is the natural next target (night timer +
+   clock display), then postprocess/Draw (2418 B, the OLDTVFilter composite)
+   and Obj_Menu_Loading {Step, Draw}.
+6. CDN RDP job: api.github.com/repos/tencentfurrys/Cdn/actions/jobs/110021584975
    (6h cap; check timer when on a fresh box).
 
 ## Environment notes for a new RDP box
