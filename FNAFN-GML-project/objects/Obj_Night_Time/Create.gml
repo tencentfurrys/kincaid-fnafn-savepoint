@@ -1,7 +1,28 @@
-/// @description FNAFN Obj_Night_Time / Create - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Night_Time / Create — PORTED from C
+// Ground truth: gml_Object_Obj_Night_Time_Create_0 (1186 B @0x1400895a0)
+// uStack_a8 = 4..0x12 are GML source-line markers; dVar1 = 1.0 is the
+// loop's typed-increment constant (_UNK_140439dd0).
+//   line 4: for (var i = 0; i < 12; i += 1) Scr_Camera_Update[i] = -100;
+//     disables all 12 hour-timers (0x4028000000000000 = 12.0,
+//     0xc059000000000000 = -100; same array-write shape as
+//     Obj_Night_Shift_End/Create — the -100 sentinel this object's Step
+//     tests for).
+//   line 10: fading = 1
+//   line 11/12: image_xscale = image_yscale = 0.65 (0x3fe4cccccccccccd)
+//   line 13: image_alpha = 0
+//   line 15: time = -1 (0xbff0000000000000) — clock subimage, "not started"
+//   line 18: Scr_Camera_Update[0] = 1800 (0x409c200000000000) — arm the
+//     first hour-timer; its expiry raises Alarm_0 (the hour-tick).
+for (var i = 0; i < 12; i += 1) {
+    Scr_Camera_Update[i] = -100;
+}
+fading = 1;
+image_xscale = 0.65;
+image_yscale = 0.65;
+image_alpha = 0;
+time = -1;
+Scr_Camera_Update[0] = 1800;
+
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) Globals starting with '_' overlap smaller symbols at the same address
 // - literal slash-star form removed: it would close a GML block comment early.

@@ -7,75 +7,55 @@
 //   2. self fetch `paused` (0x18754, +0x10); paused = paused ^ 1 (the
 //      toggle: func_0x00014012bb70 bool-conv of current value, XOR 1,
 //      stored back).
-//   3. static compare against 0x1406567b0 (a double constant 1.0,
+//   3. static compare against 0x1406567b0 (double constant 1.0,
 //      0x3ff0000000000000) and 0x1406567c4 (0.0) via the 3-way compare
-//      helper func_0x00014015be60 — this is the GML
-//      `if (paused == 1) {...} else if (paused == 0) {...}` chain
-//      (lVar6 selects which static literal matched; iVar3 = *(lVar6*20 +
-//      0x1406567c0) picks the branch).
-//   Branch paused == 1 (unpausing -> pausing):
-//     4-8. five 1-arg funcid calls on slot uRam00000001405c8fa0
-//          (co-fetch fade_alpha/Parallax_enabled/paused => a per-object
-//          pauser; best fit: instance_deactivate / set paused on the
-//          named object) with constants @0x1405c5368 / 0x1405c5374 /
-//          0x1405c5381 / 0x1405c538c / 0x1405c5390 — five object names
-//          (strings in exe data, gone).
-//     9.  Parallax_enabled = 1 (0x3ff0000000000000).
-//    10.  0-arg funcid call slot uRam00000001405c8fb0 (same co-fetch
-//          family) — TODO(calibrate).
-//    11.  if (func_0x00014017c0e0(self, other, 0x30)) — 1-arg service,
-//          arg 48 (0x30). Best fit: keyboard_check / check a key by
-//          keycode 48? More likely an "is event key" check. If true:
-//          for-loop over 0..48 (repeat 0x4048000000000000 = 49.0) calling
-//          the no-arg room service func_0x00014017c070(self,other,0,0)
-//          (best fit room_goto_next()).
-//    12.  global write `fade_alpha` (0x18718) = 1.0 via
-//          func_0x000140160b90.
-//   Branch paused == 0 (unpausing):
-//    13.  (first op: +0x10 fetch of `paused` — the just-toggled read).
-//    14-18. same five 1-arg funcid calls but on slot
-//          uRam00000001405c8d50 (co-fetch fade_alpha/Room_to_go_to/
-//          game_settings/bufferSurface/Parallax_enabled/paused => the
-//          matching re-activator) with the same five constants.
-//    19.  Parallax_enabled = 0.
-//    20.  0-arg funcid call slot uRam00000001405c8f90 (matching family).
-//    21.  if (!func_0x00014017c0e0(self, other, 0x30)): 4-arg call slot
-//          uRam00000001405c8d90 with args (static 0x1406567a0 x2, string
-//          @0x1405c5393, static 0x1405c53a0) — draw/show-something call
-//          (TODO(calibrate); 0x1405c8d90 also used for the pause-menu
-//          label draws).
-// TODO(calibrate): the five string constants @0x1405c5368..0x1405c5390
-// (object names — exe data gone), and exact callees of the four service
-// slots (0x1405c8fa0 / 0x1405c8fb0 / 0x1405c8d50 / 0x1405c8f90).
+//      helper func_0x00014015be60 — this is a two-case switch on the
+//      toggled value: `if (paused == 1) {...} else if (paused == 0) {...}`.
+//      The case/label tables live in the guarded constant pool: case
+//      constants at 0x1406567b0 (1.0) and 0x1406567c4 (0.0), label table
+//      at 0x1406567c0 (stride 0x14). The pool init zeroes 0x1406567bc..cb
+//      (=> label[0] = 0) and writes 0x100000000 @0x1406567d0 (=> label[1]
+//      = 1), so branch `iVar3 == 1` is the paused == 0 case and
+//      `iVar3 == 0` is the paused == 1 case. CORRECTION 2026-10-06: the
+//      two branches were INVERTED in this port (the old text assigned the
+//      activate/resume body to paused == 1); the C, the audio slots and
+//      Parallax_enabled all agree on the order below.
+//   Branch paused == 1 (just PAUSED):
+//     4-8. five 1-arg funcid calls on slot uRam00000001405c8d50
+//          (REGISTRY-CONFIRMED instance_deactivate_layer) with constants
+//          @0x1405c5368..0x1405c5390 = the LAYER names "Office_back",
+//          "Office_front", "Camera_HUD", "HUD", "AI" (readable in .data —
+//          the old "strings gone" note was wrong).
+//     9.  Parallax_enabled = 0.
+//    10.  0-arg funcid call slot uRam00000001405c8f90 (REGISTRY-CONFIRMED
+//          audio_pause_all).
+//    11.  if (!instance_exists(Obj_Menu_Pause)) — func_0x00014017c0e0
+//          (self, other, 0x30); the branch tests `cVar1 == 0`, so the menu
+//          is only spawned when one is not already up. 0x30 = 48 =
+//          Obj_Menu_Pause (obj_names.json).
+//          4-arg call slot uRam00000001405c8d90 (instance_create_layer)
+//          with (runtime const @0x1406567a0 for x AND y, "Night_end"
+//          @0x1405c5393, 48.0 @0x1405c53a0).
+//   Branch paused == 0 (just UNPAUSED):
+//    13.  (first op: +0x10 fetch of `paused` — a discarded re-read).
+//    14-18. same five layer names but on slot uRam00000001405c8fa0
+//          (REGISTRY-CONFIRMED instance_activate_layer).
+//    19.  Parallax_enabled = 1.
+//    20.  0-arg funcid call slot uRam00000001405c8fb0 (audio_resume_all).
+//    21.  if (instance_exists(Obj_Menu_Pause)): with() block over object
+//          49.0 (Obj_RoundedRoom — the "repeat const" is the OBJECT INDEX)
+//          whose body is instance_destroy() (func_0x00014017c070, PROVEN
+//          2026-10-06) — tears down the pause menu's rounded-room overlays.
+//    22.  object-tagged write func_0x000140160b90(1, 0x18718, 1.0): tag 1
+//          = Obj_Office_Camera_Control, var fade_alpha => the camera
+//          controller fades back in.
 paused = paused ^ 1;
 
+// paused == 1: just PAUSED — freeze the gameplay layers + audio and open
+// the pause menu (C branch: iVar3 == 0).
 if (paused == 1) {
-    // REGISTRY-CONFIRMED (EXE-REGISTRY.md): slot 0x1405c8fa0 =
-    // instance_activate_layer; the five exe constants are LAYER names.
-    instance_activate_layer("Office_back");
-    instance_activate_layer("Office_front");
-    instance_activate_layer("Camera_HUD");
-    instance_activate_layer("HUD");
-    instance_activate_layer("AI");
-    Parallax_enabled = 1;
-    // REGISTRY-CONFIRMED: slot 0x1405c8fb0 = audio_resume_all.
-    audio_resume_all();
-    // PROVEN 2026-10-06: func_0x00014017c0e0(self, other, N) =
-    // instance_exists(N) (iterates scope N, returns true if an active
-    // instance remains). 0x30 = 48 = Obj_Menu_Pause. When the pause-menu
-    // object still exists, clean up the RoundedRoom overlays via a with()
-    // block over object 49 (Obj_RoundedRoom) whose body is
-    // instance_destroy() -- the with() "repeat const" is the OBJECT INDEX,
-    // not a loop count.
-    if (instance_exists(Obj_Menu_Pause)) {
-        with (Obj_RoundedRoom) {
-            instance_destroy();
-        }
-    }
-    fade_alpha = 1;
-}
-else if (paused == 0) {
-    // REGISTRY-CONFIRMED: slot 0x1405c8d50 = instance_deactivate_layer.
+    // REGISTRY-CONFIRMED (EXE-REGISTRY.md): slot 0x1405c8d50 =
+    // instance_deactivate_layer; the five constants are the LAYER names.
     instance_deactivate_layer("Office_back");
     instance_deactivate_layer("Office_front");
     instance_deactivate_layer("Camera_HUD");
@@ -84,12 +64,41 @@ else if (paused == 0) {
     Parallax_enabled = 0;
     // REGISTRY-CONFIRMED: slot 0x1405c8f90 = audio_pause_all.
     audio_pause_all();
-    if (true /* !helper 0x14017c0e0(self, other, 0x30) -- TODO */) {
+    // PROVEN 2026-10-06: func_0x00014017c0e0(self, other, N) =
+    // instance_exists(N); 0x30 = 48 = Obj_Menu_Pause (obj_names.json).
+    // The C tests `cVar1 == 0`, so the menu is spawned only when one is
+    // not already open.
+    if (!instance_exists(Obj_Menu_Pause)) {
         // REGISTRY-CONFIRMED: slot 0x1405c8d90 = instance_create_layer;
-        // C args (x, y, "Night_end" @0x1405c5393, 48.0 @0x1405c53a0).
-        // 48 = object index -- TODO(calibrate): map to asset name.
-        instance_create_layer(0, 0, "Night_end", 48);
+        // x/y are the runtime const @0x1406567a0 (both axes), layer
+        // "Night_end" @0x1405c5393, 48.0 @0x1405c53a0 = Obj_Menu_Pause.
+        instance_create_layer(0, 0, "Night_end", Obj_Menu_Pause);
     }
+}
+// paused == 0: just UNPAUSED — restore the layers + audio and tear down
+// the pause-menu overlays (C branch: iVar3 == 1).
+else if (paused == 0) {
+    // REGISTRY-CONFIRMED: slot 0x1405c8fa0 = instance_activate_layer.
+    instance_activate_layer("Office_back");
+    instance_activate_layer("Office_front");
+    instance_activate_layer("Camera_HUD");
+    instance_activate_layer("HUD");
+    instance_activate_layer("AI");
+    Parallax_enabled = 1;
+    // REGISTRY-CONFIRMED: slot 0x1405c8fb0 = audio_resume_all.
+    audio_resume_all();
+    // PROVEN 2026-10-06: the with() "repeat const" 49.0 is the OBJECT
+    // INDEX (Obj_RoundedRoom), not a loop count; its body is
+    // instance_destroy() (func_0x00014017c070). Drops the rounded-room
+    // overlays the pause menu was using.
+    if (instance_exists(Obj_Menu_Pause)) {
+        with (Obj_RoundedRoom) {
+            instance_destroy();
+        }
+    }
+    // Object-tagged write (func_0x000140160b90, tag 1 = Obj_Office_Camera_Control,
+    // var id 0x18718): the camera controller fades back in on unpause.
+    Obj_Office_Camera_Control.fade_alpha = 1;
 }
 
 /* BEGIN DECOMPILED REFERENCE

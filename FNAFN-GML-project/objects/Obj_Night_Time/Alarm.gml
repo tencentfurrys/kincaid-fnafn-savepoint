@@ -1,7 +1,41 @@
-/// @description FNAFN Obj_Night_Time / Alarm - NOT YET PORTED
+/// @description FNAFN Obj_Night_Time / Alarm — PORTED from C
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+// 2 sub-event(s): Alarm_0 (the hour-tick), Alarm_1 (fade-in trigger)
+
+// ---- sub-event Alarm_0 - PORTED from C ----
+// Ground truth: gml_Object_Obj_Night_Time_Alarm_0 (1335 B @0x140089f10)
+// Fires when the Scr_Camera_Update[0] hour-timer expires. uStack_68 =
+// 1..0xe are GML source-line markers.
+//   line 1: time += 1 (func_0x00014000bf90 = the += op helper, proven in
+//     Obj_Menu_Continue/KeyPress)
+//   line 2: if (time >= 6) — compare against 6.0 (0x4018000000000000):
+//     the night ends at 6 AM.
+//     line 13: instance_create_layer(640, 360, "Night_end", 36) — the args
+//       are the .data double @0x1405c48b8 = 640.0, @0x1405c48c8 = 360.0,
+//       the string @0x1405c48a8 = "Night_end" and @0x1405c48d8 = 36.0 =
+//       Obj_Night_Shift_End (obj_names.json) — hand off to the night-end
+//       controller at screen center.
+//     line 14: audio_stop_all() (slot 0x1405c8c10, registry-confirmed)
+//   else (still before 6 AM):
+//     line 4: fading = 0 (dims the clock — see Step's lerp branches)
+//     line 5/6: image_xscale = image_yscale = 0.65 (0x3fe4cccccccccccd)
+//     line 7: Scr_Camera_Update[1] = 300 (0x4072c000000000000) — arm the
+//       secondary timer; its expiry raises Alarm_1 (fading = 1)
+//     line 9: Scr_Camera_Update[0] = 3600 (0x40ac200000000000) — re-arm
+//       the hour-timer for the next hour
+time += 1;
+if (time >= 6) {
+    instance_create_layer(640, 360, "Night_end", Obj_Night_Shift_End);
+    audio_stop_all();
+} else {
+    fading = 0;
+    image_xscale = 0.65;
+    image_yscale = 0.65;
+    Scr_Camera_Update[1] = 300;
+    Scr_Camera_Update[0] = 3600;
+}
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Night_Time_Alarm_0(longlong *param_1,undefined8 param_2)
 
@@ -177,6 +211,73 @@ void gml_Object_Obj_Night_Time_Alarm_0(longlong *param_1,undefined8 param_2)
   }
   if ((0x46U >> (uStack_ac & 0x1f) & 1) != 0) {
     func_0x000140001410(&uStack_b8);
+  }
+  puRam0000000140657668 = (undefined8 *)uStack_78;
+  return;
+}
+END DECOMPILED REFERENCE */
+
+// ---- sub-event Alarm_1 - PORTED from C ----
+// Ground truth: gml_Object_Obj_Night_Time_Alarm_1 (288 B @0x140089cf0)
+// Present in the annotated C but emitted by no generated file (the
+// generator only writes Alarm_0 as "Alarm.gml" — the same numbering gap
+// fill_keymouse_stubs.py fixed for Key/Mouse). Fires when the
+// Scr_Camera_Update[1] secondary timer expires (armed by Alarm_0):
+//   line 2: fading = 1 (0x3ff0000000000000) — fade the clock back to full
+//     brightness (Step's fading == 1 lerp branch)
+fading = 1;
+
+/* BEGIN DECOMPILED REFERENCE
+// #### gml_Object_Obj_Night_Time_Alarm_1  va=0x140089cf0  size=288 ====
+
+void gml_Object_Obj_Night_Time_Alarm_1(longlong *param_1)
+
+{
+  undefined8 *puVar1;
+  undefined8 uStack_78;
+  undefined *puStack_70;
+  undefined4 uStack_68;
+  undefined8 uStack_60;
+  uint uStack_54;
+  undefined8 uStack_50;
+  uint uStack_44;
+  undefined8 uStack_40;
+  uint uStack_34;
+  undefined8 uStack_30;
+  uint uStack_24;
+  undefined8 uStack_20;
+
+  uStack_20 = 0xfffffffffffffffe;
+  puStack_70 = &UNK_14043b5ae /* "gml_Object_Obj_Night_Time_Alarm_1" */;
+  uStack_78 = puRam0000000140657668;
+  puRam0000000140657668 = &uStack_78;
+  uStack_54 = 0xffffff;
+  uStack_60 = 0;
+  uStack_44 = 0xffffff;
+  uStack_50 = 0;
+  uStack_34 = 0xffffff;
+  uStack_40 = 0;
+  uStack_24 = 0xffffff;
+  uStack_30 = 0;
+  uStack_68 = 2;
+  plRam0000000140657680 = param_1;
+  puVar1 = (undefined8 *)(**(code **)(*param_1 + 0x10))(param_1,0x18719 /* fading */);
+  if ((0x46U >> (*(uint *)((longlong)puVar1 + 0xc) & 0x1f) & 1) != 0) {
+    func_0x000140001410(puVar1);
+  }
+  *(undefined4 *)((longlong)puVar1 + 0xc) = 0;
+  *puVar1 = 0x3ff0000000000000;
+  if ((0x46U >> (uStack_24 & 0x1f) & 1) != 0) {
+    func_0x000140001410(&uStack_30);
+  }
+  if ((0x46U >> (uStack_34 & 0x1f) & 1) != 0) {
+    func_0x000140001410(&uStack_40);
+  }
+  if ((0x46U >> (uStack_44 & 0x1f) & 1) != 0) {
+    func_0x000140001410(&uStack_50);
+  }
+  if ((0x46U >> (uStack_54 & 0x1f) & 1) != 0) {
+    func_0x000140001410(&uStack_60);
   }
   puRam0000000140657668 = (undefined8 *)uStack_78;
   return;

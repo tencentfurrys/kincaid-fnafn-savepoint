@@ -293,13 +293,14 @@ END DECOMPILED REFERENCE */
 // -- the mirror holds), only the exe constants differ, and they decode to
 // the SAME values: x=32.0 (0x1405c3b68), y=160.0 (0x1405c3b78), layer
 // "Main_menu" (0x1405c3b58), object 63.0 (0x1405c3b88 -> Obj_Menu_Main_Title
-// via obj_names.json), then the same no-arg room service 0x14017c070.
-// Reading: right-click on the night-select screen is the same "back to
-// main menu" action as the Q key.
+// via obj_names.json), then func_0x00014017c070(self, other, 0, 0) =
+// instance_destroy() (PROVEN 2026-10-06; the old "room_goto_next" best-fit
+// guess was wrong — this is the 0x14017c070 self-removal, not a room
+// change). Reading: right-click on the night-select screen is the same
+// "back to main menu" action as the Q key — hand control to the main menu
+// and remove the continue-screen controller.
 instance_create_layer(32, 160, "Main_menu", Obj_Menu_Main_Title);
-// TODO(calibrate): helper 0x14017c070(self, other, 0, 0) - no-arg
-// room/event service; best fit room_goto_next() (49 sites repo-wide).
-room_goto_next();
+instance_destroy();
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Menu_Continue_Mouse_54(undefined8 param_1,undefined8 param_2)
 

@@ -27,17 +27,18 @@
 // Reading: leaving the options screen deactivates a system object, applies
 // the saved display/fullscreen settings, destroys every options-preview
 // instance, and (only in room 4) re-shows object 48.
-// TODO(calibrate): object indices 50 and 48 need the resource table to name.
+// RESOLVED 2026-10-06 via obj_names.json: 50 = Obj_Menu_Options_Icons,
+// 48 = Obj_Menu_Pause.
 // TODO(calibrate): display_reset is documented 0-arg in GMS2 but the C
 // stages 2 args -- the source may have passed settings the runner ignores.
-instance_deactivate_object(50);
+instance_deactivate_object(Obj_Menu_Options_Icons);
 display_reset(game_settings[3], game_settings[2]);
 window_set_fullscreen(game_settings[1]);
 with (Obj_Menu_Options_Preview) {
     instance_destroy();
 }
 if (room == 4) {
-    object_set_visible(48, 1);
+    object_set_visible(Obj_Menu_Pause, 1);
 }
 
 /* BEGIN DECOMPILED REFERENCE

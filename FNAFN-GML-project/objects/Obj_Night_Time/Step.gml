@@ -1,8 +1,52 @@
-/// @description FNAFN Obj_Night_Time / Step - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
-// ground truth: gml_Object_Obj_Night_Time_Step_1 (3309 B @0x14008a6b0)
+/// @description FNAFN Obj_Night_Time / Step — PORTED from C
+// Ground truth: gml_Object_Obj_Night_Time_Step_1 (3309 B @0x14008a6b0)
+// The night clock controller. uStack_b8 = 3..0x1d are GML source-line
+// markers; delta_factor (id 0x1870b) is read once into uStack_b0.
+//   lines 6-14: for (var i = 0; i < array_length(Scr_Camera_Update); i += 1)
+//     sweeping the per-hour countdown timers. dVar1 = _UNK_140439dd0 = 1.0
+//     and the typed-increment switch are the generic `i += 1`.
+//     A timer still > 0 counts down by delta_factor (func_0x00014000bdb0
+//     = the -= op helper, proven in Obj_Menu_Fade/Transition Step); a timer
+//     that has reached <= 0 and is not the -100 "disabled" sentinel is set
+//     to -100 and fires event_perform(ev_alarm, i) (func_0x000140181c50,
+//     PROVEN 2026-10-06). array_length (slot 0x1405c8ba0) + the indexed
+//     reads/writes prove Scr_Camera_Update (id 0x186d5) is an ARRAY here,
+//     despite its script-like registered name.
+//   line 20: read fading (id 0x18719). A guarded constant-pool init sets
+//     the two case constants (0 and 1.0) and the case table at 0x140655c80
+//     (stride 0x14; table[1] = 1 is written explicitly, so table[0] = 0):
+//     a two-case switch on fading.
+//     fading == 0 (line 22): image_alpha = lerp(image_alpha, 0.45, 0.02*delta)
+//       — target is the .data double @0x1405c48e8 = 0.45.
+//     fading == 1 (line 23): image_alpha = lerp(image_alpha, <const>, 0.025*delta)
+//       — target is runtime pool const @0x140655c60 (value written at load
+//       time, not readable from the exe): TODO(calibrate).
+//     lerp = slot 0x1405c8cc0 (registry-confirmed).
+//   line 26: if (image_alpha != 0) the clock sprite slowly grows while
+//     visible: image_yscale += 0.00075*delta (line 28, 0x3f489374bc6a7efa),
+//     image_xscale += 0.00105*delta (line 29, 0x3f513404ea4a8c15).
+for (var i = 0; i < array_length(Scr_Camera_Update); i += 1) {
+    if (Scr_Camera_Update[i] <= 0) {
+        if (round(Scr_Camera_Update[i]) <= 0) {
+            if (round(Scr_Camera_Update[i]) > -100) {
+                Scr_Camera_Update[i] = -100;
+                event_perform(ev_alarm, i);
+            }
+        }
+    } else {
+        Scr_Camera_Update[i] -= delta_factor;
+    }
+}
+if (fading == 0) {
+    image_alpha = lerp(image_alpha, 0.45, 0.02 * delta_factor);
+} else if (fading == 1) {
+    image_alpha = lerp(image_alpha, 1 /* TODO(calibrate): runtime const @0x140655c60 */, 0.025 * delta_factor);
+}
+if (image_alpha != 0) {
+    image_yscale += 0.00075 * delta_factor;
+    image_xscale += 0.00105 * delta_factor;
+}
+
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 

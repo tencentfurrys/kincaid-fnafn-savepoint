@@ -8,11 +8,11 @@
 //           The loop body fetches id 0x186d5 via the +0x10 (VARIABLE) path,
 //           creates an accessor with key = time, writes -100.0
 //           (0xc059000000000000) into it, then finalizes with argc 2:
-//           reading = `owner[time] = -100` where owner's registered name is
-//           "Scr_Camera_Update" (builtin_ids.json; ids also carry object-
-//           event aliases). Alternative reading: Scr_Camera_Update(time).
-//           -100 fits "disable the per-hour alarm" semantics.
-//           TODO(calibrate): exact owner + call shape (see above).
+//           `Scr_Camera_Update[time] = -100`. RESOLVED 2026-10-06:
+//           Obj_Night_Time calls array_length() on this same id 0x186d5
+//           and indexes it the same way, so it is an ARRAY (the registered
+//           name just happens to look like a script). -100 is the "disabled"
+//           timer sentinel Obj_Night_Time/Step tests for.
 //   line 9:  image_alpha (slot uRam00000001405c7b98 — registry) = 0.
 //   line 10: night_size (id 0x1874a) = 1.
 //   line 11: fade_alpha (id 0x18718) = 1.
@@ -27,12 +27,13 @@
 //     line 19: fade_alpha = 0
 //     line 20: text_alpha = 0
 //     line 21: text_fade = 0
-//     line 22: if (keyboard_check(ord("-")))  [service func_0x00014017c0e0
-//              (self, other, 0x2d); 0x2d = 45 = ord("-") / vk_insert —
-//              TODO(calibrate): service semantics]
+//     line 22: if (instance_exists(Obj_Pause))  [func_0x00014017c0e0
+//              (self, other, 0x2d) — PROVEN 2026-10-06 = instance_exists;
+//              0x2d = 45 = Obj_Pause, obj_names.json]
 //       line 24: instance_deactivate_object(45)  [slot 0x1405c8bf0 —
 //              registry-confirmed; 45.0 (const @0x1405c4ec0) = object index
-//              — TODO(calibrate): map object index 45 to its asset name]
+//              = Obj_Pause]
+//     (2026-10-06 correction: was misread as keyboard_check(ord("-")).)
 //     line 26: night_size = 0.95 (0x3fee666666666666)
 //   line 28: if (room == 2)  [0x4000000000000000 = 2.0]:
 //     line 30: fade_alpha = 0
@@ -43,8 +44,7 @@
 //              (2 s at 60 fps) fits a night-restart setup.
 var time = 0;
 while (time < 12) {
-    // TODO(calibrate): owner[time] = -100 — owner = variable fetched by id
-    // 0x186d5 ("Scr_Camera_Update"); alternative: Scr_Camera_Update(time).
+    Scr_Camera_Update[time] = -100;
     time += 1;
 }
 image_alpha = 0;
@@ -59,8 +59,8 @@ if (room == 4) {
     fade_alpha = 0;
     text_alpha = 0;
     text_fade = 0;
-    if (keyboard_check(ord("-"))) { // TODO(calibrate): service 0x14017c0e0(self, other, 45)
-        instance_deactivate_object(45); // TODO(calibrate): object index 45 asset name
+    if (instance_exists(Obj_Pause)) {
+        instance_deactivate_object(Obj_Pause);
     }
     night_size = 0.95;
 }
@@ -68,7 +68,9 @@ if (room == 2) {
     fade_alpha = 0;
     text_alpha = 1;
     text_fade = 0;
-    // TODO(calibrate): owner[0] = 120 — same owner id 0x186d5 as the loop.
+    // line 33: Scr_Camera_Update[0] = 120 — alarm[0] = 120 (2 s at 60 fps)
+    // fits a night-restart setup (same array-write shape as the loop).
+    Scr_Camera_Update[0] = 120;
 }
 
 /* BEGIN DECOMPILED REFERENCE

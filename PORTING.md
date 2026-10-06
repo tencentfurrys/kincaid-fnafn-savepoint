@@ -52,6 +52,29 @@ disambiguates.
 - Proven op-helper semantics (from Disclaimer KeyPress_1 0.5 constant):
   `func_0x00014015be60` = 3-way compare (neg = less, pos = greater,
   -2 = incomparable).
+- Compare-operator calibration (2026-10-06): the GML operator is chosen by
+  how the CALLER tests the 3-way result (`if (fading > 0.5)` =
+  `compare(fading, 0.5)` with `0 < r`): `0 < r` = `>`, `r == 0` = `==`,
+  `r != 0` = `!=`, `r < 1` = `<=`, and a loop that breaks unless `r < 0`
+  is the `<` condition.
+- Compound-op helpers (PROVEN 2026-10-06): `func_0x00014000bdb0` = `-=`,
+  `func_0x00014000bf90` = `+=` (both in-place on the first arg).
+- `for`-loop shape (PROVEN 2026-10-06, Obj_Night_Time / Obj_Night_Shift_End):
+  counter init; `while(true) { bound; if (compare(counter, bound) not < 0)
+  break; body; typed-increment switch }`. The closing `switch(counter_type)`
+  (cases 0 = double `+= dVar1`, 7 = int32 +1, 10 = int64 +1, default = the
+  generic `++` operator, UNK_140439e10 = "++") is the single `counter += 1`;
+  `dVar1` = _UNK_140439dd0 = 1.0. The bound may be a literal double or a
+  call (`array_length(array)`).
+- Variable-vs-script ids: an id fetched then passed to `array_length()` /
+  the accessor shape is an ARRAY even when its registered name looks like a
+  script — id 0x186d5 "Scr_Camera_Update" is a 12-element array.
+- Two-case flag switch: `compare(case0, x); if (!=0) { compare(case1, x);
+  if (!=0) skip; sel = 1; } label = table[sel]` decodes as
+  `if (x == case0) {...} else if (x == case1) {...}`. Case constants AND
+  the label table sit in the guarded constant pool; when the pool init
+  zeroes the label table explicitly the case->branch mapping is provable
+  offline (see the Obj_Pause/KeyPress inversion fix in PROGRESS.md).
 - The `+8` fetch on the instance (`(**(code **)(*param_1 + 8))`) returns
   a VARIABLE by id, and `+0x10` also returns variables — both are used
   for reads; calls go through the separate arg-collection path.
@@ -92,6 +115,32 @@ if (<input read> > 0) {
     <advance>(2, 1);   // room/event transition with args (2,1)
 }
 ```
+
+## BREAKTHROUGH 2026-10-06: SPRT chunk — every sprite id named
+
+`data.win`'s SPRT chunk holds the 109 game sprites as
+`count` + a pointer array; each entry's name is a NUL string at the address
+stored in the pointer (exactly the OBJT/ROOM rule). Run `sprite_names.py`
+-> `sprite_names.json` (`{'index', 'name'}`, 109 entries).
+
+**The sprite id the YYC codegen passes as the first arg of the draw helper
+`func_0x0001401755c0` (= draw_sprite_ext) is the SPRT chunk index.**
+PROVEN by 100% semantic fit across all 30+ call sites in the annotated C:
+
+| id | name | used by |
+|---|---|---|
+| 85 (0x55) | Spr_UI_Fade_Black (1px) | Obj_Menu_Fade/Draw, Obj_Night_Shift_End/Draw, Obj_Office_Camera_Control/Draw (fullscreen black overlay) |
+| 89 (0x59) | Spr_Night_UI_Time | Obj_Night_Time/Draw (subimg = `time`) |
+| 14 | Spr_Menu_Loading_Spinner | Obj_Menu_Loading/Draw |
+| 78 | Spr_UI_Night_Number | Obj_Menu_Night_Display/Draw |
+| 33 | Spr_Menu_Radio_Arrows | Obj_Menu_Radio_Cassette/Draw, Obj_Menu_Options_Preview/Draw |
+| 6 | Spr_Night_UI_Power_Bar | Obj_Night_UI_Power/Draw |
+| 17/99/102 | Camera_Button/Freddy_Alert/Key_Hints | Obj_Night_UI_Camera_Button/Draw |
+| 16/4/39 | Siris/Sglow/Sring | gml_Script_draw_lensflare |
+
+So: **every `draw_sprite_ext(<id>, ...)` port can now name its sprite** —
+replace the id with `sprite_names.json[id]`. Only Obj_Menu_Fade/Draw carried
+a sprite TODO; it is applied.
 
 ## BREAKTHROUGH 2026-10-06: instance_destroy / event_perform / instance_exists proven; with() loops decoded
 

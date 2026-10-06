@@ -1,8 +1,18 @@
-/// @description FNAFN Obj_Night_Time / Draw - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
-// ground truth: gml_Object_Obj_Night_Time_Draw_75 (701 B @0x14008bc70)
+/// @description FNAFN Obj_Night_Time / Draw — PORTED from C
+// Ground truth: gml_Object_Obj_Night_Time_Draw_75 (701 B @0x14008bc70)
+// Draws the night clock. func_0x0001401755c0 = draw_sprite_ext (proven in
+// Obj_Menu_Fade/Draw); arg order (sprite, subimg, x, y, xscale, yscale,
+// rot, colour, alpha):
+//   sprite 0x59 = 89 = Spr_Night_UI_Time (sprite_names.json, data.win SPRT
+//     chunk — the id indexes the chunk, same rule as OBJT/ROOM)
+//   subimg = the instance variable `time` (id 0x18791) — the clock face
+//     tracks the current hour
+//   x = _UNK_14043b00c = f32 640.0, y = 0x43b40000 = f32 360.0 (screen
+//     center of the 1280x720 view)
+//   xscale/yscale = image_xscale/image_yscale (read via the op helper),
+//   rot = 0, colour = 0xffffff = c_white, alpha = image_alpha
+draw_sprite_ext(Spr_Night_UI_Time, time, 640, 360, image_xscale, image_yscale, 0, c_white, image_alpha);
+
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 

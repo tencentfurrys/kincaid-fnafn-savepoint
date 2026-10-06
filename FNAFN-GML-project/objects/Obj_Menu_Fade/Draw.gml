@@ -7,18 +7,18 @@
 //      YYC defensive noise for a value Create always sets to a number).
 //   2. fullscreen draw: func_0x0001401755c0(self, 0x55, 0, 0, 0,
 //      0x44a00000, 0x44340000, 0, 0, (float)alpha).
-//      0x44a00000 (f32) = 1280.0, 0x44340000 (f32) = 736.0, so:
+//      0x44a00000 (f32) = 1280.0, 0x44340000 (f32) = 720.0, so:
 //      sprite id 0x55 (runtime sprite slot), subimg 0, x 0, y 0,
-//      xscale 1280, yscale 736, rot 0, colour 0 (c_black), alpha =
+//      xscale 1280, yscale 720, rot 0, colour 0 (c_black), alpha =
 //      image_alpha  =>  exactly draw_sprite_ext(..., c_black, image_alpha)
-//      stretched over the 1280x736 window: a black fade overlay whose
+//      stretched over the 1280x720 window: a black fade overlay whose
 //      opacity is this instance's image_alpha.
 // CORRECTION vs the old port: the alpha argument IS explicit and image_alpha
 // comes from the registry-proven slot; draw_rectangle guessing removed.
-// TODO(calibrate): sprite resource id 0x55 is a runtime slot — replace
-// `spr_menu_fade_black` with the real sprite asset name (a solid black
-// 1x1 or small black sprite scaled up fits the usage).
-draw_sprite_ext(spr_menu_fade_black /* TODO(calibrate): runtime sprite id 0x55 */, 0, 0, 0, 1280, 736, 0, c_black, image_alpha);
+// 2026-10-06: sprite id 0x55 = SPRT index 85 = Spr_UI_Fade_Black (1px wide
+// — exactly the 1x1-black-sprite guess below), and 0x44340000 was misread
+// as 736; it is 720.0 (matches the 1280x720 window every other object uses).
+draw_sprite_ext(Spr_UI_Fade_Black, 0, 0, 0, 1280, 720, 0, c_black, image_alpha);
 
 /* BEGIN DECOMPILED REFERENCE
 // #### gml_Object_Obj_Menu_Fade_Draw_0  va=0x14006c140  size=395 ====
