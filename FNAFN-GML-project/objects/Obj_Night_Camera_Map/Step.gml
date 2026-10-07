@@ -1,7 +1,19 @@
-/// @description FNAFN Obj_Night_Camera_Map / Step - NOT YET PORTED
+/// @description FNAFN Obj_Night_Camera_Map / Step — PORTED from C
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+// Ported: Obj_Night_Camera_Map / Step
+customfunct_image_speed_delta(0.025);
+if (mouse_x > 2077) {
+    if (mouse_y > 282) {
+        if (Night_recording == 0) { image_alpha = 0.95; }
+        else if (Night_camera_mode == "music") { image_alpha = 1; }
+        else { image_alpha = 0.45; }
+    } else if (Night_camera_mode == "music") { image_alpha = 1; }
+    else { image_alpha = 0.45; }
+} else if (Night_camera_mode == "music") { image_alpha = 1; }
+else { image_alpha = 0.45; }
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Night_Camera_Map_Step_0(undefined8 param_1,undefined8 param_2)
 

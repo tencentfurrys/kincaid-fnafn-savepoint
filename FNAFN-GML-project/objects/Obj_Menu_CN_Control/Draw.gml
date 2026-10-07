@@ -1,7 +1,14 @@
-/// @description FNAFN Obj_Menu_CN_Control / Draw - NOT YET PORTED
+/// @description FNAFN Obj_Menu_CN_Control / Draw — PORTED from C
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+// Ported: Obj_Menu_CN_Control / Draw
+draw_set_color(make_color_rgb(255, 0, 110));
+draw_set_font(0);
+draw_set_valign(fa_bottom);
+draw_set_halign(fa_right);
+draw_text(1152, 660, "Press enter to start");
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Menu_CN_Control_Draw_0(undefined8 param_1,undefined8 param_2)
 

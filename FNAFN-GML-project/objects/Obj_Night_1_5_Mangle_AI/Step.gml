@@ -1,7 +1,16 @@
-/// @description FNAFN Obj_Night_1_5_Mangle_AI / Step - NOT YET PORTED
+/// @description FNAFN Obj_Night_1_5_Mangle_AI / Step — PORTED from C
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+// Ported: Obj_Night_1_5_Mangle_AI / Step
+for (var i = 0; i < array_length(Scr_Camera_Update); i += 1) {
+    if (Scr_Camera_Update[i] <= 0) {
+        if (round(Scr_Camera_Update[i]) <= 0) {
+            if (round(Scr_Camera_Update[i]) > -100) { Scr_Camera_Update[i] = -100; event_perform(ev_alarm, i); }
+        }
+    } else { Scr_Camera_Update[i] -= delta_factor; }
+}
+
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) Globals starting with '_' overlap smaller symbols at the same address
 // - literal slash-star form removed: it would close a GML block comment early.

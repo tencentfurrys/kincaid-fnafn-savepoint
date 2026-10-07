@@ -1,7 +1,9 @@
-/// @description FNAFN Obj_Night_Camera_Map / Create - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Night_Camera_Map / Create — PORTED from C
+// Ground truth: gml_Object_Obj_Night_Camera_Map_Create_0
+// camera_text (id 0x186ef) = runtime string const @0x140656790
+// TODO(calibrate): guarded-pool string, exe absent.
+camera_text = ""; // TODO(calibrate): @0x140656790
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Night_Camera_Map_Create_0(longlong *param_1)
 

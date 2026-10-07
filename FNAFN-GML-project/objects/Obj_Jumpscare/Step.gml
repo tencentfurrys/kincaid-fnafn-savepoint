@@ -1,7 +1,11 @@
-/// @description FNAFN Obj_Jumpscare / Step - NOT YET PORTED
+/// @description FNAFN Obj_Jumpscare / Step — PORTED from C
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+// Ported: Obj_Jumpscare / Step
+if (round(image_index) != Animation_end) { customfunct_image_speed_delta(0.88); stopped = 0; }
+else if (stopped != 1) { instance_create_layer(0, 0, "UI", Obj_Game_Over); stopped = 1; }
+
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) Globals starting with '_' overlap smaller symbols at the same address
 // - literal slash-star form removed: it would close a GML block comment early.

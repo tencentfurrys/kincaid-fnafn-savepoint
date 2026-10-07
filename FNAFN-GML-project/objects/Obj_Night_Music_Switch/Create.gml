@@ -1,7 +1,13 @@
-/// @description FNAFN Obj_Night_Music_Switch / Create - NOT YET PORTED
+/// @description FNAFN Obj_Night_Music_Switch / Create — PORTED from C
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+// Ported: Obj_Night_Music_Switch / Create
+toggle = 0;
+text_alpha = 0;
+selection = 1;
+image_index = 1;
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Night_Music_Switch_Create_0(longlong *param_1)
 

@@ -1,7 +1,8 @@
-/// @description FNAFN Obj_Night_Camera_Record / Create - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Night_Camera_Record / Create — PORTED from C
+// Ground truth: gml_Object_Obj_Night_Camera_Record_Create_0
+// Single-statement Create: toggle (id 0x18793) = 0.
+toggle = 0;
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Night_Camera_Record_Create_0(longlong *param_1)
 

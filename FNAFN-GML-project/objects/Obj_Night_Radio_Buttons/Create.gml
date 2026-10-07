@@ -1,7 +1,14 @@
-/// @description FNAFN Obj_Night_Radio_Buttons / Create - NOT YET PORTED
+/// @description FNAFN Obj_Night_Radio_Buttons / Create — PORTED from C
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+// Ported: Obj_Night_Radio_Buttons / Create
+image_alpha = 0;
+paused = 1;
+song_choice = 0;
+playing = 0;
+image_xscale = 1.15;
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Night_Radio_Buttons_Create_0(longlong *param_1)
 

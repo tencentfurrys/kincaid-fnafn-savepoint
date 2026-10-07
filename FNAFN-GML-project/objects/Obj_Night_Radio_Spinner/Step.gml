@@ -1,7 +1,12 @@
-/// @description FNAFN Obj_Night_Radio_Spinner / Step - NOT YET PORTED
+/// @description FNAFN Obj_Night_Radio_Spinner / Step — PORTED from C
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+// Ported: Obj_Night_Radio_Spinner / Step
+if (turn == 1) turn_speed = lerp(turn_speed, 4, 0.04 * delta_factor);
+if (turn == 0) turn_speed = lerp(turn_speed, 0, 0.055 * delta_factor); // TODO target
+image_angle += turn_speed * delta_factor;
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Night_Radio_Spinner_Step_0(longlong *param_1,undefined8 param_2)
 

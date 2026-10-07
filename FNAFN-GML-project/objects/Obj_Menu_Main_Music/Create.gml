@@ -1,7 +1,10 @@
-/// @description FNAFN Obj_Menu_Main_Music / Create - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Menu_Main_Music / Create — PORTED from C
+// Ground truth: gml_Object_Obj_Menu_Main_Music_Create_0
+// image_xscale (slot 0x1405c7c18) = 1.25, image_yscale (0x1405c7c08) = 1.25
+// (0x3ff4000000000000). Corrects stale image_speed note.
+image_xscale = 1.25;
+image_yscale = 1.25;
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Menu_Main_Music_Create_0(undefined8 param_1)
 

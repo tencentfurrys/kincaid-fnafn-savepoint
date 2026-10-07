@@ -1,8 +1,12 @@
-/// @description FNAFN Obj_Office_Front_Right / Other - NOT YET PORTED
+/// @description FNAFN Obj_Office_Front_Right / Other — PORTED from C
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
 // ground truth: gml_Object_Obj_Office_Front_Right_Other_5 (504 B @0x1400fa890)
+// Ported: Obj_Office_Front_Right / Other
+audio_emitter_free(door_emitter);
+audio_emitter_free(__init_global); // TODO: 0x186d6 name
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Office_Front_Right_Other_5(longlong *param_1,undefined8 param_2)
 

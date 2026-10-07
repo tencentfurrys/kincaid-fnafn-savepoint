@@ -1,8 +1,13 @@
-/// @description FNAFN obj_OLDTVFilter_PresetBase / Draw - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
-// ground truth: gml_Object_obj_OLDTVFilter_PresetBase_Draw_75 (515 B @0x1400980d0)
+/// @description FNAFN obj_OLDTVFilter_PresetBase / Draw — PORTED from C
+// Ground truth: gml_Object_obj_OLDTVFilter_PresetBase_Draw_75 (515 B @0x1400980d0)
+//   sprite_index (slot 0x1405c7be8, registry) = -1.0 (0xbff0000000000000)
+//     via self-write helper — disables the default sprite draw.
+//   script_execute(scr_OLDTVFilter_Draw) — slot 0x1405c8e50 = script_execute
+//     (registry); arg is (double)iRam@0x1405c8f30 where 0x1405c8f30 =
+//     gml_Script_scr_OLDTVFilter_Draw (EXE-REGISTRY.md).
+sprite_index = -1;
+script_execute(scr_OLDTVFilter_Draw);
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_obj_OLDTVFilter_PresetBase_Draw_75(undefined8 param_1,undefined8 param_2)
 

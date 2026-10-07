@@ -1,4 +1,4 @@
-/// @description FNAFN Obj_Menu_Options_Icons / Mouse - NOT YET PORTED
+/// @description FNAFN Obj_Menu_Options_Icons / Mouse_4 — PORTED from C
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
@@ -7,6 +7,10 @@
 
 // ---- sub-event Mouse_4 — NOT YET PORTED ----
 // ground truth: gml_Object_Obj_Menu_Options_Icons_Mouse_4 (967 B @0x1400da150)
+// Ported: Obj_Menu_Options_Icons / Mouse_4
+if (image_index == 0) { url_open("https://gamejolt.com/games/FNAF-N/148097"); }
+else if (image_index == 1) { url_open("https://www.patreon.com/HStudiosDev"); }
+
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 

@@ -1,7 +1,13 @@
-/// @description FNAFN Obj_Menu_Main_Back / Draw - NOT YET PORTED
+/// @description FNAFN Obj_Menu_Main_Back / Draw — PORTED from C
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+// Ported: Obj_Menu_Main_Back / Draw
+var _tex = sprite_get_texture(sprite_index, image_index);
+shader_set_uniform_f(shader_get_uniform(0, "u_texel"), texture_get_texel_width(_tex), texture_get_texel_height(_tex)); // TODO shader
+shader_set_uniform_f(shader_get_uniform(0, "u_strength"), 4.0);
+draw_self();
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Menu_Main_Back_Draw_0(undefined8 param_1,undefined8 param_2)
 

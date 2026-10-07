@@ -1,7 +1,9 @@
-/// @description FNAFN Obj_Menu_Night_Display / Alarm - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Menu_Night_Display / Alarm — PORTED from C
+// Ground truth: gml_Object_Obj_Menu_Night_Display_Alarm_0 (288 B)
+// Single-statement alarm: fade (id 0x18717) = 1.0 (0x3ff0000000000000).
+// Direct id-fetch write shape — same as Obj_Night_Time/Alarm_1.
+fade = 1;
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Menu_Night_Display_Alarm_0(longlong *param_1)
 

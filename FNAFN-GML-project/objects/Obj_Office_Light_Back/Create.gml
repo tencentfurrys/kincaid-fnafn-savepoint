@@ -1,7 +1,8 @@
-/// @description FNAFN Obj_Office_Light_Back / Create - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Office_Light_Back / Create — PORTED from C
+// Ground truth: gml_Object_Obj_Office_Light_Back_Create_0
+// Single-statement Create: flash_sound (id 0x1871a) = 0.
+flash_sound = 0;
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Office_Light_Back_Create_0(longlong *param_1)
 

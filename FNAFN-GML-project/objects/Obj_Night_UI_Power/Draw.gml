@@ -1,8 +1,21 @@
-/// @description FNAFN Obj_Night_UI_Power / Draw - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
-// ground truth: gml_Object_Obj_Night_UI_Power_Draw_75 (931 B @0x14005bb10)
+/// @description FNAFN Obj_Night_UI_Power / Draw — PORTED from C
+// Ground truth: gml_Object_Obj_Night_UI_Power_Draw_75 (931 B @0x14005bb10)
+// Power-bar stack (uStack_58 = 2..4 are lines). power_bar_opacity (id 0x1875a)
+// is an ARRAY — indexed 0/1/2 for the three segments' alpha.
+//   func_0x000140175550(0x49,0,66.0,64.0) — TODO(identity): 4-arg draw-state
+//     helper (same family as Pause/Draw's 175550 TODO; args 0x49=73, 0,
+//     _UNK_14043ac48=66.0f, 0x42800000=64.0f).
+//   sprite 6 = SPRT 6 = Spr_Night_UI_Power_Bar, subimg 0, y 65.0
+//     (0x42820000f), xscale/yscale 1.0, rot 0:
+//     x 36.0 (_UNK_14043ac4c), colour c_white, alpha power_bar_opacity[0]
+//     x 66.0 (_UNK_14043ac48), colour $40A0FF (make_colour_rgb(255,160,64),
+//       orange), alpha power_bar_opacity[1]
+//     x 96.0 (_UNK_14043ac50), colour c_red (0xff), alpha power_bar_opacity[2]
+//   x consts proven as f32 via exe read (66.0/36.0/96.0), y 65.0f.
+draw_sprite_ext(Spr_Night_UI_Power_Bar, 0, 36, 65, 1, 1, 0, c_white, power_bar_opacity[0]);
+draw_sprite_ext(Spr_Night_UI_Power_Bar, 0, 66, 65, 1, 1, 0, $40A0FF, power_bar_opacity[1]);
+draw_sprite_ext(Spr_Night_UI_Power_Bar, 0, 96, 65, 1, 1, 0, c_red, power_bar_opacity[2]);
+
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) WARNING: Type propagation algorithm not settling */
 // (Ghidra note) WARNING: Globals starting with '_' overlap smaller symbols at the same address */

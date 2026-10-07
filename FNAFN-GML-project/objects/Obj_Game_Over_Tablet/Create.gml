@@ -1,7 +1,12 @@
-/// @description FNAFN Obj_Game_Over_Tablet / Create - NOT YET PORTED
+/// @description FNAFN Obj_Game_Over_Tablet / Create — PORTED from C
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+// Ported: Obj_Game_Over_Tablet / Create
+Tablet_Sprite_Speed = -0.99;
+image_index = 9;
+customfunct_audio_play_sound_single(52, 0, false);
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Game_Over_Tablet_Create_0(longlong *param_1,undefined8 param_2)
 

@@ -1,7 +1,12 @@
-/// @description FNAFN Obj_Menu_Disclaimer / Alarm - NOT YET PORTED
+/// @description FNAFN Obj_Menu_Disclaimer / Alarm — PORTED from C
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+// Ported: Obj_Menu_Disclaimer / Alarm
+fading = 1;
+Scr_Camera_Update();
+// TODO: trailing 280.0 store artefact
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Menu_Disclaimer_Alarm_0(longlong *param_1)
 

@@ -1,7 +1,16 @@
-/// @description FNAFN Obj_Filter_Camera / Step - NOT YET PORTED
+/// @description FNAFN Obj_Filter_Camera / Step — PORTED from C
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+// Ported: Obj_Filter_Camera / Step
+if (game_settings[0] == "full") {
+    composite_distortion = lerp(composite_distortion, 0.3, 0.1 * delta_factor);
+    composite_artifact = lerp(composite_artifact, 0.3, 0.1 * delta_factor);
+    static_magnetude = lerp(static_magnetude, 0.1, 0.1 * delta_factor);
+    static_offset += 0.005 * delta_factor;
+    if (static_offset >= 1) static_offset = 0;
+}
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Filter_Camera_Step_0(undefined8 param_1,undefined8 param_2)
 

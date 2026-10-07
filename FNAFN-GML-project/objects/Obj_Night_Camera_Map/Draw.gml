@@ -1,7 +1,15 @@
-/// @description FNAFN Obj_Night_Camera_Map / Draw - NOT YET PORTED
+/// @description FNAFN Obj_Night_Camera_Map / Draw — PORTED from C
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+// Ported: Obj_Night_Camera_Map / Draw
+if (Night_recording == 1) {
+    // TODO: func_175550(7, image_index, str, 640.0)
+}
+draw_set_font(0);
+draw_set_halign(fa_center);
+draw_text(2303, 239, camera_text);
+
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) Globals starting with '_' overlap smaller symbols at the same address
 // - literal slash-star form removed: it would close a GML block comment early.

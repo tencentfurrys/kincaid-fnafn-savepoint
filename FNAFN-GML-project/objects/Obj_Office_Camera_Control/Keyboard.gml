@@ -1,4 +1,4 @@
-/// @description FNAFN Obj_Office_Camera_Control / Keyboard - NOT YET PORTED
+/// @description FNAFN Obj_Office_Camera_Control / Keyboard — PORTED from C
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
@@ -7,6 +7,18 @@
 
 // ---- sub-event Keyboard_65 — NOT YET PORTED ----
 // ground truth: gml_Object_Obj_Office_Camera_Control_Keyboard_65 (577 B @0x140049e00)
+// Ported: Obj_Office_Camera_Control / Keyboard
+if (Player_rotating == 0 && Night_camera == 0 && Night_office_rotated == 0) {
+    Player_rotate_cooldown = 15;
+    Player_rotation_mode -= 1;
+    Player_rotating = 1;
+}
+if (Player_rotating == 0 && Night_camera == 0 && Night_office_rotated == 0) {
+    Player_rotate_cooldown = 15;
+    Player_rotation_mode += 1;
+    Player_rotating = 1;
+}
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Office_Camera_Control_Keyboard_65(longlong *param_1)
 

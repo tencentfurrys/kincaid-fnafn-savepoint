@@ -1,8 +1,9 @@
-/// @description FNAFN Obj_Game_Over_Tablet / Draw - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
-// ground truth: gml_Object_Obj_Game_Over_Tablet_Draw_75 (272 B @0x1400b4ec0)
+/// @description FNAFN Obj_Game_Over_Tablet / Draw — PORTED from C
+// Ground truth: gml_Object_Obj_Game_Over_Tablet_Draw_75 (272 B @0x1400b4ec0)
+// Single no-arg call func_0x000140175460() = draw_self() (PORTING.md regular
+// shape: Draw 236/272 B no-arg blocks).
+draw_self();
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Game_Over_Tablet_Draw_75(undefined8 param_1)
 

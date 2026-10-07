@@ -1,7 +1,9 @@
-/// @description FNAFN Obj_Night_Camera_Icons_Select / Step - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Night_Camera_Icons_Select / Step — PORTED from C
+// Ground truth: gml_Object_Obj_Night_Camera_Icons_Select_Step_0
+// Single call: customfunct_image_speed_delta(0.06) — const @0x1405c48f8 =
+// double 0.06 (exe_strings.py). Ported script lives in scripts/ported/.
+customfunct_image_speed_delta(0.06);
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Night_Camera_Icons_Select_Step_0(undefined8 param_1,undefined8 param_2)
 

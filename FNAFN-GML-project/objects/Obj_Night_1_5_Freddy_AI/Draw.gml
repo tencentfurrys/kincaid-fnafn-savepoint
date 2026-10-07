@@ -1,7 +1,10 @@
-/// @description FNAFN Obj_Night_1_5_Freddy_AI / Draw - NOT YET PORTED
+/// @description FNAFN Obj_Night_1_5_Freddy_AI / Draw — PORTED from C
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+// Ported: Obj_Night_1_5_Freddy_AI / Draw
+draw_sprite_ext(Spr_Night_UI_Freddy_Alert, image_index, Freddy_warning_x, Freddy_warning_y, 0.85, 0.85, 0, c_white, button_alpha);
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Night_1_5_Freddy_AI_Draw_0(longlong *param_1)
 

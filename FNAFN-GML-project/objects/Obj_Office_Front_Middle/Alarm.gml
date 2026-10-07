@@ -1,7 +1,13 @@
-/// @description FNAFN Obj_Office_Front_Middle / Alarm - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Office_Front_Middle / Alarm — PORTED from C
+// Ground truth: gml_Object_Obj_Office_Front_Middle_Alarm_0
+//   Scr_Camera_Update[0] = irandom_range(3, 5) — array-element write shape
+//     (accessor + argc 2); func_0x000140168970(3,5) best-fit irandom_range
+//     TODO(prove via disassembly, same helper in AI Alarm/Create).
+//   image_index (slot 0x1405c7aa8) = irandom_range(0, 23) (0x17 = 23)
+//     via self-write helper.
+Scr_Camera_Update[0] = irandom_range(3, 5); // TODO: prove 0x140168970 = irandom_range
+image_index = irandom_range(0, 23);
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Office_Front_Middle_Alarm_0(longlong *param_1)
 

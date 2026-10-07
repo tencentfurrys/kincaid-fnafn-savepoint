@@ -1,7 +1,15 @@
-/// @description FNAFN postprocess / Create - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN postprocess / Create — PORTED from C
+// Ground truth: gml_Object_postprocess_Create_0
+//   application_surface_draw_enable(<runtime const @0x140656300>)
+//     — slot 0x1405c8ad0 (registry); const lives in guarded pool
+//     (TODO(calibrate), likely false/0 to take over compositing; compare
+//     Destroy which passes 1.0 to re-enable).
+//   fxaa_on (id 0x18722) = 1.0, fxaa_strength (id 0x18723) = 4.0
+//     (0x4010000000000000).
+application_surface_draw_enable(false); // TODO(calibrate): const @0x140656300 unmapped, Destroy uses 1.0
+fxaa_on = 1;
+fxaa_strength = 4;
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_postprocess_Create_0(longlong *param_1,undefined8 param_2)
 

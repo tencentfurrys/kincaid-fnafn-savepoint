@@ -1,7 +1,17 @@
-/// @description FNAFN Obj_Office_Back / Step - NOT YET PORTED
+/// @description FNAFN Obj_Office_Back / Step — PORTED from C
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+// Ported: Obj_Office_Back / Step
+// TODO: cases runtime
+if (door_speed == 0) {
+    if (image_index <= 1) sprite_index = 96;
+    else customfunct_image_speed_delta(door_speed);
+} else {
+    if (image_index >= 13) customfunct_image_speed_delta(0);
+    else customfunct_image_speed_delta(door_speed);
+}
+
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) Globals starting with '_' overlap smaller symbols at the same address
 // - literal slash-star form removed: it would close a GML block comment early.

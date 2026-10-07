@@ -1,4 +1,4 @@
-/// @description FNAFN Obj_Menu_Warning / KeyPress - NOT YET PORTED
+/// @description FNAFN Obj_Menu_Warning / KeyPress_1 — PORTED from C
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
@@ -7,6 +7,11 @@
 
 // ---- sub-event KeyPress_1 — NOT YET PORTED ----
 // ground truth: gml_Object_Obj_Menu_Warning_KeyPress_1 (418 B @0x140114d70)
+// Ported: Obj_Menu_Warning / KeyPress_1
+if (image_alpha > 0.5) {
+    event_perform(ev_alarm, 1);
+}
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Menu_Warning_KeyPress_1(undefined8 param_1,undefined8 param_2)
 

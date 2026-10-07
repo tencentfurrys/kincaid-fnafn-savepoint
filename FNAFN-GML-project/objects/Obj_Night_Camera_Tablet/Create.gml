@@ -1,7 +1,9 @@
-/// @description FNAFN Obj_Night_Camera_Tablet / Create - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Night_Camera_Tablet / Create — PORTED from C
+// Ground truth: gml_Object_Obj_Night_Camera_Tablet_Create_0
+// Single-statement Create: Tablet_Sprite_Speed (id 0x1877e) = 0.
+// Direct id-fetch write shape.
+Tablet_Sprite_Speed = 0;
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Night_Camera_Tablet_Create_0(longlong *param_1)
 

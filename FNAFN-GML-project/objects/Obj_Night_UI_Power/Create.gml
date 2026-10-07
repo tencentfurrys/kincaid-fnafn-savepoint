@@ -1,7 +1,13 @@
-/// @description FNAFN Obj_Night_UI_Power / Create - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Night_UI_Power / Create — PORTED from C
+// Ground truth: gml_Object_Obj_Night_UI_Power_Create_0
+// power_bar_opacity (id 0x1875a) is an ARRAY (same as Draw's 0/1/2 indexing):
+//   [0] = [1] = [2] = 0.25 (0x3fd0000000000000), element-write shape.
+// Night_power_amount (id 0x18748, global fetch) = 0.
+power_bar_opacity[0] = 0.25;
+power_bar_opacity[1] = 0.25;
+power_bar_opacity[2] = 0.25;
+Night_power_amount = 0;
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Night_UI_Power_Create_0(longlong *param_1)
 

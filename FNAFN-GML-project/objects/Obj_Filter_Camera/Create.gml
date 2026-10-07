@@ -1,7 +1,13 @@
-/// @description FNAFN Obj_Filter_Camera / Create - NOT YET PORTED
+/// @description FNAFN Obj_Filter_Camera / Create — PORTED from C
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+// Ported: Obj_Filter_Camera / Create
+if (game_settings[0] == "disabled") oldtvfilter_enabled = 0;
+else oldtvfilter_enabled = 1;
+if (game_settings[0] == "full") event_perform(ev_alarm, 0);
+else if (game_settings[0] == "low") event_perform(ev_alarm, 1);
+
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) Globals starting with '_' overlap smaller symbols at the same address
 // - literal slash-star form removed: it would close a GML block comment early.

@@ -1,8 +1,11 @@
-/// @description FNAFN Obj_Office_Front_Middle / Other - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
-// ground truth: gml_Object_Obj_Office_Front_Middle_Other_5 (504 B @0x1400c1080)
+/// @description FNAFN Obj_Office_Front_Middle / Other — PORTED from C
+// Ground truth: gml_Object_Obj_Office_Front_Middle_Other_5 (504 B @0x1400c1080)
+// Cleanup (ev_cleanup): free both audio emitters.
+//   music_emitter (id 0x18739) + office_emitter (id 0x1874f) via
+//   audio_emitter_free (slot 0x1405c8ec0, registry).
+audio_emitter_free(music_emitter);
+audio_emitter_free(office_emitter);
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Office_Front_Middle_Other_5(longlong *param_1,undefined8 param_2)
 

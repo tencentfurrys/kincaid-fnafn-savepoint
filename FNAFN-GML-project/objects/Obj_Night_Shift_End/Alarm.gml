@@ -1,7 +1,12 @@
-/// @description FNAFN Obj_Night_Shift_End / Alarm - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Night_Shift_End / Alarm — PORTED from C
+// Ground truth: gml_Object_Obj_Night_Shift_End_Alarm_0
+// Two statements (uStack_78 = 1..3 are line markers):
+//   text_fade (id 0x18789) = 1.0,
+//   Scr_Camera_Update[1] = 120.0 (0x406e000000000000) — same array-element
+//     write shape as Obj_Menu_Loading/Create (accessor + argc 2).
+text_fade = 1;
+Scr_Camera_Update[1] = 120;
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Night_Shift_End_Alarm_0(longlong *param_1)
 

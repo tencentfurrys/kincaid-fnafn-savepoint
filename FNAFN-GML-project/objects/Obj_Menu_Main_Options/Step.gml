@@ -1,7 +1,10 @@
-/// @description FNAFN Obj_Menu_Main_Options / Step - NOT YET PORTED
+/// @description FNAFN Obj_Menu_Main_Options / Step — PORTED from C
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+// Ported: Obj_Menu_Main_Options / Step
+image_angle += 0.5 * delta_factor;
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Menu_Main_Options_Step_0(undefined8 param_1)
 

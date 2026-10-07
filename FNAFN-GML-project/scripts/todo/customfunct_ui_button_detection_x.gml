@@ -1,5 +1,11 @@
-/// @description FNAFN script customfunct_ui_button_detection_x - NOT YET PORTED
+/// @description FNAFN script customfunct_ui_button_detection_x — PORTED from C
 // Decompiled C reference (exact machine-level semantics):
+// Ported: script customfunct_ui_button_detection_x
+function customfunct_ui_button_detection_x(x1, x2base, x2off) {
+    if (mouse_x > x1 && mouse_x < x2base + x2off) return 1;
+    return 0;
+}
+
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) Globals starting with '_' overlap smaller symbols at the same address
 // - literal slash-star form removed: it would close a GML block comment early.

@@ -1,7 +1,12 @@
-/// @description FNAFN Obj_Menu_Main_Back / Alarm - NOT YET PORTED
+/// @description FNAFN Obj_Menu_Main_Back / Alarm — PORTED from C
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+// Ported: Obj_Menu_Main_Back / Alarm
+glitching = 1;
+glitch_type = irandom_range(1, 2); // TODO: 0x168890 vs random_range
+Scr_Camera_Update[1] = random_range(40, 70);
+
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) Globals starting with '_' overlap smaller symbols at the same address
 // - literal slash-star form removed: it would close a GML block comment early.

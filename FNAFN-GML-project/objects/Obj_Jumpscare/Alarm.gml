@@ -1,7 +1,14 @@
-/// @description FNAFN Obj_Jumpscare / Alarm - NOT YET PORTED
+/// @description FNAFN Obj_Jumpscare / Alarm — PORTED from C
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+// Ported: Obj_Jumpscare / Alarm
+image_alpha = 1;
+sprite_index = 47; // Spr_Jumpscare_Freddy
+image_index = 0;
+audio_play_sound(54, 0, 0); // TODO: args
+Animation_end = 165;
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Jumpscare_Alarm_0(longlong *param_1,undefined8 param_2)
 

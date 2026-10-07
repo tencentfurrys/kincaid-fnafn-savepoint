@@ -1,7 +1,14 @@
-/// @description FNAFN Obj_Office_Camera_Control / Create - NOT YET PORTED
+/// @description FNAFN Obj_Office_Camera_Control / Create — PORTED from C
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+// Ported: Obj_Office_Camera_Control / Create
+Player_rotation_mode = 2;
+Player_rotating = 0;
+Player_rotate_cooldown = 0;
+audio_listener_orientation(0, 1, 0, 0, 0, 1);
+fade_alpha = 1;
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Office_Camera_Control_Create_0(longlong *param_1,undefined8 param_2)
 

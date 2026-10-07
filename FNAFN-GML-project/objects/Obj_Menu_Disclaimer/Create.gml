@@ -1,7 +1,14 @@
-/// @description FNAFN Obj_Menu_Disclaimer / Create - NOT YET PORTED
+/// @description FNAFN Obj_Menu_Disclaimer / Create — PORTED from C
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+// Ported: Obj_Menu_Disclaimer / Create
+surface = -1;
+fading = 0;
+image_alpha = 0;
+for (var i = 0; i < 12; i += 1) { Scr_Camera_Update[i] = -100; }
+Scr_Camera_Update[0] = 960;
+
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) Globals starting with '_' overlap smaller symbols at the same address
 // - literal slash-star form removed: it would close a GML block comment early.

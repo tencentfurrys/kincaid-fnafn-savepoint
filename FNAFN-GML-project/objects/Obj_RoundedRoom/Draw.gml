@@ -1,8 +1,32 @@
-/// @description FNAFN Obj_RoundedRoom / Draw - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
-// ground truth: gml_Object_Obj_RoundedRoom_Draw_75 (1444 B @0x1400d9640)
+/// @description FNAFN Obj_RoundedRoom / Draw — PORTED from C
+// Ground truth: gml_Object_Obj_RoundedRoom_Draw_75 (1444 B @0x1400d9640)
+// Manual fullscreen compositor (uStack_68 = 0/2/4/5/7/8/0xc/0xf are lines):
+//   gpu_set_blendenable(<runtime @0x140656d50>) — slot 0x1405c8a90
+//     (TODO(calibrate): guarded-pool const, likely false to composite).
+//   if (Parallax_enabled == 1) { // id 0x18751 vs 1.0, 3-way compare ==0
+//       application_surface_draw_enable(<runtime>) — slot 0x1405c8ad0,
+//         same runtime const (TODO).
+//       func_0x000140185890(7) — TODO(identity, shader? compare Deactivated's 6).
+//       draw_surface_stretched(application_surface, 0, 0, 1280, 720)
+//         — slot 0x1405c8a70 (registry); application_surface = slot
+//         0x1405c7ba8; x/y = runtime @0x140656d50 (TODO, likely 0);
+//         1280.0 = const @0x1405c56e8, 720.0 = const @0x1405c56f8 (exe_strings.py).
+//       func_0x000140185840() — TODO(identity, pair of above).
+//   } else {
+//       same draw_surface_stretched without the 185890/185840 + app-draw wrappers.
+//   }
+//   gpu_set_blendenable(1) — const @0x1405c5708 = 1.0, re-enable.
+gpu_set_blendenable(false); // TODO(calibrate): runtime @0x140656d50
+if (Parallax_enabled == 1) {
+    application_surface_draw_enable(false); // TODO: same runtime const
+    // TODO: func_0x000140185890(7) — prove identity
+    draw_surface_stretched(application_surface, 0, 0, 1280, 720);
+    // TODO: func_0x000140185840()
+} else {
+    draw_surface_stretched(application_surface, 0, 0, 1280, 720);
+}
+gpu_set_blendenable(true);
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_RoundedRoom_Draw_75(undefined8 param_1,undefined8 param_2)
 

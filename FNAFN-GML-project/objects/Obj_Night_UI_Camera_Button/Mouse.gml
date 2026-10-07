@@ -1,4 +1,4 @@
-/// @description FNAFN Obj_Night_UI_Camera_Button / Mouse - NOT YET PORTED
+/// @description FNAFN Obj_Night_UI_Camera_Button / Mouse_53 — PORTED from C
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
@@ -7,6 +7,18 @@
 
 // ---- sub-event Mouse_53 — NOT YET PORTED ----
 // ground truth: gml_Object_Obj_Night_UI_Camera_Button_Mouse_53 (612 B @0x140066cc0)
+// Ported: Obj_Night_UI_Camera_Button / Mouse_53
+if (mouse_y < 55) {
+    if (Night_recording == 0) {
+        event_perform(ev_keypress, 87);
+    }
+}
+if (mouse_y > 635) {
+    if (Night_recording == 0) {
+        event_perform(ev_keypress, 83);
+    }
+}
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Night_UI_Camera_Button_Mouse_53(undefined8 param_1,undefined8 param_2)
 

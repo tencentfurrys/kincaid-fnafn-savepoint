@@ -1,7 +1,14 @@
-/// @description FNAFN Obj_Night_Music_Switch / Draw - NOT YET PORTED
+/// @description FNAFN Obj_Night_Music_Switch / Draw — PORTED from C
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+// Ported: Obj_Night_Music_Switch / Draw
+draw_set_font(0);
+draw_set_halign(fa_center);
+draw_set_color(c_white);
+draw_text_colour(2305, 410, "track #" + string(selection), c_white, c_white, c_white, c_white, text_alpha);
+draw_self();
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Night_Music_Switch_Draw_0(longlong *param_1,undefined8 param_2)
 

@@ -1,4 +1,4 @@
-/// @description FNAFN Obj_Game_Over / KeyPress - NOT YET PORTED
+/// @description FNAFN Obj_Game_Over / KeyPress_13 — PORTED from C
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
@@ -7,6 +7,10 @@
 
 // ---- sub-event KeyPress_13 — NOT YET PORTED ----
 // ground truth: gml_Object_Obj_Game_Over_KeyPress_13 (602 B @0x14006f980)
+// Ported: Obj_Game_Over / KeyPress_13
+instance_create_layer(0, 0, "Fade", Obj_Menu_Transition); // TODO: x/y runtime @0x140655940
+Obj_Menu_Transition.Room_to_go_to = 1;
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Game_Over_KeyPress_13(undefined8 param_1,undefined8 param_2)
 

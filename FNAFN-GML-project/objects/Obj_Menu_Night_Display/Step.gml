@@ -1,7 +1,45 @@
-/// @description FNAFN Obj_Menu_Night_Display / Step - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Menu_Night_Display / Step — PORTED from C
+// Ground truth: gml_Object_Obj_Menu_Night_Display_Step_0
+// Fade controller + timer sweep (same shapes as Obj_Night_Time/Step_1,
+// Obj_Menu_Loading/Step). uStack_a0 = 1..0x1e are GML line markers,
+// delta_factor (id 0x1870b) read once into uStack_110.
+//   fade (id 0x18717) == 0: alpha (id 0x186da) = lerp(alpha, 1.0, 0.04*delta)
+//     — target @0x1405c3e00 = 1.0 (exe_strings.py), rate 0x3fa47ae147ae147b
+//     = 0.04, MUL helper 0x1400053f0, lerp slot 0x1405c8cc0.
+//   fade == 1.0 (0x3ff0000000000000):
+//     if (alpha != 0) alpha = lerp(alpha, <runtime @0x140655610>,
+//       0.023*delta) — rate 0x3f96872b020c49ba ~= 0.023, target guarded-pool
+//       TODO(calibrate).
+//     if (alpha <= 0) instance_destroy() (func_0x00014017c070, PROVEN).
+//   timer sweep: for (i in 0..array_length(Scr_Camera_Update)-1) — slot
+//     0x1405c8ba0, id 0x186d5 is ARRAY (PROVEN). Timers >0 count down
+//     -= delta_factor (0x14000bdb0); timers hitting <=0 that aren't -100
+//     are set -100 (0xc059000000000000) and fire event_perform(ev_alarm,i)
+//     (0x140181c50, type 2 = ev_alarm).
+if (fade == 0) {
+    alpha = lerp(alpha, 1, 0.04 * delta_factor);
+}
+if (fade == 1) {
+    if (alpha != 0) {
+        alpha = lerp(alpha, 0 /* TODO(calibrate): runtime const @0x140655610 */, 0.023 * delta_factor);
+    }
+    if (alpha <= 0) {
+        instance_destroy();
+    }
+}
+for (var i = 0; i < array_length(Scr_Camera_Update); i += 1) {
+    if (Scr_Camera_Update[i] <= 0) {
+        if (round(Scr_Camera_Update[i]) <= 0) {
+            if (round(Scr_Camera_Update[i]) > -100) {
+                Scr_Camera_Update[i] = -100;
+                event_perform(ev_alarm, i);
+            }
+        }
+    } else {
+        Scr_Camera_Update[i] -= delta_factor;
+    }
+}
+
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) Globals starting with '_' overlap smaller symbols at the same address
 // - literal slash-star form removed: it would close a GML block comment early.

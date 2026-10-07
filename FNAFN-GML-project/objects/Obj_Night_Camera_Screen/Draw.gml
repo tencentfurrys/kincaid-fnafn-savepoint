@@ -1,7 +1,9 @@
-/// @description FNAFN Obj_Night_Camera_Screen / Draw - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Night_Camera_Screen / Draw — PORTED from C
+// Ground truth: gml_Object_Obj_Night_Camera_Screen_Draw_0
+// draw_self() + 4-arg draw-state helper 175550(28,0,<float>,360.0) TODO.
+draw_self();
+// TODO(calibrate): func_0x000140175550(28, 0, <float @0x14043c2fc>, 360.0)
+
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) Globals starting with '_' overlap smaller symbols at the same address
 // - literal slash-star form removed: it would close a GML block comment early.

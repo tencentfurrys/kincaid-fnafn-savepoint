@@ -1,7 +1,8 @@
-/// @description FNAFN Obj_Night_Camera_Tether_Lock / Step - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Night_Camera_Tether_Lock / Step — PORTED from C
+// Ground truth: gml_Object_Obj_Night_Camera_Tether_Lock_Step_0
+// image_angle += 10 * delta_factor (0x4024000000000000=10.0).
+image_angle += 10 * delta_factor;
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Night_Camera_Tether_Lock_Step_0(undefined8 param_1)
 

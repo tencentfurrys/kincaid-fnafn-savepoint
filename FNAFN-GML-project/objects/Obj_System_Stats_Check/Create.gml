@@ -1,7 +1,8 @@
-/// @description FNAFN Obj_System_Stats_Check / Create - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_System_Stats_Check / Create — PORTED from C
+// Ground truth: gml_Object_Obj_System_Stats_Check_Create_0
+// Single-statement Create: tex_filter_toggle (id 0x18784) = 0.
+tex_filter_toggle = 0;
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_System_Stats_Check_Create_0(longlong *param_1)
 

@@ -1,4 +1,4 @@
-/// @description FNAFN Obj_Menu_Main_Options / Mouse - NOT YET PORTED
+/// @description FNAFN Obj_Menu_Main_Options / Mouse_4 — PORTED from C
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
@@ -7,6 +7,12 @@
 
 // ---- sub-event Mouse_4 — NOT YET PORTED ----
 // ground truth: gml_Object_Obj_Menu_Main_Options_Mouse_4 (1221 B @0x1401291e0)
+// Ported: Obj_Menu_Main_Options / Mouse_4
+instance_create_layer(0, 0, "Main_menu", Obj_Menu_Options); // TODO x/y
+with (Obj_Menu_Main_Title) { instance_destroy(); }
+with (Obj_Menu_Main_Music) { instance_destroy(); }
+instance_destroy();
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Menu_Main_Options_Mouse_4(undefined8 param_1,undefined8 param_2)
 

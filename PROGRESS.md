@@ -2,21 +2,35 @@
 
 Snapshot for machine handoff — read this first on a new RDP box.
 
-## Numbers
-- Ported: **155 / 350 total .gml files** carry the "PORTED from C"
+## Numbers (updated 2026-10-07 RDP session — backup push)
+- Ported: **238 / 350 total .gml files** carry the "PORTED from C"
   marker (recount with
-  `Get-ChildItem FNAFN-GML-project -Recurse -Filter *.gml | Select-String "PORTED from C" -List | Measure-Object`
-  — note: pwsh on this box, `grep -rl` works too). Up from 150 at the
-  2026-10-06 commit: +5 = Obj_Menu_Loading whole object (Create, Step, Draw,
-  Alarm_1) + Obj_Menu_Night_Display/Draw.
-- Remaining: 187 files still carrying a "NOT YET PORTED" marker — mostly
-  the big gameplay Step/Alarm/Draw events + heavy logic scripts. Many of
-  those now carry their decompiled C reference body (fill_empty_stubs.py
-  backfill, see below), so they are ready to port.
-- Marker-audit (2026-10-07): 350 total = 155 PORTED + 187 NOT YET PORTED
-  with exactly 1 overlap (Obj_Menu_Continue/Mouse.gml carries both) and 9
-  files carrying neither — 8 are the ported action_*/customfunct_* scripts
-  in scripts/ported/ (hand-written, no marker) plus scripts/_unclassified.gml.
+  `Get-ChildItem FNAFN-GML-project -Recurse -Filter *.gml | Select-String "PORTED from C" -List | Measure-Object`).
+  Up from 155 at the savepoint commit: +83 in this session.
+  +3 Draw/Alam: Night_Display/Alarm, Office_Camera_Control/Draw, Night_Shift_End/Draw.
+  +6 trivial: Night_Camera_Tablet/Create, Menu_Options_Selector/Create, Menu_Selector/Create,
+  Night_Camera_Screen/Create, Menu_Radio_Play/Create, Game_Over_Tablet/Draw.
+  +5 singleton Creates: Menu_CN_Images, Office_Light_Back, System_Stats_Check,
+  Night_Camera_Flash, Night_Camera_Record.
+  +3: Night_Camera_Switch/Create, postprocess/Create+Destroy.
+  +3: Night_Shift_End/Alarm, OLDTVFilter_PresetBase/Draw, Office_Front_Middle/Other.
+  +2 compositors: RoundedRoom/Draw + RoundedRoomDeactivated/Draw.
+  +2: Menu_Main_Title/Destroy, Night_Camera_Icons_Select/Step.
+  +2: Night_Display/Step, Night_UI_Power/Draw.
+  +2: Night_UI_Power/Create, Office_Front_Middle/Alarm.
+  +15 batch (59% push): Camera_Map/Create, Camera_Screen/Draw, Main_Music/Create+Step,
+  Tether_Lock/Step, Front_Left/Other, Warning/Disclaimer Alarm+KeyPress,
+  Front_Right/Other, Main_Options/Step, Radio_Cassette/Destroy, Music_Switch/Create,
+  Game_Over_Tablet/Step, CN_Control/Draw, Camera_Button/Mouse, Radio_Buttons/Create,
+  Game_Over/KeyPress, Game_Over_Tablet/Create, Main_Back/Alarm, Filter_Menus/Step,
+  Freddy_AI/Draw, Office_Camera_Control/Create, Game_Over/Draw.
+  +15 batch (68% push): Radio_Play/Step, Camera_Map/Draw+Step, Office_Back/Create,
+  Jumpscare/Alarm, Main_Title/Alarm, CN_Control/KeyPress, Main_Back/Create,
+  Main_Music/Mouse, Options_Icons/Mouse, Warning/Create, Disclaimer/Create,
+  Main_Options/Mouse, Vent_Icons/Step, Music_Switch/Draw, + scripts
+  ui_button_detection_x + game_music_clear.
+- Remaining: ~104 files without PORTED marker (excluding 8 hand-ported scripts
+  in scripts/ported/ without marker + _unclassified.gml).
 
 ## Session 2026-10-07
 - **Obj_Menu_Loading FULLY PORTED** — the loading-screen controller, all 4

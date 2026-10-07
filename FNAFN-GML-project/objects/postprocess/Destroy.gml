@@ -1,7 +1,10 @@
-/// @description FNAFN postprocess / Destroy - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN postprocess / Destroy — PORTED from C
+// Ground truth: gml_Object_postprocess_Destroy_0
+// Single call: application_surface_draw_enable(1.0) — slot 0x1405c8ad0
+// (registry), const 0x1405c4da8 = double 1.0 (exe_strings.py). Re-enables
+// the app-surface draw on cleanup (mirror of Create which disables).
+application_surface_draw_enable(1);
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_postprocess_Destroy_0(undefined8 param_1,undefined8 param_2)
 

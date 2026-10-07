@@ -1,8 +1,16 @@
-/// @description FNAFN Obj_RoundedRoomDeactivated / Draw - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
-// ground truth: gml_Object_Obj_RoundedRoomDeactivated_Draw_75 (581 B @0x140088f50)
+/// @description FNAFN Obj_RoundedRoomDeactivated / Draw — PORTED from C
+// Ground truth: gml_Object_Obj_RoundedRoomDeactivated_Draw_75 (581 B @0x140088f50)
+// Manual compositor (compare Obj_RoundedRoom/Draw, postprocess/Create which
+// disables auto-draw):
+//   func_0x000140185890(6) — TODO(identity): same family as RoundedRoom's
+//     185890(7) / 185840() pair (likely shader set/reset for rounded mask).
+//   draw_surface(application_surface, 0, 0) — slot 0x1405c8ab0 = draw_surface
+//     (registry), application_surface = slot 0x1405c7ba8; x/y consts
+//     @0x140655c48 live in guarded pool (TODO(calibrate), likely 0).
+//   func_0x000140185840() — TODO(identity, pair of above).
+// TODO: prove 185890/185840 (shader?) via disassembly like draw_set_halign.
+draw_surface(application_surface, 0, 0); // TODO: confirm x/y consts + 185890(6)/185840() wrappers
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_RoundedRoomDeactivated_Draw_75(undefined8 param_1,undefined8 param_2)
 

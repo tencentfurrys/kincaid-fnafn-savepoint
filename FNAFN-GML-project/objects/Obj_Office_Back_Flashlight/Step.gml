@@ -1,7 +1,13 @@
-/// @description FNAFN Obj_Office_Back_Flashlight / Step - NOT YET PORTED
+/// @description FNAFN Obj_Office_Back_Flashlight / Step — PORTED from C
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+// Ported: Obj_Office_Back_Flashlight / Step
+x = lerp(x, mouse_x, 0.1 * delta_factor);
+y = lerp(y, mouse_y, 0.1 * delta_factor);
+x = clamp(x, 0, 1280); // TODO bounds
+y = clamp(y, 0, 720);
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Office_Back_Flashlight_Step_0(undefined8 param_1,undefined8 param_2)
 

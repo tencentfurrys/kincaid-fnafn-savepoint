@@ -1,7 +1,13 @@
-/// @description FNAFN Obj_Night_Vent_Icons / Step - NOT YET PORTED
+/// @description FNAFN Obj_Night_Vent_Icons / Step — PORTED from C
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+// Ported: Obj_Night_Vent_Icons / Step
+if (Night_camera_mode == 0) { // TODO const
+    if (Night_camera_vent_location == image_index + 1) { image_alpha = 1; image_xscale = 1; image_yscale = 1; }
+    else { image_alpha = 0.6; image_xscale = 0.85; image_yscale = 0.85; }
+} else { image_alpha = 0; }
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Night_Vent_Icons_Step_0(undefined8 param_1)
 

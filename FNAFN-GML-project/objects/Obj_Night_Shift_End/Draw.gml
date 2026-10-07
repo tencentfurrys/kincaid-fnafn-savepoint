@@ -1,8 +1,25 @@
-/// @description FNAFN Obj_Night_Shift_End / Draw - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
-// ground truth: gml_Object_Obj_Night_Shift_End_Draw_75 (929 B @0x1400b2fa0)
+/// @description FNAFN Obj_Night_Shift_End / Draw — PORTED from C
+// Ground truth: gml_Object_Obj_Night_Shift_End_Draw_75 (929 B @0x1400b2fa0)
+// Two draws (uStack_c8 = 1..7 are GML line markers):
+//   line 1-3 (gated): if (room == 4) draw the fullscreen black overlay.
+//     room = slot 0x1405c7b38 (registry), 0x4010000000000000 = 4.0.
+//     fade_alpha (id 0x18718), room_width (slot 0x1405c7b08), room_height
+//     (slot 0x1405c7b18) — same slots as Create's room==4 branch.
+//     draw_sprite_ext(Spr_UI_Fade_Black, 0, 0, 0, room_width, room_height,
+//       0, c_white, fade_alpha).
+//     - sprite 0x55 = 85 = Spr_UI_Fade_Black (sprite_names.json).
+//   line 7 (always): the "night complete" stamp at screen center.
+//     night_size (id 0x1874a, 1.0 normally / 0.95 in room 4 — see Create),
+//     text_alpha (id 0x18787).
+//     _UNK_14043b00c = 640.0, 0x43b40000 = 360.0f (screen center, same consts
+//     as Obj_Night_Time/Draw), sprite 9 = SPRT 9 = Spr_UI_Night_Complete.
+//     draw_sprite_ext(Spr_UI_Night_Complete, 0, 640, 360, night_size,
+//       night_size, 0, c_white, text_alpha).
+if (room == 4) {
+    draw_sprite_ext(Spr_UI_Fade_Black, 0, 0, 0, room_width, room_height, 0, c_white, fade_alpha);
+}
+draw_sprite_ext(Spr_UI_Night_Complete, 0, 640, 360, night_size, night_size, 0, c_white, text_alpha);
+
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 

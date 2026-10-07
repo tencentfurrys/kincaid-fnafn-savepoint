@@ -1,7 +1,9 @@
-/// @description FNAFN Obj_Menu_Main_Title / Destroy - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Menu_Main_Title / Destroy — PORTED from C
+// Ground truth: gml_Object_Obj_Menu_Main_Title_Destroy_0
+// Single call: surface_free(surface) — surface id 0x1877a, slot 0x1405c8c20
+// = surface_free (registry, same as Disclaimer/Warning Alarm_1).
+surface_free(surface);
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Menu_Main_Title_Destroy_0(longlong *param_1,undefined8 param_2)
 

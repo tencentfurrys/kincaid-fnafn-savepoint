@@ -1,7 +1,12 @@
-/// @description FNAFN Obj_Night_Camera_Switch / Step - NOT YET PORTED
+/// @description FNAFN Obj_Night_Camera_Switch / Step — PORTED from C
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+// Ported: Obj_Night_Camera_Switch / Step
+if (Night_camera_mode == "cam") { image_alpha = lerp(image_alpha, 1, 0.4 * delta_factor); } // TODO consts
+else if (Night_recording == 0) image_alpha = 1;
+else image_alpha = 0.5;
+
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) Globals starting with '_' overlap smaller symbols at the same address
 // - literal slash-star form removed: it would close a GML block comment early.

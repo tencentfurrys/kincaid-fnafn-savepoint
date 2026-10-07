@@ -1,7 +1,12 @@
-/// @description FNAFN Obj_Office_Back / Create - NOT YET PORTED
+/// @description FNAFN Obj_Office_Back / Create — PORTED from C
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+// Ported: Obj_Office_Back / Create
+if (game[0] == 0) { power_threshold = 2; } else { power_threshold = 0; } // TODO: consts
+toggle = 0;
+door_speed = 0;
+
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) Globals starting with '_' overlap smaller symbols at the same address
 // - literal slash-star form removed: it would close a GML block comment early.

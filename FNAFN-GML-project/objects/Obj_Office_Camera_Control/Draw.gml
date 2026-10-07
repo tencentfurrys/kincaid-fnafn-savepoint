@@ -1,8 +1,19 @@
-/// @description FNAFN Obj_Office_Camera_Control / Draw - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
-// ground truth: gml_Object_Obj_Office_Camera_Control_Draw_75 (425 B @0x14004a460)
+/// @description FNAFN Obj_Office_Camera_Control / Draw — PORTED from C
+// Ground truth: gml_Object_Obj_Office_Camera_Control_Draw_75 (425 B @0x14004a460)
+// Fullscreen fade overlay, window-sized (compare Obj_Menu_Fade/Draw which
+// uses constants 1280x720):
+//   fade_alpha (id 0x18718) read by id-fetch,
+//   window_get_height() = slot 0x1405c8d10, window_get_width() = slot
+//     0x1405c8d00 (EXE-REGISTRY.md) — both 0-arg calls,
+//   draw_sprite_ext(Spr_UI_Fade_Black, 0, 0, 0, window_get_width(),
+//     window_get_height(), 0, c_black, fade_alpha).
+//   - sprite 0x55 = 85 = SPRT index 85 = Spr_UI_Fade_Black (sprite_names.json,
+//     PROVEN 2026-10-06 — same 1px overlay as Fade/Shift_End).
+//   - xscale = window_get_width(), yscale = window_get_height()
+//     (CONCAT44(uVar9=0, float) shape = f32 of the call results).
+//   - colour 0 = c_black, alpha = fade_alpha.
+draw_sprite_ext(Spr_UI_Fade_Black, 0, 0, 0, window_get_width(), window_get_height(), 0, c_black, fade_alpha);
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Office_Camera_Control_Draw_75(longlong *param_1,undefined8 param_2)
 

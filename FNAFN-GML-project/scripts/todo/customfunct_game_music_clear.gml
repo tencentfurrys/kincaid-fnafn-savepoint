@@ -1,5 +1,12 @@
-/// @description FNAFN script customfunct_game_music_clear - NOT YET PORTED
+/// @description FNAFN script customfunct_game_music_clear — PORTED from C
 // Decompiled C reference (exact machine-level semantics):
+// Ported: script customfunct_game_music_clear
+function customfunct_game_music_clear() {
+    for (var i = array_length(custom_music) - 1; i >= 0; i--)
+        audio_destroy_stream(custom_music[i][0]);
+    show_debug_message("music cleared");
+}
+
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) Globals starting with '_' overlap smaller symbols at the same address
 // - literal slash-star form removed: it would close a GML block comment early.

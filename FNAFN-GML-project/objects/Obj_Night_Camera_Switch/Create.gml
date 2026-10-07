@@ -1,7 +1,12 @@
-/// @description FNAFN Obj_Night_Camera_Switch / Create - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Night_Camera_Switch / Create — PORTED from C
+// Ground truth: gml_Object_Obj_Night_Camera_Switch_Create_0
+// Two statements (uStack_90 = 3 is line marker):
+//   toggle (id 0x18793) = 0 (direct id-fetch write),
+//   image_index (slot 0x1405c7aa8, registry) = 1.0 via self-write helper
+//     func_0x000140160140.
+toggle = 0;
+image_index = 1;
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Night_Camera_Switch_Create_0(longlong *param_1)
 

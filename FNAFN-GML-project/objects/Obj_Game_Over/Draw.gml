@@ -1,7 +1,15 @@
-/// @description FNAFN Obj_Game_Over / Draw - NOT YET PORTED
+/// @description FNAFN Obj_Game_Over / Draw — PORTED from C
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+// Ported: Obj_Game_Over / Draw
+draw_sprite(Spr_UI_Game_Over, 0, 640, 330);
+draw_set_halign(fa_center);
+draw_set_color(make_color_rgb(255, 0, 110));
+draw_set_font(game_font[0]);
+draw_text(640, 410, "press enter to continue");
+draw_set_halign(fa_left);
+
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) Globals starting with '_' overlap smaller symbols at the same address
 // - literal slash-star form removed: it would close a GML block comment early.

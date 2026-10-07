@@ -1,7 +1,20 @@
-/// @description FNAFN obj_OLDTVFilter_Tube_Only / Create - NOT YET PORTED
+/// @description FNAFN obj_OLDTVFilter_Tube_Only / Create — PORTED from C
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+// Ported: obj_OLDTVFilter_Tube_Only / Create
+script_execute(scr_OLDTVFilter_Settings);
+oldtvfilter_enabled = 1;
+game_lines = 240;
+noise_enabled = 0;
+composite_enabled = 0;
+television_enabled = 0;
+chromatic_enabled = 0;
+scanline_enabled = 0;
+tube_enabled = 1;
+tube_distortion = 0.3;
+script_execute(scr_OLDTVFilter_Setup);
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_obj_OLDTVFilter_Tube_Only_Create_0(undefined8 param_1,undefined8 param_2)
 

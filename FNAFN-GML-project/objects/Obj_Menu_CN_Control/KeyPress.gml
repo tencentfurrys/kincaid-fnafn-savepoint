@@ -1,4 +1,4 @@
-/// @description FNAFN Obj_Menu_CN_Control / KeyPress - NOT YET PORTED
+/// @description FNAFN Obj_Menu_CN_Control / KeyPress_13 — PORTED from C
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
@@ -7,6 +7,12 @@
 
 // ---- sub-event KeyPress_13 — NOT YET PORTED ----
 // ground truth: gml_Object_Obj_Menu_CN_Control_KeyPress_13 (944 B @0x1400b3c80)
+// Ported: Obj_Menu_CN_Control / KeyPress_13
+customfunct_audio_play_sound_single(22, 0, false); // TODO pri
+instance_create_layer(0, 0, "Fade", Obj_Menu_Transition); // TODO x/y
+game = 2;
+Obj_Menu_Transition.Room_to_go_to = 5;
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Menu_CN_Control_KeyPress_13(undefined8 param_1,undefined8 param_2)
 
