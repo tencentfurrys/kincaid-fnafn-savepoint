@@ -2,20 +2,23 @@
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
-// 2 sub-event(s): Keyboard_65, Keyboard_68  (one reference block each; port a sub-event by
-//  editing its ---- header to PORTED and inserting GML above its block)
+// 2 sub-event(s): Keyboard_65, Keyboard_68 — both PORTED (one GML block each
+//  above its reference block; per-sub-event ---- headers marked PORTED)
 
-// ---- sub-event Keyboard_65 — NOT YET PORTED ----
+// ---- sub-event Keyboard_65 — PORTED from C ----
 // ground truth: gml_Object_Obj_Office_Camera_Control_Keyboard_65 (577 B @0x140049e00)
-// Ported: Obj_Office_Camera_Control / Keyboard
+// Decoded, in order (uStack_58 = GML line markers). Ids per
+// builtin_ids.json: 0x18757 Player_rotating, 0x1873b Night_camera, 0x18747
+// Night_office_rotated (triple `== 0` guard reads via +8 fetch +
+// compare-helper `iVar1 == 0`); writes via +0x10 fetch: 0x18756
+// Player_rotate_cooldown = 15.0 (0x402e000000000000 literal), 0x18758
+// Player_rotation_mode -= 1.0 (in-place `-=` helper 0x14000bdb0 with
+// 0x3ff0000000000000, per PORTING.md), 0x18757 Player_rotating = 1.0.
+// No 0x14065xxxx/0x1405c3xxx consts — all constants are literals.
+// Ported: Obj_Office_Camera_Control / Keyboard_65
 if (Player_rotating == 0 && Night_camera == 0 && Night_office_rotated == 0) {
     Player_rotate_cooldown = 15;
     Player_rotation_mode -= 1;
-    Player_rotating = 1;
-}
-if (Player_rotating == 0 && Night_camera == 0 && Night_office_rotated == 0) {
-    Player_rotate_cooldown = 15;
-    Player_rotation_mode += 1;
     Player_rotating = 1;
 }
 
@@ -103,8 +106,22 @@ void gml_Object_Obj_Office_Camera_Control_Keyboard_65(longlong *param_1)
 }
 END DECOMPILED REFERENCE */
 
-// ---- sub-event Keyboard_68 — NOT YET PORTED ----
+// ---- sub-event Keyboard_68 — PORTED from C ----
 // ground truth: gml_Object_Obj_Office_Camera_Control_Keyboard_68 (545 B @0x14004a170)
+// Decoded, in order (uStack_58 = GML line markers). Ids per
+// builtin_ids.json: 0x18757 Player_rotating, 0x1873b Night_camera, 0x18747
+// Night_office_rotated (triple `== 0` guard, same shape as Keyboard_65);
+// writes via +0x10 fetch: 0x18756 Player_rotate_cooldown = 15.0
+// (0x402e000000000000 literal), 0x18758 Player_rotation_mode += 1
+// (in-place `+=` helper 0x14000bf90 with int 1, per PORTING.md), 0x18757
+// Player_rotating = 1.0. Mirror of Keyboard_65 with `-=` swapped for `+=`.
+// No 0x14065xxxx/0x1405c3xxx consts — all constants are literals.
+// Ported: Obj_Office_Camera_Control / Keyboard_68
+if (Player_rotating == 0 && Night_camera == 0 && Night_office_rotated == 0) {
+    Player_rotate_cooldown = 15;
+    Player_rotation_mode += 1;
+    Player_rotating = 1;
+}
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Office_Camera_Control_Keyboard_68(longlong *param_1)
 

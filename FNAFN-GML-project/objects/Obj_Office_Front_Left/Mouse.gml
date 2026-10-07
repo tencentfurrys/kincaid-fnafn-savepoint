@@ -1,12 +1,57 @@
-/// @description FNAFN Obj_Office_Front_Left / Mouse - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
-// 1 sub-event(s): Mouse_4  (one reference block each; port a sub-event by
-//  editing its ---- header to PORTED and inserting GML above its block)
+/// @description FNAFN Obj_Office_Front_Left / Mouse_4 — PORTED from C
+// Ground truth: gml_Object_Obj_Office_Front_Left_Mouse_4 (2884 B @0x1400727e0)
 
-// ---- sub-event Mouse_4 — NOT YET PORTED ----
+// ---- sub-event Mouse_4 — PORTED from C ----
 // ground truth: gml_Object_Obj_Office_Front_Left_Mouse_4 (2884 B @0x1400727e0)
+// Ported: Obj_Office_Front_Left / Mouse_4
+// Guards (C early-exit chain -> combined &&; compare calibration per PORTING.md):
+//   layer_get_visible("Office_front") == 1 (funcid slot 0x1405c86b0 =
+//     layer_get_visible, arg "Office_front" @0x1405c42f8 via exe_strings.py).
+//   mouse_x > 5 && mouse_x < 220 (5.0/220.0 literals; `r<1`-exit = `>`,
+//     `r==-1`-only fallthrough = `<`); mouse_y > 230 && mouse_y < 635.
+//   sprite_index != 67 (67 = Spr_Office_Front_Left_Alarm_Empty via
+//     sprite_names.json; 67.0 literal; `r==0`-exit = `!=`).
+// Then toggle ^= 1 (bool flip via func_0x00014012bb70 + ^1, cf. Music_Switch).
+// Two-case toggle switch on runtime pool @0x1406559d0/0x1406559e4 + label
+// table @0x1406559e0 (TODO(calibrate): outside exe image; mapping below
+// assumes 1 -> open, 0 -> close — verify polarity in-game).
+//   toggle == 1: if (Night_power_amount >= power_threshold) { fail blip; toggle = 0 }
+//     else { door_speed = 0.6; toggle = 1; sprite_index = 34 (Spr_Office_Front_Left_Door);
+//       Night_power_amount += 1; directional click }.
+//   toggle == 0: door_speed = -0.48; toggle = 0; sprite_index = 34 (Spr_Office_Front_Left_Door);
+//     Night_power_amount -= 1; directional click.
+// Sounds (exe .data doubles, verified): fail 36.0 @0x1405c4328,
+//   open 15.0 @0x1405c4318, close 11.0 @0x1405c4308.
+// Trailing audio args are runtime BSS zeros @0x1406559c0 (TODO(calibrate),
+// emitted as 0/false per the BSS-zero convention).
+// NOTE: global Night_door_left fetch at top is dead in C (slot overwritten
+// by the toggle fetch); not emitted. Bare (self,toggle) fetch in the close
+// branch is a discarded no-op; not emitted.
+if (layer_get_visible("Office_front") == 1
+        && mouse_x > 5 && mouse_x < 220
+        && mouse_y > 230 && mouse_y < 635
+        && sprite_index != 67) {
+    toggle ^= 1;
+    if (toggle == 1) { // TODO(calibrate): confirm branch polarity (pool @0x1406559d0/0x1406559e4, table @0x1406559e0)
+        if (Night_power_amount >= power_threshold) {
+            customfunct_audio_play_sound_single(36, 0 /* TODO(calibrate): runtime const @0x1406559c0 */, false /* TODO(calibrate): runtime const @0x1406559c0 */);
+            toggle = 0;
+        } else {
+            door_speed = 0.6;
+            toggle = 1;
+            sprite_index = 34; // Spr_Office_Front_Left_Door
+            Night_power_amount += 1;
+            customfunct_audio_play_sound_directional_single(door_emitter, 15, 0 /* TODO(calibrate): runtime const @0x1406559c0 */, false /* TODO(calibrate): runtime const @0x1406559c0 */);
+        }
+    } else if (toggle == 0) { // TODO(calibrate): same pool
+        door_speed = -0.48;
+        toggle = 0;
+        sprite_index = 34; // Spr_Office_Front_Left_Door
+        Night_power_amount -= 1;
+        customfunct_audio_play_sound_directional_single(door_emitter, 11, 0 /* TODO(calibrate): runtime const @0x1406559c0 */, false /* TODO(calibrate): runtime const @0x1406559c0 */);
+    }
+}
+
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 

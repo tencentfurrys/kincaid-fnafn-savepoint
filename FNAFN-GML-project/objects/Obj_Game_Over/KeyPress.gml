@@ -5,11 +5,16 @@
 // 1 sub-event(s): KeyPress_13  (one reference block each; port a sub-event by
 //  editing its ---- header to PORTED and inserting GML above its block)
 
-// ---- sub-event KeyPress_13 — NOT YET PORTED ----
+// ---- sub-event KeyPress_13 — PORTED from C ----
 // ground truth: gml_Object_Obj_Game_Over_KeyPress_13 (602 B @0x14006f980)
+// line 1: instance_create_layer(<rt>, <rt>, "Fade", 2) — layer @0x1405c4208
+//   = "Fade", obj @0x1405c4210 = 2.0 = Obj_Menu_Transition (obj_names.json);
+//   slot 0x1405c8d90 = instance_create_layer (EXE-REGISTRY.md).
+// line 3: Obj_Menu_Transition.Room_to_go_to = 1 (id 0x18760 via tag-2
+//   object write helper 0x140160b90; 1 = Rm_Menu per room_names.json).
 // Ported: Obj_Game_Over / KeyPress_13
-instance_create_layer(0, 0, "Fade", Obj_Menu_Transition); // TODO: x/y runtime @0x140655940
-Obj_Menu_Transition.Room_to_go_to = 1;
+instance_create_layer(0 /* TODO(calibrate): runtime const @0x140655940 */, 0 /* TODO(calibrate): runtime const @0x140655940 */, "Fade", Obj_Menu_Transition);
+Obj_Menu_Transition.Room_to_go_to = 1; // Rm_Menu
 
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Game_Over_KeyPress_13(undefined8 param_1,undefined8 param_2)

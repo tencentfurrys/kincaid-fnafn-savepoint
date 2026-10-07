@@ -1,5 +1,31 @@
-/// @description FNAFN script customfunct_game_save_music - NOT YET PORTED
-// Decompiled C reference (exact machine-level semantics):
+/// @description FNAFN script customfunct_game_save_music - PORTED from C
+// PORTED from C
+// Ground truth: gml_Script_customfunct_game_save_music
+// Decoded, in source-line order (uStack_b0 0x3a..0x45): the save mirror of
+// customfunct_game_load_music. ini_open("FNAFNjukebox.ini")
+// [func_0x00014018a800, @0x1405c34e0 via exe_strings.py]; then ten
+// ini_write_string("music", "track N", custom_music[N][1]) calls
+// [slot 0x1405c8b20 = ini_write_string via func_0x0001401445d0, section
+// @0x1405c34f1 = "music", keys @0x1405c34f7..@0x1405c353f = "track 1"..
+// "track 10" via exe_strings.py; values are custom_music (id 0x186fc)
+// through the double func_0x00014012b840(array, index) element-accessor
+// pair]; closes with ini_close() [slot 0x1405c8b30, 0 args]. Dropped:
+// 144b20 prologue, uStack_b0 line numbers (kept for ordering only).
+function customfunct_game_save_music() {
+    ini_open("FNAFNjukebox.ini");
+    ini_write_string("music", "track 1", custom_music[0][1]);
+    ini_write_string("music", "track 2", custom_music[1][1]);
+    ini_write_string("music", "track 3", custom_music[2][1]);
+    ini_write_string("music", "track 4", custom_music[3][1]);
+    ini_write_string("music", "track 5", custom_music[4][1]);
+    ini_write_string("music", "track 6", custom_music[5][1]);
+    ini_write_string("music", "track 7", custom_music[6][1]);
+    ini_write_string("music", "track 8", custom_music[7][1]);
+    ini_write_string("music", "track 9", custom_music[8][1]);
+    ini_write_string("music", "track 10", custom_music[9][1]);
+    ini_close();
+}
+
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) WARNING: Type propagation algorithm not settling
 

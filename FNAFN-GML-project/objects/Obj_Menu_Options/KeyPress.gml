@@ -1,12 +1,121 @@
-/// @description FNAFN Obj_Menu_Options / KeyPress - NOT YET PORTED
+/// @description FNAFN Obj_Menu_Options / KeyPress - PORTED from C
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+// machine-level semantics recovered by Ghidra (kept as reference).
 // 3 sub-event(s): KeyPress_65, KeyPress_68, KeyPress_81  (one reference block each; port a sub-event by
 //  editing its ---- header to PORTED and inserting GML above its block)
 
-// ---- sub-event KeyPress_65 — NOT YET PORTED ----
+// ---- sub-event KeyPress_65 (A / left) — PORTED from C ----
 // ground truth: gml_Object_Obj_Menu_Options_KeyPress_65 (6797 B @0x140083d00)
+// WASD-adjacent tab cycling: step select down, then sync menu to select.
+// Ids: select 0x1876a, menu 0x18737, static_magnetude 0x18774
+// (runner-global), buttons_x 0x186ee, text_scale 0x1878f. Tab strings via
+// exe_strings.py: "video" @0x1405c47d8, "audio" @0x1405c47de,
+// "preferences" @0x1405c47e4, "accessibility" @0x1405c47f0, "credits"
+// @0x1405c47fe. Per-tab body: menu = tab; text_scale[j] = (j == tab) ?
+// 0.95 : 0.7; static_magnetude = 1; buttons_x = (tab <= audio) ? 0 : -416
+// [0xc07a... = -416.0]; Obj_Menu_Options_Preview.arrow_alpha = 0
+// [object-tagged write 0x140160b90(0x2e = 46, 0x186e1)]; with
+// (Obj_Menu_Pause) { event_perform(ev_alarm, 0); } [repeat const 48.0].
+// Tail: switch (select) over 1..5 (guarded pool @0x140655b70) — case bodies
+// are indirect jumps Ghidra could not recover; falls through to cleanup.
+// TODO(calibrate): the 5 switch case bodies (jumptable unrecovered).
+if (select > 0) {
+    select -= 1;
+}
+if (select == 0) {
+    if (menu != "video") {
+        menu = "video";
+        text_scale[0] = 0.95;
+        text_scale[1] = 0.7;
+        text_scale[2] = 0.7;
+        text_scale[3] = 0.7;
+        text_scale[4] = 0.7;
+        static_magnetude = 1;
+        buttons_x = 0;
+        Obj_Menu_Options_Preview.arrow_alpha = 0;
+        with (Obj_Menu_Pause) {
+            event_perform(ev_alarm, 0);
+        }
+    }
+}
+if (select == 1) {
+    if (menu != "audio") {
+        menu = "audio";
+        text_scale[0] = 0.7;
+        text_scale[1] = 0.95;
+        text_scale[2] = 0.7;
+        text_scale[3] = 0.7;
+        text_scale[4] = 0.7;
+        static_magnetude = 1;
+        buttons_x = 0;
+        Obj_Menu_Options_Preview.arrow_alpha = 0;
+        with (Obj_Menu_Pause) {
+            event_perform(ev_alarm, 0);
+        }
+    }
+}
+if (select == 2) {
+    if (menu != "preferences") {
+        menu = "preferences";
+        text_scale[0] = 0.7;
+        text_scale[1] = 0.7;
+        text_scale[2] = 0.95;
+        text_scale[3] = 0.7;
+        text_scale[4] = 0.7;
+        static_magnetude = 1;
+        buttons_x = -416;
+        Obj_Menu_Options_Preview.arrow_alpha = 0;
+        with (Obj_Menu_Pause) {
+            event_perform(ev_alarm, 0);
+        }
+    }
+}
+if (select == 3) {
+    if (menu != "accessibility") {
+        menu = "accessibility";
+        text_scale[0] = 0.7;
+        text_scale[1] = 0.7;
+        text_scale[2] = 0.7;
+        text_scale[3] = 0.95;
+        text_scale[4] = 0.7;
+        static_magnetude = 1;
+        buttons_x = -416;
+        Obj_Menu_Options_Preview.arrow_alpha = 0;
+        with (Obj_Menu_Pause) {
+            event_perform(ev_alarm, 0);
+        }
+    }
+}
+if (select == 4) {
+    if (menu != "credits") {
+        menu = "credits";
+        text_scale[0] = 0.7;
+        text_scale[1] = 0.7;
+        text_scale[2] = 0.7;
+        text_scale[3] = 0.7;
+        text_scale[4] = 0.95;
+        static_magnetude = 1;
+        buttons_x = -416;
+        Obj_Menu_Options_Preview.arrow_alpha = 0;
+        with (Obj_Menu_Pause) {
+            event_perform(ev_alarm, 0);
+        }
+    }
+}
+switch (select) {
+    case 1: // TODO(calibrate): case bodies unrecovered (Ghidra jumptable) — verify in-game
+        break;
+    case 2: // TODO(calibrate): same
+        break;
+    case 3: // TODO(calibrate): same
+        break;
+    case 4: // TODO(calibrate): same
+        break;
+    case 5: // TODO(calibrate): same
+        break;
+    default:
+        break;
+}
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
@@ -725,8 +834,114 @@ code_r0x000140085606:
 }
 END DECOMPILED REFERENCE */
 
-// ---- sub-event KeyPress_68 — NOT YET PORTED ----
+// ---- sub-event KeyPress_68 (D / right) — PORTED from C ----
 // ground truth: gml_Object_Obj_Menu_Options_KeyPress_68 (6717 B @0x140086180)
+// Mirror of KeyPress_65 stepping select UP (clamped at 4): if
+// (select < 4) select += 1; then the same 5-branch menu sync (select ==
+// 0..4 -> video/audio/preferences/accessibility/credits with the same
+// text_scale highlight, static_magnetude = 1, buttons_x 0/0/-416/-416/-416,
+// Preview.arrow_alpha = 0, with (Obj_Menu_Pause) event_perform(ev_alarm, 0)).
+// Tab strings: same words at @0x1405c4808/@0x1405c480e/@0x1405c4814/
+// @0x1405c4820/@0x1405c482e. Tail switch over 1..5 (pool @0x140655be0),
+// bodies unrecovered.
+// TODO(calibrate): the 5 switch case bodies (jumptable unrecovered).
+if (select < 4) {
+    select += 1;
+}
+if (select == 0) {
+    if (menu != "video") {
+        menu = "video";
+        text_scale[0] = 0.95;
+        text_scale[1] = 0.7;
+        text_scale[2] = 0.7;
+        text_scale[3] = 0.7;
+        text_scale[4] = 0.7;
+        static_magnetude = 1;
+        buttons_x = 0;
+        Obj_Menu_Options_Preview.arrow_alpha = 0;
+        with (Obj_Menu_Pause) {
+            event_perform(ev_alarm, 0);
+        }
+    }
+}
+if (select == 1) {
+    if (menu != "audio") {
+        menu = "audio";
+        text_scale[0] = 0.7;
+        text_scale[1] = 0.95;
+        text_scale[2] = 0.7;
+        text_scale[3] = 0.7;
+        text_scale[4] = 0.7;
+        static_magnetude = 1;
+        buttons_x = 0;
+        Obj_Menu_Options_Preview.arrow_alpha = 0;
+        with (Obj_Menu_Pause) {
+            event_perform(ev_alarm, 0);
+        }
+    }
+}
+if (select == 2) {
+    if (menu != "preferences") {
+        menu = "preferences";
+        text_scale[0] = 0.7;
+        text_scale[1] = 0.7;
+        text_scale[2] = 0.95;
+        text_scale[3] = 0.7;
+        text_scale[4] = 0.7;
+        static_magnetude = 1;
+        buttons_x = -416;
+        Obj_Menu_Options_Preview.arrow_alpha = 0;
+        with (Obj_Menu_Pause) {
+            event_perform(ev_alarm, 0);
+        }
+    }
+}
+if (select == 3) {
+    if (menu != "accessibility") {
+        menu = "accessibility";
+        text_scale[0] = 0.7;
+        text_scale[1] = 0.7;
+        text_scale[2] = 0.7;
+        text_scale[3] = 0.95;
+        text_scale[4] = 0.7;
+        static_magnetude = 1;
+        buttons_x = -416;
+        Obj_Menu_Options_Preview.arrow_alpha = 0;
+        with (Obj_Menu_Pause) {
+            event_perform(ev_alarm, 0);
+        }
+    }
+}
+if (select == 4) {
+    if (menu != "credits") {
+        menu = "credits";
+        text_scale[0] = 0.7;
+        text_scale[1] = 0.7;
+        text_scale[2] = 0.7;
+        text_scale[3] = 0.7;
+        text_scale[4] = 0.95;
+        static_magnetude = 1;
+        buttons_x = -416;
+        Obj_Menu_Options_Preview.arrow_alpha = 0;
+        with (Obj_Menu_Pause) {
+            event_perform(ev_alarm, 0);
+        }
+    }
+}
+switch (select) {
+    case 1: // TODO(calibrate): case bodies unrecovered (Ghidra jumptable) — verify in-game
+        break;
+    case 2: // TODO(calibrate): same
+        break;
+    case 3: // TODO(calibrate): same
+        break;
+    case 4: // TODO(calibrate): same
+        break;
+    case 5: // TODO(calibrate): same
+        break;
+    default:
+        break;
+}
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
@@ -1440,8 +1655,23 @@ code_r0x000140087a36:
 }
 END DECOMPILED REFERENCE */
 
-// ---- sub-event KeyPress_81 — NOT YET PORTED ----
+// ---- sub-event KeyPress_81 (Q) — PORTED from C ----
 // ground truth: gml_Object_Obj_Menu_Options_KeyPress_81 (1237 B @0x140088530)
+// Exit path, byte-identical logic to Mouse_54: save + apply options, swap
+// the shared selector back, spawn the main title, destroy self. Consts:
+// -32.0 @0x1405c4848, 352.0 @0x1405c4858, "Main_menu" @0x1405c4838, 35.0 =
+// obj 35 Obj_Menu_Selector @0x1405c4868; 32.0 @0x1405c4878, 160.0
+// @0x1405c4888, 63.0 = obj 63 Obj_Menu_Main_Title @0x1405c4898;
+// instance_create_layer = slot 0x1405c8d90; with-block repeat const 9.0 =
+// obj 9 Obj_Menu_Options_Selector with instance_destroy() body.
+customfunct_game_save();
+customfunct_options_update();
+instance_create_layer(-32, 352, "Main_menu", Obj_Menu_Selector);
+with (Obj_Menu_Options_Selector) {
+    instance_destroy();
+}
+instance_create_layer(32, 160, "Main_menu", Obj_Menu_Main_Title);
+instance_destroy();
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Menu_Options_KeyPress_81(undefined8 param_1,undefined8 param_2)
 

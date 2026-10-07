@@ -1,4 +1,22 @@
-/// @description FNAFN Obj_Night_1_5_Chica_AI / Step - NOT YET PORTED
+/// @description FNAFN Obj_Night_1_5_Chica_AI / Step — PORTED from C
+// Ground truth: gml_Object_Obj_Night_1_5_Chica_AI_Step_0
+// Byte-identical logic to Bonnie Step (same array_length/round/-100/
+// event_perform shape as the ported Mangle Step). Decoded:
+//   for i over array_length(Scr_Camera_Update):
+//     if (Scr_Camera_Update[i] <= 0):
+//       if (round(Scr_Camera_Update[i]) <= 0):
+//         if (round(Scr_Camera_Update[i]) > -100):
+//           Scr_Camera_Update[i] = -100; event_perform(ev_alarm, i);
+//     else Scr_Camera_Update[i] -= 1 * delta_factor;  // explicit 1.0 * MUL
+// Ported: Obj_Night_1_5_Chica_AI / Step
+for (var i = 0; i < array_length(Scr_Camera_Update); i += 1) {
+    if (Scr_Camera_Update[i] <= 0) {
+        if (round(Scr_Camera_Update[i]) <= 0) {
+            if (round(Scr_Camera_Update[i]) > -100) { Scr_Camera_Update[i] = -100; event_perform(ev_alarm, i); }
+        }
+    } else { Scr_Camera_Update[i] -= 1 * delta_factor; }
+}
+
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).

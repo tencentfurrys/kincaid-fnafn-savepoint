@@ -1,4 +1,104 @@
-/// @description FNAFN Obj_Night_1_5_Freddy_AI / Step - NOT YET PORTED
+/// @description FNAFN Obj_Night_1_5_Freddy_AI / Step — PORTED from C
+// Ground truth: gml_Object_Obj_Night_1_5_Freddy_AI_Step_0 (4124 B @0x1400d3580)
+// Decoded, in order (uStack_98 = GML line markers):
+//   3. customfunct_image_speed_delta(0.05) (exe const 0.05 @0x1405c5550 per
+//      EXE-CONSTANTS.md; 1-arg script per scripts/ported/
+//      customfunct_image_speed_delta.gml).
+//   7. Camera-timer sweep, same array_length/round/-100/event_perform shape
+//      as the ported Bonnie Step (bound = array_length(Scr_Camera_Update),
+//      slot 0x1405c8ba0 = array_length; round slot 0x1405c89b0; counter
+//      shape = `i += 1` per PORTING.md):
+//        for i over the array:
+//          if (Scr_Camera_Update[i] <= 0) (`<=` via `r < 1`):
+//            if (round(Scr_Camera_Update[i]) <= 0):
+//              if (round(Scr_Camera_Update[i]) > -100) (-100.0 =
+//              0xc059000000000000, the fired sentinel):
+//                Scr_Camera_Update[i] = -100;
+//                event_perform(ev_alarm, i) (helper 0x140181c50, TYPE 2 =
+//                ev_alarm; counter passed as int).
+//          else Scr_Camera_Update[i] -= delta_factor (id 0x1870b; -= helper
+//          0x14000bdb0, no explicit 1.0 * MUL node here — unlike Bonnie).
+//   0x18. if (Night_freddy_location (global id 0x18744) == 6.0 (literal
+//      0x4018000000000000) || == 8.0 (0x4020000000000000) || == 9.0
+//      (0x4022000000000000)):
+//        0x1c. if (Night_recording (global id 0x18749) == 1 (literal)):
+//          0x1e. Record_countup (id 0x1875f) += 0.5 * delta_factor
+//                (MUL helper 0x1400053f0 into a temp, then ADD helper
+//                0x140005290 in-place on the variable slot).
+//          0x1f. if (Record_countup > 119.0 (0x405dc00000000000 literal)):
+//            0x21. Night_freddy_location = 2.2 (0x400199999999999a; the
+//                  line-0x21 fetch of id 0x18744 is discarded — the store
+//                  goes to the id-0x18744 global slot, same YYC idiom as
+//                  the KeyPress_87 power writes).
+//            0x22. Record_countup = 0.
+//            0x23. Scr_Camera_Update(39) (exe const 39.0 @0x1405c5560 per
+//                  EXE-CONSTANTS.md; cf. the ported Freddy Alarm).
+//            0x24. audio_stop_sound(4) (exe const 4.0 @0x1405c5570 per
+//                  EXE-CONSTANTS.md; slot 0x1405c8960 = audio_stop_sound).
+//            0x25. alarm_type (id 0x186d8) = 0.
+//            0x26. Time_without_move (id 0x18792) = irandom_range(30, 35) -
+//                  Freddy_AI_Level (id 0x1871d) * 0.2 (0x1e,0x23 best-fit;
+//                  MUL with _UNK_140439e78; 0.2 per the ported Freddy
+//                  Alarm fallthrough, same symbol).
+//            0x27. Scr_Camera_Update[0] = 30 (0x403e000000000000).
+//        0x2a. Record_countup = clamp(Record_countup, <rt @0x140656ce0>,
+//              120.0) (slot 0x1405c8a00 = clamp; 120.0 = exe const
+//              @0x1405c5580 per EXE-CONSTANTS.md).
+//        0x2c. two-case switch on Night_camera (global id 0x1873b): case
+//            1.0 is CERTAIN (pool const @0x140656cf0 = 1.0 literal in the
+//            guarded init); second case @0x140656d04 is runtime (placeholder
+//            0 below); the label table @0x140656d00 is runtime so the
+//            case->branch mapping is assumed identity (cf. the ported
+//            Freddy Alarm + Obj_Office_Front_Middle/Step precedents):
+//              case 1.0: button_alpha (id 0x186ea, self) = 1;
+//                        Obj_Night_UI_Camera_Button.alert_alpha = 0
+//                        (object 0xb = 11 = Obj_Night_UI_Camera_Button per
+//                        obj_names.json; alert_alpha owned by it per
+//                        obj_var_ownership.md; dotted form per PORTING.md).
+//              case 0 (placeholder): Obj_Night_UI_Camera_Button.alert_alpha
+//                        = 1; button_alpha = 0.
+//      else (location not 6/8/9):
+//        0x38. button_alpha = 0.
+//        0x39. Obj_Night_UI_Camera_Button.alert_alpha = 0 (zeroed RValue).
+// TODO(calibrate): func_0x000140168970 best-fit irandom_range;
+// clamp lower bound @0x140656ce0 (0 assumed); second switch case
+// @0x140656d04 (0 assumed) + table @0x140656d00 mapping; _UNK_140439e78
+// factor (0.2 per Freddy Alarm) — verify in-game.
+// Ported: Obj_Night_1_5_Freddy_AI / Step_0
+customfunct_image_speed_delta(0.05);
+for (var i = 0; i < array_length(Scr_Camera_Update); i += 1) {
+    if (Scr_Camera_Update[i] <= 0) {
+        if (round(Scr_Camera_Update[i]) <= 0) {
+            if (round(Scr_Camera_Update[i]) > -100) { Scr_Camera_Update[i] = -100; event_perform(ev_alarm, i); }
+        }
+    } else { Scr_Camera_Update[i] -= delta_factor; }
+}
+if (Night_freddy_location == 6 || Night_freddy_location == 8 || Night_freddy_location == 9) {
+    if (Night_recording == 1) {
+        Record_countup += 0.5 * delta_factor;
+        if (Record_countup > 119) {
+            Night_freddy_location = 2.2;
+            Record_countup = 0;
+            Scr_Camera_Update(39);
+            audio_stop_sound(4);
+            alarm_type = 0;
+            Time_without_move = irandom_range(30, 35) - Freddy_AI_Level * 0.2; // TODO(calibrate): factor is _UNK_140439e78 (0.2 per Freddy Alarm) — verify in-game
+            Scr_Camera_Update[0] = 30;
+        }
+    }
+    Record_countup = clamp(Record_countup, 0 /* TODO(calibrate): runtime const @0x140656ce0 */, 120);
+    if (Night_camera == 1) { // TODO(calibrate): table @0x140656d00 mapping assumed identity — verify in-game
+        button_alpha = 1;
+        Obj_Night_UI_Camera_Button.alert_alpha = 0;
+    } else if (Night_camera == 0 /* TODO(calibrate): runtime case @0x140656d04, 0 assumed */) { // TODO(calibrate): same table
+        Obj_Night_UI_Camera_Button.alert_alpha = 1;
+        button_alpha = 0;
+    }
+} else {
+    button_alpha = 0;
+    Obj_Night_UI_Camera_Button.alert_alpha = 0;
+}
+
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).

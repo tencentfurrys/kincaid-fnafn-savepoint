@@ -1,4 +1,54 @@
-/// @description FNAFN Obj_Night_1_5_Freddy_AI / Create - NOT YET PORTED
+/// @description FNAFN Obj_Night_1_5_Freddy_AI / Create — PORTED from C
+// Ground truth: gml_Object_Obj_Night_1_5_Freddy_AI_Create_0
+// Decoded, in order (uStack_a8 = GML line markers; mirrors
+// Obj_Night_1_5_Bonnie_AI/Create.gml):
+//   image_alpha = 0 (slot 0x1405c7b98 self-write; Freddy starts unseen).
+//   4. for i in 0..11: Scr_Camera_Update[i] = -100 (bound 12.0 literal
+//      0x4028000000000000; counter shape = `i += 1` per PORTING.md).
+//   10. if (Freddy_AI_Level > 0) Scr_Camera_Update[0] = 30
+//      (0x403e000000000000; id 0x1871d, global fetch).
+//   0xe. Time_without_move = irandom_range(30, 35) - Freddy_AI_Level * 0.5.
+//   0xf. movement = 0 (id 0x18738); 0x10. alarm_type = 0 (id 0x186d8).
+//   0x14. Freddy_emitter = audio_emitter_create() (id 0x1871f;
+//      slot 0x1405c8e80).
+//   0x15. audio_falloff_set_model(3) (slot 0x1405c8e90;
+//      3.0 = exe const @0x1405c5478).
+//   0x16. audio_emitter_position(Freddy_emitter, 1280, <runtime>, <runtime>)
+//        (slot 0x1405c8e30; 1280.0 = @0x1405c5488; y/z runtime @0x140656c10).
+//   0x17. audio_emitter_falloff(Freddy_emitter, 1280, 2560, 0.1)
+//        (slot 0x1405c8ea0; 1280.0 = @0x1405c5488, 2560.0 = @0x1405c5498,
+//        0.1 = @0x1405c54a8).
+//   0x19. Freddy_countdown = 0 (id 0x1871e); 0x1a. Record_countup = 0
+//      (id 0x1875f); 0x1b. Freddy_warning_x = 0 (id 0x18720);
+//      0x1c. Freddy_warning_y = 0 (id 0x18721); 0x1d. Last_location = 0
+//      (id 0x1872e); 0x1f. button_alpha = 0 (id 0x186ea).
+// TODO(calibrate): func_0x000140168970 best-fit irandom_range (per
+// Obj_Office_Front_Middle Alarm port); func_0x00014001fa10(dst, a, b)
+// best-fit a * b (fractional consts 0.5/0.25/0.75/0.1 at all such sites —
+// prove via disassembly); runtime consts @0x140656c10 (emitter y/z,
+// outside the mapped exe image) — verify in-game.
+// Ported: Obj_Night_1_5_Freddy_AI / Create
+image_alpha = 0;
+for (var i = 0; i < 12; i += 1) {
+    Scr_Camera_Update[i] = -100;
+}
+if (Freddy_AI_Level > 0) {
+    Scr_Camera_Update[0] = 30;
+}
+Time_without_move = irandom_range(30, 35) - Freddy_AI_Level * 0.5;
+movement = 0;
+alarm_type = 0;
+Freddy_emitter = audio_emitter_create();
+audio_falloff_set_model(3);
+audio_emitter_position(Freddy_emitter, 1280, 0, 0); // TODO(calibrate): y/z are runtime const @0x140656c10
+audio_emitter_falloff(Freddy_emitter, 1280, 2560, 0.1);
+Freddy_countdown = 0;
+Record_countup = 0;
+Freddy_warning_x = 0;
+Freddy_warning_y = 0;
+Last_location = 0;
+button_alpha = 0;
+
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).

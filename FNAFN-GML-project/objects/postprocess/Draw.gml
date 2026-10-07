@@ -1,4 +1,44 @@
-/// @description FNAFN postprocess / Draw - NOT YET PORTED
+/// @description FNAFN postprocess / Draw — PORTED from C
+// Ground truth: gml_Object_postprocess_Draw_77 (2418 B @0x1400ab180)
+// Decoded, in order (uStack_a0 = GML line markers):
+//   2. draw_enable_alphablend(<runtime @0x140656310>) (id 0x18713;
+//      1-arg funcid call shape 0x140144700).
+//   4. var _pos = application_get_position() (slot 0x1405c8f60, 0 args).
+//   if (fxaa_on) (id 0x18722):
+//     7. (shader setup 0x140185890(0) omitted like Office_Back/Draw —
+//        TODO identity.)
+//     8. var _tex = surface_get_texture(application_surface)
+//        (application_surface slot 0x1405c7ba8; slot 0x1405c8f70).
+//     9. shader_set_uniform_f(shader_get_uniform(SHADER, "u_texel"),
+//        texture_get_texel_width(_tex), texture_get_texel_height(_tex));
+//        ("u_texel" = @0x1405c4db8; SHADER runtime @0x140656310;
+//        3-arg 185920 form.)
+//     10. shader_set_uniform_f(shader_get_uniform(SHADER, "u_strength"),
+//        fxaa_strength); (id 0x18723; "u_strength" = @0x1405c4dc0;
+//        SHADER runtime @0x140656310; 2-arg form.)
+//   0xd. draw_surface(application_surface, _pos[0], _pos[1])
+//        (slot 0x1405c8ab0; _pos[0]/[1] via the array-bounds/accessor
+//        shape with "index out of bounds" / "not an array" guards).
+//   0xf. draw_enable_alphablend(true) (1.0 = @0x1405c4dd0).
+//   if (fxaa_on) shader_reset(); (0x140185840 best-fit; the C only
+//     re-fetches draw_enable_alphablend/fxaa_on around it.)
+// TODO(calibrate): shader id + first alphablend arg runtime const
+// @0x140656310 (not in the mapped exe image); func_0x000140185890 /
+// func_0x000140185840 best-fit shader_set/shader_reset — prove via
+// disassembly; verify in-game.
+// Ported: postprocess / Draw_77
+draw_enable_alphablend(false); // TODO(calibrate): arg is runtime const @0x140656310
+var _pos = application_get_position();
+if (fxaa_on) {
+    var _tex = surface_get_texture(application_surface);
+    shader_set_uniform_f(shader_get_uniform(0, "u_texel"), texture_get_texel_width(_tex), texture_get_texel_height(_tex)); // TODO(calibrate): shader id runtime const @0x140656310
+    shader_set_uniform_f(shader_get_uniform(0, "u_strength"), fxaa_strength); // TODO(calibrate): shader id runtime const @0x140656310
+}
+draw_surface(application_surface, _pos[0], _pos[1]);
+draw_enable_alphablend(true);
+if (fxaa_on) {
+    shader_reset(); // TODO(calibrate): func_0x000140185840 best-fit shader_reset
+}
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).

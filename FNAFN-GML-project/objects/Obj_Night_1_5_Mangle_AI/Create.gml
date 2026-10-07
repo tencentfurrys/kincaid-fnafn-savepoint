@@ -1,4 +1,40 @@
-/// @description FNAFN Obj_Night_1_5_Mangle_AI / Create - NOT YET PORTED
+/// @description FNAFN Obj_Night_1_5_Mangle_AI / Create — PORTED from C
+// Ground truth: gml_Object_Obj_Night_1_5_Mangle_AI_Create_0
+// Mirror of the ported Bonnie/Chica/Foxy Creates (same line markers, Mangle
+// ids/consts):
+//   3. for i in 0..11: Scr_Camera_Update[i] = -100 (bound 12.0 literal
+//      0x4028000000000000; counter shape = `i += 1` per PORTING.md).
+//   9. if (Mangle_AI_Level > 0) Scr_Camera_Update[0] = 30
+//      (0x403e000000000000; id 0x18735, global fetch).
+//   0xd. Time_without_move = irandom_range(20, 27) - Mangle_AI_Level * 0.3
+//        (0.3 = _UNK_140439ec0 .rdata double, verified via exe_strings.py;
+//        MUL best-fit func_0x00014001fa10, -= helper func_0x00014000bdb0).
+//   0xe. movement = 0 (id 0x18738); 0xf. alarm_type = 0 (id 0x186d8).
+//   0x11. Mangle_emitter = audio_emitter_create() (slot 0x1405c8e80).
+//   0x12. audio_falloff_set_model(3) (exe const @0x1405c5778 = 3.0, verified).
+//   0x13. audio_emitter_position(Mangle_emitter, 1280, <runtime>, <runtime>)
+//        (slot 0x1405c8e30; 1280.0 = exe const @0x1405c5788 verified;
+//        y/z are runtime const @0x140656da0, outside mapped exe image).
+//   0x15. audio_emitter_falloff(Mangle_emitter, 1280, 2560, 0.1)
+//        (slot 0x1405c8ea0; exe consts @0x1405c5788/798/7a8 verified).
+// TODO(calibrate): func_0x000140168970 best-fit irandom_range;
+// func_0x00014001fa10 best-fit MUL (see Bonnie Create); runtime consts
+// @0x140656da0 (emitter y/z, outside the mapped exe image) — verify in-game.
+// Ported: Obj_Night_1_5_Mangle_AI / Create
+for (var i = 0; i < 12; i += 1) {
+    Scr_Camera_Update[i] = -100;
+}
+if (Mangle_AI_Level > 0) {
+    Scr_Camera_Update[0] = 30;
+}
+Time_without_move = irandom_range(20, 27) - Mangle_AI_Level * 0.3;
+movement = 0;
+alarm_type = 0;
+Mangle_emitter = audio_emitter_create();
+audio_falloff_set_model(3);
+audio_emitter_position(Mangle_emitter, 1280, 0, 0); // TODO(calibrate): y/z are runtime const @0x140656da0
+audio_emitter_falloff(Mangle_emitter, 1280, 2560, 0.1);
+
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).

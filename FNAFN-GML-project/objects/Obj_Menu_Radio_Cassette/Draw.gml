@@ -1,7 +1,38 @@
-/// @description FNAFN Obj_Menu_Radio_Cassette / Draw - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Menu_Radio_Cassette / Draw — PORTED from C
+// Ground truth: gml_Object_Obj_Menu_Radio_Cassette_Draw_0 (5645 B @0x1400ea050)
+// Track-browser draw: two arrow sprites, the "track #N" header, the track
+// name (or "unassigned"), and the import/exit labels, then draw_self.
+// Id map: arrow_size 0x186e2, arrow_alpha 0x186e1, custom_music 0x186fc,
+// track_select 0x18794, radio_text 0x1875d; x/y/image_alpha are the standard
+// self slots (0x1405c7b78/0x1405c7b88/0x1405c7b98). Sprite 0x21 = 33 =
+// Spr_Menu_Radio_Arrows (sprite_names.json); subimg 0 at x+450, subimg 1 at
+// x-450 (via the PROVEN += 0x14000bf90 / SUB 0x14002fc60 helpers with
+// 0x1c2 = 450). Scales = arrow_size[i] (xscale = yscale), alpha =
+// arrow_alpha[i]. Slots: 0x1405c8da0 = draw_text, 0x1405c8840 = string,
+// 0x1405c8ef0 = draw_text_transformed, 0x1405c8ba0 = array_length.
+// Exe consts: "track #" @0x1405c5c90, "unassigned" @0x1405c5c98, 0.5
+// @0x1405c5ca8, "Main_menu" @0x1405c5b70, -32/352/35/32/160/63 series.
+// TODO(calibrate): halign helper 0x140175530 args (1/0/2 assumed
+// center/left/right); track-name match const @0x140656e88 + angle
+// @0x140656e90 (runtime, outside exe image); draw_text y offsets (-230 via
+// SUB 0xe6, -200 via SUB 200) sign per SUB-helper proof.
+draw_sprite_ext(Spr_Menu_Radio_Arrows, 0, x + 450, y, arrow_size[0], arrow_size[0], 0, c_white, arrow_alpha[0]);
+draw_sprite_ext(Spr_Menu_Radio_Arrows, 1, x - 450, y, arrow_size[1], arrow_size[1], 0, c_white, arrow_alpha[1]);
+draw_set_font(0);
+draw_set_halign(fa_center);
+draw_set_color(make_color_rgb(255, 0, 220));
+draw_text(x, y - 230, "track #" + string(track_select));
+if (custom_music[track_select - 1, 1] == 0) { // TODO(calibrate): compared const is runtime @0x140656e88
+    draw_text_transformed(x, y - 200, "unassigned", 0.5, 0.5, 0); // TODO(calibrate): angle is runtime const @0x140656e90
+} else {
+    draw_text_transformed(x, y - 200, string(custom_music[track_select - 1, 1]), 0.5, 0.5, 0); // TODO(calibrate): angle is runtime const @0x140656e90
+}
+draw_set_halign(fa_left);
+draw_text(x + 35, y + 180, radio_text[0]);
+draw_set_halign(fa_right); // TODO(calibrate): helper 0x140175530 arg 2 — best-fit halign right; verify in-game
+draw_text(x - 35, y + 180, radio_text[1]); // TODO(calibrate): x uses SUB helper (x - 35); verify sign in-game
+draw_self();
+
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) WARNING: Type propagation algorithm not settling
 

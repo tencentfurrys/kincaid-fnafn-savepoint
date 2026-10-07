@@ -1,4 +1,33 @@
-/// @description FNAFN Obj_Night_1_5_Chica_AI / Create - NOT YET PORTED
+/// @description FNAFN Obj_Night_1_5_Chica_AI / Create — PORTED from C
+// Ground truth: gml_Object_Obj_Night_1_5_Chica_AI_Create_0
+// Mirror of Bonnie Create (same line markers, Chica ids/consts):
+//   3. for i in 0..11: Scr_Camera_Update[i] = -100 (bound 12.0 literal).
+//   9. if (Chica_AI_Level > 0) Scr_Camera_Update[0] = 30 (id 0x186f0).
+//   0xd. Time_without_move = irandom_range(17, 25) - Chica_AI_Level * 0.5.
+//   0xe. movement = 0; 0xf. alarm_type = 0.
+//   0x12. Chica_emitter = audio_emitter_create() (slot 0x1405c8e80).
+//   0x13. audio_falloff_set_model(5) (slot 0x1405c8e90, exe const 5.0).
+//   0x14. audio_emitter_position(Chica_emitter, 3840, 360, <runtime>)
+//        (slot 0x1405c8e30; exe consts 3840.0/360.0 resolved).
+//   0x16. audio_emitter_falloff(Chica_emitter, 640, 2560, 0.1)
+//        (slot 0x1405c8ea0; all exe consts resolved).
+// TODO(calibrate): func_0x000140168970 best-fit irandom_range;
+// func_0x00014001fa10 best-fit MUL (see Bonnie Create); runtime const
+// @0x140656018 (emitter z, outside mapped exe image) — verify in-game.
+for (var i = 0; i < 12; i += 1) {
+    Scr_Camera_Update[i] = -100;
+}
+if (Chica_AI_Level > 0) {
+    Scr_Camera_Update[0] = 30;
+}
+Time_without_move = irandom_range(17, 25) - Chica_AI_Level * 0.5;
+movement = 0;
+alarm_type = 0;
+Chica_emitter = audio_emitter_create();
+audio_falloff_set_model(5);
+audio_emitter_position(Chica_emitter, 3840, 360, 0); // TODO(calibrate): z is runtime const @0x140656018
+audio_emitter_falloff(Chica_emitter, 640, 2560, 0.1);
+
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).

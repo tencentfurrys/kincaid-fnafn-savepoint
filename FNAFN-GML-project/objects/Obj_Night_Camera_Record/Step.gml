@@ -1,7 +1,33 @@
-/// @description FNAFN Obj_Night_Camera_Record / Step - NOT YET PORTED
+/// @description FNAFN Obj_Night_Camera_Record / Step — PORTED from C
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+// Ported: Obj_Night_Camera_Record / Step_0
+// Ground truth: gml_Object_Obj_Night_Camera_Record_Step_0
+// Globals Night_camera_location (0x1873c) and Night_recording (0x18749,
+// builtin_ids.json). The record lamp only tracks the mouse on camera pages
+// 6/8/9 (0x4018000000000000/0x4020000000000000/0x4022000000000000); elsewhere
+// image_alpha = 0.1 (0x3fb999999999999a). Hover box is strict (same convention
+// as customfunct_ui_button_detection): mouse_x in (x, x + 237 * image_xscale),
+// mouse_y in (y, y + 54 * image_yscale) — 237.0 = 0x406da00000000000, 54.0 =
+// 0x404b000000000000 via MUL helper func_0x0001400053f0 + ADD helper
+// func_0x000140005290. C sets 0.95 (0x3fee666666666666) both when hovered and
+// when unhovered-but-recording == 1; only unhovered + recording != 1 dims to
+// 0.6 (0x3fe3333333333333) — collapsed to one condition below.
+// Slots (EXE-REGISTRY.md): image_alpha 0x1405c7b98, mouse_x 0x1405c7bc8,
+// x 0x1405c7b78, mouse_y 0x1405c7bd8, y 0x1405c7b88, image_xscale 0x1405c7c18,
+// image_yscale 0x1405c7c08. Compare `!= 0` -> `!=`, `< 1` -> `<=` (PORTING.md).
+if ((Night_camera_location == 6) || (Night_camera_location == 8) || (Night_camera_location == 9)) {
+    var _hover = (mouse_x > x) && (mouse_x < x + 237 * image_xscale) && (mouse_y > y) && (mouse_y < y + 54 * image_yscale);
+    if (_hover || (Night_recording == 1)) {
+        image_alpha = 0.95;
+    } else {
+        image_alpha = 0.6;
+    }
+} else {
+    image_alpha = 0.1;
+}
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Night_Camera_Record_Step_0(undefined8 param_1)
 

@@ -1,12 +1,16 @@
-/// @description FNAFN Obj_Office_Front_Figurines / KeyPress - NOT YET PORTED
+/// @description FNAFN Obj_Office_Front_Figurines / KeyPress — PORTED from C
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
 // 5 sub-event(s): KeyPress_49, KeyPress_50, KeyPress_51, KeyPress_52, KeyPress_53  (one reference block each; port a sub-event by
 //  editing its ---- header to PORTED and inserting GML above its block)
 
-// ---- sub-event KeyPress_49 — NOT YET PORTED ----
+// ---- sub-event KeyPress_49 — PORTED from C ----
 // ground truth: gml_Object_Obj_Office_Front_Figurines_KeyPress_49 (252 B @0x14005c120)
+// Ported: Obj_Office_Front_Figurines / KeyPress_49 (key '1')
+// Single property write: image_index (slot uRam00000001405c7aa8, EXE-REGISTRY.md) = 0.
+image_index = 0;
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Office_Front_Figurines_KeyPress_49(undefined8 param_1)
 
@@ -56,8 +60,12 @@ void gml_Object_Obj_Office_Front_Figurines_KeyPress_49(undefined8 param_1)
 }
 END DECOMPILED REFERENCE */
 
-// ---- sub-event KeyPress_50 — NOT YET PORTED ----
+// ---- sub-event KeyPress_50 — PORTED from C ----
 // ground truth: gml_Object_Obj_Office_Front_Figurines_KeyPress_50 (258 B @0x14005c320)
+// Ported: Obj_Office_Front_Figurines / KeyPress_50 (key '2')
+// Single property write: image_index (slot uRam00000001405c7aa8, EXE-REGISTRY.md) = 1 (0x3ff0000000000000).
+image_index = 1;
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Office_Front_Figurines_KeyPress_50(undefined8 param_1)
 
@@ -107,8 +115,12 @@ void gml_Object_Obj_Office_Front_Figurines_KeyPress_50(undefined8 param_1)
 }
 END DECOMPILED REFERENCE */
 
-// ---- sub-event KeyPress_51 — NOT YET PORTED ----
+// ---- sub-event KeyPress_51 — PORTED from C ----
 // ground truth: gml_Object_Obj_Office_Front_Figurines_KeyPress_51 (258 B @0x14005c530)
+// Ported: Obj_Office_Front_Figurines / KeyPress_51 (key '3')
+// Single property write: image_index (slot uRam00000001405c7aa8, EXE-REGISTRY.md) = 2 (0x4000000000000000).
+image_index = 2;
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Office_Front_Figurines_KeyPress_51(undefined8 param_1)
 
@@ -158,8 +170,12 @@ void gml_Object_Obj_Office_Front_Figurines_KeyPress_51(undefined8 param_1)
 }
 END DECOMPILED REFERENCE */
 
-// ---- sub-event KeyPress_52 — NOT YET PORTED ----
+// ---- sub-event KeyPress_52 — PORTED from C ----
 // ground truth: gml_Object_Obj_Office_Front_Figurines_KeyPress_52 (258 B @0x14005c740)
+// Ported: Obj_Office_Front_Figurines / KeyPress_52 (key '4')
+// Single property write: image_index (slot uRam00000001405c7aa8, EXE-REGISTRY.md) = 3 (0x4008000000000000).
+image_index = 3;
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Office_Front_Figurines_KeyPress_52(undefined8 param_1)
 
@@ -209,8 +225,12 @@ void gml_Object_Obj_Office_Front_Figurines_KeyPress_52(undefined8 param_1)
 }
 END DECOMPILED REFERENCE */
 
-// ---- sub-event KeyPress_53 — NOT YET PORTED ----
+// ---- sub-event KeyPress_53 — PORTED from C ----
 // ground truth: gml_Object_Obj_Office_Front_Figurines_KeyPress_53 (258 B @0x14005c950)
+// Ported: Obj_Office_Front_Figurines / KeyPress_53 (key '5')
+// Single property write: image_index (slot uRam00000001405c7aa8, EXE-REGISTRY.md) = 4 (0x4010000000000000).
+image_index = 4;
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Office_Front_Figurines_KeyPress_53(undefined8 param_1)
 

@@ -1,12 +1,49 @@
-/// @description FNAFN Obj_Menu_Main_Title / KeyPress - NOT YET PORTED
+/// @description FNAFN Obj_Menu_Main_Title / KeyPress - PORTED from C (all 3 sub-events)
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
 // 3 sub-event(s): KeyPress_69, KeyPress_83, KeyPress_87  (one reference block each; port a sub-event by
 //  editing its ---- header to PORTED and inserting GML above its block)
 
-// ---- sub-event KeyPress_69 — NOT YET PORTED ----
+// ---- sub-event KeyPress_69 — PORTED from C ----
 // ground truth: gml_Object_Obj_Menu_Main_Title_KeyPress_69 (2540 B @0x14010a1d0)
+// E = confirm the keyboard selection. Mirrors Mouse_53 buttons 0/1/2 but
+// dispatches on select (0/1/2) instead of button hit-tests; the extras row
+// (text_menu[3]) has no confirm block. Gate: draw_alpha > 0.975
+// (0x3fef333333333333). Exe consts: "Fade" @0x1405c6420 + 2.0 @0x1405c6430
+// (obj 2 = Obj_Menu_Transition), "Main_menu" @0x1405c6425 + 3.0 @0x1405c6440
+// (obj 3 = Obj_Menu_Continue) / 53.0 @0x1405c6450 (obj 53 =
+// Obj_Menu_Customize); with-destroy consts 76.0 = Obj_Menu_Main_Options,
+// 55.0 = Obj_Menu_Main_Music; Room_to_go_to 5.0.
+// TODO(calibrate): draw_alpha threshold exact value (0.975 assumed);
+// instance_create_layer x/y are runtime const @0x140657298 (assumed 0, 0).
+if (draw_alpha > 0.975) {
+    if (select == 0) {
+        instance_create_layer(0, 0, "Fade", Obj_Menu_Transition); // TODO(calibrate): x/y are runtime const @0x140657298
+        Obj_Menu_Transition.Room_to_go_to = 5;
+    }
+    if (select == 1) {
+        instance_create_layer(0, 0, "Main_menu", Obj_Menu_Continue); // TODO(calibrate): x/y are runtime const @0x140657298
+        with (Obj_Menu_Main_Options) {
+            instance_destroy();
+        }
+        with (Obj_Menu_Main_Music) {
+            instance_destroy();
+        }
+        instance_destroy();
+    }
+    if (select == 2) {
+        instance_create_layer(0, 0, "Main_menu", Obj_Menu_Customize); // TODO(calibrate): x/y are runtime const @0x140657298
+        with (Obj_Menu_Main_Options) {
+            instance_destroy();
+        }
+        with (Obj_Menu_Main_Music) {
+            instance_destroy();
+        }
+        instance_destroy();
+    }
+}
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Menu_Main_Title_KeyPress_69(longlong *param_1,undefined8 param_2)
 
@@ -286,8 +323,53 @@ void gml_Object_Obj_Menu_Main_Title_KeyPress_69(longlong *param_1,undefined8 par
 }
 END DECOMPILED REFERENCE */
 
-// ---- sub-event KeyPress_83 — NOT YET PORTED ----
+// ---- sub-event KeyPress_83 — PORTED from C ----
 // ground truth: gml_Object_Obj_Menu_Main_Title_KeyPress_83 (5907 B @0x140105770)
+// S = move selection down, then re-apply the hover visuals + shared tail.
+// Head: if (select < 3) { select += 1; } (+= via PROVEN helper 0x14000bf90;
+// bound is the 0x4008000000000000 = 3.0 literal). The four
+// if (select == N) blocks set select_y 340/385/430/475 + Main_Back
+// image_index 0/1/2/3 + image_alpha 0 (same values as Step_0; no blip here —
+// the blip plays in Step_0 when select changes). Tail (0x22-0x35) is the same
+// selector/secondary_x/draw_alpha lerps + glitching machine as Step_0.
+// TODO(calibrate): == consts assumed 0/1/2/3 from the image_index values and
+// Step_0 symmetry (compared consts are stack-reused); glitch case consts +
+// jumptable as in Step_0; audio n/a.
+if (select < 3) {
+    select += 1;
+}
+if (select == 0) {
+    Obj_Menu_Selector.select_y = 340;
+    Obj_Menu_Main_Back.image_index = 0;
+    Obj_Menu_Main_Back.image_alpha = 0;
+}
+if (select == 1) {
+    Obj_Menu_Selector.select_y = 385;
+    Obj_Menu_Main_Back.image_index = 1;
+    Obj_Menu_Main_Back.image_alpha = 0;
+}
+if (select == 2) {
+    Obj_Menu_Selector.select_y = 430;
+    Obj_Menu_Main_Back.image_index = 2;
+    Obj_Menu_Main_Back.image_alpha = 0;
+}
+if (select == 3) {
+    Obj_Menu_Selector.select_y = 475;
+    Obj_Menu_Main_Back.image_index = 3;
+    Obj_Menu_Main_Back.image_alpha = 0;
+}
+Obj_Menu_Selector.y = lerp(Obj_Menu_Selector.y, Obj_Menu_Selector.select_y, 0.2 * delta_factor);
+Obj_Menu_Selector.secondary_x = lerp(Obj_Menu_Selector.secondary_x, 94 + string_width(text_menu[select]), 0.2 * delta_factor);
+draw_alpha = lerp(draw_alpha, 1, 0.05 * delta_factor);
+if (glitching == 1) { // TODO(calibrate): case const is runtime @0x140657180/@0x140657194 (assumed 0/1)
+    y = lerp(y, 160, 0.5 * delta_factor);
+    x = lerp(x, 32, 0.5 * delta_factor);
+    image_alpha = lerp(image_alpha, 1, 0.3 * delta_factor);
+} else {
+    image_alpha = random_range(0, 0); // TODO(calibrate): args _UNK_140439e78/_UNK_14043b078; helper 0x140168cf0
+    // TODO: glitch_type 4-way switch (@0x1406571b0..@0x1406571ec, dispatch @0x1406571c0) — jumptable not recovered.
+}
+
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
@@ -832,8 +914,53 @@ joined_r0x0001401068e4:
 }
 END DECOMPILED REFERENCE */
 
-// ---- sub-event KeyPress_87 — NOT YET PORTED ----
+// ---- sub-event KeyPress_87 — PORTED from C ----
 // ground truth: gml_Object_Obj_Menu_Main_Title_KeyPress_87 (5953 B @0x140107c40)
+// W = move selection up: mirror of KeyPress_83. Head: if (select > 0) {
+// select -= 1; } (-= via PROVEN helper 0x14000bdb0; the compared bound is a
+// stack-reused slot — assumed 0 by symmetry with the S-key < 3 bound).
+// The four if (select == N) visual-apply blocks and the shared
+// selector/secondary_x/draw_alpha + glitching tail are identical to
+// KeyPress_83.
+// TODO(calibrate): lower bound assumed 0; == consts assumed 0/1/2/3;
+// glitch case consts @0x140657210/@0x140657224 + dispatch @0x140657220 and
+// glitch_type targets @0x140657240..@0x14065727c + dispatch @0x140657250
+// (jumptable not recovered).
+if (select > 0) { // TODO(calibrate): lower bound is a stack-reused slot, assumed 0
+    select -= 1;
+}
+if (select == 0) {
+    Obj_Menu_Selector.select_y = 340;
+    Obj_Menu_Main_Back.image_index = 0;
+    Obj_Menu_Main_Back.image_alpha = 0;
+}
+if (select == 1) {
+    Obj_Menu_Selector.select_y = 385;
+    Obj_Menu_Main_Back.image_index = 1;
+    Obj_Menu_Main_Back.image_alpha = 0;
+}
+if (select == 2) {
+    Obj_Menu_Selector.select_y = 430;
+    Obj_Menu_Main_Back.image_index = 2;
+    Obj_Menu_Main_Back.image_alpha = 0;
+}
+if (select == 3) {
+    Obj_Menu_Selector.select_y = 475;
+    Obj_Menu_Main_Back.image_index = 3;
+    Obj_Menu_Main_Back.image_alpha = 0;
+}
+Obj_Menu_Selector.y = lerp(Obj_Menu_Selector.y, Obj_Menu_Selector.select_y, 0.2 * delta_factor);
+Obj_Menu_Selector.secondary_x = lerp(Obj_Menu_Selector.secondary_x, 94 + string_width(text_menu[select]), 0.2 * delta_factor);
+draw_alpha = lerp(draw_alpha, 1, 0.05 * delta_factor);
+if (glitching == 1) { // TODO(calibrate): case const is runtime @0x140657210/@0x140657224 (assumed 0/1)
+    y = lerp(y, 160, 0.5 * delta_factor);
+    x = lerp(x, 32, 0.5 * delta_factor);
+    image_alpha = lerp(image_alpha, 1, 0.3 * delta_factor);
+} else {
+    image_alpha = random_range(0, 0); // TODO(calibrate): args _UNK_140439e78/_UNK_14043b078; helper 0x140168cf0
+    // TODO: glitch_type 4-way switch (@0x140657240..@0x14065727c, dispatch @0x140657250) — jumptable not recovered.
+}
+
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 

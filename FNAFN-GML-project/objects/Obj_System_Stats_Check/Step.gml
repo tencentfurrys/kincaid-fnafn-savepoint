@@ -1,4 +1,23 @@
-/// @description FNAFN Obj_System_Stats_Check / Step - NOT YET PORTED
+/// @description FNAFN Obj_System_Stats_Check / Step — PORTED from C
+// Ground truth: gml_Object_Obj_System_Stats_Check_Step_0
+// Decoded, in order:
+//   string(delta_factor) (id 0x1870b via builtin_ids.json; slot
+//     0x1405c8840 = string); room_get_name(room) (slot 0x1405c9010,
+//     room = slot 0x1405c7b38); string(code_is_compiled())
+//     (slot 0x1405c9000); string(gpu_get_tex_filter()) (slot 0x1405c8ff0);
+//     string(fps) (slot 0x1405c7c78 = fps). Chained ADD
+//     (func_0x000140005290) builds:
+//     "Five Nights at Freddy's Nightshift TEST BUILD | FPS: " (@0x1405c6830)
+//     + string(fps) + " | tex filtering: " (@0x1405c6870)
+//     + string(gpu_get_tex_filter()) + " | YYC compiled: " (@0x1405c6890)
+//     + string(code_is_compiled()) + " | room: " (@0x1405c68a2)
+//     + room_get_name(room) + " | delta: " (@0x1405c68ac)
+//     + string(delta_factor).
+//   func_0x0001401756c0(final) best-fit show_debug_message (single-string
+//     debug print; the only other debug-print helper 0x140181c60 is PROVEN
+//     show_debug_message — prove 0x1401756c0 via disassembly).
+// Ported: Obj_System_Stats_Check / Step
+show_debug_message("Five Nights at Freddy's Nightshift TEST BUILD | FPS: " + string(fps) + " | tex filtering: " + string(gpu_get_tex_filter()) + " | YYC compiled: " + string(code_is_compiled()) + " | room: " + room_get_name(room) + " | delta: " + string(delta_factor)); // TODO(calibrate): func_0x0001401756c0 best-fit show_debug_message — prove via disassembly
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).

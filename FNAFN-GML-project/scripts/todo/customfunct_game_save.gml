@@ -1,5 +1,39 @@
-/// @description FNAFN script customfunct_game_save - NOT YET PORTED
-// Decompiled C reference (exact machine-level semantics):
+/// @description FNAFN script customfunct_game_save - PORTED from C
+// PORTED from C
+// Ground truth: gml_Script_customfunct_game_save
+// Decoded, in source-line order (uStack_b0 3..0x18): the exact mirror of
+// customfunct_game_load. ini_open("FNAFNsave.ini") [func_0x00014018a800],
+// then ini_write_string(section, key, value) for game[0..1] and
+// game_settings[0..13] -- via func_0x00014018a9a0 for the "game info" pair
+// plus "Volume"/"Office threshold", and via slot 0x1405c8b20 =
+// ini_write_string (func_0x0001401445d0 path) for the rest; same builtin,
+// two call shapes. Array reads use the func_0x000140147980(array, index)
+// accessor (with bounds-check fallback) wrapped in the number-or-
+// string-convert idiom (func_0x00014012d320), which has no GML equivalent
+// (ini_write_string converts numbers itself). Same string consts as the
+// load port (@0x1405c33d0..@0x1405c34a0 via exe_strings.py). Closes with
+// ini_close() [slot 0x1405c8b30, 0 args]. Dropped: 144b20 prologue,
+// uStack_b0 line numbers (kept for ordering only).
+function customfunct_game_save() {
+    ini_open("FNAFNsave.ini");
+    ini_write_string("game info", "night", game[0]);
+    ini_write_string("game info", "stars", game[1]);
+    ini_write_string("game settings", "VHS", game_settings[0]);
+    ini_write_string("game settings", "Fullscreen", game_settings[1]);
+    ini_write_string("game settings", "Vsync", game_settings[2]);
+    ini_write_string("game settings", "Edge filtering", game_settings[3]);
+    ini_write_string("game settings", "FXAA", game_settings[4]);
+    ini_write_string("game settings", "Subtitles", game_settings[5]);
+    ini_write_string("game settings", "Subtitle language", game_settings[6]);
+    ini_write_string("game settings", "Subtitle font", game_settings[7]);
+    ini_write_string("game settings", "Volume", game_settings[9]);
+    ini_write_string("game settings", "Ambience", game_settings[8]);
+    ini_write_string("game settings", "Futa mode", game_settings[11]);
+    ini_write_string("game settings", "Office navigation", game_settings[12]);
+    ini_write_string("game settings", "Office threshold", game_settings[13]);
+    ini_close();
+}
+
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) WARNING: Type propagation algorithm not settling
 

@@ -1,11 +1,59 @@
-/// @description FNAFN Obj_Office_Back / Mouse - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
-// 1 sub-event(s): Mouse_4  (one reference block each; port a sub-event by
-//  editing its ---- header to PORTED and inserting GML above its block)
+/// @description FNAFN Obj_Office_Back / Mouse_4 — PORTED from C
+// Ground truth: gml_Object_Obj_Office_Back_Mouse_4 (3100 B @0x14005dab0)
+// Globals fetched: Night_door_back (0x18740), Night_power_amount (0x18748).
+// Decoded guards, in order (uStack_88 = GML line markers):
+//   1. image_alpha (slot 0x1405c7b98 via 0x14015f1a0) == 1 else exit
+//      [compare(...,1.0,flag 0), r != 0 -> exit].
+//   layer_get_visible(<layer>) == 1 else exit [slot 0x1405c86b0, 1 arg].
+//   mouse_x in (1820,1880) else exit [slot 0x1405c7bc8 via 0x14015ef90;
+//     compare >1820 (r<1 -> exit) and <1880 (r==-2 or r>-1 -> exit)].
+//   mouse_y in (495,547) else exit [slot 0x1405c7bd8; same compare shape].
+//   builtin 0x14018f790(0x11=17) truthy -> exit (TODO calibrate: kind of
+//     input check — 0x11 is VK_CONTROL; likely keyboard_check or
+//     mouse_check_button family; verify in-game).
+//   toggle (id 0x18793, +0x10 self) = !toggle [bool via 0x14012bb70 ^ 1].
+//   switch on toggle via runtime consts @0x140655730/@0x140655744 and table
+//     @0x140655740 (0x14065xxxx, TODO calibrate; values are 0/1 by shape):
+//     case 1 (door closing): if (Night_power_amount >= power_threshold
+//     [id 0x1875b]) { door_speed (0x18710) = 0.66 (0x3fe51eb851eb851f);
+//     sound; sprite_index (slot 0x1405c7be8) = 101 =
+//     Spr_Office_Back_Close; Night_door_back = 1; Night_power_amount += 1
+//     (0x14000bf90); sound; } else { deny sound; toggle = 0; }
+//     case 0 (door opening): door_speed = -0.66; sound; sprite_index =
+//     Spr_Office_Back_Close (101); Night_door_back = 0;
+//     Night_power_amount -= 1 (0x14000bdb0); sound.
+// Sounds are exe consts @0x1405c3e40/0x1405c3e50/0x1405c3e60/0x1405c3e70/
+//   0x1405c3e80 with vol/pitch runtime const @0x140655720 (TODO calibrate).
 
-// ---- sub-event Mouse_4 — NOT YET PORTED ----
+// ---- sub-event Mouse_4 — PORTED from C ----
+if (image_alpha != 1) exit;
+if (layer_get_visible(/* TODO(calibrate): layer name const @0x1405c3e30 */ "TODO_layer") != 1) exit;
+if (mouse_x <= 1820) exit;
+if (mouse_x >= 1880) exit;
+if (mouse_y <= 495) exit;
+if (mouse_y >= 547) exit;
+if (/* TODO(calibrate): func_0x00014018f790(0x11) */ false) exit;
+toggle = !toggle;
+if (toggle == 1 /* TODO(calibrate): const @0x140655730 */) {
+    if (Night_power_amount >= power_threshold) {
+        door_speed = 0.66;
+        customfunct_audio_play_sound_single(/* TODO(calibrate): snd @0x1405c3e60 */ 0, 0, false);
+        sprite_index = Spr_Office_Back_Close; // 101.0
+        Night_door_back = 1;
+        Night_power_amount += 1;
+        customfunct_audio_play_sound_single(/* TODO(calibrate): snd @0x1405c3e70 */ 0, 0, false);
+    } else {
+        customfunct_audio_play_sound_single(/* TODO(calibrate): snd @0x1405c3e80 */ 0, 0, false);
+        toggle = 0;
+    }
+} else if (toggle == 0 /* TODO(calibrate): const @0x140655744 */) {
+    door_speed = -0.66;
+    customfunct_audio_play_sound_single(/* TODO(calibrate): snd @0x1405c3e40 */ 0, 0, false);
+    sprite_index = Spr_Office_Back_Close; // 101.0
+    Night_door_back = 0;
+    Night_power_amount -= 1;
+    customfunct_audio_play_sound_single(/* TODO(calibrate): snd @0x1405c3e50 */ 0, 0, false);
+}
 // ground truth: gml_Object_Obj_Office_Back_Mouse_4 (3100 B @0x14005dab0)
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) WARNING: Globals starting with '_' overlap smaller symbols at the same address */

@@ -1,7 +1,86 @@
-/// @description FNAFN Obj_Night_Camera_Flash / Step - NOT YET PORTED
+/// @description FNAFN Obj_Night_Camera_Flash / Step — PORTED from C
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+// ground truth: gml_Object_Obj_Night_Camera_Flash_Step_0 (4286 B @0x14011cc30)
+// Ported: Obj_Night_Camera_Flash / Step_0
+// Decoded, in order (uStack_90 = GML line markers 2..0x33; ids via
+// builtin_ids.json, slots via EXE-REGISTRY.md, doubles verified
+// big-endian):
+//   2. if (Night_camera_location == 5) [id 0x1873c; `==`-exit]:
+//   4.   hover test — mouse_x/mouse_y (slots 0x1405c7bc8/0x1405c7bd8 via
+//      0x14015ef90) against the x/y + scaled sprite box (x/y slots
+//      0x1405c7b78/0x1405c7b88, image_xscale/yscale slots 0x1405c7c18/
+//      0x1405c7c08 via 0x14015f1a0; MUL helper 0x1400053f0, ADD helper
+//      0x140005290):
+//        mouse_x > x && mouse_x < x + image_xscale * 237
+//          (0x406da00000000000 = 237.0)
+//        mouse_y > y && mouse_y < y + image_yscale * 54
+//          (0x404b000000000000 = 54.0)
+//      All four hold -> image_alpha = 0.95 (0x3fee666666666666), jumping
+//      over the dim assignment (C goto code_r0x00014011d2d7); else
+//   10. image_alpha = 0.6 (0x3fe3333333333333; slot 0x1405c7b98 self-write
+//      via 0x140160140).
+//      (The nested C ifs are combined with && — provably equivalent: the
+//      bright branch runs iff all four compares hold.)
+//      else (camera not on 5):
+//   0xf. image_alpha = 0.1 (0x3fb999999999999a).
+//   0x11. recharge (id 0x1875e) = clamp(recharge, <min>, 60) [clamp = slot
+//      0x1405c8a00 via 0x1401445d0 argc=3; max 60.0 = exe const
+//      @0x1405c6910; min is runtime const @0x1406574b0].
+//   0x13. if (recharge != 0):
+//   0x15.   recharge -= 0.1 * delta_factor [id 0x1870b; 0.1 literal;
+//        MUL + -= (0x14000bdb0) helpers].
+//   0x17. if (sprite_index == Spr_Night_Camera_Flash_Recharge)
+//        [0x4057c00000000000 = 95.0 = SPRT 95; the flash-click handler
+//        (Mouse_4) sets this sprite while firing, so Step animates the
+//        recharge bar only in that state]:
+//   0x19-0x2f. recharge window -> charge-frame image_index (each window is
+//        `recharge > lo && recharge <= hi`, sequential C ifs over disjoint
+//        ranges; image_index slot 0x1405c7aa8 self-write):
+//          (> 50, <= 60) -> 0; (> 40, <= 50) -> 1; (> 30, <= 40) -> 2;
+//          (> 20, <= 30) -> 3; (> 10, <= 20) -> 4; (> 0, <= 10) -> 5.
+//   0x31-0x33. if (recharge <= 0) sprite_index = Spr_Night_Camera_Flash
+//        (0x4033000000000000 = 19.0 = SPRT 19; back to the idle sprite).
+// TODO(calibrate): clamp min runtime const @0x1406574b0 (assumed 0 below)
+// — verify in-game.
+if (Night_camera_location == 5) {
+    if (mouse_x > x && mouse_x < x + image_xscale * 237
+            && mouse_y > y && mouse_y < y + image_yscale * 54) {
+        image_alpha = 0.95;
+    } else {
+        image_alpha = 0.6;
+    }
+} else {
+    image_alpha = 0.1;
+}
+recharge = clamp(recharge, 0 /* TODO(calibrate): runtime const @0x1406574b0 */, 60);
+if (recharge != 0) {
+    recharge -= 0.1 * delta_factor;
+}
+if (sprite_index == Spr_Night_Camera_Flash_Recharge) { // SPRT 95
+    if (recharge > 50 && recharge <= 60) {
+        image_index = 0;
+    }
+    if (recharge > 40 && recharge <= 50) {
+        image_index = 1;
+    }
+    if (recharge > 30 && recharge <= 40) {
+        image_index = 2;
+    }
+    if (recharge > 20 && recharge <= 30) {
+        image_index = 3;
+    }
+    if (recharge > 10 && recharge <= 20) {
+        image_index = 4;
+    }
+    if (recharge > 0 && recharge <= 10) {
+        image_index = 5;
+    }
+    if (recharge <= 0) {
+        sprite_index = Spr_Night_Camera_Flash; // SPRT 19
+    }
+}
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Night_Camera_Flash_Step_0(longlong *param_1,undefined8 param_2)
 

@@ -1,7 +1,101 @@
-/// @description FNAFN Obj_Menu_Options / Create - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Menu_Options / Create_0 — PORTED from C
+// Ground truth: gml_Object_Obj_Menu_Options_Create_0 (5580 B @0x140074950)
+// Decoded, in order (uStack_58 = GML line markers):
+//   0. customfunct_audio_play_sound_single(22, <runtime>, <runtime>) —
+//      exe const 0x1405c4490 = 22.0 (menu blip); priority/loop are the
+//      same runtime const @0x140655a10 (TODO/calibrate below).
+//   2. if (room == 1): Obj_Menu_Main_Back.sprite_index = 92
+//      (Spr_Menu_Background_Options, sprite_names.json),
+//      Obj_Menu_Main_Back.image_alpha = 0, then
+//      with (Obj_Menu_Selector) { instance_destroy(); } — the repeat
+//      const 0x4041800000000000 = 35.0 is the OBJECT INDEX 35 =
+//      Obj_Menu_Selector (obj_names.json), not a loop count.
+//   0xb. if (room == 4): object_set_visible(Obj_Menu_Pause, <runtime>)
+//      (slot 0x1405c8ed0; obj const 0x1405c44a0 = 48.0; 2nd arg runtime
+//      @0x140655a10 — TODO/calibrate, 1 matches Destroy's call shape).
+//   0xf. instance_activate_object best-fit (direct helper
+//      func_0x00014017bda0(self, other, 50); only 2 sites in the exe;
+//      pairs with Destroy's instance_deactivate_object(
+//      Obj_Menu_Options_Icons)) — TODO/calibrate identity in-game.
+//   0x11. instance_create_layer(12, 12, "Main_menu",
+//      Obj_Menu_Options_Selector) (consts 12.0/12.0/"Main_menu"/9.0).
+//   0x12. instance_create_layer(1240, 540, "Main_menu",
+//      Obj_Menu_Options_Preview) (consts 1240.0/540.0/"Main_menu"/46.0).
+//   0x14-0x18. surface slots = -1 (main/video/audio/pref); the id-0x186d1
+//      slot (registry name looks like a script,
+//      customfunct_ui_button_detection_x) is assigned -1 as an instance
+//      variable here — ported literally.
+//   0x19-0x1c. select = 1; select_y = select_y_final = 192;
+//      colour_pink = make_color_rgb(255, 0, 110).
+//   0x1d-0x21. text_scale[0..4] = 0.95, 0.7, 0.7, 0.7, 0.7.
+//   0x23-0x2a. text_options[0..6] = "video", "audio", "preferences",
+//      "accessibility", "credits", "exit", "reset data".
+//   0x2c. draw_alpha = 0.  0x2e. menu = "video".
+//   0x30-0x34. text_video[0..4] = "VHS filter:", "fullscreen:",
+//      "vsync:", "edge filtering:", "FXAA:".
+//   0x36-0x37. text_audio[0..1] = "quieter ambience:", "master volume:".
+//   0x39-0x3a. text_pref[0..1] = "gamemode type:", "futa mode:".
+//   0x3c-0x40. text_access[0..4] = "subtitles:", "subt. language:",
+//      "subtitle font:", "navigation type:", "nav. threshold:".
+// Reading: entering the options screen plays the menu blip, swaps the
+// shared backdrop to the options background (when coming from room 1),
+// replaces the shared selector with its own selector + preview instances,
+// and seeds every options label array.
+// TODO(calibrate): audio priority/loop @0x140655a10 (assumed 0/false);
+// object_set_visible 2nd arg @0x140655a10 (assumed 1);
+// func_0x00014017bda0 identity (best-fit instance_activate_object).
+customfunct_audio_play_sound_single(22, 0, false); // TODO(calibrate): priority/loop are runtime const @0x140655a10
+if (room == 1) {
+    Obj_Menu_Main_Back.sprite_index = 92; // Spr_Menu_Background_Options (sprite_names.json)
+    Obj_Menu_Main_Back.image_alpha = 0;
+    with (Obj_Menu_Selector) {
+        instance_destroy();
+    }
+}
+if (room == 4) {
+    object_set_visible(Obj_Menu_Pause, 1); // TODO(calibrate): 2nd arg is runtime const @0x140655a10
+}
+instance_activate_object(Obj_Menu_Options_Icons); // TODO(calibrate): func_0x00014017bda0 identity best-fit
+instance_create_layer(12, 12, "Main_menu", Obj_Menu_Options_Selector);
+instance_create_layer(1240, 540, "Main_menu", Obj_Menu_Options_Preview);
+main_surface = -1;
+video_surface = -1;
+audio_surface = -1;
+pref_surface = -1;
+customfunct_ui_button_detection_x = -1;
+select = 1;
+select_y = 192;
+select_y_final = 192;
+colour_pink = make_color_rgb(255, 0, 110);
+text_scale[0] = 0.95;
+text_scale[1] = 0.7;
+text_scale[2] = 0.7;
+text_scale[3] = 0.7;
+text_scale[4] = 0.7;
+text_options[0] = "video";
+text_options[1] = "audio";
+text_options[2] = "preferences";
+text_options[3] = "accessibility";
+text_options[4] = "credits";
+text_options[5] = "exit";
+text_options[6] = "reset data";
+draw_alpha = 0;
+menu = "video";
+text_video[0] = "VHS filter:";
+text_video[1] = "fullscreen:";
+text_video[2] = "vsync:";
+text_video[3] = "edge filtering:";
+text_video[4] = "FXAA:";
+text_audio[0] = "quieter ambience:";
+text_audio[1] = "master volume:";
+text_pref[0] = "gamemode type:";
+text_pref[1] = "futa mode:";
+text_access[0] = "subtitles:";
+text_access[1] = "subt. language:";
+text_access[2] = "subtitle font:";
+text_access[3] = "navigation type:";
+text_access[4] = "nav. threshold:";
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Menu_Options_Create_0(longlong *param_1,undefined8 param_2)
 

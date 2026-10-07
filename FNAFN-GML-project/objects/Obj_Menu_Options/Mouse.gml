@@ -1,12 +1,207 @@
-/// @description FNAFN Obj_Menu_Options / Mouse - NOT YET PORTED
+/// @description FNAFN Obj_Menu_Options / Mouse - PORTED from C
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
-// 2 sub-event(s): Mouse_53, Mouse_54  (one reference block each; port a sub-event by
-//  editing its ---- header to PORTED and inserting GML above its block)
+// machine-level semantics recovered by Ghidra (kept as reference).
+// 2 sub-event(s): Mouse_53 (left-click hitboxes), Mouse_54 (exit, mirrors
+// KeyPress_81: save + back to main). Registry ids via builtin_ids.json:
+// select 0x1876a, menu 0x18737, static_magnetude 0x18774 (runner-global),
+// buttons_x 0x186ee, text_options 0x1878d, text_scale 0x1878f, mouse_x/y =
+// slots 0x1405c7bc8/0x1405c7bd8 (EXE-REGISTRY.md), string_width = slot
+// 0x1405c8d80, instance_create_layer = slot 0x1405c8d90.
 
-// ---- sub-event Mouse_53 — NOT YET PORTED ----
+// ---- sub-event Mouse_53 — PORTED from C ----
 // ground truth: gml_Object_Obj_Menu_Options_Mouse_53 (17218 B @0x140077bf0)
+// Decoded in order (uStack_b8 = GML line markers):
+//   2. if (mouse_y < 116.0) [0x405d... = 116.0]: tab row. Per tab i with
+//      centre X[i] = 94/320/640/960/1186 (exe .data doubles) and label
+//      T[i] = "video"/"audio"/"preferences"/"accessibility"/"credits"
+//      (@0x1405c45b0/@0x1405c45b6/@0x1405c45bc/@0x1405c45c8/@0x1405c45d6):
+//      if (customfunct_ui_button_detection_x(X[i] - string_width(
+//          text_options[i]), X[i] + string_width(text_options[i]),
+//          <runtime @0x140655a20>)) {
+//          if (menu != T[i]) {
+//              customfunct_audio_play_sound_single(48, <runtime>, <runtime>)
+//              [48.0 @0x1405c45e8]; menu = T[i]; select = 1;
+//              text_scale[j] = (j == i) ? 0.95 : 0.7 [0x3fee.../0x3fe6...];
+//              static_magnetude = 1; buttons_x = (i == 0) ? 0 : -416
+//              [0xc07a... = -416.0]; Obj_Menu_Options_Preview.arrow_alpha = 0
+//              [object-tagged write 0x140160b90(0x2e = 46, 0x186e1)];
+//              with (Obj_Menu_Pause) { event_perform(ev_alarm, 0); }
+//              [repeat const 48.0 = Obj_Menu_Pause, obj_names.json]
+//          }
+//      }
+//   0x61. if (mouse_x < 384.0) [0x4078... = 384.0]: row-select regions, all
+//      gated on mouse_y in (116, 656) [116.0 @0x405d..., 656.0 @0x40848...],
+//      each playing sound 31 (@0x1405c45f8):
+//        y in (192, 256) -> select = 1; (256, 320) -> select = 2;
+//        (320, 384) -> select = 3; (384, 448) -> select = 4 and
+//        (448, 512) -> select = 5, the last two additionally gated on
+//        (menu != "preferences"); then with (Obj_Menu_Pause) {
+//        event_perform(ev_alarm, 0); }.
+//   0x8a. if (mouse_y > 656.0) [0x40848... = 656.0]: if (mouse_x < 320.0)
+//      [0x4074... = 320.0]: exit sequence (bottom-left "exit" label at
+//      (94, 656) per Draw) = customfunct_game_save();
+//      customfunct_options_update(); instance_create_layer(-32, 352,
+//      "Main_menu", Obj_Menu_Selector) [-32.0 @0x1405c4608, 352.0 @0x1405c4618,
+//      "Main_menu" @0x1405c45de, 35.0 = obj 35 @0x1405c4628]; with
+//      (Obj_Menu_Options_Selector) { instance_destroy(); } [repeat const
+//      9.0 = obj 9]; instance_create_layer(32, 160, "Main_menu",
+//      Obj_Menu_Main_Title) [32.0/160.0 @0x1405c4638/@0x1405c4648, 63.0 =
+//      obj 63 @0x1405c4658]; instance_destroy() [self].
+//   0x9b. switch (select) over 1..5 (guarded pool @0x140655a30): case bodies
+//      are indirect jumps Ghidra could not recover; non-matching falls
+//      through to plain cleanup+return.
+// TODO(calibrate): customfunct_ui_button_detection_x 3rd arg + audio
+// priority/loop runtime const @0x140655a20; exit-region geometry in-game;
+// the 5 select-switch case bodies (jumptable unrecovered).
+if (mouse_y < 116) {
+    if (customfunct_ui_button_detection_x(94 - string_width(text_options[0]), 94 + string_width(text_options[0]), 0 /* TODO(calibrate): runtime const @0x140655a20 */)) {
+        if (menu != "video") {
+            customfunct_audio_play_sound_single(48, 0 /* TODO(calibrate): runtime @0x140655a20 */, false /* TODO(calibrate): same */);
+            menu = "video";
+            select = 1;
+            text_scale[0] = 0.95;
+            text_scale[1] = 0.7;
+            text_scale[2] = 0.7;
+            text_scale[3] = 0.7;
+            text_scale[4] = 0.7;
+            static_magnetude = 1;
+            buttons_x = 0;
+            Obj_Menu_Options_Preview.arrow_alpha = 0;
+            with (Obj_Menu_Pause) {
+                event_perform(ev_alarm, 0);
+            }
+        }
+    }
+    if (customfunct_ui_button_detection_x(320 - string_width(text_options[1]), 320 + string_width(text_options[1]), 0 /* TODO(calibrate): runtime const @0x140655a20 */)) {
+        if (menu != "audio") {
+            customfunct_audio_play_sound_single(48, 0 /* TODO(calibrate) */, false /* TODO(calibrate) */);
+            menu = "audio";
+            select = 1;
+            text_scale[0] = 0.7;
+            text_scale[1] = 0.95;
+            text_scale[2] = 0.7;
+            text_scale[3] = 0.7;
+            text_scale[4] = 0.7;
+            static_magnetude = 1;
+            buttons_x = -416;
+            Obj_Menu_Options_Preview.arrow_alpha = 0;
+            with (Obj_Menu_Pause) {
+                event_perform(ev_alarm, 0);
+            }
+        }
+    }
+    if (customfunct_ui_button_detection_x(640 - string_width(text_options[2]), 640 + string_width(text_options[2]), 0 /* TODO(calibrate) */)) {
+        if (menu != "preferences") {
+            customfunct_audio_play_sound_single(48, 0 /* TODO(calibrate) */, false /* TODO(calibrate) */);
+            menu = "preferences";
+            select = 1;
+            text_scale[0] = 0.7;
+            text_scale[1] = 0.7;
+            text_scale[2] = 0.95;
+            text_scale[3] = 0.7;
+            text_scale[4] = 0.7;
+            static_magnetude = 1;
+            buttons_x = -416;
+            Obj_Menu_Options_Preview.arrow_alpha = 0;
+            with (Obj_Menu_Pause) {
+                event_perform(ev_alarm, 0);
+            }
+        }
+    }
+    if (customfunct_ui_button_detection_x(960 - string_width(text_options[3]), 960 + string_width(text_options[3]), 0 /* TODO(calibrate) */)) {
+        if (menu != "accessibility") {
+            customfunct_audio_play_sound_single(48, 0 /* TODO(calibrate) */, false /* TODO(calibrate) */);
+            menu = "accessibility";
+            select = 1;
+            text_scale[0] = 0.7;
+            text_scale[1] = 0.7;
+            text_scale[2] = 0.7;
+            text_scale[3] = 0.95;
+            text_scale[4] = 0.7;
+            static_magnetude = 1;
+            buttons_x = -416;
+            Obj_Menu_Options_Preview.arrow_alpha = 0;
+            with (Obj_Menu_Pause) {
+                event_perform(ev_alarm, 0);
+            }
+        }
+    }
+    if (customfunct_ui_button_detection_x(1186 - string_width(text_options[4]), 1186 + string_width(text_options[4]), 0 /* TODO(calibrate) */)) {
+        if (menu != "credits") {
+            customfunct_audio_play_sound_single(48, 0 /* TODO(calibrate) */, false /* TODO(calibrate) */);
+            menu = "credits";
+            select = 1;
+            text_scale[0] = 0.7;
+            text_scale[1] = 0.7;
+            text_scale[2] = 0.7;
+            text_scale[3] = 0.7;
+            text_scale[4] = 0.95;
+            static_magnetude = 1;
+            buttons_x = -416;
+            Obj_Menu_Options_Preview.arrow_alpha = 0;
+            with (Obj_Menu_Pause) {
+                event_perform(ev_alarm, 0);
+            }
+        }
+    }
+}
+if (mouse_x < 384) {
+    if ((mouse_y > 116) && (mouse_y < 656)) {
+        if ((mouse_y > 192) && (mouse_y < 256)) {
+            customfunct_audio_play_sound_single(31, 0 /* TODO(calibrate): runtime @0x140655a20 */, false /* TODO(calibrate): same */);
+            select = 1;
+        }
+        if ((mouse_y > 256) && (mouse_y < 320)) {
+            customfunct_audio_play_sound_single(31, 0 /* TODO(calibrate) */, false /* TODO(calibrate) */);
+            select = 2;
+        }
+        if ((mouse_y > 320) && (mouse_y < 384)) {
+            customfunct_audio_play_sound_single(31, 0 /* TODO(calibrate) */, false /* TODO(calibrate) */);
+            select = 3;
+        }
+        if ((mouse_y > 384) && (mouse_y < 448)) {
+            if (menu != "preferences") {
+                customfunct_audio_play_sound_single(31, 0 /* TODO(calibrate) */, false /* TODO(calibrate) */);
+                select = 4;
+            }
+        }
+        if ((mouse_y > 448) && (mouse_y < 512)) {
+            if (menu != "preferences") {
+                customfunct_audio_play_sound_single(31, 0 /* TODO(calibrate) */, false /* TODO(calibrate) */);
+                select = 5;
+            }
+        }
+    }
+    with (Obj_Menu_Pause) {
+        event_perform(ev_alarm, 0);
+    }
+}
+if (mouse_y > 656) {
+    if (mouse_x < 320) {
+        customfunct_game_save();
+        customfunct_options_update();
+        instance_create_layer(-32, 352, "Main_menu", Obj_Menu_Selector);
+        with (Obj_Menu_Options_Selector) {
+            instance_destroy();
+        }
+        instance_create_layer(32, 160, "Main_menu", Obj_Menu_Main_Title);
+        instance_destroy();
+    }
+}
+switch (select) {
+    case 1: // TODO(calibrate): case bodies unrecovered (Ghidra jumptable @0x14007db1c) — verify in-game
+        break;
+    case 2: // TODO(calibrate): same
+        break;
+    case 3: // TODO(calibrate): same
+        break;
+    case 4: // TODO(calibrate): same
+        break;
+    case 5: // TODO(calibrate): same
+        break;
+    default:
+        break;
+}
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
@@ -1645,8 +1840,24 @@ code_r0x00014007bb70:
 }
 END DECOMPILED REFERENCE */
 
-// ---- sub-event Mouse_54 — NOT YET PORTED ----
+// ---- sub-event Mouse_54 — PORTED from C ----
 // ground truth: gml_Object_Obj_Menu_Options_Mouse_54 (1237 B @0x1400773c0)
+// Exit path, identical to KeyPress_81: save + apply options, swap the
+// shared selector back to the main-menu selector, spawn the main title,
+// destroy self. Consts via exe_strings.py: -32.0 @0x1405c4550, 352.0
+// @0x1405c4560, "Main_menu" @0x1405c4540, 35.0 = obj 35 Obj_Menu_Selector
+// @0x1405c4570; 32.0 @0x1405c4580, 160.0 @0x1405c4590, "Main_menu"
+// @0x1405c4540 (reused slot), 63.0 = obj 63 Obj_Menu_Main_Title @0x1405c45a0;
+// instance_create_layer = slot 0x1405c8d90; with-block repeat const 9.0 =
+// obj 9 Obj_Menu_Options_Selector with instance_destroy() body.
+customfunct_game_save();
+customfunct_options_update();
+instance_create_layer(-32, 352, "Main_menu", Obj_Menu_Selector);
+with (Obj_Menu_Options_Selector) {
+    instance_destroy();
+}
+instance_create_layer(32, 160, "Main_menu", Obj_Menu_Main_Title);
+instance_destroy();
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Menu_Options_Mouse_54(undefined8 param_1,undefined8 param_2)
 

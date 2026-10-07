@@ -1,4 +1,54 @@
-/// @description FNAFN Obj_Office_Front_Middle / Step - NOT YET PORTED
+/// @description FNAFN Obj_Office_Front_Middle / Step_1 — PORTED from C
+// Ground truth: gml_Object_Obj_Office_Front_Middle_Step_1 (4186 B @0x1400bee60)
+// Middle-office ambience step. Globals: delta_factor (0x1870b),
+// game_settings array (0x18727), Night_camera (0x1873b),
+// Night_office_rotated (0x18747). Self: ambient_gain (0x186dc),
+// office_emitter (0x1874f). Scr_Camera_Update (0x186d5) is the shared
+// 12-element timer ARRAY (PROVEN: array_length + indexed writes).
+// Helpers: slot 0x1405c8ba0 = array_length, 0x1405c89b0 = round,
+// 0x1405c8cc0 = lerp, 0x1405c8eb0 = audio_emitter_gain,
+// func_0x000140181c50 = event_perform(ev_alarm, N) (PROVEN),
+// func_0x00014000bdb0 = -= op helper.
+// TODO(calibrate): all @0x140656xxx runtime-pool consts (switch consts +
+// tables @0x1406565d0/@0x140656600/@0x140656630, lerp-speed consts) and all
+// @0x1405c51xx exe consts (below the EXE-CONSTANTS dump range: lerp targets
+// @0x1405c5190/@0x1405c5160/@0x1405c5180/@0x1405c5170/@0x1405c5150).
+// Inline const decoded: -100.0 (0xc059000000000000 sentinel), -0.0449
+// (0x3fa7... guard), 1.0 lerp-compare const.
+// 1. Timer sweep over Scr_Camera_Update (same shape as Obj_Night_Time/Step):
+for (var i = 0; i < array_length(Scr_Camera_Update); i += 1) {
+    if (Scr_Camera_Update[i] <= 0) {
+        // C guards with round() on both sides: round(elem) <= 0, then
+        // round(elem) <= 0 again, then round(elem) > -0.0449 fires.
+        if (round(Scr_Camera_Update[i]) <= 0 && round(Scr_Camera_Update[i]) > -0.044921875) {
+            Scr_Camera_Update[i] = -100;
+            event_perform(ev_alarm, i);
+        }
+    } else {
+        Scr_Camera_Update[i] -= delta_factor;
+    }
+}
+// 2. game_settings[8] two-case switch (runtime consts/table TODO):
+// case 1 lerps ambient_gain toward its pair, case 0 falls into the
+// Night_camera / Night_office_rotated staging below.
+if (game_settings[8] == /* TODO(calibrate runtime): @0x1406565c0 case 1 */ 1) {
+    ambient_gain = lerp(ambient_gain, /* TODO @0x1405c5190 */ 0, /* TODO @0x1405c5160 */ 0);
+} else {
+    // Night_camera switch (runtime consts @0x1406565f0/@0x140656604 TODO):
+    if (Night_camera == /* TODO(runtime) @0x1406565f0 case */ 0) {
+        // Night_office_rotated switch (runtime consts @0x140656620 /
+        // @0x140656634 TODO): each leaf lerps ambient_gain toward its own
+        // exe-const pair.
+        if (Night_office_rotated == /* TODO(runtime) @0x140656620 case */ 0) {
+            ambient_gain = lerp(ambient_gain, /* TODO @0x1405c5170 */ 0, /* TODO @0x1405c5160 */ 0);
+        } else {
+            ambient_gain = lerp(ambient_gain, /* TODO @0x1405c5150 */ 0, /* TODO @0x1405c5160 */ 0);
+        }
+    } else {
+        ambient_gain = lerp(ambient_gain, /* TODO @0x1405c5180 */ 0, /* TODO @0x1405c5160 */ 0);
+    }
+}
+audio_emitter_gain(office_emitter, ambient_gain);
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).

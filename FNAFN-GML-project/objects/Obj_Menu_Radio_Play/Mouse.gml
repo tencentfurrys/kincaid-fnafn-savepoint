@@ -1,12 +1,50 @@
-/// @description FNAFN Obj_Menu_Radio_Play / Mouse - NOT YET PORTED
+/// @description FNAFN Obj_Menu_Radio_Play / Mouse — PORTED from C
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
 // 1 sub-event(s): Mouse_4  (one reference block each; port a sub-event by
 //  editing its ---- header to PORTED and inserting GML above its block)
 
-// ---- sub-event Mouse_4 — NOT YET PORTED ----
+// ---- sub-event Mouse_4 — PORTED ----
 // ground truth: gml_Object_Obj_Menu_Radio_Play_Mouse_4 (2446 B @0x1400ee760)
+// Decoded, in order (uStack_c0 = GML line markers):
+//   1. play = play ^ 1 (id 0x18755; bool-conv XOR 1, same shape as
+//      Obj_Pause/KeyPress_27 paused toggle).
+//   two-case switch on play (cases runtime @0x140656eb0/@0x140656ec4,
+//      labels @0x140656ec0 stride 0x14, per PORTING.md two-case rule):
+//     play == 1: image_index = 1 (slot 0x1405c7aa8 self-write);
+//        var _snd = custom_music[track_select]
+//        (custom_music id 0x186fc; track_select id 0x18794 read off
+//        Obj_Menu_Radio_Cassette, obj 54, tag 0x36, via 0x140160480;
+//        array-element accessor shape with bounds guards);
+//        audio_play_sound(_snd, <runtime @0x140656ea0>, 1)
+//        (slot 0x1405c8970; 1.0 = @0x1405c5d08);
+//        image_xscale = 0.85 (0x3feb333333333333; slot 0x1405c7c18).
+//     play == 0: image_index = 0;
+//        for (var i = array_length(custom_music); i >= 0; i -= 1)
+//          audio_stop_sound(custom_music[i])
+//        (slot 0x1405c8ba0 = array_length, slot 0x1405c8960 =
+//        audio_stop_sound; counter shape `i -= 1` per PORTING.md);
+//        image_xscale = 0.85.
+// TODO(calibrate): play case/label pool @0x14065xxxx (mapping above
+// assumes play==1 -> play-sound like the paused==1/0 split in
+// Obj_Pause/KeyPress_27; prove via the guarded pool init); play-sound
+// priority runtime const @0x140656ea0 — verify in-game.
+// Ported: Obj_Menu_Radio_Play / Mouse_4
+play = play ^ 1;
+if (play == 1) { // TODO(calibrate): runtime pool @0x140656eb0/@0x140656ec4/@0x140656ec0 mapping — verify in-game
+    image_index = 1;
+    var _snd = custom_music[Obj_Menu_Radio_Cassette.track_select];
+    audio_play_sound(_snd, 0, 1); // TODO(calibrate): priority is runtime const @0x140656ea0
+    image_xscale = 0.85;
+} else if (play == 0) {
+    image_index = 0;
+    for (var i = array_length(custom_music); i >= 0; i -= 1) {
+        audio_stop_sound(custom_music[i]);
+    }
+    image_xscale = 0.85;
+}
+
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 

@@ -1,7 +1,82 @@
-/// @description FNAFN Obj_Night_Shift_End / Step - NOT YET PORTED
+/// @description FNAFN Obj_Night_Shift_End / Step — PORTED from C
+// Ground truth: gml_Object_Obj_Night_Shift_End_Step_0 (3340 B @0x1400b1b00)
+// Decoded, in order (uStack_98 = GML line markers):
+//   3. for (i = 0; i < array_length(Scr_Camera_Update); i += 1) — the
+//      PORTING.md for-loop shape (counter init 0.0; bound via array_length,
+//      slot 0x1405c8ba0; `r==-2||-1<r`-break = `>=`; typed-increment switch
+//      with _UNK_140439dd0 = 1.0 is the single `i += 1`):
+//        Scr_Camera_Update id 0x186d5 is the 12-element array (PORTING.md);
+//        element fetch via func_0x00014002fbe0 with int index
+//        (func_0x00014012cd90 best-fit).
+//        if (Scr_Camera_Update[i] <= 0) (`< 1` covers `<=` + incomparable):
+//          if (round(Scr_Camera_Update[i]) <= 0) (slot 0x1405c89b0 = round;
+//            `r<1`-plus-`!=-2` = `<=`):
+//            if (round(...) > -100) (-100.0 = 0xc059000000000000;
+//              `0 < r` = `>`):
+//              Scr_Camera_Update[i] = -100;
+//              event_perform(ev_alarm, i) (helper 0x140181c50, TYPE 2 =
+//              ev_alarm; counter double -> longlong).
+//        else Scr_Camera_Update[i] -= delta_factor (id 0x1870b, global fetch
+//          once at top; -= helper 0x14000bdb0).
+//   0x14. if (room == 4) (slot 0x1405c7b38 = room, 4.0 = 0x4010000000000000;
+//      `r==0` = `==`):
+//        0x16. if (fade_alpha < 1) (id 0x18718; `r<0` = `<`):
+//          fade_alpha += 0.004 * delta_factor (0.004 = 0x3f70624dd2f1a9fc
+//          via MUL helper 0x1400053f0, then += helper 0x140005290).
+//        0x1a. if (fade_alpha >= 1) (`-1 < r` = `>=`):
+//          room_goto(2) (slot 0x1405c8cb0 = room_goto, exe const 2.0
+//          @0x1405c4ee0; bare fade_alpha fetch beside it is discarded).
+//   0x20. switch (text_fade) (id 0x18789) on runtime-pool cases
+//      @0x140656410/@0x140656424 (guarded init seeds 1.0 = 0x3ff0000000000000;
+//      outside the exe image) with flag table @0x140656420 (stride 0x14):
+//        flag == 1: if (text_alpha < 1) (id 0x18787)
+//          text_alpha += 0.0035 * delta_factor (0.0035 = 0x3f6cac083126e979).
+//        flag == 0: if (text_alpha > 0)
+//          text_alpha -= 0.005 * delta_factor (0.005 = 0x3f747ae147ae147b
+//          via -= helper).
+//      Mapping below assumes case 1.0 -> fade-in, case 0 -> fade-out;
+//      TODO(calibrate): confirm case values + table in-game.
+//   0x2f. night_size = lerp(night_size, 1, 0.01) (id 0x1874a; lerp slot
+//      0x1405c8cc0; 1.0 @0x1405c4ef0, 0.01 @0x1405c4f00, both verified exe
+//      .data doubles; fixed amount, not delta-scaled).
+// TODO(calibrate): runtime consts @0x140656410/@0x140656424 + flag table
+// @0x140656420 (outside the mapped exe image) — verify in-game.
+// Ported: Obj_Night_Shift_End / Step_0
+for (var i = 0; i < array_length(Scr_Camera_Update); i += 1) {
+    if (Scr_Camera_Update[i] <= 0) {
+        if (round(Scr_Camera_Update[i]) <= 0) {
+            if (round(Scr_Camera_Update[i]) > -100) {
+                Scr_Camera_Update[i] = -100;
+                event_perform(ev_alarm, i);
+            }
+        }
+    } else {
+        Scr_Camera_Update[i] -= delta_factor;
+    }
+}
+if (room == 4) {
+    if (fade_alpha < 1) {
+        fade_alpha += 0.004 * delta_factor;
+    }
+    if (fade_alpha >= 1) {
+        room_goto(2);
+    }
+}
+switch (text_fade) {
+    case 1: // TODO(calibrate): runtime pool @0x140656410; assumes 1 -> fade-in
+        if (text_alpha < 1) {
+            text_alpha += 0.0035 * delta_factor;
+        }
+        break;
+    case 0: // TODO(calibrate): runtime pool @0x140656424; assumes 0 -> fade-out
+        if (text_alpha > 0) {
+            text_alpha -= 0.005 * delta_factor;
+        }
+        break;
+}
+night_size = lerp(night_size, 1, 0.01);
+
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) Globals starting with '_' overlap smaller symbols at the same address
 // - literal slash-star form removed: it would close a GML block comment early.

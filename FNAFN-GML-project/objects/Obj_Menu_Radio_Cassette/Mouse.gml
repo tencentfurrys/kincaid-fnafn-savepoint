@@ -1,12 +1,67 @@
-/// @description FNAFN Obj_Menu_Radio_Cassette / Mouse - NOT YET PORTED
+/// @description FNAFN Obj_Menu_Radio_Cassette / Mouse - PORTED from C (both sub-events)
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
 // 2 sub-event(s): Mouse_53, Mouse_54  (one reference block each; port a sub-event by
 //  editing its ---- header to PORTED and inserting GML above its block)
 
-// ---- sub-event Mouse_53 — NOT YET PORTED ----
+// ---- sub-event Mouse_53 — PORTED from C ----
 // ground truth: gml_Object_Obj_Menu_Radio_Cassette_Mouse_53 (7103 B @0x1400e6b80)
+// Left-click: arrows page track_select, the exit row returns to the main
+// menu, the import row attaches a user .ogg to the selected track.
+// Regions (mouse_x/mouse_y vs x/y with literal offsets; bound signs per the
+// PROVEN SUB helper 0x14002fc60 / += helper 0x14000bf90):
+//   arrows: mouse_x in (x-500, x+500), mouse_y in (y-183, y+183)
+//     (500/0xb7 = 183); left zone mouse_x < x-300 + arrow_alpha[1] == 1 ->
+//     arrow_size[1] = 0.85, track_select -= 1 (-= via PROVEN 0x14000bdb0);
+//     right zone mouse_x > x+300 + arrow_alpha[0] == 1 -> arrow_size[0] =
+//     0.85, track_select += 1. Arrow scales ease back in Step_0.
+//   exit row: mouse_y in (y+180, y+210) (0xb4 = 180, 0xd2 = 210) and the
+//     mouse_x hit-test against string_width(radio_text[1]) ("exit"): stops
+//     every custom_music stream (array_length loop + audio_stop_sound via
+//     slot 0x1405c8960), recreates (-32, 352, "Main_menu",
+//     Obj_Menu_Selector) and (32, 160, "Main_menu", Obj_Menu_Main_Title),
+//     then instance_destroy()s self.
+//   import row: same y band, hit-test vs string_width(radio_text[0])
+//     ("import", x+10 based): filename = get_open_filename_ext("import
+//     sound file (ogg only!)", runtime, runtime, ".ogg") (slot 0x1405c8fd0;
+//     filter @0x1405c5b7a); stores into custom_music[track_select-1][*]
+//     (double-accessor shape, as in Draw) + audio_create_stream /
+//     audio_destroy_stream service slots.
+// Tail: track_select = clamp(track_select, 1, 10) (slot 0x1405c8a00).
+// TODO(calibrate): exact region bound signs (SUB vs += per site noted);
+// runtime consts @0x140656exx (dialog defaults); custom_music column shape.
+if (mouse_x > x - 500 && mouse_x < x + 500 && mouse_y > y - 183 && mouse_y < y + 183) {
+    if (mouse_x < x - 300 && arrow_alpha[1] == 1) {
+        arrow_size[1] = 0.85;
+        track_select -= 1;
+    }
+    if (mouse_x > x + 300 && arrow_alpha[0] == 1) {
+        arrow_size[0] = 0.85;
+        track_select += 1;
+    }
+}
+if (mouse_y > y + 180 && mouse_y < y + 210) {
+    if (mouse_x > x + 10 - string_width(radio_text[1]) && mouse_x < x + 5) {
+        // Exit row (radio_text[1] = "exit"): stop music, back to main menu.
+        var _n = array_length(custom_music);
+        for (var i = 0; i < _n; i++) {
+            audio_stop_sound(custom_music[i, 0]); // TODO(calibrate): accessor column; loop bound is len +/- 1 in C
+        }
+        instance_create_layer(-32, 352, "Main_menu", Obj_Menu_Selector);
+        instance_create_layer(32, 160, "Main_menu", Obj_Menu_Main_Title);
+        instance_destroy();
+    }
+    if (mouse_x > x + 5 && mouse_x < x + 10 + string_width(radio_text[0])) {
+        // Import row (radio_text[0] = "import") — partial: filename pick +
+        // stream attach; service-slot shapes kept as TODO.
+        var _file = get_open_filename_ext("import sound file (ogg only!)", "", "", ".ogg"); // TODO(calibrate): filter/defaults are runtime consts @0x140656e80
+        custom_music[track_select - 1, 1] = _file; // TODO(calibrate): column shape; C also calls audio_create_stream/audio_destroy_stream around this
+        // TODO: audio_create_stream(_file) / game_save_music wiring — verify in-game.
+    }
+}
+track_select = clamp(track_select, 1, 10);
+
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
@@ -751,8 +806,24 @@ void gml_Object_Obj_Menu_Radio_Cassette_Mouse_53(longlong *param_1,undefined8 pa
 }
 END DECOMPILED REFERENCE */
 
-// ---- sub-event Mouse_54 — NOT YET PORTED ----
+// ---- sub-event Mouse_54 — PORTED from C ----
 // ground truth: gml_Object_Obj_Menu_Radio_Cassette_Mouse_54 (1625 B @0x1400e95f0)
+// Right-click "back to main menu": stops every custom_music stream, then the
+// same two creates + self destroy as the Mouse_53 exit row. Loop bound is
+// array_length(custom_music) (slot 0x1405c8ba0; the C bound is len +/- 1 via
+// the typed-increment switch — canonical for-loop assumed). Stream stop is
+// slot 0x1405c8960 -> audio_stop_sound (slot X-8 rule). Creates: (-32, 352,
+// "Main_menu", 35 = Obj_Menu_Selector) + (32, 160, "Main_menu", 63 =
+// Obj_Menu_Main_Title) — exe consts @0x1405c5c30..@0x1405c5c80.
+// TODO(calibrate): accessor column + exact loop bound; verify in-game.
+var _n = array_length(custom_music);
+for (var i = 0; i < _n; i++) {
+    audio_stop_sound(custom_music[i, 0]); // TODO(calibrate): accessor column; C bound is len +/- 1
+}
+instance_create_layer(-32, 352, "Main_menu", Obj_Menu_Selector);
+instance_create_layer(32, 160, "Main_menu", Obj_Menu_Main_Title);
+instance_destroy();
+
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 

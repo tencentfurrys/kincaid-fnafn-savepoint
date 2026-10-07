@@ -1,4 +1,39 @@
-/// @description FNAFN Obj_Menu_Customize / Create - NOT YET PORTED
+/// @description FNAFN Obj_Menu_Customize / Create_0 — PORTED from C
+// Ground truth: gml_Object_Obj_Menu_Customize_Create_0
+// Custom-night roster screen — same family as the ported Obj_Menu_Continue
+// Create (shared backdrop + shared Obj_Menu_Selector pattern). Decoded, in
+// order (uStack_30 = GML line markers):
+//   0. customfunct_audio_play_sound_single(22, <?>, <?>) — DIRECT script
+//      call, argc=3; exe const 0x1405c5848 = 22.0 (menu-blip sound).
+//   2. Obj_Menu_Main_Back.sprite_index = 64 [slot 0x1405c7be8; 64 =
+//      Spr_Menu_Background_Customize per sprite_names.json].
+//   3. Obj_Menu_Main_Back.image_alpha = 0 [slot 0x1405c7b98].
+//   4. select = 0 [self var 0x1876a].
+//   6. surface = -1 [self var 0x1877a, 0xbff0000000000000].
+//   7. Obj_Menu_Selector.x = 94 [slot 0x1405c7b78, 0x4057800000000000].
+//   8. Obj_Menu_Selector.select_y = 340 [var 0x1876d, 0x4075400000000000].
+//   10-15. text_figure[0..5] = exe strings 0x1405c5820..0x1405c583e:
+//      "freddy", "bonnie", "chica", "foxy", "none", "exit".
+//   0x12. draw_alpha = 0 [self var 0x18712].
+// TODO(calibrate): audio priority+loop are runtime consts @0x140656e50
+// (0x14065xxxx, outside the exe image); loop is certainly false for a
+// "single" UI blip, priority assumed 0 (same convention as Continue port).
+// Ported: Obj_Menu_Customize / Create
+customfunct_audio_play_sound_single(22, /*priority*/ 0, /*loop*/ false);
+Obj_Menu_Main_Back.sprite_index = 64; // Spr_Menu_Background_Customize
+Obj_Menu_Main_Back.image_alpha = 0;
+select = 0;
+surface = -1;
+Obj_Menu_Selector.x = 94;
+Obj_Menu_Selector.select_y = 340;
+text_figure[0] = "freddy";
+text_figure[1] = "bonnie";
+text_figure[2] = "chica";
+text_figure[3] = "foxy";
+text_figure[4] = "none";
+text_figure[5] = "exit";
+draw_alpha = 0;
+
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).

@@ -1,4 +1,56 @@
-/// @description FNAFN Obj_Menu_Customize / Step - NOT YET PORTED
+/// @description FNAFN Obj_Menu_Customize / Step - PORTED from C
+// Ground truth: gml_Object_Obj_Menu_Customize_Step_0 (6136 B @0x1400df330)
+// Custom-night hover step (keyboard-free half; click handling is in
+// Mouse_53/54). Globals: delta_factor (0x1870b). Self: text_figure[0..5]
+// array (0x1878a) = ["freddy","bonnie","chica","foxy","none","exit"] (see
+// Create port), select (0x1876a), draw_alpha (0x18712).
+// Shared selector (object 0x23 = Obj_Menu_Selector): select_y (0x1876d),
+// y (slot 0x1405c7b88), secondary_x (0x18769).
+// Each block tests customfunct_ui_button_detection(94, y1,
+// 94 + string_width(text_figure[i]), y2, 94) == 1 and parks the selector:
+// y1/y2 from exe consts (EXE-CONSTANTS tags decode exactly, y2 = y1 + 40):
+// i  y1    y2    select_y const         select
+// 0  340   380   0x40754... (340)       0
+// 1  385   425   0x40781... (385)       1
+// 2  430   470   0x407ae... (430)       2
+// 3  475   515   0x407db... (475)       3
+// 4  520   560   0x40804... (520)       4
+// 5  565   605   0x4081a8... (565)      5
+// (Unlike Continue/Step there is no hover sound here.)
+// Trailing eases (same as Continue/Step):
+// Obj_Menu_Selector.y = lerp(y, select_y, 0.2 * delta_factor)
+// Obj_Menu_Selector.secondary_x = lerp(secondary_x,
+//   94 + string_width(text_figure[select]), 0.2 * delta_factor)
+// draw_alpha = lerp(draw_alpha, 1, 0.05 * delta_factor)
+// (lerp slot 0x1405c8cc0; 0.2 = 0x3fc99..., 0.05 = 0x3fa99...; target 1.0
+// const @0x1405c5928; x base 94.0 = 0x40578... via ADD helper 0x140005290.)
+if (customfunct_ui_button_detection(94, 340, 94 + string_width(text_figure[0]), 380, 94) == 1) {
+    Obj_Menu_Selector.select_y = 340;
+    select = 0;
+}
+if (customfunct_ui_button_detection(94, 385, 94 + string_width(text_figure[1]), 425, 94) == 1) {
+    Obj_Menu_Selector.select_y = 385;
+    select = 1;
+}
+if (customfunct_ui_button_detection(94, 430, 94 + string_width(text_figure[2]), 470, 94) == 1) {
+    Obj_Menu_Selector.select_y = 430;
+    select = 2;
+}
+if (customfunct_ui_button_detection(94, 475, 94 + string_width(text_figure[3]), 515, 94) == 1) {
+    Obj_Menu_Selector.select_y = 475;
+    select = 3;
+}
+if (customfunct_ui_button_detection(94, 520, 94 + string_width(text_figure[4]), 560, 94) == 1) {
+    Obj_Menu_Selector.select_y = 520;
+    select = 4;
+}
+if (customfunct_ui_button_detection(94, 565, 94 + string_width(text_figure[5]), 605, 94) == 1) {
+    Obj_Menu_Selector.select_y = 565;
+    select = 5;
+}
+Obj_Menu_Selector.y = lerp(Obj_Menu_Selector.y, Obj_Menu_Selector.select_y, 0.2 * delta_factor);
+Obj_Menu_Selector.secondary_x = lerp(Obj_Menu_Selector.secondary_x, 94 + string_width(text_figure[select]), 0.2 * delta_factor);
+draw_alpha = lerp(draw_alpha, 1, 0.05 * delta_factor);
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).

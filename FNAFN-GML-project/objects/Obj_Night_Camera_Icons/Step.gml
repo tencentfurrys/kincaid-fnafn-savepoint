@@ -1,7 +1,53 @@
-/// @description FNAFN Obj_Night_Camera_Icons / Step - NOT YET PORTED
+/// @description FNAFN Obj_Night_Camera_Icons / Step — PORTED from C
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+// Ported: Obj_Night_Camera_Icons / Step_0
+// Ground truth: gml_Object_Obj_Night_Camera_Icons_Step_0
+// Night_camera_mode (id 0x1873d) gates everything against const @0x1405c52e8
+// (func_0x0001401453a0 load); Night_camera_location (id 0x1873c) vs
+// image_index + 1 (slot uRam00000001405c7aa8 image_index, EXE-REGISTRY.md; +1
+// via compound helper func_0x00014000bf90) selects dim vs bright;
+// Night_recording (id 0x18749) feeds a trailing blend switch (all ids via
+// builtin_ids.json). Compare `!= 0` -> `!=` (PORTING.md rule).
+// TODO(calibrate): mode-gate const @0x1405c52e8, recording case consts
+// @0x140656670/@0x140656684 and flag table @0x140656680 (stride 0x14) are
+// runtime consts — zeros below are placeholders, calibrate in-game.
+// Slots (EXE-REGISTRY.md): image_alpha 0x1405c7b98, image_xscale 0x1405c7c18,
+// image_yscale 0x1405c7c08, image_blend 0x1405c7c48. Doubles: 0.6 =
+// 0x3fe3333333333333, 0.85 = 0x3feb333333333333, 16777215.0 (c_white) =
+// 0x416fffffe0000000, 255.0 = 0x406fe00000000000.
+if (Night_camera_mode != 0) { // TODO(calibrate): gate const @0x1405c52e8
+    image_alpha = 0;
+} else if (Night_camera_location != image_index + 1) {
+    // C re-reads image_index and re-tests the same condition when recording
+    // != 1 — dead goto (values unchanged), so the dim applies unconditionally.
+    image_alpha = 0.6;
+    image_xscale = 0.85;
+    image_yscale = 0.85;
+    image_blend = 16777215; // c_white
+} else {
+    image_alpha = 1;
+    image_xscale = 1;
+    image_yscale = 1;
+    image_blend = 16777215; // c_white
+    // TODO(calibrate): trailing recording switch re-selects image_blend between
+    // 16777215 (flag == 1) and 255 (flag == 0) via case consts @0x140656670 /
+    // @0x140656684 and table @0x140656680; an unmatched case leaves the white
+    // set above. Calibrate case values in-game.
+    var _rec_flag = -1;
+    if (Night_recording == 0) { // TODO(calibrate): case @0x140656670
+        _rec_flag = 1; // TODO(calibrate): table @0x140656680 entry 0
+    } else if (Night_recording == 0) { // TODO(calibrate): case @0x140656684
+        _rec_flag = 1; // TODO(calibrate): table @0x140656680 entry 1
+    }
+    if (_rec_flag == 1) {
+        image_blend = 16777215;
+    } else if (_rec_flag == 0) {
+        image_blend = 255;
+    }
+}
+
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) Globals starting with '_' overlap smaller symbols at the same address
 // - literal slash-star form removed: it would close a GML block comment early.

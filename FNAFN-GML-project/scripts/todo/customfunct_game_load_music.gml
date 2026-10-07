@@ -1,5 +1,34 @@
-/// @description FNAFN script customfunct_game_load_music - NOT YET PORTED
-// Decompiled C reference (exact machine-level semantics):
+/// @description FNAFN script customfunct_game_load_music - PORTED from C
+// PORTED from C
+// Ground truth: gml_Script_customfunct_game_load_music
+// Decoded, in source-line order (uStack_c0 0x4a..0x55): the load mirror of
+// gml_Script_customfunct_game_save_music. ini_open("FNAFNjukebox.ini")
+// [func_0x00014018a800, @0x1405c34e0 via exe_strings.py]; then ten
+// ini_read_string("music", "track N", default) calls [slot 0x1405c8b40 =
+// ini_read_string via func_0x0001401445d0, section @0x1405c34f1 = "music",
+// keys @0x1405c34f7..@0x1405c353f = "track 1".."track 10" via
+// exe_strings.py] stored into custom_music[0..9][1] (id 0x186fc) through
+// the double func_0x00014012b840(array, index) element-accessor pair;
+// closes with ini_close() [slot 0x1405c8b30, 0 args]. The per-track
+// default (@0x1406550f0) lives in BSS, outside the mapped exe image, so
+// it is a TODO(calibrate) placeholder. Dropped: 144b20 prologue, uStack_c0
+// line numbers, and the BSS store uRam0000000140657680 = 0x2f875c (same
+// magic-marker shape as game_load's 0x2b86a1/0x2b86a2, no data flow).
+function customfunct_game_load_music() {
+    ini_open("FNAFNjukebox.ini");
+    custom_music[0][1] = ini_read_string("music", "track 1", 0 /* TODO(calibrate): default is runtime const @0x1406550f0 (BSS, unreadable offline) */);
+    custom_music[1][1] = ini_read_string("music", "track 2", 0 /* TODO(calibrate): default is runtime const @0x1406550f0 (BSS, unreadable offline) */);
+    custom_music[2][1] = ini_read_string("music", "track 3", 0 /* TODO(calibrate): default is runtime const @0x1406550f0 (BSS, unreadable offline) */);
+    custom_music[3][1] = ini_read_string("music", "track 4", 0 /* TODO(calibrate): default is runtime const @0x1406550f0 (BSS, unreadable offline) */);
+    custom_music[4][1] = ini_read_string("music", "track 5", 0 /* TODO(calibrate): default is runtime const @0x1406550f0 (BSS, unreadable offline) */);
+    custom_music[5][1] = ini_read_string("music", "track 6", 0 /* TODO(calibrate): default is runtime const @0x1406550f0 (BSS, unreadable offline) */);
+    custom_music[6][1] = ini_read_string("music", "track 7", 0 /* TODO(calibrate): default is runtime const @0x1406550f0 (BSS, unreadable offline) */);
+    custom_music[7][1] = ini_read_string("music", "track 8", 0 /* TODO(calibrate): default is runtime const @0x1406550f0 (BSS, unreadable offline) */);
+    custom_music[8][1] = ini_read_string("music", "track 9", 0 /* TODO(calibrate): default is runtime const @0x1406550f0 (BSS, unreadable offline) */);
+    custom_music[9][1] = ini_read_string("music", "track 10", 0 /* TODO(calibrate): default is runtime const @0x1406550f0 (BSS, unreadable offline) */);
+    ini_close();
+}
+
 /* BEGIN DECOMPILED REFERENCE
 undefined8 *
 gml_Script_customfunct_game_load_music(undefined8 param_1,undefined8 param_2,undefined8 *param_3)

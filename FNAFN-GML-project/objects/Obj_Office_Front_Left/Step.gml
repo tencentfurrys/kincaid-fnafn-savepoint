@@ -1,4 +1,81 @@
-/// @description FNAFN Obj_Office_Front_Left / Step - NOT YET PORTED
+/// @description FNAFN Obj_Office_Front_Left / Step_0 — PORTED from C
+// Ground truth: gml_Object_Obj_Office_Front_Left_Step_0 (4840 B @0x140070d10)
+// Door controller (left). Globals: delta_factor (0x1870b),
+// Night_bonnie_location (0x1873a). Self: toggle (0x18793),
+// emitter_gain (0x18716), door_speed (0x18710), sprite_index
+// (slot 0x1405c7be8), image_speed (slot 0x1405c7c28), image_index
+// (slot 0x1405c7aa8), unk_186d7 flag (id 0x186d7) + emitter_186d6
+// (id 0x186d6; both collide as __init_global in builtin_ids.json —
+// names follow the Create port: __init_global = emitter, unk_186d7 = flag).
+// Helpers: 0x14018f790(0x11) = single-arg input check (TODO calibrate kind),
+// 0x1401441e0/0x14000bee0/0x1401453a0 = string/numeric const loaders,
+// slots 0x1405c86b0 = layer_get_visible, 0x1405c8cc0 = lerp,
+// 0x1405c8960 = audio_stop_sound, 0x1405c8980 = audio_play_sound_on,
+// 0x1405c8eb0 = audio_emitter_gain.
+// TODO(calibrate): all @0x1405c42xx exe consts (below EXE-CONSTANTS dump
+// range: layer name, lerp target, sound ids, location string, speed delta)
+// + all @0x1406559xx runtime-pool consts (lerp targets, door_speed switch
+// consts/table @0x1406559a0). Inline doubles decoded: 34/740/50/67/45/
+// 13/1/0.75/0.1/0.01.
+if (toggle == 0 && sprite_index != 34) {
+    // Original order: input(0x11) -> mouse_x < 740 -> layer_get_visible == 1.
+    var _active = /* TODO(calibrate): func_0x00014018f790(0x11) input check */ false
+        && (mouse_x < 740)
+        && (layer_get_visible(/* TODO(calibrate): layer const @0x1405c42a0 */ "TODO_layer") == 1);
+    // NOTE: input is evaluated first in C; mouse_x/layer only matter when it
+    // is truthy. Keep the && order above once the input is wired.
+    if (_active) {
+        emitter_gain = lerp(emitter_gain, /* TODO(calibrate): num const @0x1405c42b8 */ 0, 0.75 * delta_factor);
+        if (unk_186d7 != 1) {
+            audio_stop_sound(/* TODO(calibrate): snd const @0x1405c42c8 */ 0);
+            audio_play_sound_on(__init_global /* 0x186d6 emitter */, /* TODO @0x1405c42c8 */ 0, /* TODO @0x1405c42d8 */ 0, /* TODO(runtime) @0x140655980 */ 0);
+            unk_186d7 = 1;
+        }
+        if (Night_bonnie_location == /* TODO(calibrate): str const @0x1405c42ad */ "TODO_location") {
+            sprite_index = 50;
+        } else {
+            sprite_index = 67;
+        }
+        customfunct_image_speed_delta(/* TODO(calibrate): const @0x1405c42e8 */ 0);
+        audio_emitter_gain(__init_global /* 0x186d6 */, emitter_gain);
+    } else {
+        // Quiet path (input false / mouse_x >= 740 / layer hidden).
+        // NOTE: C evaluates input(0x11) first; mouse_x/layer only when input
+        // is truthy. The TODO above preserves that order once wired.
+        emitter_gain = lerp(emitter_gain, /* TODO(calibrate runtime): @0x140655980 */ 0, 0.1 * delta_factor);
+        sprite_index = 45;
+        image_speed = 0;
+        unk_186d7 = 0;
+        if (emitter_gain < 0.01) {
+            audio_stop_sound(/* TODO(calibrate): const @0x1405c42c8 */ 0);
+        }
+        audio_emitter_gain(__init_global /* 0x186d6 */, emitter_gain);
+    }
+} else {
+    // Door-speed path (toggle != 0, or toggle == 0 with sprite_index == 34).
+    emitter_gain = lerp(emitter_gain, /* TODO(calibrate runtime): @0x140655980 */ 0, 0.1 * delta_factor);
+    unk_186d7 = 0;
+    if (emitter_gain < 0.01) {
+        audio_stop_sound(/* TODO(calibrate): const @0x1405c42c8 */ 0);
+    }
+    // Two-case switch on door_speed via runtime consts @0x140655990 /
+    // @0x1406559a4, table @0x1406559a0 (TODO calibrate values; guard seeds
+    // 0.6 / -0.48 nearby but mapping unproven).
+    if (door_speed == /* TODO(calibrate runtime): @0x140655990 */ 0) {
+        if (image_index >= 13) {
+            customfunct_image_speed_delta(/* TODO(calibrate runtime): @0x140655980 */ 0);
+        } else {
+            customfunct_image_speed_delta(door_speed);
+        }
+    } else if (door_speed == /* TODO(calibrate runtime): @0x1406559a4 */ 0) {
+        if (image_index <= 1) {
+            sprite_index = 45;
+        } else {
+            customfunct_image_speed_delta(door_speed);
+        }
+    }
+    audio_emitter_gain(__init_global /* 0x186d6 */, emitter_gain);
+}
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).

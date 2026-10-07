@@ -1,7 +1,28 @@
-/// @description FNAFN Obj_Night_Radio_Buttons / Step - NOT YET PORTED
+/// @description FNAFN Obj_Night_Radio_Buttons / Step — PORTED from C
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+// Ported: Obj_Night_Radio_Buttons / Step_0
+// Ground truth: gml_Object_Obj_Night_Radio_Buttons_Step_0
+// delta_factor (global id 0x1870b, builtin_ids.json) drives all three eases;
+// playing (id 0x18759) selects the scale target. Each stage is
+// image_xscale = lerp(image_xscale, TARGET, 0.4 * delta_factor) (lerp slot
+// uRam00000001405c8cc0, MUL helper func_0x0001400053f0) with image_yscale kept
+// equal to image_xscale afterwards (slots uRam00000001405c7c18 image_xscale /
+// uRam00000001405c7c08 image_yscale, EXE-REGISTRY.md). Targets are exe consts
+// (EXE-CONSTANTS.md): 0x1405c6460 = 1.0, 0x1405c6470 = 0.65, 0x1405c6480 =
+// 1.15; 0x3fd999999999999a = 0.4. Compare `== 0` -> `==` (PORTING.md rule).
+image_xscale = lerp(image_xscale, 1, 0.4 * delta_factor);
+image_yscale = image_xscale;
+if (playing == 1) {
+    image_xscale = lerp(image_xscale, 0.65, 0.4 * delta_factor);
+    image_yscale = image_xscale;
+}
+if (playing == 0) {
+    image_xscale = lerp(image_xscale, 1.15, 0.4 * delta_factor);
+    image_yscale = image_xscale;
+}
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Night_Radio_Buttons_Step_0(longlong *param_1,undefined8 param_2)
 

@@ -1,4 +1,130 @@
-/// @description FNAFN Obj_Night_1_5_Bonnie_AI / Alarm - NOT YET PORTED
+/// @description FNAFN Obj_Night_1_5_Bonnie_AI / Alarm — PORTED from C
+// Ground truth: gml_Object_Obj_Night_1_5_Bonnie_AI_Alarm_0 (7544 B @0x1400994c0)
+// Follows the PORTED Obj_Night_1_5_Mangle_AI/Alarm template, plus the
+// emitter/footstep section Mangle lacks. Decoded, in order (uStack_88 = GML
+// line markers):
+//   3. movement = irandom_range(0, 30) (func_0x000140168970 best-fit; 0,0x1e).
+//      (No show_debug_message line 2 here — unlike Chica/Mangle, Bonnie's
+//      Alarm starts at marker 3.)
+//   5. if (Time_without_move >= -30) (-30.0 = 0xc03e000000000000 literal;
+//      `>=` via the `r >= 0` test per PORTING.md compare calibration):
+//        if (movement < Bonnie_AI_Level (id 0x186e6) && Time_without_move <= 0
+//          (`<` via `r < 0`, `<=` via `r < 1`)) -> movement opportunity;
+//        else Time_without_move -= 1 (0x59; -= helper func_0x00014000bdb0
+//          with 1.0 literal).
+//      else (Time_without_move < -30) -> forced movement opportunity.
+//      Movement opportunity (label code_r0x0001400996ab):
+//        switch (Night_bonnie_location) (id 0x1873a) on pool cases
+//        1.0/1.1/1.2/1.5/10.0/10.5/6.0/6.5 (pool @0x140655dd0..@0x140655e5c;
+//        values literal in the guarded init; label table @0x140655de0 is
+//        identity 0..7).
+//        Jumptable @0x14009994b unrecoverable — each matched branch calls
+//        through and returns directly (no fallthrough to the sound/timer
+//        code below).
+//        Fallthrough (no case matched):
+//          0x49. _s = irandom_range(1, 4);
+//          switch (_s) on 1.0/2.0/3.0/4.0 (pool @0x140655e80..@0x140655ebc,
+//          values literal in the guarded init; identity table @0x140655e90).
+//          Jumptable @0x14009a8b0 unrecoverable — each branch returns
+//          directly.
+//          Fallthrough:
+//            0x52. audio_emitter_pitch(Bonnie_emitter, random_range(...))
+//                    (slot 0x1405c8f40 = audio_emitter_pitch per
+//                    EXE-REGISTRY.md; func_0x000140168cf0 best-fit
+//                    random_range).
+//            0x53. customfunct_audio_play_sound_directional_single(
+//                    Bonnie_emitter, 0, <rt>, <rt>) (args: emitter copy,
+//                    uStack_a8 literal 0, runtime consts @0x140655dc0 twice;
+//                    arg shape per the ported Obj_Office_Front_Left/Mouse).
+//            0x55. Time_without_move = irandom_range(20, 27) -
+//                    Bonnie_AI_Level * 0.5 (0x14,0x1b best-fit; MUL best-fit
+//                    func_0x00014001fa10 with .rdata double _UNK_140439e78
+//                    = 0.5 per the ported Bonnie Create, same symbol).
+//   0x5b. switch (alarm_type) (id 0x186d8) on cases 0 / 1.0 (pool
+//      @0x140655ee0/@0x140655ef4; values literal in the guarded init;
+//      mapping per the PORTING.md two-case flag-switch rule):
+//        case 0: Scr_Camera_Update[0] = 30 (0x403e000000000000);
+//        case 1: Time_without_move = irandom_range(20, 27) -
+//          Bonnie_AI_Level * 0.5, then Scr_Camera_Update[1] = 30.
+//      (Scr_Camera_Update id 0x186d5 is the 12-element array per PORTING.md;
+//      index selects via func_0x00014012b840 second arg.)
+// TODO(calibrate): func_0x000140168970 best-fit irandom_range;
+// func_0x000140168cf0 best-fit random_range with .rdata args
+// _UNK_140439ea0/_UNK_14043ba80 (outside the mapped exe image); runtime
+// consts @0x140655dc0 (directional-sound args, BSS-zero convention: 0/false
+// below); _UNK_14043ba88 factor in the case-1 timer reset (0.5 assumed,
+// same family as _UNK_140439e78); jumptable branch bodies — verify in-game.
+// Ported: Obj_Night_1_5_Bonnie_AI / Alarm_0
+movement = irandom_range(0, 30);
+var _move = false;
+var _s = 0;
+if (Time_without_move >= -30) {
+    if (movement < Bonnie_AI_Level && Time_without_move <= 0) {
+        _move = true;
+    } else {
+        Time_without_move -= 1;
+    }
+} else {
+    _move = true;
+}
+if (_move) {
+    switch (Night_bonnie_location) {
+        case 1.0: // TODO(calibrate): pool @0x140655dd0; jumptable branch — verify in-game
+            // TODO(calibrate): branch body unrecoverable (jumptable @0x14009994b); C returns here
+            exit;
+        case 1.1: // TODO(calibrate): pool @0x140655de4
+            // TODO(calibrate): branch body unrecoverable; C returns here
+            exit;
+        case 1.2: // TODO(calibrate): pool @0x140655df8
+            // TODO(calibrate): branch body unrecoverable; C returns here
+            exit;
+        case 1.5: // TODO(calibrate): pool @0x140655e0c
+            // TODO(calibrate): branch body unrecoverable; C returns here
+            exit;
+        case 10.0: // TODO(calibrate): pool @0x140655e20
+            // TODO(calibrate): branch body unrecoverable; C returns here
+            exit;
+        case 10.5: // TODO(calibrate): pool @0x140655e34
+            // TODO(calibrate): branch body unrecoverable; C returns here
+            exit;
+        case 6.0: // TODO(calibrate): pool @0x140655e48
+            // TODO(calibrate): branch body unrecoverable; C returns here
+            exit;
+        case 6.5: // TODO(calibrate): pool @0x140655e5c
+            // TODO(calibrate): branch body unrecoverable; C returns here
+            exit;
+        default:
+            _s = irandom_range(1, 4);
+            switch (_s) {
+                case 1: // TODO(calibrate): pool @0x140655e80; jumptable branch — verify in-game
+                    // TODO(calibrate): branch body unrecoverable (jumptable @0x14009a8b0); C returns here
+                    exit;
+                case 2: // TODO(calibrate): pool @0x140655e94
+                    // TODO(calibrate): branch body unrecoverable; C returns here
+                    exit;
+                case 3: // TODO(calibrate): pool @0x140655ea8
+                    // TODO(calibrate): branch body unrecoverable; C returns here
+                    exit;
+                case 4: // TODO(calibrate): pool @0x140655ebc
+                    // TODO(calibrate): branch body unrecoverable; C returns here
+                    exit;
+            }
+            audio_emitter_pitch(Bonnie_emitter, random_range(0, 0)); // TODO(calibrate): random args are .rdata doubles _UNK_140439ea0/_UNK_14043ba80 — verify in-game
+            customfunct_audio_play_sound_directional_single(Bonnie_emitter, 0, 0 /* TODO(calibrate): runtime const @0x140655dc0 */, false /* TODO(calibrate): runtime const @0x140655dc0 */);
+            Time_without_move = irandom_range(20, 27) - Bonnie_AI_Level * 0.5;
+            break;
+    }
+}
+switch (alarm_type) {
+    case 0:
+        Scr_Camera_Update[0] = 30;
+        break;
+    case 1: // TODO(calibrate): runtime pool @0x140655ee0 mapping per two-case rule
+        Time_without_move = irandom_range(20, 27) - Bonnie_AI_Level * 0.5; // TODO(calibrate): factor is _UNK_14043ba88 (0.5 assumed) — verify in-game
+        Scr_Camera_Update[1] = 30;
+        break;
+}
+
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).

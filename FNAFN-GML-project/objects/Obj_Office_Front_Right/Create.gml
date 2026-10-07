@@ -1,7 +1,38 @@
-/// @description FNAFN Obj_Office_Front_Right / Create - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Office_Front_Right / Create — PORTED from C
+// Ground truth: gml_Object_Obj_Office_Front_Right_Create_0
+// Door/light controller init. Same shape as Front_Left/Create (same ids:
+// 0x18724 = game, 0x1875b = power_threshold, 0x18793 = toggle, 0x18710 =
+// door_speed, 0x1870f = door_emitter):
+//   game[0] == 0 ? power_threshold = 2 : power_threshold = 0
+//   (compare-then-==0; 2.0 = _UNK_140439e68 PROVEN, else 0 per Back/Create).
+//   TODO(calibrate): runtime-pool compare const @0x140656fb0 (guarded init
+//   @0x140656fc4).
+// Then two 3D audio emitters (slots via EXE-REGISTRY.md: audio_emitter_
+// create/falloff_set_model/emitter_position/emitter_falloff/emitter_gain).
+// Unlike Left, this pool IS in the exe image, so consts resolve via
+// EXE-CONSTANTS.md (Rm_Office is 3840 wide — these are room-scale 3D
+// positions): falloff model 5.0 (@0x1405c5fb0); door at (3640, 360)
+// (@0x1405c5fc0/@0x1405c5fd0) with falloff (1920, 3840, 0.1)
+// (@0x1405c5fe0/@0x1405c5ff0/@0x1405c6000); second emitter at (3840, 360)
+// with falloff (640, 2560, 0.1) (@0x1405c6010/@0x1405c6020/@0x1405c6000).
+//   TODO(calibrate): the @0x140656fa0 runtime const (position z + gain).
+// Ids 0x186d6/0x186d7 registry-collide as __init_global; same convention
+// as Front_Left/Create (__init_global for the freed emitter, TODO
+// placeholder for the Step-read zero var).
+if (game[0] == 0) { power_threshold = 2; } else { power_threshold = 0; } // TODO(calibrate): compare const @0x140656fb0
+toggle = 0;
+door_speed = 0;
+door_emitter = audio_emitter_create();
+audio_falloff_set_model(5); // exe const @0x1405c5fb0 = 5.0
+audio_emitter_position(door_emitter, 3640, 360, 0); // @0x1405c5fc0/@0x1405c5fd0 + runtime @0x140656fa0 TODO(calibrate)
+audio_emitter_falloff(door_emitter, 1920, 3840, 0.1); // @0x1405c5fe0/@0x1405c5ff0/@0x1405c6000
+__init_global = audio_emitter_create(); // TODO: id 0x186d6 true emitter name unknown (freed in Other_5)
+audio_falloff_set_model(5); // @0x1405c5fb0 again
+audio_emitter_position(__init_global, 3840, 360, 0); // @0x1405c5ff0/@0x1405c5fd0 + runtime @0x140656fa0 TODO(calibrate)
+audio_emitter_falloff(__init_global, 640, 2560, 0.1); // @0x1405c6010/@0x1405c6020/@0x1405c6000
+unk_186d7 = 0; // TODO: id 0x186d7 true name unknown (registry collides as __init_global; read in Step)
+emitter_gain = 0;
+audio_emitter_gain(__init_global, 0); // TODO(calibrate): runtime const @0x140656fa0 as gain
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) Globals starting with '_' overlap smaller symbols at the same address
 // - literal slash-star form removed: it would close a GML block comment early.

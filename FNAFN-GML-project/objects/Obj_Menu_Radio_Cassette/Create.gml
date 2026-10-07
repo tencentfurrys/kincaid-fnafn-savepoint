@@ -1,4 +1,48 @@
-/// @description FNAFN Obj_Menu_Radio_Cassette / Create - NOT YET PORTED
+/// @description FNAFN Obj_Menu_Radio_Cassette / Create — PORTED from C
+// Ground truth: gml_Object_Obj_Menu_Radio_Cassette_Create_0
+// Decoded, in order (uStack_80 = GML line markers):
+//   (0). customfunct_game_create_music_stream() (direct named-script call).
+//   2. customfunct_audio_play_sound_single(22, <runtime>, <runtime>)
+//      (22.0 = exe const @0x1405c5b40 verified; priority/loop are runtime
+//      const @0x140656e70, outside the mapped exe image).
+//   3. with (Obj_Menu_Selector) { instance_destroy(); } (35.0 =
+//      0x4041800000000000 literal; object 35 = Obj_Menu_Selector per
+//      obj_names.json; with-shape helpers 0x140144bd0/0x1401451f0/0x1401449f0
+//      per PORTING.md).
+//   7. Obj_Menu_Main_Back.sprite_index = 71 (71.0 = 0x4051c000000000000
+//      literal; object 0x1d = 29 = Obj_Menu_Main_Back; slot 0x1405c7be8 =
+//      sprite_index; 71 = Spr_Menu_Background_Radio per sprite_names.json).
+//   8. Obj_Menu_Main_Back.image_alpha = 0 (slot 0x1405c7b98 = image_alpha).
+//   9. instance_create_layer(x, y - 40, "Main_menu", Obj_Menu_Radio_Play)
+//      (x/y read via func_0x00014015f1a0 on slots 0x1405c7b78/0x1405c7b88;
+//      y - 40 via the PROVEN SUB helper func_0x00014002fc60 with 0x28 = 40;
+//      "Main_menu" = exe const @0x1405c5b28; 56.0 = exe const @0x1405c5b50,
+//      object 56 = Obj_Menu_Radio_Play; slot 0x1405c8d90 =
+//      instance_create_layer).
+//   0xb/c. arrow_size[0] = 1; arrow_size[1] = 1 (id 0x186e2, element writes).
+//   0xe/f. arrow_alpha[0] = 0.5 (0x3fe0...); arrow_alpha[1] = 1.0 (id 0x186e1).
+//   0x11. track_select = 1 (id 0x18794).
+//   0x13. radio_text[0] = "import" (id 0x1875d; exe const @0x1405c5b32).
+//   0x15. radio_text[1] = "exit" (exe const @0x1405c5b39).
+// TODO(calibrate): priority/loop runtime const @0x140656e70 (outside the
+// mapped exe image) — verify in-game.
+// Ported: Obj_Menu_Radio_Cassette / Create
+customfunct_game_create_music_stream();
+customfunct_audio_play_sound_single(22, 0, false); // TODO(calibrate): priority/loop are runtime const @0x140656e70
+with (Obj_Menu_Selector) {
+    instance_destroy();
+}
+Obj_Menu_Main_Back.sprite_index = 71; // Spr_Menu_Background_Radio
+Obj_Menu_Main_Back.image_alpha = 0;
+instance_create_layer(x, y - 40, "Main_menu", Obj_Menu_Radio_Play);
+arrow_size[0] = 1;
+arrow_size[1] = 1;
+arrow_alpha[0] = 0.5;
+arrow_alpha[1] = 1;
+track_select = 1;
+radio_text[0] = "import";
+radio_text[1] = "exit";
+
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).

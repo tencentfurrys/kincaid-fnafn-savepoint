@@ -1,4 +1,228 @@
-/// @description FNAFN script Scr_Camera_Update - NOT YET PORTED
+/// @description FNAFN script Scr_Camera_Update - PORTED from C
+// PORTED from C
+// Ground truth: gml_Script_Scr_Camera_Update (large; ~1276 lines of C in the
+// reference block below).
+// Decoded (uStack_b0 = 0..0xae are the original GML line markers):
+//   The script takes an optional target (every known call site passes 1 arg,
+//   e.g. object 39 = Obj_Night_Camera_Screen, const 39.0 @0x1405c4ba8) and
+//   runs its whole body as with (target) { ... } [helpers 0x140144bd0/
+//   51f0/49f0 over argument0; the no-arg default *0x1405c3000 is 0.0 in the
+//   file image — TODO(calibrate), never observed]. The leading
+//   func_0x000140144b20(own-slot) is script-entry boilerplate (no GML).
+//   line 5: if (Night_camera_mode == "cameras") [global 0x1873d vs const
+//     "cameras" @0x1405c35a0].
+//   line 8: 12-way dispatch on Night_camera_location (global 0x1873c) ==
+//     0..11 [compare chain vs pool @0x140655110, whose init pairs decode to
+//     doubles 0.0..11.0; label table @0x140655120 is identity — verified
+//     from its (0,N) init pairs — so match order = case number].
+//     Per case (sprite ids are SPRT indices via sprite_names.json):
+//     - case 0 (line 10): no-op.
+//     - case 1 (lines 12-21): sprite_index = Spr_Night_Camera_Room_1 (20);
+//       Obj_Night_Camera_Map.camera_text (0x186ef on object 44) =
+//       "-BONNIE'S STAGE-" [@0x1405c35b0]; Night_bonnie_location (0x1873a)
+//       == 1.0/1.1/1.2 [pool @0x140655210/224/238; table @0x140655220 =
+//       identity verified] -> image_index 0/1/2, else 3.
+//     - case 2 (24-32): sprite Spr_Night_Camera_Room_2 (53);
+//       "-FREDDY'S STAGE-" [@0x1405c35d0]; Night_freddy_location (0x18744)
+//       == 2.0/2.1 [pool @0x140655250/264; table @0x140655260 identity] ->
+//       image_index 0/1, else 2.
+//     - case 3 (35-44): sprite Spr_Night_Camera_Room_3 (32);
+//       "-CHICA'S STAGE-" [@0x1405c35f0]; Night_chica_location (0x1873f)
+//       == 3.0/3.1/3.2 -> image_index 0/1/2, else 3.
+//     - case 4 (47-56): sprite Spr_Night_Camera_Room_4 (31);
+//       "-FOXY'S COVE-" [@0x1405c3600]; Night_foxy_location (0x18743)
+//       == 4.0/4.1/4.2 -> image_index 0/1/2, else 3.
+//     - case 5 (59-70): sprite Spr_Night_Camera_Room_5 (63);
+//       "-MANGLE'S HIDEOUT" [@0x1405c3610]; Night_mangle_location (0x18745)
+//       == 5.0/5.1/5.2/5.3 [pool @0x140655300/314/328/33c; table
+//       @0x140655310] -> image_index 0/1/2/3, else 4.
+//     - case 6 (73-91): sprite Spr_Night_Camera_Room_6 (65);
+//       "-LEFT HALLWAY B" [@0x1405c3630]; nested ifs over
+//       Night_bonnie_location == 6 / Night_freddy_location == 6
+//       [6.0 = 0x4018...]: bonnie-only -> 1, both -> 3, freddy-only -> 2,
+//       neither -> 0 (i.e. image_index = (bonnie==6) + 2*(freddy==6)).
+//     - case 7 (94-96): sprite Spr_Night_Camera_Room_7 (22);
+//       "-STORAGE-" [@0x1405c3640]; nothing else.
+//     - case 8 (99-117): sprite Spr_Night_Camera_Room_8 (98);
+//       "-RIGHT HALLWAY B-" [@0x1405c3650]; nested ifs over
+//       Night_chica_location == 8 / Night_freddy_location == 8
+//       [8.0 = 0x4020...]: chica-only -> 1, both -> 3, freddy-only -> 2,
+//       neither -> 0.
+//     - case 9 (121-128): sprite Spr_Night_Camera_Room_9 (94);
+//       "-BATHROOM-" [@0x1405c3662]; if (Night_freddy_location == 9.0)
+//       [@0x140655360] image_index = 1 else 0.
+//     - case 10 (131-138): sprite Spr_Night_Camera_Room_10 (10);
+//       "-LEFT HALLWAY A-" [@0x1405c3670]; if (Night_bonnie_location ==
+//       10.0) [@0x140655380] image_index = 1 else 0.
+//     - case 11 (141-148): sprite Spr_Night_Camera_Room_11 (80);
+//       "-RIGHT HALLWAY A-" [@0x1405c3690]; if (Night_chica_location ==
+//       11.0) [@0x1406553a0] image_index = 1 else 0.
+//     (The fractional location literals 1.1/1.2/2.1/... in GML compile to
+//     exactly the pool doubles, verified by IEEE decode.)
+//   line 153 (0x99): if (Night_camera_mode == "vents") [const "vents"
+//     @0x1405c36a2]; 5-way dispatch on Night_camera_vent_location (0x1873e)
+//     == 1..5 [pool @0x1406553c0 = 1.0..5.0; table @0x1406553d0 identity
+//     verified] -> sprite_index = Spr_Vent_Cam_1 (36) / Spr_Vent_Cam_2 (79)
+//     / Spr_Vent_Cam_3 (21) / Spr_Vent_Cam_4 (13) / Spr_Vent_Cam_5 (48).
+//   line 164 (0xa4): if (game_settings[0] == "full") [global 0x18727,
+//     array-index [0] shape, const "full" @0x1405c36a8] {
+//         composite_distortion = 15; composite_bleeding = 10;
+//         static_magnetude = 0.75; }
+//     else if (instance_exists(Obj_Camera_Static)) [0x17 = 23] {
+//         Obj_Camera_Static.image_alpha = 1; } [object-tagged write
+//     0x14015fea0(0x17, slot 0x1405c7b98), value 1.0].
+// TODO(calibrate): no-arg with-target default (*0x1405c3000); switch-table
+//   identity for the outer 12-way table (verified for the inner tables from
+//   pool init; outer assumed same shape — in-game check: each camera room
+//   shows its own sprite/text).
+function Scr_Camera_Update(target) {
+    // With-target = argument0 when the caller passes one (all known call
+    // sites do: object 39 = Obj_Night_Camera_Screen).
+    with (target) {
+        if (Night_camera_mode == "cameras") {
+            if (Night_camera_location == 0) {
+                // line 10: no-op.
+            } else if (Night_camera_location == 1) {
+                sprite_index = Spr_Night_Camera_Room_1; // SPRT 20
+                Obj_Night_Camera_Map.camera_text = "-BONNIE'S STAGE-";
+                if (Night_bonnie_location == 1) {
+                    image_index = 0;
+                } else if (Night_bonnie_location == 1.1) {
+                    image_index = 1;
+                } else if (Night_bonnie_location == 1.2) {
+                    image_index = 2;
+                } else {
+                    image_index = 3;
+                }
+            } else if (Night_camera_location == 2) {
+                sprite_index = Spr_Night_Camera_Room_2; // SPRT 53
+                Obj_Night_Camera_Map.camera_text = "-FREDDY'S STAGE-";
+                if (Night_freddy_location == 2) {
+                    image_index = 0;
+                } else if (Night_freddy_location == 2.1) {
+                    image_index = 1;
+                } else {
+                    image_index = 2;
+                }
+            } else if (Night_camera_location == 3) {
+                sprite_index = Spr_Night_Camera_Room_3; // SPRT 32
+                Obj_Night_Camera_Map.camera_text = "-CHICA'S STAGE-";
+                if (Night_chica_location == 3) {
+                    image_index = 0;
+                } else if (Night_chica_location == 3.1) {
+                    image_index = 1;
+                } else if (Night_chica_location == 3.2) {
+                    image_index = 2;
+                } else {
+                    image_index = 3;
+                }
+            } else if (Night_camera_location == 4) {
+                sprite_index = Spr_Night_Camera_Room_4; // SPRT 31
+                Obj_Night_Camera_Map.camera_text = "-FOXY'S COVE-";
+                if (Night_foxy_location == 4) {
+                    image_index = 0;
+                } else if (Night_foxy_location == 4.1) {
+                    image_index = 1;
+                } else if (Night_foxy_location == 4.2) {
+                    image_index = 2;
+                } else {
+                    image_index = 3;
+                }
+            } else if (Night_camera_location == 5) {
+                sprite_index = Spr_Night_Camera_Room_5; // SPRT 63
+                Obj_Night_Camera_Map.camera_text = "-MANGLE'S HIDEOUT";
+                if (Night_mangle_location == 5) {
+                    image_index = 0;
+                } else if (Night_mangle_location == 5.1) {
+                    image_index = 1;
+                } else if (Night_mangle_location == 5.2) {
+                    image_index = 2;
+                } else if (Night_mangle_location == 5.3) {
+                    image_index = 3;
+                } else {
+                    image_index = 4;
+                }
+            } else if (Night_camera_location == 6) {
+                sprite_index = Spr_Night_Camera_Room_6; // SPRT 65
+                Obj_Night_Camera_Map.camera_text = "-LEFT HALLWAY B";
+                if (Night_bonnie_location == 6) {
+                    if (Night_freddy_location == 6) {
+                        image_index = 3;
+                    } else {
+                        image_index = 1;
+                    }
+                } else if (Night_freddy_location == 6) {
+                    image_index = 2;
+                } else {
+                    image_index = 0;
+                }
+            } else if (Night_camera_location == 7) {
+                sprite_index = Spr_Night_Camera_Room_7; // SPRT 22
+                Obj_Night_Camera_Map.camera_text = "-STORAGE-";
+            } else if (Night_camera_location == 8) {
+                sprite_index = Spr_Night_Camera_Room_8; // SPRT 98
+                Obj_Night_Camera_Map.camera_text = "-RIGHT HALLWAY B-";
+                if (Night_chica_location == 8) {
+                    if (Night_freddy_location == 8) {
+                        image_index = 3;
+                    } else {
+                        image_index = 1;
+                    }
+                } else if (Night_freddy_location == 8) {
+                    image_index = 2;
+                } else {
+                    image_index = 0;
+                }
+            } else if (Night_camera_location == 9) {
+                sprite_index = Spr_Night_Camera_Room_9; // SPRT 94
+                Obj_Night_Camera_Map.camera_text = "-BATHROOM-";
+                if (Night_freddy_location == 9) {
+                    image_index = 1;
+                } else {
+                    image_index = 0;
+                }
+            } else if (Night_camera_location == 10) {
+                sprite_index = Spr_Night_Camera_Room_10; // SPRT 10
+                Obj_Night_Camera_Map.camera_text = "-LEFT HALLWAY A-";
+                if (Night_bonnie_location == 10) {
+                    image_index = 1;
+                } else {
+                    image_index = 0;
+                }
+            } else if (Night_camera_location == 11) {
+                sprite_index = Spr_Night_Camera_Room_11; // SPRT 80
+                Obj_Night_Camera_Map.camera_text = "-RIGHT HALLWAY A-";
+                if (Night_chica_location == 11) {
+                    image_index = 1;
+                } else {
+                    image_index = 0;
+                }
+            }
+        }
+        if (Night_camera_mode == "vents") {
+            if (Night_camera_vent_location == 1) {
+                sprite_index = Spr_Vent_Cam_1; // SPRT 36
+            } else if (Night_camera_vent_location == 2) {
+                sprite_index = Spr_Vent_Cam_2; // SPRT 79
+            } else if (Night_camera_vent_location == 3) {
+                sprite_index = Spr_Vent_Cam_3; // SPRT 21
+            } else if (Night_camera_vent_location == 4) {
+                sprite_index = Spr_Vent_Cam_4; // SPRT 13
+            } else if (Night_camera_vent_location == 5) {
+                sprite_index = Spr_Vent_Cam_5; // SPRT 48
+            }
+        }
+        if (game_settings[0] == "full") {
+            composite_distortion = 15;
+            composite_bleeding = 10;
+            static_magnetude = 0.75;
+        } else if (instance_exists(Obj_Camera_Static)) {
+            Obj_Camera_Static.image_alpha = 1;
+        }
+    }
+    // (C returns its preset 0 RValue; no GML return needed.)
+}
+
 // Decompiled C reference (exact machine-level semantics):
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) Globals starting with '_' overlap smaller symbols at the same address

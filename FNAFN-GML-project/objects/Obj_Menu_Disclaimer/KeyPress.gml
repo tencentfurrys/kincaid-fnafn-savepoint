@@ -5,7 +5,7 @@
 // 1 sub-event(s): KeyPress_1  (one reference block each; port a sub-event by
 //  editing its ---- header to PORTED and inserting GML above its block)
 
-// ---- sub-event KeyPress_1 — NOT YET PORTED ----
+// ---- sub-event KeyPress_1 - PORTED from C ----
 // ground truth: gml_Object_Obj_Menu_Disclaimer_KeyPress_1 (418 B @0x1400f2740)
 // Ported: Obj_Menu_Disclaimer / KeyPress_1
 if (image_alpha > 0.5) {

@@ -1,7 +1,90 @@
-/// @description FNAFN Obj_Night_1_5_Freddy_AI / Alarm - NOT YET PORTED
+/// @description FNAFN Obj_Night_1_5_Freddy_AI / Alarm — PORTED from C
+// Ground truth: gml_Object_Obj_Night_1_5_Freddy_AI_Alarm_0 (2661 B @0x1400d11b0)
+// Decoded, in order (uStack_88 = GML line markers), following the PORTED
+// Obj_Night_1_5_Mangle_AI/Alarm template (same movement-gate shape):
+//   3. movement = irandom_range(0, 30) (func_0x000140168970 best-fit; 0,0x1e).
+//   5. if (Time_without_move >= -30) (-30.0 = 0xc03e000000000000 literal;
+//      `>=` via the `r >= 0` test per PORTING.md compare calibration):
+//        if (movement < Freddy_AI_Level (id 0x1871d) && Time_without_move <= 0
+//          (`<` via `r < 0`, `<=` via `r < 1`)) -> movement opportunity;
+//        else Time_without_move -= 1 (0x1e; -= helper func_0x00014000bdb0
+//          with 1.0 literal).
+//      else (Time_without_move < -30) -> forced movement opportunity.
+//      Movement opportunity:
+//        switch (Night_freddy_location) (id 0x18744) on runtime-pool cases
+//        2.0/2.1/2.2 (@0x140656c20/0x140656c34/0x140656c48; guarded init;
+//        2.0 = 0x4000000000000000, 2.1 = 0x4000cccccccccccd,
+//        2.2 = 0x400199999999999a — outside the mapped exe image).
+//        Branch bodies ARE recoverable here (explicit if/else, not a
+//        jumptable like Mangle/Bonnie):
+//          location 2.0 -> Night_freddy_location = 2.1; Scr_Camera_Update(39)
+//            (exe const 39.0 @0x1405c54b8); alarm_type = 0;
+//            audio_emitter_gain(Freddy_emitter, 0.3) (slot 0x1405c8eb0 =
+//            audio_emitter_gain; 0.3 = raw `333333\xc3?` bytes @0x1405c54c8,
+//            the IEEE-mantissa trap per PORTING.md).
+//          location 2.1 -> Night_freddy_location = 2.2; same script/sound.
+//          location 2.2 -> alarm_type = 1 (id 0x186d8).
+//        Mapping above assumes 2.0->2.1->2.2->alarm progression;
+//        TODO(calibrate): confirm case->branch mapping in-game (pool +
+//        label table @0x140656c30, stride 0x14).
+//        Fallthrough (no case matched): Time_without_move =
+//          irandom_range(30, 35) (0x1e,0x23 best-fit) - Freddy_AI_Level * 0.2
+//          (MUL best-fit func_0x00014001fa10 with .rdata double
+//          _UNK_140439e78; TODO(calibrate) factor).
+//   0x20. switch (alarm_type) on cases 0 / 1.0 (runtime pool
+//      @0x140656c60/@0x140656c74; mapping per the PORTING.md two-case
+//      flag-switch rule):
+//        case 0: Scr_Camera_Update[0] = 30 (0x403e000000000000);
+//        case 1: Scr_Camera_Update[1] = 15 (0x402e000000000000).
+//      (Scr_Camera_Update id 0x186d5 is the 12-element array per PORTING.md;
+//      index selects via func_0x00014012b840 second arg.)
+// TODO(calibrate): func_0x000140168970 best-fit irandom_range;
+// runtime consts @0x140656c20/@0x140656c60 (outside the mapped exe image)
+// and the 0.2 factor — verify in-game.
+// Ported: Obj_Night_1_5_Freddy_AI / Alarm_0
+movement = irandom_range(0, 30);
+var _move = false;
+if (Time_without_move >= -30) {
+    if (movement < Freddy_AI_Level && Time_without_move <= 0) {
+        _move = true;
+    } else {
+        Time_without_move -= 1;
+    }
+} else {
+    _move = true;
+}
+if (_move) {
+    switch (Night_freddy_location) {
+        case 2.0: // TODO(calibrate): runtime pool @0x140656c20; assumes 2.0 -> advance to 2.1
+            Night_freddy_location = 2.1;
+            Scr_Camera_Update(39);
+            alarm_type = 0;
+            audio_emitter_gain(Freddy_emitter, 0.3);
+            break;
+        case 2.1: // TODO(calibrate): runtime pool @0x140656c34; assumes 2.1 -> advance to 2.2
+            Night_freddy_location = 2.2;
+            Scr_Camera_Update(39);
+            alarm_type = 0;
+            audio_emitter_gain(Freddy_emitter, 0.3);
+            break;
+        case 2.2: // TODO(calibrate): runtime pool @0x140656c48; assumes 2.2 -> alarm
+            alarm_type = 1;
+            break;
+        default:
+            Time_without_move = irandom_range(30, 35) - Freddy_AI_Level * 0.2; // TODO(calibrate): 0.2 factor (_UNK_140439e78)
+            break;
+    }
+}
+switch (alarm_type) {
+    case 0:
+        Scr_Camera_Update[0] = 30;
+        break;
+    case 1: // TODO(calibrate): runtime pool @0x140656c60 mapping per two-case rule
+        Scr_Camera_Update[1] = 15;
+        break;
+}
+
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) Globals starting with '_' overlap smaller symbols at the same address
 // - literal slash-star form removed: it would close a GML block comment early.

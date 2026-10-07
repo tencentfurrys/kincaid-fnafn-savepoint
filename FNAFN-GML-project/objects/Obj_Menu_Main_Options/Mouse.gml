@@ -5,10 +5,18 @@
 // 1 sub-event(s): Mouse_4  (one reference block each; port a sub-event by
 //  editing its ---- header to PORTED and inserting GML above its block)
 
-// ---- sub-event Mouse_4 — NOT YET PORTED ----
+// ---- sub-event Mouse_4 — PORTED from C ----
 // ground truth: gml_Object_Obj_Menu_Main_Options_Mouse_4 (1221 B @0x1401291e0)
+// line 1: instance_create_layer(<rt>, <rt>, "Main_menu", 17) — layer
+//   @0x1405c6ab0 = "Main_menu", obj @0x1405c6ac0 = 17.0 = Obj_Menu_Options
+//   (obj_names.json); slot 0x1405c8d90 = instance_create_layer
+//   (EXE-REGISTRY.md).
+// lines 2/4/6/8/11 are GML line markers: two with-destroy loops
+// (repeat const 63.0 = Obj_Menu_Main_Title, 55.0 = Obj_Menu_Main_Music;
+// PROVEN with() shape + instance_destroy helper 0x14017c070) + self
+// instance_destroy().
 // Ported: Obj_Menu_Main_Options / Mouse_4
-instance_create_layer(0, 0, "Main_menu", Obj_Menu_Options); // TODO x/y
+instance_create_layer(0 /* TODO(calibrate): runtime const @0x140657658 */, 0 /* TODO(calibrate): runtime const @0x140657658 */, "Main_menu", Obj_Menu_Options);
 with (Obj_Menu_Main_Title) { instance_destroy(); }
 with (Obj_Menu_Main_Music) { instance_destroy(); }
 instance_destroy();

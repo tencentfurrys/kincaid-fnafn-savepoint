@@ -1,7 +1,59 @@
-/// @description FNAFN Obj_Menu_Continue / Draw - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Menu_Continue / Draw_0 — PORTED from C
+// Ground truth: gml_Object_Obj_Menu_Continue_Draw_0 (3600 B @0x1400519c0)
+// Same draw family as Obj_Menu_Main_Title/Draw (PORTED) — decoded in
+// order (uStack_80 = GML line markers):
+//   1-3. if (!surface_exists(surface)) surface = surface_create(
+//      room_width, room_height) [slots 0x1405c8a50/0x1405c8a60;
+//      room_width/room_height via 0x14015ef90 on slots
+//      0x1405c7b08/0x1405c7b18 — EXE-REGISTRY.md].
+//   6. surface_set_target(surface) [1-arg builtin 0x1401756b0].
+//   7. draw_sprite(Spr_Menu_Fade_Overlay, 0, 0, 0) — 4-arg helper
+//      0x140175550(self, 0x2a, 0, 0, 0); sprite 0x2a = 42 =
+//      Spr_Menu_Fade_Overlay (sprite_names.json). Best-fit draw_sprite
+//      (same shape as Obj_Game_Over/Draw's (0x29, ...) call) —
+//      TODO(calibrate) helper identity in-game.
+//   8. draw_set_font(game_font[1]) [game id 0x18725; 0x140175520 proven
+//      draw_set_font].
+//   9. draw_set_alpha(draw_alpha) [id 0x18712; float setter 0x14018d0b0].
+//   10. draw_text(32, 185, "continue") [slot 0x1405c8da0; exe consts
+//      0x1405c3c38 = 32.0, 0x1405c3c48 = 185.0, string "continue"
+//      @0x1405c3c28 — exe_strings.py].
+//   0xb. draw_set_font(game_font[0]).
+//   0xc. draw_set_color(make_color_rgb(255, 0, 110)).
+//   0xe-0x15. draw_text(94, y, text_night[i]) for i = 0..7 with
+//      y = 295, 340, 385, 430, 475, 520, 565, 610 (exe consts
+//      @0x1405c3c68..@0x1405c3cd8; x = 94.0 @0x1405c3c58 throughout).
+//   0x16. surface_reset_target() [no-arg 0x140183c00].
+//   0x18. draw_surface(surface, <runtime>, <runtime>) [slot 0x1405c8ab0;
+//      both coords are runtime const @0x140655560 — TODO(calibrate),
+//      likely 0, 0 by convention].
+// Reading: the night-select screen renders its labels ("continue" +
+// the eight text_night rows) onto its surface, then composites the
+// surface. Unlike Main_Title/Draw there is no star field and no final
+// draw_self().
+// TODO(calibrate): 0x140175550 identity (best-fit draw_sprite);
+// draw_surface x/y runtime const @0x140655560 (assumed 0, 0).
+if (!surface_exists(surface)) {
+    surface = surface_create(room_width, room_height);
+}
+surface_set_target(surface);
+draw_sprite(Spr_Menu_Fade_Overlay, 0, 0, 0); // TODO(calibrate): helper 0x140175550 identity best-fit
+draw_set_font(game_font[1]);
+draw_set_alpha(draw_alpha);
+draw_text(32, 185, "continue");
+draw_set_font(game_font[0]);
+draw_set_color(make_color_rgb(255, 0, 110));
+draw_text(94, 295, text_night[0]);
+draw_text(94, 340, text_night[1]);
+draw_text(94, 385, text_night[2]);
+draw_text(94, 430, text_night[3]);
+draw_text(94, 475, text_night[4]);
+draw_text(94, 520, text_night[5]);
+draw_text(94, 565, text_night[6]);
+draw_text(94, 610, text_night[7]);
+surface_reset_target();
+draw_surface(surface, 0 /* TODO(calibrate): runtime const @0x140655560 */, 0 /* TODO(calibrate): same */);
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Menu_Continue_Draw_0(longlong *param_1,undefined8 param_2)
 

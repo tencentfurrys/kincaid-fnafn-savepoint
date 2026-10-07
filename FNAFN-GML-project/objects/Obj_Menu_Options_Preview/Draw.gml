@@ -1,7 +1,45 @@
-/// @description FNAFN Obj_Menu_Options_Preview / Draw - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Menu_Options_Preview / Draw — PORTED from C
+// Ground truth: gml_Object_Obj_Menu_Options_Preview_Draw_0 (2864 B @0x1400ced50)
+// 1. if (!surface_exists(arrow_surface))
+//        arrow_surface = surface_create(<builtin @0x1405c7b08>, <builtin @0x1405c7b18>)
+//    (registry: room_width / room_height; TODO(calibrate): confirm the two
+//    size args in-game — the read helper 0x14015ef90 differs from the usual
+//    self-read, so instance-vs-global source is unverified).
+// 2. draw_set_font(game_font); draw_set_halign(fa_center)  // 175530(1), PROVEN
+// 3. draw_text(<x-derived>, <const @0x1405c5448>, text)
+//    (TODO(calibrate): y const and x expression — x passes through the
+//    numeric-coercion helper 0x14002fc60 with mode 0xfc).
+// 4. surface_set_target(arrow_surface)  // 1756b0(surface)
+//    then 4x draw_sprite_ext(Spr_Menu_Radio_Arrows, subimg, x, 218, 0.25, 0.25,
+//    0, c_white, 1):
+//      subimg 0, x = X + TODO(0xfc); subimg 1, x = X + TODO(0x18);
+//      subimg 0, x = X + TODO(0x18); subimg 1, x = X + TODO(0x1e1)
+//    (0x435a0000 f32 = 218.0, 0x3e800000 f32 = 0.25, 0x3f800000 = 1.0;
+//    TODO(calibrate): exact x offsets — coercion modes 0xfc/0x18/0x1e1.)
+// 5. surface_reset_target()  // 183c00(); then draw_self() best-fit for the
+//    single-arg draw helper 175460(self) (TODO(calibrate): helper identity).
+// 6. draw_surface_ext(arrow_surface, <consts @0x140656c00 x2, @0x1405c5458 x2,
+//    @0x140656c00, @0x1405c5468>, arrow_alpha)  // 8-arg slot 0x1405c8d70
+//    (TODO(calibrate): pos/scale/rot/colour consts).
+// 7. draw_set_halign(fa_left)  // 175530(0).
+if (!surface_exists(arrow_surface)) {
+    arrow_surface = surface_create(room_width, room_height);  // TODO(calibrate) size args
+}
+draw_set_font(game_font);
+draw_set_halign(fa_center);
+draw_text(x /* TODO(calibrate): exact x expr */, TODO_calibrate_0x1405c5448, text);
+surface_set_target(arrow_surface);
+draw_sprite_ext(Spr_Menu_Radio_Arrows, 0, x /* TODO(calibrate) +off0 */, 218, 0.25, 0.25, 0, c_white, 1);
+draw_sprite_ext(Spr_Menu_Radio_Arrows, 1, x /* TODO(calibrate) +off1 */, 218, 0.25, 0.25, 0, c_white, 1);
+draw_sprite_ext(Spr_Menu_Radio_Arrows, 0, x /* TODO(calibrate) +off2 */, 218, 0.25, 0.25, 0, c_white, 1);
+draw_sprite_ext(Spr_Menu_Radio_Arrows, 1, x /* TODO(calibrate) +off3 */, 218, 0.25, 0.25, 0, c_white, 1);
+surface_reset_target();
+draw_self();  // TODO(calibrate): single-arg helper func_0x000140175460(self)
+draw_surface_ext(arrow_surface, TODO_calibrate_0x140656c00, TODO_calibrate_0x140656c00,
+    TODO_calibrate_0x1405c5458, TODO_calibrate_0x1405c5458, TODO_calibrate_0x140656c00,
+    TODO_calibrate_0x1405c5468, arrow_alpha);
+draw_set_halign(fa_left);
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Menu_Options_Preview_Draw_0(longlong *param_1,undefined8 param_2)
 

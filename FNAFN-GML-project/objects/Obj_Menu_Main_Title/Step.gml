@@ -1,7 +1,78 @@
-/// @description FNAFN Obj_Menu_Main_Title / Step - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Menu_Main_Title / Step_0 — PORTED from C
+// Ground truth: gml_Object_Obj_Menu_Main_Title_Step_0 (9075 B @0x1400fee60)
+// Hover rows drive the shared selector + backdrop portrait; the tail lerps
+// the selector, the label right edge and draw_alpha, then runs the glitch
+// state machine. Id map: text_menu 0x1878b, select 0x1876a,
+// draw_alpha 0x18712, glitching 0x18729, glitch_type 0x18728, delta_factor
+// 0x1870b (global), select_y 0x1876d + secondary_x 0x18769 on object 0x23 =
+// 35 = Obj_Menu_Selector (obj_names.json), image_index/image_alpha on object
+// 0x1d = 29 = Obj_Menu_Main_Back. Exe consts (exe_strings.py /
+// EXE-CONSTANTS.md): 94/340/380/385/425/430/470/475/515, 31.0 = menu blip
+// @0x1405c6210, 160.0 @0x1405c6290, 32.0 @0x1405c62a0, 1.0 @0x1405c6280.
+// Runtime consts @0x14065xxxx are outside the mapped exe image.
+// TODO(calibrate): audio priority/loop @0x1406570c0 (assumed 0/false);
+// glitching case consts @0x1406570d0/@0x1406570e4 + dispatch @0x1406570e0
+// (assumed 0/1); glitch random args _UNK_140439e78/_UNK_14043b078 (helper
+// 0x140168cf0, best-fit random_range); glitch_type 4-way jumptable targets
+// @0x140657100..@0x14065713c + dispatch @0x140657110 (Ghidra could not
+// recover the jumptable — branches TODO).
+if (customfunct_ui_button_detection(94, 340, 94 + string_width(text_menu[0]), 380, 94) == 1) {
+    Obj_Menu_Selector.select_y = 340;
+    Obj_Menu_Main_Back.image_index = 0;
+    Obj_Menu_Main_Back.image_alpha = 0;
+    if (select != 0) {
+        customfunct_audio_play_sound_single(31, 0, false); // TODO(calibrate): priority/loop are runtime const @0x1406570c0
+        Obj_Menu_Main_Back.image_alpha = 0;
+        select = 0;
+    }
+}
+if (customfunct_ui_button_detection(94, 385, 94 + string_width(text_menu[1]), 425, 94) == 1) {
+    Obj_Menu_Selector.select_y = 385;
+    Obj_Menu_Main_Back.image_index = 1;
+    Obj_Menu_Main_Back.image_alpha = 0;
+    if (select != 1) {
+        customfunct_audio_play_sound_single(31, 0, false); // TODO(calibrate): priority/loop are runtime const @0x1406570c0
+        Obj_Menu_Main_Back.image_alpha = 0;
+        select = 1;
+    }
+}
+if (customfunct_ui_button_detection(94, 430, 94 + string_width(text_menu[2]), 470, 94) == 1) {
+    Obj_Menu_Selector.select_y = 430;
+    Obj_Menu_Main_Back.image_index = 2;
+    Obj_Menu_Main_Back.image_alpha = 0;
+    if (select != 2) {
+        customfunct_audio_play_sound_single(31, 0, false); // TODO(calibrate): priority/loop are runtime const @0x1406570c0
+        Obj_Menu_Main_Back.image_alpha = 0;
+        select = 2;
+    }
+}
+if (customfunct_ui_button_detection(94, 475, 94 + string_width(text_menu[3]), 515, 94) == 1) {
+    Obj_Menu_Selector.select_y = 475;
+    Obj_Menu_Main_Back.image_index = 3;
+    Obj_Menu_Main_Back.image_alpha = 0;
+    if (select != 3) {
+        customfunct_audio_play_sound_single(31, 0, false); // TODO(calibrate): priority/loop are runtime const @0x1406570c0
+        Obj_Menu_Main_Back.image_alpha = 0;
+        select = 3;
+    }
+}
+// Shared tail (same shape as KeyPress_83/87): selector follows select_y,
+// label right edge follows the selected label, menu fades in.
+Obj_Menu_Selector.y = lerp(Obj_Menu_Selector.y, Obj_Menu_Selector.select_y, 0.2 * delta_factor);
+Obj_Menu_Selector.secondary_x = lerp(Obj_Menu_Selector.secondary_x, 94 + string_width(text_menu[select]), 0.2 * delta_factor);
+draw_alpha = lerp(draw_alpha, 1, 0.05 * delta_factor);
+// Glitch state machine — partial: case dispatch consts are runtime
+// TODO(calibrate) (assumed 0/1); the glitch_type 4-way jumptable was not
+// recovered by Ghidra, so its branches are TODO.
+if (glitching == 1) { // TODO(calibrate): case const is runtime @0x1406570d0/@0x1406570e4
+    y = lerp(y, 160, 0.5 * delta_factor); // TODO(calibrate): self x/y lerp targets 160/32 per @0x1405c6290/@0x1405c62a0
+    x = lerp(x, 32, 0.5 * delta_factor);
+    image_alpha = lerp(image_alpha, 1, 0.3 * delta_factor);
+} else {
+    image_alpha = random_range(0, 0); // TODO(calibrate): args are rdata consts _UNK_140439e78/_UNK_14043b078; helper 0x140168cf0 best-fit random_range
+    // TODO: glitch_type 4-way switch (@0x140657100..@0x14065713c, dispatch @0x140657110) — jumptable not recovered.
+}
+
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) Globals starting with '_' overlap smaller symbols at the same address
 // - literal slash-star form removed: it would close a GML block comment early.

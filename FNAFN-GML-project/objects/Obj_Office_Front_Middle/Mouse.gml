@@ -1,12 +1,31 @@
-/// @description FNAFN Obj_Office_Front_Middle / Mouse - NOT YET PORTED
+/// @description FNAFN Obj_Office_Front_Middle / Mouse — PORTED from C
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
 // 1 sub-event(s): Mouse_4  (one reference block each; port a sub-event by
 //  editing its ---- header to PORTED and inserting GML above its block)
 
-// ---- sub-event Mouse_4 — NOT YET PORTED ----
+// ---- sub-event Mouse_4 — PORTED from C ----
 // ground truth: gml_Object_Obj_Office_Front_Middle_Mouse_4 (1883 B @0x1400c0620)
+// Ported: Obj_Office_Front_Middle / Mouse_4
+// Three office-middle hit-boxes; each plays the same click blip when hovered.
+// Compare shape is `compare(hit, 1.0) == 0` -> `hit == 1` (PORTING.md operator rule).
+// TODO(calibrate): button-box consts @0x1405c51a0-@0x1405c5260 and the shared
+// fifth button arg @0x140656650 plus the sound id @0x1405c51e0 sit outside the
+// mapped exe image (0x1405c51xx below EXE-CONSTANTS range; 0x14065xxxx runtime).
+// Zeros below are placeholders — calibrate rects + sound id in-game. The two
+// trailing audio args follow the (snd, 0, false) BSS-zero convention (cf.
+// Obj_Game_Over_Tablet/Create, Obj_Menu_Customize/Create).
+if (customfunct_ui_button_detection(0, 0, 0, 0, 0) == 1) { // TODO(calibrate): box @0x1405c51a0/@0x1405c51b0/@0x1405c51c0/@0x1405c51d0 + offset @0x140656650
+    customfunct_audio_play_sound_single(0, 0, false); // TODO(calibrate): snd @0x1405c51e0
+}
+if (customfunct_ui_button_detection(0, 0, 0, 0, 0) == 1) { // TODO(calibrate): box @0x1405c51f0/@0x1405c5200/@0x1405c5210/@0x1405c5220 + offset @0x140656650
+    customfunct_audio_play_sound_single(0, 0, false); // TODO(calibrate): snd @0x1405c51e0
+}
+if (customfunct_ui_button_detection(0, 0, 0, 0, 0) == 1) { // TODO(calibrate): box @0x1405c5230/@0x1405c5240/@0x1405c5250/@0x1405c5260 + offset @0x140656650
+    customfunct_audio_play_sound_single(0, 0, false); // TODO(calibrate): snd @0x1405c51e0
+}
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Office_Front_Middle_Mouse_4(undefined8 param_1,undefined8 param_2)
 

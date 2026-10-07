@@ -1,7 +1,38 @@
-/// @description FNAFN Obj_Menu_Customize / Draw - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Menu_Customize / Draw — PORTED from C
+// Ground truth: gml_Object_Obj_Menu_Customize_Draw_0 (3363 B @0x1400e3960)
+// Custom-night roster draw: surface setup, backdrop sprite, "customize"
+// title, the six text_figure labels, then present + draw_self. Same surface
+// scaffold as the ported Obj_Menu_Main_Title/Draw. Id map: surface 0x1877a,
+// draw_alpha 0x18712, game_font 0x18725 (global), text_figure 0x1878a.
+// Slots: 0x1405c8a50 = surface_exists, 0x1405c8a60 = surface_create,
+// 0x1405c7b08/0x1405c7b18 = room_width/room_height, 0x1405c8da0 = draw_text,
+// 0x1405c8ab0 = draw_surface. Exe consts: title at (32, 185) = "customize"
+// (@0x1405c5a98/@0x1405c5aa8/@0x1405c5a88); rows x = 94 (@0x1405c5ab8),
+// y = 340/385/430/475/520/565 (@0x1405c5ac8..@0x1405c5b18); color
+// make_color_rgb(255, 0, 110) (0xff/0/0x6e, same as Main_Title/Game_Over).
+// TODO(calibrate): helper 0x140175550(param, 42, 0, 0, 0) best-fit
+// draw_sprite(Spr_Menu_Fade_Overlay, 0, 0, 0) (42 = Spr_Menu_Fade_Overlay);
+// draw_surface coords are runtime const @0x140656e60 (assumed 0, 0).
+if (!surface_exists(surface)) {
+    surface = surface_create(room_width, room_height);
+}
+surface_set_target(surface);
+draw_sprite(Spr_Menu_Fade_Overlay, 0, 0, 0); // TODO(calibrate): helper 0x140175550 shape — best-fit draw_sprite; verify in-game
+draw_set_font(game_font[1]);
+draw_set_alpha(draw_alpha);
+draw_text(32, 185, "customize");
+draw_set_font(game_font[0]);
+draw_set_color(make_color_rgb(255, 0, 110));
+draw_text(94, 340, text_figure[0]);
+draw_text(94, 385, text_figure[1]);
+draw_text(94, 430, text_figure[2]);
+draw_text(94, 475, text_figure[3]);
+draw_text(94, 520, text_figure[4]);
+draw_text(94, 565, text_figure[5]);
+surface_reset_target();
+draw_surface(surface, 0, 0); // TODO(calibrate): coords are runtime const @0x140656e60
+draw_self();
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Menu_Customize_Draw_0(longlong *param_1,undefined8 param_2)
 

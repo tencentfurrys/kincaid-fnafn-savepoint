@@ -1,4 +1,44 @@
-/// @description FNAFN Obj_Office_Front_Middle / Draw - NOT YET PORTED
+/// @description FNAFN Obj_Office_Front_Middle / Draw — PORTED from C
+// Ground truth: gml_Object_Obj_Office_Front_Middle_Draw_0
+// Gated shader self-draw (unlike Obj_Office_Back/Draw which is
+// unconditional) followed by a warm lensflare pass:
+//   if (game_settings[4] == "on") (id 0x18727; index 4 via the
+//     array-bounds/accessor shape; "on" = exe const @0x1405c5270):
+//     var _tex = sprite_get_texture(sprite_index, image_index);
+//     (sprite_index/image_index via func_0x00014015f1a0 on slots
+//     0x1405c7be8/0x1405c7aa8; 0x1405c8bc0 = sprite_get_texture.)
+//     shader_set_uniform_f(shader_get_uniform(SHADER, "u_texel"),
+//       texture_get_texel_width(_tex), texture_get_texel_height(_tex));
+//     ("u_texel" = @0x1405c5273; 0x1405c8b10 = shader_get_uniform,
+//     0x1405c8dc0/0x1405c8dd0 = texel_width/height; 3-arg 185920 form.)
+//     shader_set_uniform_f(shader_get_uniform(SHADER, "u_strength"), 3);
+//     ("u_strength" = @0x1405c527b; 3.0 = @0x1405c5288; 2-arg form.)
+//     draw_self(); // func_0x000140175460(param_1)
+//   else draw_self();
+//   (func_0x000140185890(0) setup / func_0x000140185840() reset omitted
+//   like Obj_Office_Back/Draw and Obj_Menu_Main_Back/Draw — TODO identity.)
+//   draw_set_color(make_color_rgb(255, 194, 110));
+//     (func_0x0001401756a0 PROVEN make_color_rgb; func_0x00014018d100
+//     PROVEN draw_set_color per Obj_Menu_Pause/Draw.)
+//   draw_lensflare(1914, -5, 200, 4, 4, 5, 5, 5);
+//     (direct gml_Script_draw_lensflare 8-arg call; consts @0x1405c5298
+//     =1914.0, @0x1405c52a8=-5.0, @0x1405c52b8=200.0, @0x1405c52c8=4.0 (x2),
+//     @0x1405c52d8=5.0 (x3).)
+//   draw_set_color(c_white); // 0xffffff
+// TODO(calibrate): shader id runtime const @0x140656660 (both uniform
+// lookups) — verify in-game.
+// Ported: Obj_Office_Front_Middle / Draw
+if (game_settings[4] == "on") {
+    var _tex = sprite_get_texture(sprite_index, image_index);
+    shader_set_uniform_f(shader_get_uniform(0, "u_texel"), texture_get_texel_width(_tex), texture_get_texel_height(_tex)); // TODO(calibrate): shader id runtime const @0x140656660
+    shader_set_uniform_f(shader_get_uniform(0, "u_strength"), 3); // TODO(calibrate): shader id runtime const @0x140656660
+    draw_self();
+} else {
+    draw_self();
+}
+draw_set_color(make_color_rgb(255, 194, 110));
+draw_lensflare(1914, -5, 200, 4, 4, 5, 5, 5);
+draw_set_color(c_white);
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).

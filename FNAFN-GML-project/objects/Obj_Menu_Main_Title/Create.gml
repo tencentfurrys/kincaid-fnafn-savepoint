@@ -1,7 +1,84 @@
-/// @description FNAFN Obj_Menu_Main_Title / Create - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Menu_Main_Title / Create_0 — PORTED from C
+// Ground truth: gml_Object_Obj_Menu_Main_Title_Create_0 (4414 B @0x1400fcab0)
+// Decoded, in order (uStack_70 = GML line markers):
+//   0. customfunct_audio_play_sound_single(22, <runtime>, <runtime>) —
+//      exe const 0x1405c6130 = 22.0 (menu blip); priority/loop are the
+//      same runtime const @0x140657070 (TODO/calibrate, assumed 0/false).
+//   2. Obj_Menu_Main_Back.sprite_index = 55 (Spr_Menu_Background_Main).
+//   3. Obj_Menu_Main_Back.image_index = 0.
+//   4. Obj_Menu_Main_Back.image_alpha = 0.
+//      (all three are object-tagged writes 0x14015fea0 on object 0x1d =
+//      29 = Obj_Menu_Main_Back — obj_names.json.)
+//   5-7. select = 0; glitching = 0 (id 0x18729); glitch_type = 0
+//      (id 0x18728).
+//   9. surface = -1 (id 0x1877a).
+//   10. Obj_Menu_Selector.x = 94 (slot 0x1405c7b78, const 94.0).
+//   0xb. Obj_Menu_Selector.select_y = 340 (tagged write 0x140160b90 on
+//      object 0x23 = 35 = Obj_Menu_Selector, var id 0x1876d).
+//   0xd-0x10. text_menu[0..3] = "new game", "continue", "customize",
+//      "extras" (exe strings @0x1405c6100/@0x1405c6109/@0x1405c6112
+//      /@0x1405c611c — exe_strings.py).
+//   0x12. draw_alpha = 0 (id 0x18712).
+//   0x14. game[1] (global id 0x18724, index 1) 3-way-compared against
+//      guarded consts @0x140657080/@0x140657094/@0x1406570a8
+//      (TODO/calibrate values): match-0 -> star_alpha = (0, 0),
+//      match-1 -> (1, 0), match-2 -> (1, 1) (id 0x18773, indices 0/1).
+//      The dispatch ints (0/1/2 at pool +0x14 strides) prove the mapping.
+//   0x21. if (!instance_exists(Obj_Menu_Main_Options)) // 0x4c = 76
+//      instance_create_layer(1195, 635, "Main_menu",
+//      Obj_Menu_Main_Options) (consts 1195.0/635.0/"Main_menu"/76.0).
+//   0x25. if (!instance_exists(Obj_Menu_Main_Music)) // 0x37 = 55
+//      instance_create_layer(1056, 635, "Main_menu", Obj_Menu_Main_Music)
+//      (consts 1056.0/635.0/"Main_menu"/55.0).
+//   0x2c-0x33. for (i = 0; i < 12; i++) Scr_Camera_Update[i] = -100
+//      (id 0x186d5, a 12-element array — PORTING.md; bound 12.0 =
+//      0x4028000000000000; value -100.0 = 0xc059000000000000), then
+//      Scr_Camera_Update[0] = random_range-ish of the rdata consts
+//      @0x14043bb40/@0x14043cbe8 (helper 0x140168cf0, best-fit
+//      random_range — TODO/calibrate args and identity).
+// Reading: the main-title screen plays the menu blip, shows the main
+// backdrop, parks the shared selector at (94, 340), fills the four menu
+// labels, restores the star rating from game[1], ensures the gear
+// (options) and music buttons exist, and resets the camera array.
+// TODO(calibrate): audio priority/loop @0x140657070; game[1] star
+// thresholds @0x140657080/@0x140657094/@0x1406570a8 (assumed 0/1/2);
+// Scr_Camera_Update[0] random args @0x14043bb40/@0x14043cbe8.
+customfunct_audio_play_sound_single(22, 0, false); // TODO(calibrate): priority/loop are runtime const @0x140657070
+Obj_Menu_Main_Back.sprite_index = 55; // Spr_Menu_Background_Main (sprite_names.json)
+Obj_Menu_Main_Back.image_index = 0;
+Obj_Menu_Main_Back.image_alpha = 0;
+select = 0;
+glitching = 0;
+glitch_type = 0;
+surface = -1;
+Obj_Menu_Selector.x = 94;
+Obj_Menu_Selector.select_y = 340;
+text_menu[0] = "new game";
+text_menu[1] = "continue";
+text_menu[2] = "customize";
+text_menu[3] = "extras";
+draw_alpha = 0;
+if (game[1] == 0) { // TODO(calibrate): compared const is runtime @0x140657080
+    star_alpha[0] = 0;
+    star_alpha[1] = 0;
+} else if (game[1] == 1) { // TODO(calibrate): compared const is runtime @0x140657094
+    star_alpha[0] = 1;
+    star_alpha[1] = 0;
+} else if (game[1] == 2) { // TODO(calibrate): compared const is runtime @0x1406570a8
+    star_alpha[0] = 1;
+    star_alpha[1] = 1;
+}
+if (!instance_exists(Obj_Menu_Main_Options)) {
+    instance_create_layer(1195, 635, "Main_menu", Obj_Menu_Main_Options);
+}
+if (!instance_exists(Obj_Menu_Main_Music)) {
+    instance_create_layer(1056, 635, "Main_menu", Obj_Menu_Main_Music);
+}
+for (var i = 0; i < 12; i++) {
+    Scr_Camera_Update[i] = -100;
+}
+Scr_Camera_Update[0] = random_range(0, 0); // TODO(calibrate): args are rdata consts @0x14043bb40/@0x14043cbe8; helper 0x140168cf0 best-fit random_range
+
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) Globals starting with '_' overlap smaller symbols at the same address
 // - literal slash-star form removed: it would close a GML block comment early.

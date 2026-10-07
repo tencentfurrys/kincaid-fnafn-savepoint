@@ -1,4 +1,126 @@
-/// @description FNAFN Obj_Night_1_5_Chica_AI / Alarm - NOT YET PORTED
+/// @description FNAFN Obj_Night_1_5_Chica_AI / Alarm — PORTED from C
+// Ground truth: gml_Object_Obj_Night_1_5_Chica_AI_Alarm_0 (7538 B @0x1400a2430)
+// Mirror of the PORTED Obj_Night_1_5_Bonnie_AI/Alarm (same line markers,
+// Chica ids/consts), plus the line-2 debug message Mangle has. Decoded:
+//   2. show_debug_message("Chica has a movement opportunity!") (exe const
+//      @0x1405c4c80 via the 0x1401453a0 + 0x140181c60 pair — the pair is
+//      PROVEN show_debug_message per the Mangle Alarm port; the string
+//      itself is inferred by mirror-symmetry with Mangle's
+//      "Mangle has a movement opportunity!" (@0x1405c57c0, EXE-CONSTANTS.md)
+//      since @0x1405c4c80 sits below the EXE-CONSTANTS dump range).
+//   3. movement = irandom_range(0, 30) (0,0x1e best-fit).
+//   5. if (Time_without_move >= -30) (-30.0 literal; `>=` via `r >= 0`):
+//        if (movement < Chica_AI_Level (id 0x186f0) && Time_without_move <= 0
+//          (`<` via `r < 0`, `<=` via `r < 1`)) -> movement opportunity;
+//        else Time_without_move -= 1 (0x58; -= with 1.0 literal).
+//      else -> forced movement opportunity.
+//      Movement opportunity (label code_r0x0001400a2660):
+//        switch (Night_chica_location) (id 0x1873f) on pool cases
+//        3.0/3.1/3.2/3.5/11.0/11.5/8.0/8.5 (pool @0x140656040..@0x1406560cc;
+//        values literal in the guarded init: 3.0 = 0x4008000000000000,
+//        3.1 = 0x4008cccccccccccd, 3.2 = 0x400999999999999a,
+//        3.5 = 0x400c000000000000, 11.0 = 0x4026000000000000,
+//        11.5 = 0x4027000000000000, 8.0 = 0x4020000000000000,
+//        8.5 = 0x4021000000000000; label table @0x140656050 identity).
+//        Jumptable @0x1400a2900 unrecoverable — each branch returns.
+//        Fallthrough:
+//          0x48. _s = irandom_range(1, 4);
+//          switch (_s) on 1.0/2.0/3.0/4.0 (pool @0x1406560f0..@0x14065612c,
+//          identity table @0x140656100). Jumptable @0x1400a381a
+//          unrecoverable — each branch returns directly.
+//          Fallthrough:
+//            0x51. audio_emitter_pitch(Chica_emitter, random_range(...))
+//                    (slot 0x1405c8f40; id 0x186f1).
+//            0x52. customfunct_audio_play_sound_directional_single(
+//                    Chica_emitter, 0, <rt>, <rt>) (runtime consts
+//                    @0x140656030 twice).
+//            0x54. Time_without_move = irandom_range(17, 25) -
+//                    Chica_AI_Level * 0.5 (0x11,0x19 best-fit — same range
+//                    as the ported Chica Create; MUL with _UNK_140439e78
+//                    = 0.5 per Create, same symbol).
+//   0x5a. switch (alarm_type) (id 0x186d8) on cases 0 / 1.0 (pool
+//      @0x140656150/@0x140656164; values literal in the guarded init;
+//      two-case rule):
+//        case 0: Scr_Camera_Update[0] = 30;
+//        case 1: Time_without_move = irandom_range(17, 25) -
+//          Chica_AI_Level * 0.5, then Scr_Camera_Update[1] = 30.
+// TODO(calibrate): debug string (inferred, @0x1405c4c80 below dump range);
+// func_0x000140168970 best-fit irandom_range; random_range .rdata args
+// _UNK_140439ea0/_UNK_14043ba80; runtime consts @0x140656030 (BSS-zero
+// convention: 0/false below); _UNK_14043ba88 factor in the case-1 reset
+// (0.5 assumed); jumptable branch bodies — verify in-game.
+// Ported: Obj_Night_1_5_Chica_AI / Alarm_0
+show_debug_message("Chica has a movement opportunity!"); // TODO(calibrate): string inferred by Mangle-mirror symmetry (@0x1405c4c80 below dump range)
+movement = irandom_range(0, 30);
+var _move = false;
+var _s = 0;
+if (Time_without_move >= -30) {
+    if (movement < Chica_AI_Level && Time_without_move <= 0) {
+        _move = true;
+    } else {
+        Time_without_move -= 1;
+    }
+} else {
+    _move = true;
+}
+if (_move) {
+    switch (Night_chica_location) {
+        case 3.0: // TODO(calibrate): pool @0x140656040; jumptable branch — verify in-game
+            // TODO(calibrate): branch body unrecoverable (jumptable @0x1400a2900); C returns here
+            exit;
+        case 3.1: // TODO(calibrate): pool @0x140656054
+            // TODO(calibrate): branch body unrecoverable; C returns here
+            exit;
+        case 3.2: // TODO(calibrate): pool @0x140656068
+            // TODO(calibrate): branch body unrecoverable; C returns here
+            exit;
+        case 3.5: // TODO(calibrate): pool @0x14065607c
+            // TODO(calibrate): branch body unrecoverable; C returns here
+            exit;
+        case 11.0: // TODO(calibrate): pool @0x140656090
+            // TODO(calibrate): branch body unrecoverable; C returns here
+            exit;
+        case 11.5: // TODO(calibrate): pool @0x1406560a4
+            // TODO(calibrate): branch body unrecoverable; C returns here
+            exit;
+        case 8.0: // TODO(calibrate): pool @0x1406560b8
+            // TODO(calibrate): branch body unrecoverable; C returns here
+            exit;
+        case 8.5: // TODO(calibrate): pool @0x1406560cc
+            // TODO(calibrate): branch body unrecoverable; C returns here
+            exit;
+        default:
+            _s = irandom_range(1, 4);
+            switch (_s) {
+                case 1: // TODO(calibrate): pool @0x1406560f0; jumptable branch — verify in-game
+                    // TODO(calibrate): branch body unrecoverable (jumptable @0x1400a381a); C returns here
+                    exit;
+                case 2: // TODO(calibrate): pool @0x140656104
+                    // TODO(calibrate): branch body unrecoverable; C returns here
+                    exit;
+                case 3: // TODO(calibrate): pool @0x140656118
+                    // TODO(calibrate): branch body unrecoverable; C returns here
+                    exit;
+                case 4: // TODO(calibrate): pool @0x14065612c
+                    // TODO(calibrate): branch body unrecoverable; C returns here
+                    exit;
+            }
+            audio_emitter_pitch(Chica_emitter, random_range(0, 0)); // TODO(calibrate): random args are .rdata doubles _UNK_140439ea0/_UNK_14043ba80 — verify in-game
+            customfunct_audio_play_sound_directional_single(Chica_emitter, 0, 0 /* TODO(calibrate): runtime const @0x140656030 */, false /* TODO(calibrate): runtime const @0x140656030 */);
+            Time_without_move = irandom_range(17, 25) - Chica_AI_Level * 0.5;
+            break;
+    }
+}
+switch (alarm_type) {
+    case 0:
+        Scr_Camera_Update[0] = 30;
+        break;
+    case 1: // TODO(calibrate): runtime pool @0x140656150 mapping per two-case rule
+        Time_without_move = irandom_range(17, 25) - Chica_AI_Level * 0.5; // TODO(calibrate): factor is _UNK_14043ba88 (0.5 assumed) — verify in-game
+        Scr_Camera_Update[1] = 30;
+        break;
+}
+
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).

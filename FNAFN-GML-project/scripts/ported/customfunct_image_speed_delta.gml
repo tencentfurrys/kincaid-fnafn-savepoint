@@ -1,4 +1,5 @@
 /// @description helper: advance image_index frame-independently
+// PORTED from C
 // CORRECTED 2026-10-01 against the real C (gml_Script_customfunct_image_speed_delta,
 // 401 B @0x140004dd0):
 //   1. global fetch `delta_factor` (id 0x1870b).

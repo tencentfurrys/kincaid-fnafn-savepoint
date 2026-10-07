@@ -1,5 +1,30 @@
-/// @description FNAFN script customfunct_game_create_music_stream - NOT YET PORTED
-// Decompiled C reference (exact machine-level semantics):
+/// @description FNAFN script customfunct_game_create_music_stream - PORTED from C
+// PORTED from C
+// Ground truth: gml_Script_customfunct_game_create_music_stream
+// Decoded, in source-line order (uStack_80 0x5a..0x62 + 99): builds one
+// audio stream per jukebox track. Each of the ten blocks reads
+// custom_music[N][1] (id 0x186fc via the double
+// func_0x00014012b840(array, index) element-accessor pair) into
+// audio_create_stream(path) [slot 0x1405c8b90 via func_0x0001401445d0,
+// 1 arg] and stores the stream id back into custom_music[N][0] through the
+// same accessor pair — i.e. custom_music[N][0] =
+// audio_create_stream(custom_music[N][1]) for N = 0..9. Dropped: 144b20
+// prologue, uStack_80 line numbers, and the BSS store
+// uRam0000000140657680 = 0x31875c (same magic-marker shape as
+// game_load's 0x2b86a1/0x2b86a2 and load_music's 0x2f875c, no data flow).
+function customfunct_game_create_music_stream() {
+    custom_music[0][0] = audio_create_stream(custom_music[0][1]);
+    custom_music[1][0] = audio_create_stream(custom_music[1][1]);
+    custom_music[2][0] = audio_create_stream(custom_music[2][1]);
+    custom_music[3][0] = audio_create_stream(custom_music[3][1]);
+    custom_music[4][0] = audio_create_stream(custom_music[4][1]);
+    custom_music[5][0] = audio_create_stream(custom_music[5][1]);
+    custom_music[6][0] = audio_create_stream(custom_music[6][1]);
+    custom_music[7][0] = audio_create_stream(custom_music[7][1]);
+    custom_music[8][0] = audio_create_stream(custom_music[8][1]);
+    custom_music[9][0] = audio_create_stream(custom_music[9][1]);
+}
+
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) WARNING: Type propagation algorithm not settling
 

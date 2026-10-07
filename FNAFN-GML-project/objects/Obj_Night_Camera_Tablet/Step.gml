@@ -1,7 +1,65 @@
-/// @description FNAFN Obj_Night_Camera_Tablet / Step - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Night_Camera_Tablet / Step_0 — PORTED from C
+// Ground truth: gml_Object_Obj_Night_Camera_Tablet_Step_0 (3201 B @0x1400568e0)
+// Globals fetched: Night_camera (0x1873b), composite_distortion (0x186f8),
+//   composite_artifact (0x186f6), static_magnetude (0x18774).
+// Decoded, in order (uStack_78 = GML line markers):
+//   1. customfunct_image_speed_delta(Tablet_Sprite_Speed) [self id 0x1877e].
+//   2. x (slot 0x1405c7b78) = Obj_Office_Camera_Control.cx [object 1, var
+//      0x18709 via 0x140160480/0x140160140]; 3. y (slot 0x1405c7b88) =
+//      Obj_Office_Camera_Control.cy [object 1, var 0x1870a].
+//   5. if (Tablet_Sprite_Speed == 0.99) [0x3fefae147ae147ae, ==0]:
+//      if (image_index [slot 0x1405c7aa8 via 0x14015f1a0] > 9.0
+//      [0x4022000000000000, 0<r]):
+//        7. Obj_Night_UI_Camera_Button (object 11=0xb).button_index = 1
+//           [0x140160b90(0xb,0x186eb)].
+//        8. instance_deactivate_object(<const>) [slot 0x1405c8bf0, 1 arg].
+//        9. Night_camera = 1.
+//        10-12. layer_set_visible(<layer>,<flag>) x3 [slot 0x1405c89d0].
+//        13. camera_set_view_pos(view_camera [slot 0x1405c7bf8],<const>,
+//           <runtime>) [slot 0x1405c8ce0].
+//        14. composite_distortion = 15.0; 15. composite_artifact = 10.0;
+//           16. static_magnetude = 1.25.
+//        17. Scr_Camera_Update(<const>); 18. if (!audio_is_playing(<snd>)
+//           [slot 0x1405c8db0]) customfunct_audio_play_sound_single(...).
+//        22-23. Obj_Night_Camera_Screen (object 39=0x27).image_yscale = 0
+//           [slot 0x1405c7c08 via 0x14015fea0]; .image_xscale = 0.65
+//           [slot 0x1405c7c18, 0x3fe4cccccccccccd].
+//        24. instance_destroy() [0x14017c070, PROVEN].
+//   26. if (Tablet_Sprite_Speed == -0.99) [0xbfefae147ae147ae]:
+//      if (image_index < 1.0) [r<0, -2 = incomparable] instance_destroy().
+// TODO(calibrate): all 0x1405c3dxx layer/sound consts (below exe image) and
+//   runtime consts @0x140655580 (layer flags / camera pos / audio
+//   priority+loop). Object indices 1/11/39 via obj_names.json are firm.
+customfunct_image_speed_delta(Tablet_Sprite_Speed);
+x = Obj_Office_Camera_Control.cx;
+y = Obj_Office_Camera_Control.cy;
+if (Tablet_Sprite_Speed == 0.99) {
+    if (image_index > 9) {
+        Obj_Night_UI_Camera_Button.button_index = 1;
+        instance_deactivate_object(/* TODO(calibrate): const @0x1405c3db0 */ 0);
+        Night_camera = 1;
+        layer_set_visible(/* TODO(calibrate): layer @0x1405c3d88 */ "TODO_layer", /* TODO(calibrate): flag @0x1405c3dc0 */ 1);
+        layer_set_visible(/* TODO(calibrate): layer @0x1405c3d93 */ "TODO_layer", /* TODO(calibrate): flag @0x140655580 */ 1);
+        layer_set_visible(/* TODO(calibrate): layer @0x1405c3da0 */ "TODO_layer", /* TODO(calibrate): flag @0x140655580 */ 1);
+        camera_set_view_pos(view_camera, /* TODO(calibrate): const @0x1405c3dd0 */ 0, /* TODO(calibrate): const @0x140655580 */ 0);
+        composite_distortion = 15;
+        composite_artifact = 10;
+        static_magnetude = 1.25;
+        Scr_Camera_Update(/* TODO(calibrate): const @0x1405c3de0 */ 0);
+        if (!audio_is_playing(/* TODO(calibrate): snd @0x1405c3df0 */ 0)) {
+            customfunct_audio_play_sound_single(/* TODO(calibrate): snd @0x1405c3df0 */ 0, /* TODO(calibrate): const @0x1405c3dc0 */ 0, false);
+        }
+        Obj_Night_Camera_Screen.image_yscale = 0;
+        Obj_Night_Camera_Screen.image_xscale = 0.65;
+        instance_destroy();
+    }
+}
+if (Tablet_Sprite_Speed == -0.99) {
+    if (image_index < 1) {
+        instance_destroy();
+    }
+}
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Night_Camera_Tablet_Step_0(longlong *param_1,undefined8 param_2)
 

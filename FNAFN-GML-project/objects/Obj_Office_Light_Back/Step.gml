@@ -1,7 +1,79 @@
-/// @description FNAFN Obj_Office_Light_Back / Step - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Office_Light_Back / Step — PORTED from C
+// Ground truth: gml_Object_Obj_Office_Light_Back_Step_0 (2756 B @0x1401105c0)
+// Guards (all must hold or the whole step is skipped):
+//   Night_office_rotated == 1, Night_camera == 0,
+//   layer_get_visible(<const @0x1405c64f0>) == 1
+//   (TODO(calibrate): layer name const).
+// Flash block:
+//   if (input_check(0x11)) {  // TODO(calibrate): func_0x00014018f790(0x11),
+//       // single-arg input helper; compare Office_Front_Right/Office_Front_Left
+//       // Step which use the same call for their light input
+//       if (Obj_Office_Back.sprite_index == 96) {
+//           image_alpha = <random helper>(TODO_calibrate_args);  // func_0x000140168cf0
+//           if (flash_sound != 1) {
+//               customfunct_audio_play_sound_single("TODO_calibrate_0x1405c6508",
+//                   TODO_calibrate_runtime_0x1406573a0, TODO_calibrate_runtime_0x1406573a0);
+//               flash_sound = 1;
+//           }
+//       } else {
+//           // fall through to the quiet path below
+//       }
+//   } else {
+//   quiet path (also taken when sprite != 96):
+//       if (flash_sound != 0) {
+//           customfunct_audio_play_sound_single("TODO_calibrate_0x1405c6518",
+//               TODO_calibrate_runtime_0x1406573a0, TODO_calibrate_runtime_0x1406573a0);
+//           flash_sound = 0;
+//       }
+//       image_alpha = 0;
+//   }
+// Back-room frame select (2x2 on Night_bonnie_location / Night_chica_location
+// vs string const @0x1405c64fc, TODO(calibrate) location name):
+//   bonnie==C && chica!=C -> image_index = 1
+//   bonnie==C && chica==C  -> image_index = 2
+//   bonnie!=C && chica==C  -> image_index = 3
+//   bonnie!=C && chica!=C  -> image_index = 0
+if (Night_office_rotated == 1 && Night_camera == 0
+        && layer_get_visible("TODO_calibrate_0x1405c64f0") == 1) {
+    if (TODO_calibrate_input_0x11 /* func_0x00014018f790(0x11) */) {
+        if (Obj_Office_Back.sprite_index == 96) {
+            image_alpha = TODO_calibrate_random;  // func_0x000140168cf0(...)
+            if (flash_sound != 1) {
+                customfunct_audio_play_sound_single("TODO_calibrate_0x1405c6508",
+                    TODO_calibrate_runtime_0x1406573a0, TODO_calibrate_runtime_0x1406573a0);
+                flash_sound = 1;
+            }
+        } else {
+            if (flash_sound != 0) {
+                customfunct_audio_play_sound_single("TODO_calibrate_0x1405c6518",
+                    TODO_calibrate_runtime_0x1406573a0, TODO_calibrate_runtime_0x1406573a0);
+                flash_sound = 0;
+            }
+            image_alpha = 0;
+        }
+    } else {
+        if (flash_sound != 0) {
+            customfunct_audio_play_sound_single("TODO_calibrate_0x1405c6518",
+                TODO_calibrate_runtime_0x1406573a0, TODO_calibrate_runtime_0x1406573a0);
+            flash_sound = 0;
+        }
+        image_alpha = 0;
+    }
+    var _bl = "TODO_calibrate_0x1405c64fc";
+    if (Night_bonnie_location == _bl && Night_chica_location != _bl) {
+        image_index = 1;
+    }
+    if (Night_bonnie_location == _bl && Night_chica_location == _bl) {
+        image_index = 2;
+    }
+    if (Night_bonnie_location != _bl && Night_chica_location == _bl) {
+        image_index = 3;
+    }
+    if (Night_bonnie_location != _bl && Night_chica_location != _bl) {
+        image_index = 0;
+    }
+}
+
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) Globals starting with '_' overlap smaller symbols at the same address
 // - literal slash-star form removed: it would close a GML block comment early.

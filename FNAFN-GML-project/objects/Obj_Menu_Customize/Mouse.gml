@@ -1,11 +1,50 @@
-/// @description FNAFN Obj_Menu_Customize / Mouse - NOT YET PORTED
+/// @description FNAFN Obj_Menu_Customize / Mouse - PORTED from C (both sub-events)
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
-// 2 sub-event(s): Mouse_53, Mouse_54  (one reference block each; port a sub-event by
-//  editing its ---- header to PORTED and inserting GML above its block)
+// machine-level semantics recovered by Ghidra. Call graph and names are
+// intact (see gml_all_414_decompiled.c).
+// 2 sub-event(s): Mouse_53, Mouse_54 (both PORTED below).
 
-// ---- sub-event Mouse_53 — NOT YET PORTED ----
+// ---- sub-event Mouse_53 — PORTED from C ----
+// Ground truth: gml_Object_Obj_Menu_Customize_Mouse_53 (5537 B @0x1400e1690)
+// Click handling, gated on draw_alpha > 0.975 (0x3fef33...; `0 < compare`).
+// Six hit-boxes share the Step geometry (94, y1, 94 + string_width(
+// text_figure[i]), y2, 94); y1/y2 = 340/380, 385/425, 430/470, 475/515,
+// 520/560, 565/605. Object 0x1d = Obj_Menu_Main_Back (obj_names.json):
+// slots 0x1405c7b98 = image_alpha, 0x1405c7aa8 = image_index.
+// Blocks 0-4 select the roster portrait (image_alpha = 0 + image_index):
+// "freddy" -> 1, "bonnie" -> 2, "chica" -> 3, "foxy" -> 4, "none" -> 0.
+// Block 5 ("exit") spawns the main menu and removes this controller:
+// instance_create_layer(32, 160, "Main_menu", Obj_Menu_Main_Title)
+// (exe consts @0x1405c5a18 = 32.0, @0x1405c5a28 = 160.0,
+// str @0x1405c5938 = "Main_menu", @0x1405c5a38 = 63.0 = Obj_Menu_Main_Title;
+// slot 0x1405c8d90 = instance_create_layer) + instance_destroy()
+// (PROVEN helper 0x14017c070).
+if (draw_alpha > 0.975) {
+    if (customfunct_ui_button_detection(94, 340, 94 + string_width(text_figure[0]), 380, 94) == 1) {
+        Obj_Menu_Main_Back.image_alpha = 0;
+        Obj_Menu_Main_Back.image_index = 1;
+    }
+    if (customfunct_ui_button_detection(94, 385, 94 + string_width(text_figure[1]), 425, 94) == 1) {
+        Obj_Menu_Main_Back.image_alpha = 0;
+        Obj_Menu_Main_Back.image_index = 2;
+    }
+    if (customfunct_ui_button_detection(94, 430, 94 + string_width(text_figure[2]), 470, 94) == 1) {
+        Obj_Menu_Main_Back.image_alpha = 0;
+        Obj_Menu_Main_Back.image_index = 3;
+    }
+    if (customfunct_ui_button_detection(94, 475, 94 + string_width(text_figure[3]), 515, 94) == 1) {
+        Obj_Menu_Main_Back.image_alpha = 0;
+        Obj_Menu_Main_Back.image_index = 4;
+    }
+    if (customfunct_ui_button_detection(94, 520, 94 + string_width(text_figure[4]), 560, 94) == 1) {
+        Obj_Menu_Main_Back.image_alpha = 0;
+        Obj_Menu_Main_Back.image_index = 0;
+    }
+    if (customfunct_ui_button_detection(94, 565, 94 + string_width(text_figure[5]), 605, 94) == 1) {
+        instance_create_layer(32, 160, "Main_menu", Obj_Menu_Main_Title);
+        instance_destroy();
+    }
+}
 // ground truth: gml_Object_Obj_Menu_Customize_Mouse_53 (5537 B @0x1400e1690)
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Menu_Customize_Mouse_53(longlong *param_1,undefined8 param_2)
@@ -594,8 +633,18 @@ void gml_Object_Obj_Menu_Customize_Mouse_53(longlong *param_1,undefined8 param_2
 }
 END DECOMPILED REFERENCE */
 
-// ---- sub-event Mouse_54 — NOT YET PORTED ----
+// ---- sub-event Mouse_54 — PORTED from C ----
 // ground truth: gml_Object_Obj_Menu_Customize_Mouse_54 (602 B @0x1400e34e0)
+// Right-click "back to main menu" (same shape as Obj_Menu_Continue/Mouse_54:
+// 4-arg instance_create_layer + instance_destroy, no draw_alpha gate).
+// instance_create_layer(32, 160, "Main_menu", Obj_Menu_Main_Title) +
+// instance_destroy(). Exe consts: x @0x1405c5a58 (TODO calibrate; same exit
+// pattern as Mouse_53/Continue suggests 32), y @0x1405c5a68 = 160.0
+// (EXE-CONSTANTS tag 0x4064...), layer str @0x1405c5a48 = "Main_menu",
+// obj @0x1405c5a78 = 63.0 = Obj_Menu_Main_Title (obj_names.json);
+// slot 0x1405c8d90 = instance_create_layer.
+instance_create_layer(32 /* TODO(calibrate): const @0x1405c5a58, 32 per exit pattern */, 160, "Main_menu", Obj_Menu_Main_Title);
+instance_destroy();
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Menu_Customize_Mouse_54(undefined8 param_1,undefined8 param_2)
 

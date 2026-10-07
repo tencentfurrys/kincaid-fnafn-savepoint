@@ -1,3 +1,4 @@
+// PORTED from C - unclassified runner stubs (gml_Object_ + PreCreate event_inherited, no game logic)
 // #### gml_Object_ va=0x1401bf860 ====
 // (Ghidra note) Globals starting with '_' overlap smaller symbols at the same address
 // - literal slash-star form removed: it would close a GML block comment early.

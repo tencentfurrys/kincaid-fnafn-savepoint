@@ -1,12 +1,66 @@
-/// @description FNAFN Obj_Menu_Options_Preview / Mouse - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
-// 1 sub-event(s): Mouse_53  (one reference block each; port a sub-event by
-//  editing its ---- header to PORTED and inserting GML above its block)
+/// @description FNAFN Obj_Menu_Options_Preview / Mouse_53 — PORTED from C
+// Ground truth: gml_Object_Obj_Menu_Options_Preview_Mouse_53 (2729 B @0x1400cdd40)
 
-// ---- sub-event Mouse_53 — NOT YET PORTED ----
+// ---- sub-event Mouse_53 — PORTED from C ----
 // ground truth: gml_Object_Obj_Menu_Options_Preview_Mouse_53 (2729 B @0x1400cdd40)
+// Ported: Obj_Menu_Options_Preview / Mouse_53
+// Two arrow hit-boxes sharing one y-range, then an unconditional clamp +
+// alarm-0 refresh (all C early-exits land on the clamp block, so it always runs).
+//   y-range: mouse_y > 192 (192.0 = 0x4068000000000000, `r<1`-exit = `>`) and
+//     mouse_y < y - 284 (func_0x00014002fc60(dest, src, N) = dest = src - N,
+//     PROVEN in Obj_Menu_CN_Images/Step; 0x11c = 284; `r==-1`-only = `<`).
+//   up-arrow x-range: mouse_x > 735 (735.0 = 0x4086f80000000000) and
+//     mouse_x < 783 (783.0 = 0x4088780000000000).
+//   down-arrow x-range: mouse_x > x - 48 (0x30 = 48 via 02fc60) and
+//     mouse_x < x (instance x slot 0x1405c7b78; y slot 0x1405c7b88).
+// Up arrow (uStack_80 = 5..0xe): click blip 16.0 @0x1405c5428, then step
+// select down: if (Obj_Menu_Options.select == 2 (0x4000...,
+// 0x11 = 17 = Obj_Menu_Options via obj_names.json, 0x1876a = select) and
+// Obj_Menu_Options.menu == "audio" (@0x1405c5420 via 0x1401453a0 load))
+// select -= 5 (5.0 = 0x4014000000000000, -= helper 0x14000bdb0) else
+// select -= 1 (1.0 = 0x3ff..., same helper); then event_perform(ev_alarm, 1)
+// (helper 0x140181c50, TYPE 2 = ev_alarm, PROVEN 2026-10-06).
+// Down arrow (0x12..0x1b): same with blip 21.0 @0x1405c5438, += 5 / += 1
+// (+= helper 0x14000bf90).
+// Tail (0x1e..0x20): select = clamp(select, select_min, select_max)
+// (slot 0x1405c8a00 = clamp, select_min 0x1876c / select_max 0x1876b, all
+// self-fetched); then event_perform(ev_alarm, 0).
+// NOTE: the self `select` written by -= / += is the Preview's own cursor;
+// the 0x11-tagged read that sizes the step is Obj_Menu_Options.select —
+// kept distinct per the object-tagged helper rule (PORTING.md).
+// TODO(calibrate): trailing audio args @0x140656bf0 are runtime BSS zeros
+// (outside exe image); emitted as 0/false per the BSS-zero convention.
+if (mouse_y > 192 && mouse_y < y - 284) {
+    if (mouse_x > 735 && mouse_x < 783) {
+        customfunct_audio_play_sound_single(16, 0 /* TODO(calibrate): runtime const @0x140656bf0 */, false /* TODO(calibrate): runtime const @0x140656bf0 */);
+        if (Obj_Menu_Options.select == 2) {
+            if (Obj_Menu_Options.menu == "audio") {
+                select -= 5;
+            } else {
+                select -= 1;
+            }
+        } else {
+            select -= 1;
+        }
+        event_perform(ev_alarm, 1);
+    }
+    if (mouse_x > x - 48 && mouse_x < x) {
+        customfunct_audio_play_sound_single(21, 0 /* TODO(calibrate): runtime const @0x140656bf0 */, false /* TODO(calibrate): runtime const @0x140656bf0 */);
+        if (Obj_Menu_Options.select == 2) {
+            if (Obj_Menu_Options.menu == "audio") {
+                select += 5;
+            } else {
+                select += 1;
+            }
+        } else {
+            select += 1;
+        }
+        event_perform(ev_alarm, 1);
+    }
+}
+select = clamp(select, select_min, select_max);
+event_perform(ev_alarm, 0);
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Menu_Options_Preview_Mouse_53(longlong *param_1,undefined8 param_2)
 

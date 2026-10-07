@@ -1,7 +1,39 @@
-/// @description FNAFN Obj_Night_UI_Camera_Button / Create - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Night_UI_Camera_Button / Create - PORTED from C
+// PORTED from C
+// Ground truth: gml_Object_Obj_Night_UI_Camera_Button_Create_0 (1821 B @0x140061eb0)
+// Decoded (uStack_48 = 0..22 are the original GML line markers):
+//   line 1: if (game[0] == <runtime @0x140655770>) [global `game` (0x18724),
+//     array-index [0] via the 1479b0/7990/7980 shape; equality via the
+//     (compare-result | flags) == 0 shape; the const is BSS, so the exact
+//     value is a TODO(calibrate) — assumed 0 below].
+//   lines 3/4: power_threshold = 2.0 / 3.0 [raw 8-byte payloads @0x140439e68
+//     (= 2.0) / @0x14043add0 (= 3.0), read via exe_strings.py].
+//   lines 7-8: button_alpha[0] = 0.75; button_alpha[1] = 0.75;
+//     [fetch 0x186ea + element-ref 0x14012b840 + write 0x3fe8... = 0.75].
+//   line 9: button_index = 0; [0x186eb]
+//   lines 10-11: button_toggle[0] = 0; button_toggle[1] = 0; [0x186ec]
+//   line 12: button_y = 20; [0x186ed, 0x4034... = 20.0]
+//   line 14: alert_alpha = 0; [0x186d9]
+//   line 16: image_alpha = 0; [slot 0x1405c7b98 via 0x140160140]
+//   lines 18-22: key_alpha[0..3] = 1; [0x1872d, 0x3ff0... = 1.0]
+if (game[0] == 0 /* TODO(calibrate): runtime const @0x140655770 */) {
+    power_threshold = 2;
+} else {
+    power_threshold = 3;
+}
+button_alpha[0] = 0.75;
+button_alpha[1] = 0.75;
+button_index = 0;
+button_toggle[0] = 0;
+button_toggle[1] = 0;
+button_y = 20;
+alert_alpha = 0;
+image_alpha = 0;
+key_alpha[0] = 1;
+key_alpha[1] = 1;
+key_alpha[2] = 1;
+key_alpha[3] = 1;
+
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) Globals starting with '_' overlap smaller symbols at the same address
 // - literal slash-star form removed: it would close a GML block comment early.

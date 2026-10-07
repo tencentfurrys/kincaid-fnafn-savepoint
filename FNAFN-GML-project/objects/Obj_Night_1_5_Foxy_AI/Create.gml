@@ -1,4 +1,35 @@
-/// @description FNAFN Obj_Night_1_5_Foxy_AI / Create - NOT YET PORTED
+/// @description FNAFN Obj_Night_1_5_Foxy_AI / Create — PORTED from C
+// Ground truth: gml_Object_Obj_Night_1_5_Foxy_AI_Create_0
+// Same family as Bonnie/Chica Create, Foxy ids/consts (plus door_wait_count):
+//   3. for i in 0..11: Scr_Camera_Update[i] = -100 (bound 12.0 literal).
+//   9. if (Foxy_AI_Level > 0) Scr_Camera_Update[0] = 30 (id 0x1871b).
+//   0xe. Time_without_move = irandom_range(23, 30) - Foxy_AI_Level * 0.1
+//        (0.1 = _UNK_14043bf18 RValue, 8 bytes before the profiler name).
+//   0xf. movement = 0; 0x10. alarm_type = 0; 0x11. door_wait_count = 0.
+//   0x13. Foxy_emitter = audio_emitter_create() (slot 0x1405c8e80).
+//   0x14. audio_falloff_set_model(5) (slot 0x1405c8e90, exe const 5.0).
+//   0x15. audio_emitter_position(Foxy_emitter, <runtime>, 360, <runtime>)
+//        (slot 0x1405c8e30; middle arg exe const 360.0).
+//   0x17. audio_emitter_falloff(Foxy_emitter, 640, 2560, 0.1)
+//        (slot 0x1405c8ea0; all exe consts resolved).
+// TODO(calibrate): func_0x000140168970 best-fit irandom_range;
+// func_0x00014001fa10 best-fit MUL (see Bonnie Create); runtime consts
+// @0x140656320 (emitter x/z, outside mapped exe image) — verify in-game.
+for (var i = 0; i < 12; i += 1) {
+    Scr_Camera_Update[i] = -100;
+}
+if (Foxy_AI_Level > 0) {
+    Scr_Camera_Update[0] = 30;
+}
+Time_without_move = irandom_range(23, 30) - Foxy_AI_Level * 0.1;
+movement = 0;
+alarm_type = 0;
+door_wait_count = 0;
+Foxy_emitter = audio_emitter_create();
+audio_falloff_set_model(5);
+audio_emitter_position(Foxy_emitter, 0, 360, 0); // TODO(calibrate): x/z are runtime const @0x140656320
+audio_emitter_falloff(Foxy_emitter, 640, 2560, 0.1);
+
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).

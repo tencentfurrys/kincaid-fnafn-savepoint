@@ -1,11 +1,47 @@
-/// @description FNAFN Obj_Night_Vent_Icons / Mouse - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
-// 1 sub-event(s): Mouse_4  (one reference block each; port a sub-event by
-//  editing its ---- header to PORTED and inserting GML above its block)
+/// @description FNAFN Obj_Night_Vent_Icons / Mouse_4 — PORTED from C
+// Ground truth: gml_Object_Obj_Night_Vent_Icons_Mouse_4 (2717 B @0x140095a20)
+// Guards: self image_alpha == 0 AND
+// layer_get_visible(<const @0x1405c4a18>) == 1 (TODO(calibrate): layer name).
+// Five-case switch on self image_index (case consts PROVEN by the guarded
+// pool init: 0, 1.0, 2.0, 3.0, 4.0 at @0x140655d30/44/58/6c/80; label table
+// @0x140655d40 static — mapping below assumes sequential 0->1, 1->2, ...;
+// TODO(calibrate): verify polarity in-game):
+//   image_index 0 -> Night_camera_vent_location = 1
+//   image_index 1 -> Night_camera_vent_location = 2
+//   image_index 2 -> Night_camera_vent_location = 3
+//   image_index 3 -> Night_camera_vent_location = 4
+//   image_index 4 -> Night_camera_vent_location = 5
+// Then:
+//   Scr_Camera_Update(<const @0x1405c4a28>);  // 1-arg script call
+//   Obj_Night_Camera_Screen.image_yscale = 0;   // object 0x27 = 39
+//   Obj_Night_Camera_Screen.image_xscale = 0.65; // 0x3fe4cccccccccccd
+//   Obj_Night_Camera_Icons_Select.x = x;        // object 0x14 = 20
+//   Obj_Night_Camera_Icons_Select.y = y;
+//   customfunct_audio_play_sound_single(<const @0x1405c4a38>,
+//       <runtime @0x140655d20>, <runtime @0x140655d20>);
+//   customfunct_audio_play_sound_single(<const @0x1405c4a48>,
+//       <runtime @0x140655d20>, <runtime @0x140655d20>);
+//   (TODO(calibrate): all sound consts.)
+if (image_alpha == 0 && layer_get_visible("TODO_calibrate_0x1405c4a18") == 1) {
+    switch (image_index) {
+        case 0: Night_camera_vent_location = 1; break;  // TODO(calibrate) polarity
+        case 1: Night_camera_vent_location = 2; break;
+        case 2: Night_camera_vent_location = 3; break;
+        case 3: Night_camera_vent_location = 4; break;
+        case 4: Night_camera_vent_location = 5; break;
+    }
+    Scr_Camera_Update("TODO_calibrate_0x1405c4a28");
+    Obj_Night_Camera_Screen.image_yscale = 0;
+    Obj_Night_Camera_Screen.image_xscale = 0.65;
+    Obj_Night_Camera_Icons_Select.x = x;
+    Obj_Night_Camera_Icons_Select.y = y;
+    customfunct_audio_play_sound_single("TODO_calibrate_0x1405c4a38",
+        TODO_calibrate_runtime_0x140655d20, TODO_calibrate_runtime_0x140655d20);
+    customfunct_audio_play_sound_single("TODO_calibrate_0x1405c4a48",
+        TODO_calibrate_runtime_0x140655d20, TODO_calibrate_runtime_0x140655d20);
+}
 
-// ---- sub-event Mouse_4 — NOT YET PORTED ----
+// ---- sub-event Mouse_4 — PORTED ----
 // ground truth: gml_Object_Obj_Night_Vent_Icons_Mouse_4 (2717 B @0x140095a20)
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) WARNING: Globals starting with '_' overlap smaller symbols at the same address */

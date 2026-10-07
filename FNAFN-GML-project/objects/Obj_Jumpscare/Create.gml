@@ -1,7 +1,91 @@
-/// @description FNAFN Obj_Jumpscare / Create - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Jumpscare / Create - PORTED from C
+// PORTED from C
+// Ground truth: gml_Object_Obj_Jumpscare_Create_0 (4781 B @0x1401251e0)
+// Decoded (uStack_a0 = 0..0x2a are the original GML line markers):
+//   lines 3-5: for (var i = 0; i < 12; i += 1) { Scr_Camera_Update[i] = -100; }
+//     [counter loop vs bound 12.0 (0x4028...); id 0x186d5 is the
+//     12-element Scr_Camera_Update ARRAY (PORTING.md); element write
+//     -100.0 (0xc059...)].
+//   line 9: image_alpha = 1; [slot 0x1405c7b98]
+//   line 10: Animation_end = 0; [0x186de]
+//   line 11: stopped = 0; [0x18778]
+//   lines 12-38: switch (Jumpscare) [global 0x1872b] over "freddy" /
+//     "bonnie" / "chica" / "foxy" / "mangle" [consts @0x1405c69f0..0x1405c6a09
+//     via exe_strings.py; label table @0x1406575e0 is runtime, assumed
+//     identity]. The case bodies sit behind the jumptable @0x140126a1c
+//     (targets 0x140125762/5ef8/5b4a/d21/973, inside this same function;
+//     Ghidra did not recover the structure, so the bodies below were
+//     disassembled directly from FNAFN.exe with capstone):
+//     - freddy (lines 14-18): image_alpha = 0 [slot 0x1405c7b98, zeroed
+//       RValue]; Scr_Camera_Update[0] = irandom_range(180, 300)
+//       [func_0x000140168970(0xb4, 0x12c) — disassembled: integer-range
+//       random returning double, i.e. irandom_range]; sprite_index = -1
+//       [slot 0x1405c7be8, 0xbff0...]; audio_play_sound(32, <rt>, <rt>)
+//       [slot 0x1405c8970 = audio_play_sound, const 32.0 @0x1405c6a18].
+//     - bonnie (lines 19-23): sprite_index = Spr_Jumpscare_Bonnie_1 (77)
+//       [0x40534...]; image_index = 0 [slot 0x1405c7aa8, zeroed RValue];
+//       audio_play_sound(24, <rt>, <rt>) [24.0 @0x1405c6a28];
+//       Animation_end = 92 [0x40570...].
+//     - chica (lines 24-28): sprite_index = Spr_Jumpscare_Chica_1 (44);
+//       image_index = 0; audio_play_sound(42, <rt>, <rt>) [42.0 @0x1405c6a38];
+//       Animation_end = 85 [0x40554...].
+//     - foxy (lines 29-33): sprite_index = Spr_Jumpscare_Foxy (8);
+//       image_index = 0; audio_play_sound(39, <rt>, <rt>) [39.0 @0x1405c6a48];
+//       Animation_end = 97 [0x40584...].
+//     - mangle (lines 34-38): sprite_index = Spr_Jumpscare_Mangle (93);
+//       image_index = 0; audio_play_sound(9, <rt>, <rt>) [9.0 @0x1405c6a58];
+//       Animation_end = 142 [0x4061c...].
+//     (sprite ids are SPRT chunk indices via sprite_names.json.)
+//   lines 40-42: if (Night_camera == 1) [global 0x1873b vs 1.0] {
+//       instance_create_layer(<x>, <y>, "UI", Obj_Game_Over_Tablet); }
+//     [slot 0x1405c8d90, 4 args: x/y = runtime const @0x1406575c0 (twice),
+//     layer "UI" @0x1405c6a10, obj const 38.0 @0x1405c6a68 -> object 38 =
+//     Obj_Game_Over_Tablet].
+// TODO(calibrate): audio_play_sound priority/loop args (runtime @0x1406575c0,
+//   assumed 10/false below); instance_create_layer x/y (same const, assumed
+//   0, 0); switch label-table identity; freddy sprite_index = -1 (no sprite).
+for (var i = 0; i < 12; i += 1) {
+    Scr_Camera_Update[i] = -100;
+}
+image_alpha = 1;
+Animation_end = 0;
+stopped = 0;
+switch (Jumpscare) {
+    case "freddy":
+        image_alpha = 0;
+        Scr_Camera_Update[0] = irandom_range(180, 300);
+        sprite_index = -1;
+        audio_play_sound(32, 10 /* TODO(calibrate): runtime @0x1406575c0 */, false /* TODO(calibrate): runtime @0x1406575c0 */);
+        break;
+    case "bonnie":
+        sprite_index = Spr_Jumpscare_Bonnie_1; // SPRT 77
+        image_index = 0;
+        audio_play_sound(24, 10 /* TODO(calibrate) */, false /* TODO(calibrate) */);
+        Animation_end = 92;
+        break;
+    case "chica":
+        sprite_index = Spr_Jumpscare_Chica_1; // SPRT 44
+        image_index = 0;
+        audio_play_sound(42, 10 /* TODO(calibrate) */, false /* TODO(calibrate) */);
+        Animation_end = 85;
+        break;
+    case "foxy":
+        sprite_index = Spr_Jumpscare_Foxy; // SPRT 8
+        image_index = 0;
+        audio_play_sound(39, 10 /* TODO(calibrate) */, false /* TODO(calibrate) */);
+        Animation_end = 97;
+        break;
+    case "mangle":
+        sprite_index = Spr_Jumpscare_Mangle; // SPRT 93
+        image_index = 0;
+        audio_play_sound(9, 10 /* TODO(calibrate) */, false /* TODO(calibrate) */);
+        Animation_end = 142;
+        break;
+}
+if (Night_camera == 1) {
+    instance_create_layer(0 /* TODO(calibrate): runtime @0x1406575c0 */, 0 /* TODO(calibrate): runtime @0x1406575c0 */, "UI", Obj_Game_Over_Tablet);
+}
+
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) Globals starting with '_' overlap smaller symbols at the same address
 // - literal slash-star form removed: it would close a GML block comment early.

@@ -5,11 +5,19 @@
 // 1 sub-event(s): KeyPress_13  (one reference block each; port a sub-event by
 //  editing its ---- header to PORTED and inserting GML above its block)
 
-// ---- sub-event KeyPress_13 — NOT YET PORTED ----
+// ---- sub-event KeyPress_13 - PORTED from C ----
 // ground truth: gml_Object_Obj_Menu_CN_Control_KeyPress_13 (944 B @0x1400b3c80)
 // Ported: Obj_Menu_CN_Control / KeyPress_13
-customfunct_audio_play_sound_single(22, 0, false); // TODO pri
-instance_create_layer(0, 0, "Fade", Obj_Menu_Transition); // TODO x/y
+// Decoded: 3-arg direct call gml_Script_customfunct_audio_play_sound_single
+// (snd 22.0 @0x1405c4f50 + two runtime consts @0x140656440); 4-arg call slot
+// 0x1405c8d90 (instance_create_layer) with (0, 0, "Fade", 2.0) — x/y are the
+// same runtime const @0x140656440, layer string @0x1405c4f48, object 2.0
+// @0x1405c4f60 = obj_names.json 2 = Obj_Menu_Transition; then game = 2
+// (0x4000000000000000 into global 0x18724) and object-tagged write
+// func_0x000140160b90(2, 0x18760) = Obj_Menu_Transition.Room_to_go_to = 5
+// (0x4014000000000000; 5 = Rm_Loading).
+customfunct_audio_play_sound_single(22, 0, false); // TODO(calibrate): priority+loop are runtime const @0x140656440 (0x14065xxxx, outside exe image); loop assumed false, priority assumed 0
+instance_create_layer(0, 0, "Fade", Obj_Menu_Transition); // TODO(calibrate): x/y are runtime const @0x140656440 (assumed 0, 0)
 game = 2;
 Obj_Menu_Transition.Room_to_go_to = 5;
 

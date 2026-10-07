@@ -1,7 +1,43 @@
-/// @description FNAFN Obj_Night_Music_Switch / Step - NOT YET PORTED
+/// @description FNAFN Obj_Night_Music_Switch / Step — PORTED from C
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+// Ported: Obj_Night_Music_Switch / Step_0
+// Ground truth: gml_Object_Obj_Night_Music_Switch_Step_0
+// First half: Night_recording (global id 0x18749, builtin_ids.json) selects
+// image_alpha (slot uRam00000001405c7b98, EXE-REGISTRY.md) through a runtime
+// flag table (TLS-guarded jump-table prologue; case consts @0x140656f30 /
+// @0x140656f44, int table @0x140656f40 stride 0x14). C logic: sel = (rec == V0)
+// ? 0 : (rec == V1) ? 1 : none; if a case matched, image_alpha = (flag == 1)
+// ? 1.0 (0x3ff0000000000000) : (flag == 0) ? 0.5 (0x3fe0000000000000) :
+// unchanged. Compare `!= 0` -> `!=` (PORTING.md rule).
+// TODO(calibrate): V0, V1 and the flag table are 0x14065xxxx runtime consts —
+// zeros below are placeholders, calibrate the case values in-game.
+// Second half: toggle (id 0x18793) eases x (slot uRam00000001405c7b78, name at
+// 0x1405c7b70 per PORTING.md two-step rule) toward a per-state target:
+// x = lerp(x, TARGET, 0.5 * delta_factor) (lerp slot uRam00000001405c8cc0, MUL
+// helper func_0x0001400053f0; 0x3fe0000000000000 = 0.5; delta_factor = global
+// id 0x1870b). Two separate `==` ifs, not else-branches (matches C).
+// TODO(calibrate): targets @0x1405c5f28 (toggle == 0) / @0x1405c5f38
+// (toggle == 1) sit outside the mapped image — zeros below are placeholders.
+var _rec_flag = -1;
+if (Night_recording == 0) { // TODO(calibrate): case value @0x140656f30
+    _rec_flag = 1; // TODO(calibrate): actually int table @0x140656f40 entry 0
+} else if (Night_recording == 0) { // TODO(calibrate): case value @0x140656f44
+    _rec_flag = 1; // TODO(calibrate): actually int table @0x140656f40 entry 1
+}
+if (_rec_flag == 1) {
+    image_alpha = 1;
+} else if (_rec_flag == 0) {
+    image_alpha = 0.5;
+}
+if (toggle == 0) {
+    x = lerp(x, 0, 0.5 * delta_factor); // TODO(calibrate): target @0x1405c5f28
+}
+if (toggle == 1) {
+    x = lerp(x, 0, 0.5 * delta_factor); // TODO(calibrate): target @0x1405c5f38
+}
+
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) Globals starting with '_' overlap smaller symbols at the same address
 // - literal slash-star form removed: it would close a GML block comment early.

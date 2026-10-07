@@ -1,12 +1,32 @@
-/// @description FNAFN Obj_System_Stats_Check / KeyPress - NOT YET PORTED
+/// @description FNAFN Obj_System_Stats_Check / KeyPress - PORTED from C
+// PORTED from C
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+// machine-level semantics recovered by Ghidra.
 // 2 sub-event(s): KeyPress_16, KeyPress_112  (one reference block each; port a sub-event by
 //  editing its ---- header to PORTED and inserting GML above its block)
 
-// ---- sub-event KeyPress_16 — NOT YET PORTED ----
+// ---- sub-event KeyPress_16 — PORTED from C ----
 // ground truth: gml_Object_Obj_System_Stats_Check_KeyPress_16 (1008 B @0x14011b970)
+// Decoded (uStack_f8 = 1..6 are the original GML line markers):
+//   `toggle = !toggle` [bool-convert helper 0x14012bb70, then ^1; the
+//   canonical YYC shape for boolean negation].
+//   Then a two-case switch on `toggle` (0x18793) vs the runtime pool consts
+//   @0x140657480 (match -> table index 0) / @0x140657494 (match -> index 1)
+//   through the label table @0x140657490: table value 1 ->
+//   show_debug_overlay(1.0) [1.0 @0x1405c6900, slot 0x1405c9020 =
+//   show_debug_overlay]; table value 0 -> show_debug_overlay(<runtime
+//   @0x140657470>) [the C also fetches `toggle` there and discards it].
+//   Runtime pool is BSS (TODO: calibrate addresses); assumed 1/0 constants,
+//   i.e. Shift toggles the debug overlay (pairs with Draw's `if (toggle
+//   == 1)` gate).
+toggle = !toggle;
+if (toggle == 1 /* TODO(calibrate): runtime const @0x140657480 */) {
+    show_debug_overlay(true); // 1.0 @0x1405c6900
+} else if (toggle == 0 /* TODO(calibrate): runtime const @0x140657494 */) {
+    // (C evaluates `toggle` here and discards the result.)
+    show_debug_overlay(false); // TODO(calibrate): runtime const @0x140657470, assumed 0
+}
+
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
@@ -154,8 +174,16 @@ code_r0x00014011bba8:
 }
 END DECOMPILED REFERENCE */
 
-// ---- sub-event KeyPress_112 — NOT YET PORTED ----
+// ---- sub-event KeyPress_112 — PORTED from C ----
 // ground truth: gml_Object_Obj_System_Stats_Check_KeyPress_112 (560 B @0x14011c150)
+// Decoded (uStack_c0 = 1,4 are the original GML line markers):
+//   `tex_filter_toggle = !tex_filter_toggle` [`tex_filter_toggle`
+//   (0x18784), same bool-negation shape as KeyPress_16]; then
+//   gpu_set_tex_filter(tex_filter_toggle) [slot 0x1405c8a30, 1-arg call].
+// Reading: F1 toggles GPU texture filtering at runtime.
+tex_filter_toggle = !tex_filter_toggle;
+gpu_set_tex_filter(tex_filter_toggle);
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_System_Stats_Check_KeyPress_112(longlong *param_1,undefined8 param_2)
 

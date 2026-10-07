@@ -1,11 +1,67 @@
-/// @description FNAFN Obj_Night_Camera_Record / Mouse - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
-// 1 sub-event(s): Mouse_4  (one reference block each; port a sub-event by
-//  editing its ---- header to PORTED and inserting GML above its block)
+/// @description FNAFN Obj_Night_Camera_Record / Mouse_4 — PORTED from C
+// Ground truth: gml_Object_Obj_Night_Camera_Record_Mouse_4 (3140 B @0x1401215e0)
+// Globals fetched: Night_camera_location (0x1873c), Night_recording (0x18749).
+// Decoded guards, in order (uStack_b8 = GML line markers):
+//   1. layer_get_visible(<layer>) == 1 else exit [slot 0x1405c86b0, const
+//      @0x1405c6960 = "Camera_HUD" per EXE-CONSTANTS.md raw bytes
+//      (0x1405c6960 -> "Camera_HUD"); TODO calibrate in-game].
+//   image_alpha (slot 0x1405c7b98) vs 0.95 (0x3fee666666666666):
+//     if (image_alpha == 0.95) { if (Night_camera_location != 6.0
+//     [0x4018000000000000]) fall into the 8/9 check below; }
+//     8/9 check: if (Night_camera_location != 8.0 [0x4020000000000000]) {
+//     if (Night_camera_location != 9.0 [0x4022000000000000]) exit; }
+//     i.e. pass iff (alpha==0.95 && loc==6) or loc==8 or loc==9.
+//   5-6. customfunct_audio_play_sound_single x2 (snd consts @0x1405c6970 /
+//     @0x1405c6980, vol/pitch runtime @0x140657530, TODO calibrate).
+//   7. toggle (id 0x18793) = !toggle [bool via 0x14012bb70 ^ 1].
+//   8. switch on toggle via runtime consts @0x140657540/@0x140657554 and
+//      table @0x140657550 (TODO calibrate; 0/1 by shape):
+//      case 1: Night_recording = 1; sound @0x1405c6990;
+//      case 0: (fetch toggle, no-op) Night_recording = 0.
+//   15+. with (Obj_Night_Camera_Icons) [object 43 = 0x4045800000000000 =
+//      43.0 via 0x140144bd0/0x1401451f0/0x1401449f0, PROVEN with-shape]:
+//     if (Night_camera_location == image_index [slot 0x1405c7aa8] + 1
+//     [0x14000bf90 += 1]) {
+//       switch on Night_recording via runtime consts @0x140657570/
+//       @0x140657584 and table @0x140657580 (TODO calibrate):
+//       case 1: image_blend (slot 0x1405c7c48) = 16777215 (c_white,
+//         0x416fffffe0000000); case 0: image_blend = 255
+//         (0x406fe00000000000) — recording tint on the matching icon.
+//     }
 
-// ---- sub-event Mouse_4 — NOT YET PORTED ----
+// ---- sub-event Mouse_4 — PORTED from C ----
+if (layer_get_visible(/* TODO(calibrate): layer @0x1405c6960, likely "Camera_HUD" */ "Camera_HUD") != 1) exit;
+if (image_alpha == 0.95) {
+    if (Night_camera_location != 6) {
+        if (Night_camera_location != 8) {
+            if (Night_camera_location != 9) exit;
+        }
+    } else {
+        // loc == 6 with alpha == 0.95 passes without the 8/9 check
+    }
+} else {
+    if (Night_camera_location != 8) {
+        if (Night_camera_location != 9) exit;
+    }
+}
+customfunct_audio_play_sound_single(/* TODO(calibrate): snd @0x1405c6970 */ 0, /* TODO(calibrate): vol/pitch @0x140657530 */ 0, false);
+customfunct_audio_play_sound_single(/* TODO(calibrate): snd @0x1405c6980 */ 0, /* TODO(calibrate): vol/pitch @0x140657530 */ 0, false);
+toggle = !toggle;
+if (toggle == 1 /* TODO(calibrate): const @0x140657540 */) {
+    Night_recording = 1;
+    customfunct_audio_play_sound_single(/* TODO(calibrate): snd @0x1405c6990 */ 0, /* TODO(calibrate): vol/pitch @0x140657530 */ 0, false);
+} else if (toggle == 0 /* TODO(calibrate): const @0x140657554 */) {
+    Night_recording = 0;
+}
+with (Obj_Night_Camera_Icons) {
+    if (Night_camera_location == image_index + 1) {
+        if (Night_recording == 1 /* TODO(calibrate): const @0x140657570 */) {
+            image_blend = c_white; // 16777215
+        } else if (Night_recording == 0 /* TODO(calibrate): const @0x140657584 */) {
+            image_blend = 255;
+        }
+    }
+}
 // ground truth: gml_Object_Obj_Night_Camera_Record_Mouse_4 (3140 B @0x1401215e0)
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) WARNING: Globals starting with '_' overlap smaller symbols at the same address */

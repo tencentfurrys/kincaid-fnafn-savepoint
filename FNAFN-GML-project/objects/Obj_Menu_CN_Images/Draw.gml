@@ -1,7 +1,52 @@
-/// @description FNAFN Obj_Menu_CN_Images / Draw - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Menu_CN_Images / Draw — PORTED from C
+// Ground truth: gml_Object_Obj_Menu_CN_Images_Draw_0 (2104 B @0x1400b91b0)
+// Custom-night portrait draw: name plate, self sprite, adjust icon, AI-level
+// plate. uStack_b8 = 1..10 are GML line markers. Decoded in order:
+//   1. draw_set_font(game_font[0]): game_font = id 0x18725 via the +8
+//      runner-global fetch, element [0] via the length-check/index dance
+//      (func_0x0001401479b0/7990/7980); 0x140175520 IS draw_set_font by
+//      disassembly (see Obj_Menu_Loading/Draw, PORTING.md).
+//   2. draw_set_halign(fa_center): func_0x000140175530(1), PROVEN
+//      (0=fa_left, 1=fa_center, 2=fa_right).
+//   3. draw_set_valign(fa_top): func_0x000140175540(0), contextual pair of
+//      the halign helper (0=fa_top, 1=fa_middle, 2=fa_bottom; cf.
+//      Obj_Menu_Main_Title/Draw which pairs 175540(1)/175530(1)).
+//   4. draw_text_transformed(x, y + 108, animatronic_text, 1, 1, <angle>):
+//      x/y read via func_0x00014015f1a0 on slots 0x1405c7b78/0x1405c7b88
+//      (registry x/y, two-step rule); y + 0x6c (108) via the PROVEN +=
+//      helper func_0x00014000bf90 (see Obj_Menu_CN_Images/Step);
+//      animatronic_text = id 0x186e0 (builtin_ids.json);
+//      draw_text_transformed = slot 0x1405c8ef0 (registry), 6 args
+//      (x, y, string, xscale, yscale, angle); xscale/yscale both
+//      @0x1405c4fe0 = 1.0 (exe .data double, verified via exe_strings.py);
+//      angle is the runtime-pool const @0x140656548 (outside the exe image):
+//      TODO(calibrate) (0 by draw_text_transformed convention).
+//   5. draw_self(): func_0x000140175460(param_1) — the with-arg shape, same
+//      as Obj_Office_Back/Draw, Obj_Menu_Main_Back/Draw and
+//      Obj_Night_Music_Switch/Draw (PORTING.md warns only against batching
+//      it with the no-arg shape, not against the draw_self decode).
+//   7. draw_set_font(0): func_0x000140175520(0) (cf. Night_Music_Switch/Draw).
+//   8. draw_sprite_ext(Spr_Menu_CN_Adjust, 0, x, y, 1, 1, 0, c_white,
+//      draw_alpha): helper func_0x0001401755c0; sprite id 0x68 = 104 = SPRT
+//      chunk index 104 = Spr_Menu_CN_Adjust (sprite_names.json); subimg 0;
+//      x/y are the same x/y slots re-read below; xscale/yscale = 1.0
+//      (0x3f800000 float immediates, high halves are ignored padding — cf.
+//      Obj_Menu_Night_Display/Draw), rot = 0, colour = 0xffffff = c_white,
+//      alpha = draw_alpha (id 0x18712).
+//   10. draw_text_transformed(x, y + 44, animatronic_ai_text, 0.95, 0.95,
+//      <angle>): same shape with y + 0x2c (44); animatronic_ai_text =
+//      id 0x186df; scales @0x1405c4ff0 = 0.95 (exe .data double, verified
+//      via exe_strings.py); angle = same runtime @0x140656548:
+//      TODO(calibrate).
+// No 3D/camera/shader/3D-audio state here — plain 2D menu draw.
+draw_set_font(game_font[0]);
+draw_set_halign(fa_center);
+draw_set_valign(fa_top);
+draw_text_transformed(x, y + 108, animatronic_text, 1, 1, 0 /* TODO(calibrate): runtime const @0x140656548 (angle) */);
+draw_self();
+draw_set_font(0);
+draw_sprite_ext(Spr_Menu_CN_Adjust, 0, x, y, 1, 1, 0, c_white, draw_alpha);
+draw_text_transformed(x, y + 44, animatronic_ai_text, 0.95, 0.95, 0 /* TODO(calibrate): same runtime const @0x140656548 (angle) */);
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Menu_CN_Images_Draw_0(longlong *param_1,undefined8 param_2)
 

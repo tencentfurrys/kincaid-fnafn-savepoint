@@ -1,4 +1,5 @@
 /// @description helper: is the mouse pointer inside this UI button box?
+// PORTED from C
 // Ground truth: gml_Script_customfunct_ui_button_detection
 // (1183 B @0x14003b0e0). Called from every menu/camera UI button handler
 // (Obj_Menu_Continue Step, Obj_Menu_Pause Mouse, Obj_Menu_Options Mouse,

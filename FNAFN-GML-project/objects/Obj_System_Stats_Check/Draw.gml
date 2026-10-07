@@ -1,8 +1,29 @@
-/// @description FNAFN Obj_System_Stats_Check / Draw - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
-// ground truth: gml_Object_Obj_System_Stats_Check_Draw_75 (1997 B @0x14011ab00)
+/// @description FNAFN Obj_System_Stats_Check / Draw - PORTED from C
+// PORTED from C
+// Ground truth: gml_Object_Obj_System_Stats_Check_Draw_75 (1997 B @0x14011ab00)
+// Decoded (uStack_120 = 1..6,10 are the original GML line markers):
+//   line 1: draw_set_halign(fa_left) [func_0x000140175530(0); 0x140175530 is
+//     PROVEN draw_set_halign, 0 = fa_left].
+//   line 2: draw_set_font(-1) [func_0x000140175520(0xffffffff); 0x140175520
+//     is PROVEN draw_set_font; -1 = default font].
+//   line 3: if (toggle == 1) [`toggle` (0x18793) 3-way-compared vs 1.0
+//     (0x3ff0...); branch taken when result == 0].
+//   line 5: draw_text_transformed(32, 32, "fps_real: " + string(fps_real),
+//     1, 1, <angle>) [`fps_real` (slot 0x1405c7c88) read via 0x14015ef90,
+//     string() = slot 0x1405c8840, prefix "fps_real: " @0x1405c68b8 joined
+//     by ADD (0x140005290); draw_text_transformed = slot 0x1405c8ef0 with
+//     x/y 32.0/32.0 @0x1405c68d0 and xscale/yscale 1.0/1.0 @0x1405c68e0].
+//   line 6: draw_text_transformed(32, 64, "fps: " + string(fps), 1, 1,
+//     <angle>) [`fps` (slot 0x1405c7c78), prefix "fps: " @0x1405c68c3,
+//     y 64.0 @0x1405c68f0].
+// TODO(calibrate): text angle, runtime const @0x140657460 (assumed 0 below).
+draw_set_halign(fa_left);
+draw_set_font(-1);
+if (toggle == 1) {
+    draw_text_transformed(32, 32, "fps_real: " + string(fps_real), 1, 1, 0 /* TODO(calibrate): runtime const @0x140657460 */);
+    draw_text_transformed(32, 64, "fps: " + string(fps), 1, 1, 0 /* TODO(calibrate): runtime const @0x140657460 */);
+}
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_System_Stats_Check_Draw_75(longlong *param_1,undefined8 param_2)
 

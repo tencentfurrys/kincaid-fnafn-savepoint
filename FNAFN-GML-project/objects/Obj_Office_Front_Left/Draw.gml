@@ -1,7 +1,42 @@
-/// @description FNAFN Obj_Office_Front_Left / Draw - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Office_Front_Left / Draw — PORTED from C
+// Ground truth: gml_Object_Obj_Office_Front_Left_Draw_0
+// Shader-gated self draw, same shape as Obj_Menu_Main_Back/Draw (whose
+// port this mirrors):
+//   if (game_settings[4] == <graphics toggle>) {
+//       <shader setup> (func_0x000140185890(0) — TODO identity, same
+//       family as RoundedRoom's 185890(7)/185840() shader set/reset pair;
+//       omitted here like Main_Back/Draw)
+//       var _tex = sprite_get_texture(sprite_index, image_index);
+//       (sprite_index/image_index read via func_0x00014015f1a0 on slots
+//       0x1405c7be8/0x1405c7aa8; 0x1405c8bc0 = sprite_get_texture.)
+//       shader_set_uniform_f(shader_get_uniform(SHADER, "u_texel"),
+//         texture_get_texel_width(_tex), texture_get_texel_height(_tex));
+//       (slots 0x1405c8b10 = shader_get_uniform, 0x1405c8dc0/0x1405c8dd0 =
+//       texel_width/height; func_0x000140185920(3, ...) = 3-arg
+//       shader_set_uniform_f.)
+//       shader_set_uniform_f(shader_get_uniform(SHADER, "u_strength"), V);
+//       (func_0x000140185920(2, ...) = 2-arg form.)
+//       draw_self();   // func_0x000140175460(param_1)
+//       <shader reset> (func_0x000140185840() — TODO identity, pair of above)
+//   } else {
+//       draw_self();
+//   }
+// The game_settings[4] element access (id 0x18727, index 4, bounds-checked
+// < 5) is 3-way-compared for equality (== 0) against the exe-string const
+// @0x1405c4338 — the graphics/shader toggle (cf. game_settings[0] !=
+// "disabled" in Transition/Create).
+// TODO(calibrate): runtime shader id @0x140655a00; uniform-name strings
+// @0x1405c433b/@0x1405c4343 (same position as Right's u_texel/u_strength
+// pair); strength value const @0x1405c4350; toggle string @0x1405c4338 —
+// all below the EXE-CONSTANTS.md dump range.
+if (game_settings[4] == "enabled") { // TODO(calibrate): exe-string const @0x1405c4338
+    var _tex = sprite_get_texture(sprite_index, image_index);
+    shader_set_uniform_f(shader_get_uniform(0, "u_texel"), texture_get_texel_width(_tex), texture_get_texel_height(_tex)); // TODO(calibrate): shader id @0x140655a00; uniform @0x1405c433b
+    shader_set_uniform_f(shader_get_uniform(0, "u_strength"), 0); // TODO(calibrate): uniform @0x1405c4343; value @0x1405c4350
+    draw_self();
+} else {
+    draw_self();
+}
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Office_Front_Left_Draw_0(undefined8 param_1,undefined8 param_2)
 

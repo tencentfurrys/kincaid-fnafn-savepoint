@@ -2,11 +2,23 @@
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
-// 1 sub-event(s): Mouse_53  (one reference block each; port a sub-event by
-//  editing its ---- header to PORTED and inserting GML above its block)
+// 1 sub-event(s): Mouse_53 — PORTED (one GML block above its reference
+//  block; per-sub-event ---- header marked PORTED)
 
-// ---- sub-event Mouse_53 — NOT YET PORTED ----
+// ---- sub-event Mouse_53 — PORTED from C ----
 // ground truth: gml_Object_Obj_Night_UI_Camera_Button_Mouse_53 (612 B @0x140066cc0)
+// Decoded, in order (uStack_68 = GML line markers). Slot per
+// EXE-REGISTRY.md: 0x1405c7bd8 = mouse_y (fast-path read 0x14015ef90).
+// Id per builtin_ids.json: 0x18749 Night_recording. Helper per PORTING.md:
+// func_0x000140181c50(self, other, 9, N) = event_perform(ev_keypress, N),
+// TYPE 9 = ev_keypress, N = 0x57 (87, W) / 0x53 (83, S). Compare per
+// PORTING.md calibration: `iVar1 < 0` = `<`, `0 < iVar1` = `>`,
+// `iVar1 == 0` = `==`.
+//   1. if (mouse_y < 55.0 (0x404b800000000000 literal)) {
+//        if (Night_recording == 0) event_perform(ev_keypress, 87); }
+//   2. if (mouse_y > 635.0 (0x4083d80000000000 literal)) {
+//        if (Night_recording == 0) event_perform(ev_keypress, 83); }
+// No 0x14065xxxx/0x1405c3xxx consts — all constants are literals.
 // Ported: Obj_Night_UI_Camera_Button / Mouse_53
 if (mouse_y < 55) {
     if (Night_recording == 0) {

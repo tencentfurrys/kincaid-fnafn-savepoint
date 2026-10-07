@@ -1,7 +1,65 @@
-/// @description FNAFN Obj_Menu_Night_Display / Create - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Menu_Night_Display / Create — PORTED from C
+// Ground truth: gml_Object_Obj_Menu_Night_Display_Create_0 (2451 B @0x140057b60)
+// Night-splash setup: room-gated fade/alpha seeding, then a 6-way switch on
+// game[0] (which night), then a timer-array reset. uStack_88 = 1..0x19 are
+// GML line markers. Decoded in order:
+//   1-4. if (room == 4) { fade = 1; alpha = 1; }: room read via
+//      func_0x00014015ef90 on slot 0x1405c7b38 (registry room); const 4.0 =
+//      0x4010000000000000 literal; compare via func_0x00014015be60, branch
+//      on == 0; fade = id 0x18717, alpha = id 0x186da, both via the direct
+//      +0x10 id-fetch write with 1.0 = 0x3ff0000000000000.
+//   6-9. if (room == 5) { alpha = 1; fade = 0; }: same shape, const 5.0 =
+//      0x4014000000000000 literal; second write is the literal 0.
+//   0xc. game[0]: game = id 0x18724 via the +8 runner-global fetch, element
+//      [0] via the length-check/index dance (func_0x0001401479b0/7990/7980,
+//      cf. game_font[1] in Disclaimer/Draw).
+//   Switch on game[0] against six guarded-pool consts @0x140655590 (1.0),
+//      @0x1406555a4 (2.0), @0x1406555b8 (3.0), @0x1406555cc (4.0),
+//      @0x1406555e0 (5.0), @0x1406555f4 (6.0) — values from the pool-init
+//      block (uRam...5590 = 1.0, ...55a4 = 2.0, ...55b8 = 3.0, ...55cc = 4.0,
+//      ...55e0 = 5.0, ...55f4 = 6.0); every address is outside the exe image:
+//      TODO(calibrate) each case const. The label table at 0x1406555a0 feeds
+//      the indirect jumptable at 0x1400587dc, which Ghidra could not recover
+//      ("Too many branches"), so each per-night case body is unrecoverable
+//      offline: TODO(calibrate) in-game (each case returns immediately after
+//      its indirect call). Only the fall-through default is inline.
+//   Default (game matches none of 1..6, or table index >= 6):
+//      image_alpha = 0 via func_0x000140160140 on slot 0x1405c7b98
+//      (registry image_alpha, SELF write); then for (i = 0; i < 12; i += 1)
+//      Scr_Camera_Update[i] = -100 — bound 12.0 = 0x4028000000000000 literal,
+//      Scr_Camera_Update = id 0x186d5 (ARRAY, PROVEN), sentinel -100 =
+//      0xc059000000000000, direct +0x10 id-fetch array-write shape (cf.
+//      Disclaimer/Step timer sweep; the closing type switch collapses to
+//      i += 1 per PORTING.md).
+// No 3D/camera/shader/3D-audio state here — plain menu Create.
+if (room == 4) {
+    fade = 1;
+    alpha = 1;
+}
+if (room == 5) {
+    alpha = 1;
+    fade = 0;
+}
+switch (game[0]) {
+    case 1: // TODO(calibrate): runtime const @0x140655590; body is jumptable target @0x1400587dc (unrecovered offline)
+        break;
+    case 2: // TODO(calibrate): runtime const @0x1406555a4; body is jumptable target @0x1400587dc
+        break;
+    case 3: // TODO(calibrate): runtime const @0x1406555b8; body is jumptable target @0x1400587dc
+        break;
+    case 4: // TODO(calibrate): runtime const @0x1406555cc; body is jumptable target @0x1400587dc
+        break;
+    case 5: // TODO(calibrate): runtime const @0x1406555e0; body is jumptable target @0x1400587dc
+        break;
+    case 6: // TODO(calibrate): runtime const @0x1406555f4; body is jumptable target @0x1400587dc
+        break;
+    default:
+        image_alpha = 0;
+        for (var i = 0; i < 12; i += 1) {
+            Scr_Camera_Update[i] = -100;
+        }
+        break;
+}
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) Globals starting with '_' overlap smaller symbols at the same address
 // - literal slash-star form removed: it would close a GML block comment early.

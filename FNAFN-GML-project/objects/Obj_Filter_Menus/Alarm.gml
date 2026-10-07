@@ -1,7 +1,73 @@
-/// @description FNAFN Obj_Filter_Menus / Alarm - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Filter_Menus / Alarm_0 — PORTED from C
+// Ground truth: gml_Object_Obj_Filter_Menus_Alarm_0 (4019 B @0x1400bbff0)
+// Low-quality OLD-TV filter preset (see Obj_Filter_Menus/Create which fires
+// ev_alarm 1 when game_settings[0] == "low"; mirrors Obj_Filter_Camera/Alarm
+// with smaller magnitudes). All ids via builtin_ids.json; slots via
+// EXE-REGISTRY.md. Deltas vs the Camera preset are the point of this event.
+// Decoded, in order (uStack_60 = GML line markers):
+//   2. game_lines = display_get_height() formatted [0-arg slot 0x1405c8d30
+//      + helper 0x14001fa10(dst, h, _UNK_14043c440)].
+//   5. noise_enabled = 1; 6. noise_pattern = sprite_get_texture(<exe>,
+//      <runtime>) [slot 0x1405c8bc0; exe const @0x1405c5058, runtime
+//      @0x1406565a0]; 7. noise_magnetude = 0.025 (0x3f9999999999999a, vs
+//      0.03 camera); 8. static_pattern = sprite_get_texture(@0x1405c5068,
+//      @0x1406565a0); 9. static_magnetude = 0.1 (vs 0.05); 10.
+//      static_scale = 1; 11. static_offset = 0.025 (vs 0.1); 12.
+//      dirt_pattern = sprite_get_texture(@0x1405c5058,@0x1406565a0); 13.
+//      dirt_magnetude = 0.2 (vs 0.1); 16-19. composite_enabled = 1;
+//      composite_secondpass_enabled = 1; composite_distortion = 0.5 (vs 1);
+//      composite_artifact = 0.4 (vs 0.3); 20-21. composite_fringing = 0.5;
+//      composite_bleeding = 0.5 (vs 1); 24-28. television_enabled = 1;
+//      television_brightness = 0; television_contrast = 0;
+//      television_saturation = 0.5; television_sharpness = 0.2
+//      (0x3fc999999999999a, vs 0); 31. chromatic_enabled = 0; 32.
+//      chromatic_pattern = sprite_get_texture(@0x1405c5078,@0x1406565a0);
+//   33. chromatic_magnetude = 0.1; 36-37. scanline_enabled = 1;
+//      scanline_count = 360; 38. scanline_pattern =
+//      sprite_get_texture(<runtime>,<runtime>); 39. scanline_magnetude =
+//      0.4 (0x3fd999999999999a, vs 0.5); 42-43. tube_enabled = 1; tube_mask
+//      = sprite_get_texture(@0x1405c5088,@0x1406565a0); 44. tube_distortion
+//      = 0.15; 47. script_execute(<idx>) [slot 0x1405c8e50, arg =
+//      (double)iRam @0x1405c8e70].
+// TODO(calibrate): formatter _UNK_14043c440; sprite exe consts @0x1405c5058/
+//   @0x1405c5068/@0x1405c5078/@0x1405c5088 (below exe image — by analogy
+//   with the camera preset: 30/52/68/90 = sprNoise1/Spr_Static_Custom/
+//   sprChromatic1/sprMaskWide1, verify in-game); runtime consts
+//   @0x1406565a0 (all 2nd args + scanline both args); script index
+//   iRam @0x1405c8e70.
+game_lines = string(display_get_height()); // TODO(calibrate): formatted via helper 0x14001fa10 with fmt _UNK_14043c440
+noise_enabled = 1;
+noise_pattern = sprite_get_texture(/* TODO(calibrate): spr @0x1405c5058, cf. camera 30=sprNoise1 */ 30, 0 /* TODO(calibrate): subimg @0x1406565a0 */);
+noise_magnetude = 0.025;
+static_pattern = sprite_get_texture(/* TODO(calibrate): spr @0x1405c5068, cf. camera 52=Spr_Static_Custom */ 52, 0 /* TODO(calibrate): subimg @0x1406565a0 */);
+static_magnetude = 0.1;
+static_scale = 1;
+static_offset = 0.025;
+dirt_pattern = sprite_get_texture(/* TODO(calibrate): spr @0x1405c5058 */ 30, 0 /* TODO(calibrate): subimg @0x1406565a0 */);
+dirt_magnetude = 0.2;
+composite_enabled = 1;
+composite_secondpass_enabled = 1;
+composite_distortion = 0.5;
+composite_artifact = 0.4;
+composite_fringing = 0.5;
+composite_bleeding = 0.5;
+television_enabled = 1;
+television_brightness = 0;
+television_contrast = 0;
+television_saturation = 0.5;
+television_sharpness = 0.2;
+chromatic_enabled = 0;
+chromatic_pattern = sprite_get_texture(/* TODO(calibrate): spr @0x1405c5078, cf. camera 68=sprChromatic1 */ 68, 0 /* TODO(calibrate): subimg @0x1406565a0 */);
+chromatic_magnetude = 0.1;
+scanline_enabled = 1;
+scanline_count = 360;
+scanline_pattern = sprite_get_texture(/* TODO(calibrate): spr @0x1406565a0 */ 0, /* TODO(calibrate): subimg @0x1406565a0 */ 0);
+scanline_magnetude = 0.4;
+tube_enabled = 1;
+tube_mask = sprite_get_texture(/* TODO(calibrate): spr @0x1405c5088, cf. camera 90=sprMaskWide1 */ 90, 0 /* TODO(calibrate): subimg @0x1406565a0 */);
+tube_distortion = 0.15;
+script_execute(/* TODO(calibrate): index iRam @0x1405c8e70 */ 0);
+
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) Globals starting with '_' overlap smaller symbols at the same address
 // - literal slash-star form removed: it would close a GML block comment early.

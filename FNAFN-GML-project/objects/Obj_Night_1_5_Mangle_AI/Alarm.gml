@@ -1,4 +1,79 @@
-/// @description FNAFN Obj_Night_1_5_Mangle_AI / Alarm - NOT YET PORTED
+/// @description FNAFN Obj_Night_1_5_Mangle_AI / Alarm — PORTED from C
+// Ground truth: gml_Object_Obj_Night_1_5_Mangle_AI_Alarm_0
+// Decoded, in order (uStack_88 = GML line markers):
+//   2. show_debug_message("Mangle has a movement opportunity!") (exe const
+//      @0x1405c57c0 via the 0x1401453a0 + 0x140181c60 pair — PROVEN by the
+//      ported customfunct_game_music_clear "music cleared" site).
+//   3. movement = irandom_range(0, 30) (func_0x000140168970 best-fit; 0,0x1e).
+//   5. if (Time_without_move >= -30) (-30.0 = 0xc03e000000000000 literal;
+//      `>=` via the `r >= 0` test per PORTING.md compare calibration):
+//        if (movement < Mangle_AI_Level (id 0x18735) && Time_without_move <= 0
+//          (`<` via `r < 0`, `<=` via `r < 1`)) -> movement opportunity;
+//        else Time_without_move -= 1 (0x21; -= helper func_0x00014000bdb0
+//          with 1.0 literal).
+//      else (Time_without_move < -30) -> forced movement opportunity.
+//      Movement opportunity (label code_r0x0001400dc5d1):
+//        switch (Night_mangle_location) (id 0x18745) on runtime-pool cases
+//        5.0/5.1/5.2/5.3 (@0x140656dc0/d4/e8/fc; guarded init; 5.0 =
+//        0x4014000000000000 etc. — outside the mapped exe image).
+//        Jumptable @0x1400dd75c unrecoverable — each matched branch calls
+//        through and returns directly (no fallthrough to the timer reset).
+//        Fallthrough (no case matched, uVar5 >= 4): Time_without_move =
+//          irandom_range(20, 27) - Mangle_AI_Level * 0.2
+//          (0.2 = _UNK_140439eb0 .rdata double via exe_strings.py;
+//          MUL best-fit func_0x00014001fa10, -= best-fit).
+//   0x23. switch (alarm_type) (id 0x186d8) on cases 0 / 1.0 (runtime pool
+//      @0x140656e20/e34; mapping provable by the zeroed label table per the
+//      PORTING.md two-case flag-switch rule):
+//        case 0: Scr_Camera_Update[0] = 30 (0x403e000000000000);
+//        case 1: Scr_Camera_Update[1] = random_range(300, 500)
+//          (300.0 = _UNK_14043cbe8, 500.0 = _UNK_14043bbb8 .rdata doubles;
+//          func_0x000140168cf0 best-fit random_range).
+// TODO(calibrate): func_0x000140168970 best-fit irandom_range;
+// func_0x000140168cf0 best-fit random_range; func_0x00014001fa10 best-fit
+// MUL; runtime consts @0x140656dc0/@0x140656e20 (outside the mapped exe
+// image) and the jumptable branch bodies — verify in-game.
+// Ported: Obj_Night_1_5_Mangle_AI / Alarm
+show_debug_message("Mangle has a movement opportunity!");
+movement = irandom_range(0, 30);
+var _move = false;
+if (Time_without_move >= -30) {
+    if (movement < Mangle_AI_Level && Time_without_move <= 0) {
+        _move = true;
+    } else {
+        Time_without_move -= 1;
+    }
+} else {
+    _move = true;
+}
+if (_move) {
+    switch (Night_mangle_location) {
+        case 5.0: // TODO(calibrate): runtime pool @0x140656dc0; jumptable branch — verify in-game
+            // TODO(calibrate): branch body unrecoverable (jumptable @0x1400dd75c); C returns here
+            exit;
+        case 5.1: // TODO(calibrate): runtime pool @0x140656dd4
+            // TODO(calibrate): branch body unrecoverable; C returns here
+            exit;
+        case 5.2: // TODO(calibrate): runtime pool @0x140656de8
+            // TODO(calibrate): branch body unrecoverable; C returns here
+            exit;
+        case 5.3: // TODO(calibrate): runtime pool @0x140656dfc
+            // TODO(calibrate): branch body unrecoverable; C returns here
+            exit;
+        default:
+            Time_without_move = irandom_range(20, 27) - Mangle_AI_Level * 0.2;
+            break;
+    }
+}
+switch (alarm_type) {
+    case 0:
+        Scr_Camera_Update[0] = 30;
+        break;
+    case 1: // TODO(calibrate): runtime pool @0x140656e20 mapping per two-case rule
+        Scr_Camera_Update[1] = random_range(300, 500);
+        break;
+}
+
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).

@@ -1,4 +1,5 @@
 /// @description helper: play a sound once (stop any running instance first)
+// PORTED from C
 // Ground truth: gml_Script_customfunct_audio_play_sound_single
 // (644 B @0x140020290). Every call site passes argc=3, so the helper takes
 // (snd, priority, loop). Decoded from the C:

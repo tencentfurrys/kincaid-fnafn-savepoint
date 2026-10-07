@@ -1,12 +1,64 @@
-/// @description FNAFN Obj_Menu_CN_Images / Mouse - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Menu_CN_Images / Mouse — PORTED from C
+// Ground truth: gml_Object_Obj_Menu_CN_Images_Mouse_4 (2444 B @0x1400b8270)
+// Custom-night AI adjust clicks: left/right of (x, y) steps
+// animatronic_ai_text (id 0x186df) down/up, clamped 0..20, then a 5-way
+// image_index switch fans out to the per-animatronic handlers.
+// Decoded, in order (uStack_88 = GML line markers):
+//   1. if (mouse_x < x) (slots 0x1405c7bc8 mouse_x via 0x14015ef90,
+//      0x1405c7b78 x via 0x14015f1a0; `<` via `r < 0` per PORTING.md):
+//        if (animatronic_ai_text > 0):
+//          customfunct_audio_play_sound_single(16, <runtime>, <runtime>)
+//            (16.0 = exe const @0x1405c4fc0 verified; priority/loop are
+//            runtime const @0x1406564d0);
+//          animatronic_ai_text -= 1 (-= helper func_0x00014000bdb0, 1.0).
+//   9. if (mouse_x > x) (`>` via `0 < r`):
+//        if (animatronic_ai_text < 20) (20.0 = 0x4034000000000000 literal):
+//          customfunct_audio_play_sound_single(21, <runtime>, <runtime>)
+//            (21.0 = exe const @0x1405c4fd0 verified; same runtime const);
+//          animatronic_ai_text += 1 (+= helper func_0x00014000bf90).
+//   0x12. switch (image_index) (slot 0x1405c7aa8) on runtime-pool cases
+//      0/1.0/2.0/3.0/4.0 (@0x1406564e0/f4/508/51c/530; guarded init).
+//      Jumptable @0x1400b903c unrecoverable — each matched branch calls
+//      through and returns directly.
+// TODO(calibrate): priority/loop runtime const @0x1406564d0 and the
+// image_index switch pool @0x140656544 (both outside the mapped exe image)
+// plus the jumptable branch bodies — verify in-game.
 // 1 sub-event(s): Mouse_4  (one reference block each; port a sub-event by
 //  editing its ---- header to PORTED and inserting GML above its block)
 
-// ---- sub-event Mouse_4 — NOT YET PORTED ----
+// ---- sub-event Mouse_4 — PORTED ----
 // ground truth: gml_Object_Obj_Menu_CN_Images_Mouse_4 (2444 B @0x1400b8270)
+// Ported: Obj_Menu_CN_Images / Mouse_4
+if (mouse_x < x) {
+    if (animatronic_ai_text > 0) {
+        customfunct_audio_play_sound_single(16, 0, false); // TODO(calibrate): priority/loop are runtime const @0x1406564d0
+        animatronic_ai_text -= 1;
+    }
+}
+if (mouse_x > x) {
+    if (animatronic_ai_text < 20) {
+        customfunct_audio_play_sound_single(21, 0, false); // TODO(calibrate): priority/loop are runtime const @0x1406564d0
+        animatronic_ai_text += 1;
+    }
+}
+switch (image_index) {
+    case 0: // TODO(calibrate): runtime pool @0x1406564e0; jumptable branch — verify in-game
+        // TODO(calibrate): branch body unrecoverable (jumptable @0x1400b903c); C returns here
+        break;
+    case 1: // TODO(calibrate): runtime pool @0x1406564f4
+        // TODO(calibrate): branch body unrecoverable; C returns here
+        break;
+    case 2: // TODO(calibrate): runtime pool @0x140656508
+        // TODO(calibrate): branch body unrecoverable; C returns here
+        break;
+    case 3: // TODO(calibrate): runtime pool @0x14065651c
+        // TODO(calibrate): branch body unrecoverable; C returns here
+        break;
+    case 4: // TODO(calibrate): runtime pool @0x140656530
+        // TODO(calibrate): branch body unrecoverable; C returns here
+        break;
+}
+
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 

@@ -1,7 +1,54 @@
-/// @description FNAFN Obj_Menu_Disclaimer / Draw - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Menu_Disclaimer / Draw — PORTED from C
+// Ground truth: gml_Object_Obj_Menu_Disclaimer_Draw_0 (2871 B @0x1400f1880)
+// Renders the disclaimer text onto an offscreen surface, then blits it.
+// uStack_80 = 1..0x17 are GML line markers. Decoded in order:
+//   1. draw_set_alpha(image_alpha): image_alpha read via op helper
+//      func_0x00014015f1a0 on slot 0x1405c7b98 (registry image_alpha),
+//      passed as float to func_0x00014018d0b0 (the float-taking draw-state
+//      setter; contextual decode).
+//   2. if (!surface_exists(surface)) surface = surface_create(room_width,
+//      room_height): surface = id 0x1877a; surface_exists/surface_create =
+//      slots 0x1405c8a50/0x1405c8a60 (registry); room_width/room_height =
+//      slots 0x1405c7b08/0x1405c7b18 via property-read helper
+//      func_0x00014015ef90. (Create seeds surface = -1.)
+//   3. surface_set_target(surface): 1-arg builtin func_0x0001401756b0 on
+//      the surface id (contextual decode; paired with the reset below).
+//   4. draw_set_font(game_font[1]): id 0x18725 via the +8 runner-global
+//      fetch, element [1] via the length-check/index dance
+//      (func_0x0001401479b0/7990/7980); 0x140175520 IS draw_set_font by
+//      disassembly (see Obj_Menu_Loading/Draw).
+//   5. draw_set_halign(fa_center): func_0x000140175530(1), PROVEN
+//      draw_set_halign (0=fa_left, 1=fa_center, 2=fa_right).
+//   6. draw_set_color(make_color_rgb(255, 0, 110)):
+//      func_0x0001401756a0(0xff, 0, 0x6e) + func_0x00014018d100
+//      (see Obj_Menu_Pause/Draw).
+//   7. eight draw_text(x, y, str) calls (slot 0x1405c8da0 = draw_text,
+//      registry): x = 640.0 for all (@0x1405c5e98, exe .data); y consts
+//      64/160/195/230/265/435/470/505 (@0x1405c5ea8..@0x1405c5f18, exe
+//      .data doubles); strings read with exe_strings.py (exact bytes).
+//   8. surface_reset_target(): no-arg func_0x000140183c00 (contextual).
+//   9. draw_surface(surface, x, y) (slot 0x1405c8ab0 = draw_surface,
+//      registry); x/y are both the runtime-pool const @0x140656f20
+//      (outside the exe image): TODO(calibrate) (0 by fullscreen
+//      convention, cf. Obj_Menu_Transition/Draw).
+draw_set_alpha(image_alpha);
+if (!surface_exists(surface)) {
+    surface = surface_create(room_width, room_height);
+}
+surface_set_target(surface);
+draw_set_font(game_font[1]);
+draw_set_halign(fa_center);
+draw_set_color(make_color_rgb(255, 0, 110));
+draw_text(640, 64, "disclaimer"); // str @0x1405c5d40
+draw_text(640, 160, "this game is not finished, and contains many  WIP"); // str @0x1405c5d50 (double space sic)
+draw_text(640, 195, "or missing features. All content within the game is"); // str @0x1405c5d90
+draw_text(640, 230, "also subject to change as things are iterated-upon,"); // str @0x1405c5dd0
+draw_text(640, 265, "balanced or polished"); // str @0x1405c5e10
+draw_text(640, 435, "any and all feedback is greatly appreciated, and I"); // str @0x1405c5e30
+draw_text(640, 470, "hope you enjoy the beta ^_^"); // str @0x1405c5e70
+draw_text(640, 505, "-HStudios"); // str @0x1405c5e8c
+surface_reset_target();
+draw_surface(surface, 0 /* TODO(calibrate): runtime const @0x140656f20 */, 0 /* TODO(calibrate): same */);
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Menu_Disclaimer_Draw_0(longlong *param_1,undefined8 param_2)
 

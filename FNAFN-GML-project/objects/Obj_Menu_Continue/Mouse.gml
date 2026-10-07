@@ -1,12 +1,44 @@
-/// @description FNAFN Obj_Menu_Continue / Mouse - NOT YET PORTED
+/// @description FNAFN Obj_Menu_Continue / Mouse - PORTED from C
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
 // 2 sub-event(s): Mouse_53, Mouse_54  (one reference block each; port a sub-event by
 //  editing its ---- header to PORTED and inserting GML above its block)
 
-// ---- sub-event Mouse_53 — NOT YET PORTED ----
+// ---- sub-event Mouse_53 - PORTED from C ----
 // ground truth: gml_Object_Obj_Menu_Continue_Mouse_53 (2266 B @0x140050c90)
+// Left-click confirm on the night-select screen. Gated on draw_alpha > 0.95
+// (0x3fef333333333333, `0 < iVar1`) like KeyPress_69 — clicks only count once
+// faded in. Two hit-box blocks through the named script
+// customfunct_ui_button_detection (5-arg box test, same (94, y1,
+// 94 + string_width(...), y2, 94) shape as Obj_Menu_Pause/Mouse and the
+// Continue Step rows):
+//   entry 6 ("custom  night"): (94, 565, 94 + string_width(text_night[6]),
+//     605, 94) — consts 0x1405c3ba8 = 94.0, 0x1405c3bb8 = 565.0,
+//     0x1405c3bc8 = 605.0; string_width slot 0x1405c8d80, ADD helper
+//     func_0x000140005290 builds 94 + width. On hit: room_goto custom-night branch
+//     (1-arg call slot 0x1405c8cb0 = room_goto, arg runtime const
+//     @0x140655550 — same select-6 branch as KeyPress_69).
+//   entry 7 ("exit"): (94, 610, 94 + string_width(text_night[7]), 650, 94)
+//     — consts 0x1405c3bd8 = 610.0, 0x1405c3be8 = 650.0. On hit:
+//     instance_create_layer(32, 160, "Main_menu", Obj_Menu_Main_Title)
+//     (consts 0x1405c3bf8 = 32.0, 0x1405c3c08 = 160.0, string 0x1405c3b98 =
+//     "Main_menu", 0x1405c3c18 = 63.0 -> obj_names.json 63 =
+//     Obj_Menu_Main_Title; slot 0x1405c8d90 = instance_create_layer) then
+//     instance_destroy() (func_0x00014017c070, PROVEN 2026-10-06) — the same
+//     "back to main menu" action as KeyPress_81/Q and Mouse_54/right-click.
+// TODO(calibrate): room_goto arg @0x140655550 is 0x14065xxxx (outside the exe
+//   image); kept as Rm_Menu_Custom_Night (room 0) to match the KeyPress_69
+//   select-6 branch — confirm in-game.
+if (draw_alpha > 0.95) {
+    if (customfunct_ui_button_detection(94, 565, 94 + string_width(text_night[6]), 605, 94) == 1) {
+        room_goto(Rm_Menu_Custom_Night);
+    }
+    if (customfunct_ui_button_detection(94, 610, 94 + string_width(text_night[7]), 650, 94) == 1) {
+        instance_create_layer(32, 160, "Main_menu", Obj_Menu_Main_Title);
+        instance_destroy();
+    }
+}
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Menu_Continue_Mouse_53(longlong *param_1,undefined8 param_2)
 

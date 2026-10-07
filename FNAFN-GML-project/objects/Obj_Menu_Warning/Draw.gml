@@ -1,7 +1,42 @@
-/// @description FNAFN Obj_Menu_Warning / Draw - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Menu_Warning / Draw — PORTED from C
+// Ground truth: gml_Object_Obj_Menu_Warning_Draw_0 (2871 B @0x140113eb0)
+// Same event as Obj_Menu_Disclaimer/Draw_0 (same size, same helper chain,
+// same x/y consts) with the warning strings. Decoded identically:
+//   draw_set_alpha(image_alpha) [slot 0x1405c7b98 via func_0x00014015f1a0,
+//   float setter func_0x00014018d0b0, contextual];
+//   if (!surface_exists(surface)) surface = surface_create(room_width,
+//   room_height) [surface = id 0x1877a; slots 0x1405c8a50/0x1405c8a60
+//   registry; room_width/room_height = slots 0x1405c7b08/0x1405c7b18];
+//   surface_set_target(surface) [func_0x0001401756b0, contextual];
+//   draw_set_font(game_font[1]) [id 0x18725 +8 global, element [1]];
+//   draw_set_halign(fa_center) [func_0x000140175530(1), PROVEN];
+//   draw_set_color(make_color_rgb(255, 0, 110)) [func_0x0001401756a0 +
+//   func_0x00014018d100]; eight draw_text(640, y, str) [slot 0x1405c8da0
+//   registry; x @0x1405c66d8 = 640.0, y @0x1405c66e8..@0x1405c6758 =
+//   64/160/195/230/265/435/470/505, exe .data doubles; strings via
+//   exe_strings.py, exact bytes incl. sic "dipictions"];
+//   surface_reset_target() [func_0x000140183c00, contextual];
+//   draw_surface(surface, x, y) [slot 0x1405c8ab0 registry] with x/y both
+//   the runtime-pool const @0x140657400: TODO(calibrate) (0 by fullscreen
+//   convention, cf. Obj_Menu_Transition/Draw).
+draw_set_alpha(image_alpha);
+if (!surface_exists(surface)) {
+    surface = surface_create(room_width, room_height);
+}
+surface_set_target(surface);
+draw_set_font(game_font[1]);
+draw_set_halign(fa_center);
+draw_set_color(make_color_rgb(255, 0, 110));
+draw_text(640, 64, "warning"); // str @0x1405c6560
+draw_text(640, 160, "warning, this game features graphic dipictions of"); // str @0x1405c6570 (sic)
+draw_text(640, 195, "nudity and sexual acts, along with references to"); // str @0x1405c65b0
+draw_text(640, 230, "sexual assault. It also contains flashing lights"); // str @0x1405c65f0
+draw_text(640, 265, "and loud noises"); // str @0x1405c6630
+draw_text(640, 435, "this game is strongly advised-against for those"); // str @0x1405c6640
+draw_text(640, 470, "who are underage, dealing with epilepsy or affected"); // str @0x1405c6670
+draw_text(640, 505, "by sexual, verbal or physical trauma"); // str @0x1405c66b0
+surface_reset_target();
+draw_surface(surface, 0 /* TODO(calibrate): runtime const @0x140657400 */, 0 /* TODO(calibrate): same */);
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Menu_Warning_Draw_0(longlong *param_1,undefined8 param_2)
 

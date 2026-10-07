@@ -1,7 +1,66 @@
-/// @description FNAFN Obj_Game_Over / Create - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Game_Over / Create - PORTED from C
+// PORTED from C
+// Ground truth: gml_Object_Obj_Game_Over_Create_0 (2468 B @0x14006e5e0)
+// Decoded (uStack_70 = 0..0x15 are the original GML line markers):
+//   line 2: Parallax_enabled = 0; [global 0x18751] then
+//     Obj_Jumpscare.image_alpha = 0.65; [object-tagged property write
+//     0x14015fea0(0x4b, slot 0x1405c7b98 = image_alpha, 0.65 = 0x3fe4...);
+//     0x4b = 75 = Obj_Jumpscare].
+//   line 3: customfunct_audio_play_sound_single(1, <rt>, <rt>);
+//     [script call, 3 args: snd const 1.0 @0x1405c4190, priority/loop =
+//     runtime const @0x140655930 (twice)].
+//   line 4: instance_create_layer(<x>, <y>, "Fade", Obj_Filter_Camera);
+//     [slot 0x1405c8d90, 4 args: x/y = runtime @0x140655930, layer "Fade"
+//     @0x1405c4178, obj const 69.0 @0x1405c41a0 -> object 69 =
+//     Obj_Filter_Camera].
+//   line 5: composite_distortion = 15; [global 0x186f8, 0x402e...]
+//   line 6: composite_bleeding = 10; [global 0x186f6, 0x4024...]
+//   line 7: static_magnetude = 0.75; [global 0x18774, 0x3fe8...]
+//   line 8: instance_create_layer(<x>, <y>, "Night_end", Obj_Camera_Static);
+//     [layer "Night_end" @0x1405c417d, obj const 23.0 @0x1405c41b0 ->
+//     object 23 = Obj_Camera_Static].
+//   line 9: instance_create_layer(<x>, <y>, "Night_end", Obj_Menu_Static);
+//     [obj const 32.0 @0x1405c41c0 -> object 32 = Obj_Menu_Static].
+//   line 10: Obj_Menu_Static.alpha_current = 0.4; [object-tagged variable
+//     write 0x140160b90(0x20, 0x186db, 0.4 = 0x3fd9...); 0x20 = 32 =
+//     Obj_Menu_Static].
+//   lines 11-21: with (Obj_Menu_Static) { ... } [with-loop over repeat
+//     const 32.0 (0x4040...) = object 32; helpers 0x140144bd0/51f0/49f0].
+//     Body (const "full" @0x1405c4187 vs game_settings[0] [global 0x18727,
+//     array-index [0] shape]):
+//       if (game_settings[0] != "full") {  // lines 15-16 (0xf, 0x10)
+//           animate_speed = 0.35; [0x186dd, 0x3fd6...]
+//           image_alpha = alpha_current; [self-read 0x186db, property write]
+//       } else {  // lines 20-21 (0x14, 0x15)
+//           animate_speed = 0;
+//           image_alpha = 0;
+//       }
+//     (the `!=` form is forced by the line markers: the taken-on-unequal
+//     block carries the lower lines 15-16. Both 160140 writes pass their
+//     value via r9 = the RValue slot holding alpha_current / zero —
+//     verified by disassembly, so the values above are exact, not guessed.)
+// TODO(calibrate): instance_create_layer x/y + sound priority/loop (runtime
+//   const @0x140655930, assumed 0, 0, 10/false below).
+Parallax_enabled = 0;
+Obj_Jumpscare.image_alpha = 0.65;
+customfunct_audio_play_sound_single(1, 10 /* TODO(calibrate): runtime @0x140655930 */, false /* TODO(calibrate): runtime @0x140655930 */);
+instance_create_layer(0 /* TODO(calibrate): runtime @0x140655930 */, 0 /* TODO(calibrate): runtime @0x140655930 */, "Fade", Obj_Filter_Camera);
+composite_distortion = 15;
+composite_bleeding = 10;
+static_magnetude = 0.75;
+instance_create_layer(0 /* TODO(calibrate) */, 0 /* TODO(calibrate) */, "Night_end", Obj_Camera_Static);
+instance_create_layer(0 /* TODO(calibrate) */, 0 /* TODO(calibrate) */, "Night_end", Obj_Menu_Static);
+Obj_Menu_Static.alpha_current = 0.4;
+with (Obj_Menu_Static) {
+    if (game_settings[0] != "full") {
+        animate_speed = 0.35;
+        image_alpha = alpha_current;
+    } else {
+        animate_speed = 0;
+        image_alpha = 0;
+    }
+}
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Game_Over_Create_0(longlong *param_1,undefined8 param_2)
 

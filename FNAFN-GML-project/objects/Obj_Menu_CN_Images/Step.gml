@@ -1,7 +1,26 @@
-/// @description FNAFN Obj_Menu_CN_Images / Step - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Menu_CN_Images / Step — PORTED from C
+// Ground truth: gml_Object_Obj_Menu_CN_Images_Step_0 (1958 B @0x1400b72c0)
+// Hover-fade for the custom-night portrait: a 5-arg box test around (x, y)
+// picks the lerp target for draw_alpha (id 0x18712; Create seeds 0).
+//   x/y read via func_0x00014015f1a0 on slots 0x1405c7b78/0x1405c7b88
+//   (registry x/y, two-step rule). Box corners via the PROVEN op helpers:
+//   func_0x00014002fc60(dest, src, N) = dest = src - N (disassembly; see
+//   Obj_Menu_Loading/Draw) and func_0x00014000bf90 = +=, N = 0x58 = 88.
+//   customfunct_ui_button_detection(x - 88, y - 88, x + 88, y + 88, C)
+//   returns 1 inside (mouse_x > x1 && mouse_x < x2 + x_offset && ...);
+//   the 3-way compare against 1.0 takes the hover branch on == 0.
+//   Both branches: draw_alpha = lerp(draw_alpha, target, 0.15 * delta)
+//   (0x3fc3333333333333 = 0.15 via MUL helper func_0x0001400053f0 with
+//   delta_factor id 0x1870b; lerp = slot 0x1405c8cc0, registry; direct
+//   +0x10 id-fetch write to draw_alpha). Hover target = 1.0 (exe .data
+//   @0x1405c4fb0, verified); away target = runtime-pool const @0x1406564c0
+//   — the SAME pool const feeds the button-box 5th arg: TODO(calibrate)
+//   both (outside the exe image).
+if (customfunct_ui_button_detection(x - 88, y - 88, x + 88, y + 88, 0 /* TODO(calibrate): runtime const @0x1406564c0 (box x-offset) */) == 1) {
+    draw_alpha = lerp(draw_alpha, 1, 0.15 * delta_factor);
+} else {
+    draw_alpha = lerp(draw_alpha, 0 /* TODO(calibrate): runtime const @0x1406564c0 (fade-out target) */, 0.15 * delta_factor);
+}
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Menu_CN_Images_Step_0(longlong *param_1,undefined8 param_2)
 

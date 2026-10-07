@@ -1,5 +1,54 @@
-/// @description FNAFN script customfunct_game_load - NOT YET PORTED
-// Decompiled C reference (exact machine-level semantics):
+/// @description FNAFN script customfunct_game_load - PORTED from C
+// PORTED from C
+// Ground truth: gml_Script_customfunct_game_load
+// Decoded, in source-line order (uStack_c0 0x1d..0x35):
+//   ini_open("FNAFNsave.ini") [func_0x00014018a800, string const @0x1405c33d0
+//     via exe_strings.py]; then game[0..1] / game_settings[0..13] =
+//     ini_read_string(section, key, default) [func_0x00014018a940, and the
+//     slot 0x1405c8b40 = ini_read_string path via func_0x0001401445d0 --
+//     same builtin, two call shapes]. Array stores go through the
+//     func_0x00014012b840(array, index) element-accessor pair.
+//   String consts resolved with exe_strings.py: "game info", "night",
+//     "stars", "game settings", "VHS", "Fullscreen", "Vsync",
+//     "Edge filtering", "FXAA", "Volume", "Ambience", "Futa mode",
+//     "Subtitles", "Subtitle language", "English", "Subtitle font",
+//     "default", "Office navigation", "both", "Office threshold",
+//     defaults "full", "on", "enabled", "off".
+//   Numeric defaults are .rdata doubles: 1.0 (@0x140439dd0, "night"),
+//     2.0 (@0x140439e68, "Edge filtering"), 100.0 (@0x14043a0c0, "Volume"),
+//     25.0 (@0x14043a210, "Office threshold").
+//   Tail applies the settings: display_reset(Edge filtering, Vsync)
+//     [slot 0x1405c8b50], window_set_fullscreen(Fullscreen) [slot
+//     0x1405c8b60], surface_resize(application_surface [slot 0x1405c7ba8
+//     read via func_0x00014015ef90], display_get_gui_width() [slot
+//     0x1405c8b70], display_get_gui_height() [slot 0x1405c8b80]) [slot
+//     0x1405c8a20 = surface_resize]. Dropped runner bookkeeping with no GML:
+//     func_0x000140144b20 prologue, uStack_c0 line numbers, and the BSS
+//     stores to uRam0000000140657680 (0x2b86a1/0x2b86a2 -- same unexplained
+//     magic-marker shape seen in 100+ functions, no data flow).
+function customfunct_game_load() {
+    ini_open("FNAFNsave.ini");
+    game[0] = ini_read_string("game info", "night", 1);
+    game[1] = ini_read_string("game info", "stars", 0);
+    game_settings[0] = ini_read_string("game settings", "VHS", "full");
+    game_settings[1] = ini_read_string("game settings", "Fullscreen", 0);
+    game_settings[2] = ini_read_string("game settings", "Vsync", 0);
+    game_settings[3] = ini_read_string("game settings", "Edge filtering", 2);
+    game_settings[4] = ini_read_string("game settings", "FXAA", "on");
+    game_settings[9] = ini_read_string("game settings", "Volume", 100);
+    game_settings[8] = ini_read_string("game settings", "Ambience", "enabled");
+    game_settings[11] = ini_read_string("game settings", "Futa mode", "off");
+    game_settings[5] = ini_read_string("game settings", "Subtitles", "on");
+    game_settings[6] = ini_read_string("game settings", "Subtitle language", "English");
+    game_settings[7] = ini_read_string("game settings", "Subtitle font", "default");
+    game_settings[12] = ini_read_string("game settings", "Office navigation", "both");
+    game_settings[13] = ini_read_string("game settings", "Office threshold", 25);
+    ini_close();
+    display_reset(game_settings[3], game_settings[2]);
+    window_set_fullscreen(game_settings[1]);
+    surface_resize(application_surface, display_get_gui_width(), display_get_gui_height());
+}
+
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) Globals starting with '_' overlap smaller symbols at the same address
 // - literal slash-star form removed: it would close a GML block comment early.

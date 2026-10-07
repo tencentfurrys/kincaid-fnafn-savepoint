@@ -1,12 +1,73 @@
-/// @description FNAFN Obj_Night_Camera_Icons / Mouse - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
-// 1 sub-event(s): Mouse_4  (one reference block each; port a sub-event by
-//  editing its ---- header to PORTED and inserting GML above its block)
+/// @description FNAFN Obj_Night_Camera_Icons / Mouse_4 — PORTED from C
+// Ground truth: gml_Object_Obj_Night_Camera_Icons_Mouse_4 (3783 B @0x1400c3270)
 
-// ---- sub-event Mouse_4 — NOT YET PORTED ----
+// ---- sub-event Mouse_4 — PORTED from C ----
 // ground truth: gml_Object_Obj_Night_Camera_Icons_Mouse_4 (3783 B @0x1400c3270)
+// Ported: Obj_Night_Camera_Icons / Mouse_4
+// Guards (C early-exit chain -> combined &&; compare calibration per PORTING.md):
+//   image_alpha != 0 (slot 0x1405c7b98 = image_alpha via 0x14015f1a0 READ;
+//     `r==0`-exit = `!=`).
+//   layer_get_visible("Camera_HUD") == 1 (funcid slot 0x1405c86b0 =
+//     layer_get_visible, arg "Camera_HUD" @0x1405c52f0 via exe_strings.py).
+//   Night_recording == 0 (id 0x18749; `r!=0`-exit = `==`).
+// Then switch (image_index) (slot 0x1405c7aa8 = image_index via 0x14015f1a0)
+// on runtime-pool cases 1.0..10.0 (@0x1406566b0/0x1406566c4/0x1406566d8/
+// @0x1406566ec/@0x140656700/@0x140656714/@0x140656728/@0x14065673c/
+// @0x140656750/@0x140656764/@0x140656778; guarded init shows
+// 1.0 = 0x3ff0000000000000 through 10.0 = 0x4024000000000000 — outside the
+// mapped exe image). Each matched case jumps to its handler and returns
+// directly (Ghidra: "Could not recover jumptable", indirect jump treated
+// as call), so branch bodies are unrecoverable from this block.
+// Fallthrough / default (image_index unmatched, uVar5 >= 0xb): the 0x12
+// block below — fully ported:
+//   Scr_Camera_Update(39) (script call, exe const 39.0 @0x1405c5300);
+//   Obj_Night_Camera_Screen.image_yscale = 0 (0x27 = 39 = Screen via
+//     obj_names.json, slot 0x1405c7c08) and .image_xscale = 0.65
+//     (0x3fe4cccccccccccd, slot 0x1405c7c18);
+//   Obj_Night_Camera_Icons_Select.x = x and .y = y (0x14 = 20 = Select;
+//     self x/y slots 0x1405c7b78/0x1405c7b88 via 0x14015f1a0, dotted writes
+//     per the object-tagged helper rule);
+//   click blips 1.0 @0x1405c5310 and 48.0 @0x1405c5320 via
+//     customfunct_audio_play_sound_single (trailing args @0x1406566a0).
+// TODO(calibrate): switch case values @0x1406566b0... and every case-branch
+// body (jumptable @0x1400c469c) plus trailing audio args @0x1406566a0 —
+// all outside the exe image; verify in-game.
+if (image_alpha != 0
+        && layer_get_visible("Camera_HUD") == 1
+        && Night_recording == 0) {
+    switch (image_index) {
+        case 1: // TODO(calibrate): runtime pool @0x1406566b0; branch body unrecoverable (jumptable @0x1400c469c)
+            exit;
+        case 2: // TODO(calibrate): runtime pool @0x1406566c4
+            exit;
+        case 3: // TODO(calibrate): runtime pool @0x1406566d8
+            exit;
+        case 4: // TODO(calibrate): runtime pool @0x1406566ec
+            exit;
+        case 5: // TODO(calibrate): runtime pool @0x140656700
+            exit;
+        case 6: // TODO(calibrate): runtime pool @0x140656714
+            exit;
+        case 7: // TODO(calibrate): runtime pool @0x140656728
+            exit;
+        case 8: // TODO(calibrate): runtime pool @0x14065673c
+            exit;
+        case 9: // TODO(calibrate): runtime pool @0x140656764
+            exit;
+        case 10: // TODO(calibrate): runtime pool @0x140656778
+            exit;
+        default:
+            Scr_Camera_Update(39);
+            Obj_Night_Camera_Screen.image_yscale = 0;
+            Obj_Night_Camera_Screen.image_xscale = 0.65;
+            Obj_Night_Camera_Icons_Select.x = x;
+            Obj_Night_Camera_Icons_Select.y = y;
+            customfunct_audio_play_sound_single(1, 0 /* TODO(calibrate): runtime const @0x1406566a0 */, false /* TODO(calibrate): runtime const @0x1406566a0 */);
+            customfunct_audio_play_sound_single(48, 0 /* TODO(calibrate): runtime const @0x1406566a0 */, false /* TODO(calibrate): runtime const @0x1406566a0 */);
+            break;
+    }
+}
+
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 

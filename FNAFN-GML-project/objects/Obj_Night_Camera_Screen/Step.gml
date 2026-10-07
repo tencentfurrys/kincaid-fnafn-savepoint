@@ -1,7 +1,41 @@
-/// @description FNAFN Obj_Night_Camera_Screen / Step - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Night_Camera_Screen / Step — PORTED from C
+// Ground truth: gml_Object_Obj_Night_Camera_Screen_Step_0 (2804 B @0x1400b55b0)
+// Two independent two-case switches (case consts are runtime-pool strings,
+// TODO(calibrate): @0x140656460/@0x140656474 from @0x1405c4f80/@0x1405c4f88,
+// and @0x140656490/@0x1406564a4; label tables @0x140656470/@0x1406564a0 static.
+// Branch polarity below assumes table routes case0 -> first branch listed,
+// case1 -> second; verify in-game).
+// 1. switch (Night_camera_mode):
+//      case <c0>: y = <rand helper>(TODO_calibrate_args @0x14043c2b0/b8)
+//      case <c1>: y = <rand helper>(TODO_calibrate_args @0x14043c2c0/c8)
+//    (func_0x000140168cf0, same 2-arg random helper as Office_Light_Back.)
+// 2. switch (Night_recording):
+//      case <c0>: image_yscale = lerp(image_yscale, <const @0x1405c4fa0>,
+//                     0.25 * delta_factor);
+//                 image_xscale = lerp(image_xscale, <const @0x1405c4fa0>,
+//                     0.25 * delta_factor);
+//      case <c1>: image_xscale = lerp(image_xscale, <const @0x1405c4f90>,
+//                     0.1 * delta_factor);
+//                 image_yscale = lerp(image_yscale, <const @0x1405c4f90>,
+//                     0.1 * delta_factor);
+//    (0x3fd0000000000000 = 0.25, 0x3fb999999999999a = 0.1; MUL helper
+//    0x1400053f0; lerp = slot 0x1405c8cc0, registry-proven. Note the else
+//    branch updates xscale first, then yscale.)
+// (Slots: 0x1405c7b88 = y, 0x1405c7c08 = image_yscale, 0x1405c7c18 =
+// image_xscale, per EXE-REGISTRY.md.)
+if (Night_camera_mode == TODO_calibrate_case_0x140656460) {
+    y = TODO_calibrate_random_0x14043c2b0;  // func_0x000140168cf0(...)
+} else if (Night_camera_mode == TODO_calibrate_case_0x140656474) {
+    y = TODO_calibrate_random_0x14043c2c0;  // func_0x000140168cf0(...)
+}
+if (Night_recording == TODO_calibrate_case_0x140656490) {
+    image_yscale = lerp(image_yscale, TODO_calibrate_0x1405c4fa0, 0.25 * delta_factor);
+    image_xscale = lerp(image_xscale, TODO_calibrate_0x1405c4fa0, 0.25 * delta_factor);
+} else if (Night_recording == TODO_calibrate_case_0x1406564a4) {
+    image_xscale = lerp(image_xscale, TODO_calibrate_0x1405c4f90, 0.1 * delta_factor);
+    image_yscale = lerp(image_yscale, TODO_calibrate_0x1405c4f90, 0.1 * delta_factor);
+}
+
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) Globals starting with '_' overlap smaller symbols at the same address
 // - literal slash-star form removed: it would close a GML block comment early.

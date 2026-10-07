@@ -1,7 +1,149 @@
-/// @description FNAFN Obj_Menu_Options / Draw - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Menu_Options / Draw_0 — PORTED from C
+// Ground truth: gml_Object_Obj_Menu_Options_Draw_0
+// Decoded in order (uStack_80 = GML line markers):
+//   1-9. if (!surface_exists(S)) S = surface_create(room_width, room_height)
+//      for S in main_surface (id 0x18734), video_surface (0x1879a),
+//      audio_surface (0x186e4), pref_surface (0x1875c). surface_exists/
+//      surface_create = slots 0x1405c8a50/0x1405c8a60 (EXE-REGISTRY.md);
+//      room_width/room_height = slots 0x1405c7b08/0x1405c7b18.
+//   0x17. draw_sprite(Spr_Menu_Fade_Overlay, 0, 0, 0): 4-arg helper
+//      0x140175550(self, 0x2a, 0, 0, 0); sprite 0x2a = 42 =
+//      Spr_Menu_Fade_Overlay (sprite_names.json); same shape as
+//      Obj_Menu_Continue/Draw (best-fit draw_sprite).
+//   0x18-0x1a. draw_set_alpha(draw_alpha) [0x18712, float setter
+//      0x14018d0b0]; draw_set_font(game_font[0]) [global id 0x18725 +
+//      index dance]; draw_set_color(colour_pink) [id 0x186f5 via
+//      0x14018d100].
+//   0x1c. draw_set_alpha(0.5) [float const _UNK_14043b460 = 0.5f].
+//   0x1d. draw_rectangle_colour(8, select_y_final, 600, select_y_final + 48,
+//      colour_pink x4, <runtime>) [9-arg slot 0x1405c8ee0 = registry
+//      draw_rectangle_colour; x1 = 8.0 @0x1405c46a8, x2 = 600.0 @0x1405c46b8,
+//      +48 via += helper 0x14000bf90; last arg (outline) is runtime const
+//      @0x140655aa0].
+//   0x1e. draw_set_alpha(1.0) [float const _UNK_14043b464 = 1.0f].
+//   0x20-0x21. draw_set_valign(fa_bottom) [0x140175540(2), cf.
+//      Obj_Menu_Loading/Draw] + draw_set_halign(fa_center) [0x140175530(1)].
+//   0x22/0x25/0x28/0x2b/0x2e. draw_text_transformed(X, 108, text_options[i],
+//      text_scale[i], text_scale[i], <runtime>) [6-arg slot 0x1405c8ef0;
+//      X = 94/320/640/960/1186 (@0x1405c46c8/@0x1405c46e8/@0x1405c46f8/
+//      @0x1405c4708/@0x1405c4718, exe .data doubles), y = 108.0 @0x1405c46d8,
+//      angle is runtime const @0x140655aa0].
+//   0x31-0x34. draw_set_valign(fa_top) [175540(0)], draw_set_halign(fa_right)
+//      [175530(2)], draw_set_font(0) [175520(0), literal].
+//   0x36/0x40/0x4a/0x51. surface_set_target(S) [1-arg 0x1401756b0] then
+//      label column draw_text(384, y, text_X[i]) [3-arg slot 0x1405c8da0 =
+//      draw_text; x = 384.0 @0x1405c4728; y = 192/256/320/384/448
+//      (@0x1405c4738/@0x1405c4748/@0x1405c46e8/@0x1405c4728/@0x1405c4758)]
+//      then surface_reset_target() [no-arg 0x140183c00], for S/text =
+//      video_surface/text_video[0..4], audio_surface/text_audio[0..1],
+//      pref_surface/text_pref[0..1], <id-0x186d1-slot>/text_access[0..4]
+//      (the 4th surface reads the instance slot whose registry name is
+//      customfunct_ui_button_detection_x — Create seeds it to -1, so
+//      confirm the live value in-game).
+//   0x5b-0x5f. draw_set_font(game_font[0]); surface_set_target(main_surface);
+//      draw_line(<runtime>, 118, 1280, 118) / draw_line(<runtime>, 646, 540,
+//      646) / draw_line(740, 646, 1280, 646) [4-arg slot 0x1405c8f00 =
+//      draw_line; consts 118.0 @0x1405c4768, 1280.0 @0x1405c4778, 646.0
+//      @0x1405c4788, 540.0 @0x1405c4798, 740.0 @0x1405c47a8; x1 of the first
+//      two is runtime const @0x140655aa0].
+//   0x60-0x62. draw_set_halign(fa_left) [175530(0)];
+//      draw_text(1186, 656, text_options[6]) [x @0x1405c4718, y @0x1405c47b8
+//      = 656.0]; draw_set_halign(fa_right); draw_set_font(0);
+//      draw_text(94, 656, text_options[5]) [x @0x1405c46c8 = 94.0].
+//   99-100. surface_reset_target(); draw_surface(main_surface, <runtime>,
+//      <runtime>) [slot 0x1405c8ab0; both coords runtime @0x140655aa0].
+//   0x67-0x6a. draw_set_halign(fa_right); draw_set_font(0);
+//      switch (menu) over "video"/"audio"/"preferences"/"accessibility"
+//      (guarded pool @0x140655ab0, exe .data strings @0x1405c4668..80):
+//      the 4 case bodies are indirect jumps Ghidra could not recover;
+//      non-matching menu falls through to draw_set_font(game_font[0]).
+// Reading: the options screen composites four label surfaces plus the main
+// surface: tab bar on top, per-tab label columns at x = 384, separator
+// lines, and exit/reset-data buttons at the bottom.
+// TODO(calibrate): 0x140175550 identity (best-fit draw_sprite);
+// draw_rectangle_colour outline + draw_text_transformed angle +
+// draw_surface/draw_line runtime consts @0x140655aa0 (likely 0/false);
+// draw_set_font(0) literal (default-font index?); 4th label surface
+// (id-0x186d1 slot); the 4 menu-switch case bodies (jumptable unrecovered —
+// best guess each blits its tab surface, verify in-game).
+if (!surface_exists(main_surface)) {
+    main_surface = surface_create(room_width, room_height);
+}
+if (!surface_exists(video_surface)) {
+    video_surface = surface_create(room_width, room_height);
+}
+if (!surface_exists(audio_surface)) {
+    audio_surface = surface_create(room_width, room_height);
+}
+if (!surface_exists(pref_surface)) {
+    pref_surface = surface_create(room_width, room_height);
+}
+draw_sprite(Spr_Menu_Fade_Overlay, 0, 0, 0); // TODO(calibrate): helper 0x140175550 identity best-fit
+draw_set_alpha(draw_alpha);
+draw_set_font(game_font[0]);
+draw_set_color(colour_pink);
+draw_set_alpha(0.5); // float const _UNK_14043b460
+draw_rectangle_colour(8, select_y_final, 600, select_y_final + 48, colour_pink, colour_pink, colour_pink, colour_pink, false /* TODO(calibrate): runtime const @0x140655aa0 */);
+draw_set_alpha(1.0); // float const _UNK_14043b464
+draw_set_valign(fa_bottom);
+draw_set_halign(fa_center);
+draw_text_transformed(94, 108, text_options[0], text_scale[0], text_scale[0], 0 /* TODO(calibrate): runtime const @0x140655aa0 */);
+draw_text_transformed(320, 108, text_options[1], text_scale[1], text_scale[1], 0 /* TODO(calibrate): same */);
+draw_text_transformed(640, 108, text_options[2], text_scale[2], text_scale[2], 0 /* TODO(calibrate): same */);
+draw_text_transformed(960, 108, text_options[3], text_scale[3], text_scale[3], 0 /* TODO(calibrate): same */);
+draw_text_transformed(1186, 108, text_options[4], text_scale[4], text_scale[4], 0 /* TODO(calibrate): same */);
+draw_set_valign(fa_top);
+draw_set_halign(fa_right);
+draw_set_font(0); // TODO(calibrate): literal 0
+surface_set_target(video_surface);
+draw_text(384, 192, text_video[0]);
+draw_text(384, 256, text_video[1]);
+draw_text(384, 320, text_video[2]);
+draw_text(384, 384, text_video[3]);
+draw_text(384, 448, text_video[4]);
+surface_reset_target();
+surface_set_target(audio_surface);
+draw_text(384, 192, text_audio[0]);
+draw_text(384, 256, text_audio[1]);
+surface_reset_target();
+surface_set_target(pref_surface);
+draw_text(384, 192, text_pref[0]);
+draw_text(384, 256, text_pref[1]);
+surface_reset_target();
+surface_set_target(customfunct_ui_button_detection_x); // TODO(calibrate): id-0x186d1 slot (Create seeds -1) — verify live surface in-game
+draw_text(384, 192, text_access[0]);
+draw_text(384, 256, text_access[1]);
+draw_text(384, 320, text_access[2]);
+draw_text(384, 384, text_access[3]);
+draw_text(384, 448, text_access[4]);
+surface_reset_target();
+draw_set_font(game_font[0]);
+surface_set_target(main_surface);
+draw_line(0 /* TODO(calibrate): runtime const @0x140655aa0 */, 118, 1280, 118);
+draw_line(0 /* TODO(calibrate): same */, 646, 540, 646);
+draw_line(740, 646, 1280, 646);
+draw_set_halign(fa_left);
+draw_text(1186, 656, text_options[6]);
+draw_set_halign(fa_right);
+draw_set_font(0); // TODO(calibrate): literal 0
+draw_text(94, 656, text_options[5]);
+surface_reset_target();
+draw_surface(main_surface, 0 /* TODO(calibrate): runtime const @0x140655aa0 */, 0 /* TODO(calibrate): same */);
+draw_set_halign(fa_right);
+draw_set_font(0); // TODO(calibrate): literal 0
+switch (menu) {
+    case "video": // TODO(calibrate): case body unrecovered (Ghidra jumptable) — likely blits video_surface; verify in-game
+        break;
+    case "audio": // TODO(calibrate): same — likely blits audio_surface
+        break;
+    case "preferences": // TODO(calibrate): same — likely blits pref_surface
+        break;
+    case "accessibility": // TODO(calibrate): same
+        break;
+    default:
+        draw_set_font(game_font[0]);
+        break;
+}
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) Globals starting with '_' overlap smaller symbols at the same address
 // - literal slash-star form removed: it would close a GML block comment early.

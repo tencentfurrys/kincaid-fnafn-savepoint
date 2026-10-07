@@ -1,7 +1,45 @@
-/// @description FNAFN Obj_Menu_Disclaimer / Step - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Menu_Disclaimer / Step — PORTED from C
+// Ground truth: gml_Object_Obj_Menu_Disclaimer_Step_0 (2858 B @0x1400f06b0)
+// Fade controller + timer sweep; byte-twin of Obj_Menu_Warning/Step_0
+// (same size, same shape, different pool addrs).
+//   Two-case switch on fading (id 0x18719): case consts 1.0 (@0x140656ef0)
+//   and 0 (@0x140656f04) with the label table at 0x140656f00 — the same
+//   guarded-pool shape as Obj_Menu_Loading/Step (table[0] = 0 from the
+//   zeroed region, table[1] = 1 via 0x100000000 @0x140656f10), so:
+//     fading == 0: image_alpha = lerp(image_alpha, 1, 0.02 * delta) —
+//       fade-IN toward the exe .data const 1.0 (@0x1405c5d28, verified).
+//     fading == 1: image_alpha = lerp(image_alpha, <runtime @0x140656ee0>,
+//       0.02 * delta) — fade-OUT target seeded at load time:
+//       TODO(calibrate) (0 is the likely value).
+//   Rate 0x3f947ae147ae147b = 0.02 via MUL helper func_0x0001400053f0 with
+//   delta_factor (id 0x1870b, read once); lerp = slot 0x1405c8cc0
+//   (registry); write-back via func_0x000140160140 on slot 0x1405c7b98
+//   (image_alpha, registry).
+//   Then the standard timer sweep (cf. Obj_Night_Time/Step,
+//   Obj_Menu_Night_Display/Step): for each Scr_Camera_Update[i] (id
+//   0x186d5 is an ARRAY — array_length slot 0x1405c8ba0, round slot
+//   0x1405c89b0, both registry): timers > 0 count down -= delta_factor
+//   (op helper func_0x00014000bdb0); a timer at <= 0 (round()ed) that is
+//   not the -100 sentinel is set to -100 (0xc059000000000000) and fires
+//   event_perform(ev_alarm, i) (func_0x000140181c50, type 2 = ev_alarm,
+//   PROVEN 2026-10-06).
+if (fading == 0) {
+    image_alpha = lerp(image_alpha, 1, 0.02 * delta_factor);
+} else if (fading == 1) {
+    image_alpha = lerp(image_alpha, 0 /* TODO(calibrate): runtime const @0x140656ee0 (fade-out target) */, 0.02 * delta_factor);
+}
+for (var i = 0; i < array_length(Scr_Camera_Update); i += 1) {
+    if (Scr_Camera_Update[i] <= 0) {
+        if (round(Scr_Camera_Update[i]) <= 0) {
+            if (round(Scr_Camera_Update[i]) > -100) {
+                Scr_Camera_Update[i] = -100;
+                event_perform(ev_alarm, i);
+            }
+        }
+    } else {
+        Scr_Camera_Update[i] -= delta_factor;
+    }
+}
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) Globals starting with '_' overlap smaller symbols at the same address
 // - literal slash-star form removed: it would close a GML block comment early.

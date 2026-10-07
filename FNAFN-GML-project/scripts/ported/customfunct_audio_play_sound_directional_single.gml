@@ -1,4 +1,5 @@
 /// @description helper: play a directional (emitter) sound once
+// PORTED from C
 // Ground truth: gml_Script_customfunct_audio_play_sound_directional_single
 // (713 B @0x140020620). Same shape as customfunct_audio_play_sound_single
 // but the play goes through an emitter, so the helper takes 4 args.

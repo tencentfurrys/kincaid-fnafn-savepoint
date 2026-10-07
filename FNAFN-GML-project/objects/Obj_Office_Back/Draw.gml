@@ -1,7 +1,37 @@
-/// @description FNAFN Obj_Office_Back / Draw - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Office_Back / Draw — PORTED from C
+// Ground truth: gml_Object_Obj_Office_Back_Draw_0
+// Unconditional shader self-draw (NO game_settings gate, unlike the
+// Front_Left/Right/Middle Draws) followed by a warm lensflare pass:
+//   <shader setup> (func_0x000140185890(0) — TODO identity, same family as
+//   RoundedRoom's 185890(7)/185840() pair; omitted like Main_Back/Draw)
+//   var _tex = sprite_get_texture(sprite_index, image_index);
+//   (sprite_index/image_index via func_0x00014015f1a0 on slots
+//   0x1405c7be8/0x1405c7aa8; 0x1405c8bc0 = sprite_get_texture.)
+//   shader_set_uniform_f(shader_get_uniform(SHADER, "u_texel"),
+//     texture_get_texel_width(_tex), texture_get_texel_height(_tex));
+//   (0x1405c8b10 = shader_get_uniform, 0x1405c8dc0/0x1405c8dd0 =
+//   texel_width/height; func_0x000140185920(3, ...) = 3-arg form.)
+//   shader_set_uniform_f(shader_get_uniform(SHADER, "u_strength"), V);
+//   (func_0x000140185920(2, ...) = 2-arg form.)
+//   draw_self();   // func_0x000140175460(param_1)
+//   <shader reset> (func_0x000140185840() — TODO identity)
+//   draw_set_color($40A0FF);  // func_0x00014018d100 PROVEN draw_set_color
+//   (Menu_Pause/Draw); raw C arg 0x40a0ff = warm orange tint — Middle/Draw
+//   computes the same pass via make_color_rgb(255, 194, 110)
+//   (func_0x0001401756a0 PROVEN make_color_rgb).
+//   draw_lensflare(a1..a8);   // direct gml_Script_draw_lensflare 8-arg call
+//   draw_set_color(c_white);  // func_0x00014018d100(0xffffff)
+// TODO(calibrate): runtime shader id @0x140655760; uniform-name strings
+// @0x1405c3e90/@0x1405c3e98; strength const @0x1405c3ea8; the 8
+// lensflare consts @0x1405c3eb8/@0x1405c3ec8/@0x1405c3ed8/@0x1405c3ee8
+// (x2)/@0x1405c3ef8 (x3) — all below the EXE-CONSTANTS.md dump range.
+var _tex = sprite_get_texture(sprite_index, image_index);
+shader_set_uniform_f(shader_get_uniform(0, "u_texel"), texture_get_texel_width(_tex), texture_get_texel_height(_tex)); // TODO(calibrate): shader id @0x140655760; uniform @0x1405c3e90
+shader_set_uniform_f(shader_get_uniform(0, "u_strength"), 0); // TODO(calibrate): uniform @0x1405c3e98; value @0x1405c3ea8
+draw_self();
+draw_set_color($40A0FF); // TODO(calibrate): raw C arg 0x40a0ff
+draw_lensflare(0, 0, 0, 0, 0, 0, 0, 0); // TODO(calibrate): consts @0x1405c3eb8..@0x1405c3ef8
+draw_set_color(c_white);
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Office_Back_Draw_0(undefined8 param_1,undefined8 param_2)
 

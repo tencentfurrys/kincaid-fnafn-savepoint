@@ -1,5 +1,71 @@
-/// @description FNAFN script customfunct_options_update - NOT YET PORTED
-// Decompiled C reference (exact machine-level semantics):
+/// @description FNAFN script customfunct_options_update - PORTED from C
+// PORTED from C
+// Ground truth: gml_Script_customfunct_options_update
+// Decoded, in source-line order (uStack_98 5..0x2a):
+//   1. game_settings[9] ("Volume") = clamp(game_settings[9], <lo>, 100.0)
+//      [slot 0x1405c8a00 = clamp via func_0x0001401445d0; 100.0 is .data
+//      const @0x1405c3188; <lo> is BSS runtime const @0x140655090 ->
+//      TODO(calibrate) placeholder]; then audio_master_gain(game_settings[9])
+//      [slot 0x1405c8a10, 1 arg; index-9 accessor via func_0x000140147980
+//      with the 100.0 default @0x14043a0c0].
+//   2. if (instance_exists(Obj_Menu_Static)) [0x20 = 32 = Obj_Menu_Static per
+//      obj_names.json] with (Obj_Menu_Static) { if (game_settings[0] ("VHS")
+//      == "full" [@0x1405c3170]) { animate_speed [id 0x186dd] = 0;
+//      image_alpha [slot 0x1405c7b98] = 0; } else { animate_speed = 0.35
+//      [0x3fd6666666666666]; image_alpha = alpha_current [id 0x186db]; } }.
+//      The with() shape is the 0x140144bd0/0x1401451f0/0x1401449f0
+//      enumerator over repeat const 32.0; the 3-arg func_0x000140160140
+//      property write carries the value prepared in uStack_d8 (0 vs
+//      alpha_current) -- cf. the 4-arg form in Obj_Filter_Menus/Create.gml.
+//   3. if (instance_exists(Obj_Filter_Menus)) [0x29 = 41 per obj_names.json]
+//      with (Obj_Filter_Menus) { if (game_settings[0] == "disabled"
+//      [@0x1405c3175]) oldtvfilter_enabled [id 0x18750] = 0; else {
+//      oldtvfilter_enabled = 1; <string switch below> } }. The switch on
+//      game_settings[0] against lazily-initialized BSS statics "full"
+//      (@0x1406550a0 <- @0x1405c3170) / "low" (@0x1406550b4 <- @0x1405c317e)
+//      with ordinal table {0,1} is byte-identical to the switch already
+//      ported in objects/Obj_Filter_Menus/Create.gml: "full" -> ordinal 0
+//      -> event_perform(ev_alarm, 0); "low" -> ordinal 1 ->
+//      event_perform(ev_alarm, 1). (This function's decompile prints the
+//      0x140181c50 calls with 3 args -- decompiler artifact also affecting
+//      its 160140 calls; the Filter_Menus precedent shows the true 4-arg
+//      (self, other, 2, ordinal) event_perform shape.)
+//   4. surface_resize(application_surface [slot 0x1405c7ba8 via
+//      func_0x00014015ef90], 1280.0 [@0x1405c3198], 720.0 [@0x1405c31a8])
+//      [slot 0x1405c8a20 = surface_resize].
+// Dropped: 144b20 prologue, uStack_98 line numbers, BSS store ...7680 =
+// 0x1f86a2, and the TLS lazy-init guard (emitted statics only).
+function customfunct_options_update() {
+    game_settings[9] = clamp(game_settings[9], 0 /* TODO(calibrate): lower bound is runtime const @0x140655090 (BSS, unreadable offline) */, 100);
+    audio_master_gain(game_settings[9]);
+    if (instance_exists(Obj_Menu_Static)) {
+        with (Obj_Menu_Static) {
+            if (game_settings[0] == "full") {
+                animate_speed = 0;
+                image_alpha = 0;
+            } else {
+                animate_speed = 0.35;
+                image_alpha = alpha_current;
+            }
+        }
+    }
+    if (instance_exists(Obj_Filter_Menus)) {
+        with (Obj_Filter_Menus) {
+            if (game_settings[0] == "disabled") {
+                oldtvfilter_enabled = 0;
+            } else {
+                oldtvfilter_enabled = 1;
+                if (game_settings[0] == "full") {
+                    event_perform(ev_alarm, 0);
+                } else if (game_settings[0] == "low") {
+                    event_perform(ev_alarm, 1);
+                }
+            }
+        }
+    }
+    surface_resize(application_surface, 1280, 720);
+}
+
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) Globals starting with '_' overlap smaller symbols at the same address
 // - literal slash-star form removed: it would close a GML block comment early.

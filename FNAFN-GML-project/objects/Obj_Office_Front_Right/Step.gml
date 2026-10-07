@@ -1,4 +1,77 @@
-/// @description FNAFN Obj_Office_Front_Right / Step - NOT YET PORTED
+/// @description FNAFN Obj_Office_Front_Right / Step_0 — PORTED from C
+// Ground truth: gml_Object_Obj_Office_Front_Right_Step_0 (mirror of Front_Left)
+// Door controller (right). Globals: delta_factor (0x1870b),
+// Night_chica_location (0x1873f). Self: toggle (0x18793),
+// emitter_gain (0x18716), door_speed (0x18710), sprite_index
+// (slot 0x1405c7be8), image_speed (slot 0x1405c7c28), image_index
+// (slot 0x1405c7aa8), unk_186d7 flag (id 0x186d7) + emitter_186d6
+// (id 0x186d6; both collide as __init_global in builtin_ids.json —
+// names follow the Create port: __init_global = emitter, unk_186d7 = flag).
+// Helpers: 0x14018f790(0x11) = single-arg input check (TODO calibrate kind),
+// 0x1401441e0/0x14000bee0/0x1401453a0 = string/numeric const loaders,
+// slots 0x1405c86b0 = layer_get_visible, 0x1405c8cc0 = lerp,
+// 0x1405c8960 = audio_stop_sound, 0x1405c8980 = audio_play_sound_on,
+// 0x1405c8eb0 = audio_emitter_gain.
+// TODO(calibrate): all @0x1405c60xx exe consts (layer name, lerp target,
+// sound ids, location string, speed delta; 0x1405c60xx IS inside the
+// EXE-CONSTANTS dump range but the raw bytes there are string-pool fragments,
+// so values stay TODO) + all @0x140656fxx runtime-pool consts (lerp targets,
+// door_speed switch consts/table @0x140656ff0). Inline doubles decoded:
+// 74/3100/72/29/69/13/1/0.75/0.1/0.01.
+if (toggle == 0 && sprite_index != 74) {
+    // Original order: input(0x11) -> mouse_x > 3100 -> layer_get_visible == 1.
+    var _active = /* TODO(calibrate): func_0x00014018f790(0x11) input check */ false
+        && (mouse_x > 3100)
+        && (layer_get_visible(/* TODO(calibrate): layer const @0x1405c6030 */ "TODO_layer") == 1);
+    if (_active) {
+        emitter_gain = lerp(emitter_gain, /* TODO(calibrate): num const @0x1405c6048 */ 0, 0.75 * delta_factor);
+        if (unk_186d7 != 1) {
+            audio_stop_sound(/* TODO(calibrate): snd const @0x1405c6058 */ 0);
+            audio_play_sound_on(__init_global /* 0x186d6 emitter */, /* TODO @0x1405c6058 */ 0, /* TODO @0x1405c6068 */ 0, /* TODO(runtime) @0x140656fd0 */ 0);
+            unk_186d7 = 1;
+        }
+        if (Night_chica_location == /* TODO(calibrate): str const @0x1405c603d */ "TODO_location") {
+            sprite_index = 72;
+        } else {
+            sprite_index = 29;
+        }
+        customfunct_image_speed_delta(/* TODO(calibrate): const @0x1405c6078 */ 0);
+        audio_emitter_gain(__init_global /* 0x186d6 */, emitter_gain);
+    } else {
+        // Quiet path (input false / mouse_x <= 3100 / layer hidden).
+        emitter_gain = lerp(emitter_gain, /* TODO(calibrate runtime): @0x140656fd0 */ 0, 0.1 * delta_factor);
+        sprite_index = 69;
+        image_speed = 0;
+        unk_186d7 = 0;
+        if (emitter_gain < 0.01) {
+            audio_stop_sound(/* TODO(calibrate): const @0x1405c6058 */ 0);
+        }
+        audio_emitter_gain(__init_global /* 0x186d6 */, emitter_gain);
+    }
+} else {
+    // Door-speed path (toggle != 0, or toggle == 0 with sprite_index == 74).
+    emitter_gain = lerp(emitter_gain, /* TODO(calibrate runtime): @0x140656fd0 */ 0, 0.1 * delta_factor);
+    unk_186d7 = 0;
+    if (emitter_gain < 0.01) {
+        audio_stop_sound(/* TODO(calibrate): const @0x1405c6058 */ 0);
+    }
+    // Two-case switch on door_speed via runtime consts @0x140656fe0 /
+    // @0x140656ff4, table @0x140656ff0 (TODO calibrate values).
+    if (door_speed == /* TODO(calibrate runtime): @0x140656fe0 */ 0) {
+        if (image_index >= 13) {
+            customfunct_image_speed_delta(/* TODO(calibrate runtime): @0x140656fd0 */ 0);
+        } else {
+            customfunct_image_speed_delta(door_speed);
+        }
+    } else if (door_speed == /* TODO(calibrate runtime): @0x140656ff4 */ 0) {
+        if (image_index <= 1) {
+            sprite_index = 69;
+        } else {
+            customfunct_image_speed_delta(door_speed);
+        }
+    }
+    audio_emitter_gain(__init_global /* 0x186d6 */, emitter_gain);
+}
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).

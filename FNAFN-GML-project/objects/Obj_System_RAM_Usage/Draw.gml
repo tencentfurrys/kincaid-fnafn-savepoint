@@ -1,7 +1,37 @@
-/// @description FNAFN Obj_System_RAM_Usage / Draw - NOT YET PORTED
+/// @description FNAFN Obj_System_RAM_Usage / Draw — PORTED from C
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+// ground truth: gml_Object_Obj_System_RAM_Usage_Draw_75 (3779 B @0x14005fd10)
+// Ported: Obj_System_RAM_Usage / Draw_75
+// Decoded (uStack_150 = GML line markers 2..6; slots via EXE-REGISTRY.md,
+// consts via exe_strings.py):
+//   2. draw_set_font(-1) [func_0x000140175520(0xffffffff); 0x140175520 is
+//      PROVEN draw_set_font per the ported Obj_System_Stats_Check/Draw;
+//      -1 = default font].
+//   3-6. four debug lines, one per block. Each block:
+//        raw = ram_installed() / ram_used() / ram_available() /
+//          ram_application() [0-arg calls via 0x140144400, slots
+//          0x1405c8df0/0x1405c8e00/0x1405c8e10/0x1405c8e20];
+//        mb = raw / 1024 / 1024 [chained DIV helper func_0x00014001f910
+//          (dest = src / N — divsd-verified per the ported
+//          Obj_Menu_Night_Display/Draw) by .rdata double
+//          _UNK_14043af18 = 1024.0 via exe_strings.py, twice];
+//        line = <prefix> + string(mb) + " MB" [prefixes "RAM installed: "
+//          @0x1405c3f10 / "RAM used: " @0x1405c3f24 / "RAM available: "
+//          @0x1405c3f30 / "RAM used by this application: " @0x1405c3f40 and
+//          " MB" @0x1405c3f20 loaded via 0x1401453a0; string() = slot
+//          0x1405c8840; joined by the ADD helper 0x140005290];
+//        draw_text(20, <y>, string_hash_to_newline(line)) [draw_text =
+//          slot 0x1405c8da0 argc=3; string_hash_to_newline = slot
+//          0x1405c8de0 argc=1; x = 20.0 @0x1405c3f60 every line;
+//          y = 20.0 @0x1405c3f60 / 40.0 @0x1405c3f70 / 60.0 @0x1405c3f80 /
+//          80.0 @0x1405c3f90].
+draw_set_font(-1);
+draw_text(20, 20, string_hash_to_newline("RAM installed: " + string(ram_installed() / 1024 / 1024) + " MB"));
+draw_text(20, 40, string_hash_to_newline("RAM used: " + string(ram_used() / 1024 / 1024) + " MB"));
+draw_text(20, 60, string_hash_to_newline("RAM available: " + string(ram_available() / 1024 / 1024) + " MB"));
+draw_text(20, 80, string_hash_to_newline("RAM used by this application: " + string(ram_application() / 1024 / 1024) + " MB"));
 // ground truth: gml_Object_Obj_System_RAM_Usage_Draw_75 (3779 B @0x14005fd10)
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) WARNING: Globals starting with '_' overlap smaller symbols at the same address */

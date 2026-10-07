@@ -1,4 +1,113 @@
-/// @description FNAFN Obj_Night_UI_Camera_Button / Step - NOT YET PORTED
+/// @description FNAFN Obj_Night_UI_Camera_Button / Step — PORTED from C
+// Ground truth: gml_Object_Obj_Night_UI_Camera_Button_Step_0
+// Decoded, in order (uStack_d0 = GML line markers). Slots per
+// EXE-REGISTRY.md: 0x1405c7bd8 = mouse_y, 0x1405c7bf8 = view_camera,
+// 0x1405c7b78 = x, 0x1405c7b88 = y, 0x1405c8cc0 = lerp,
+// 0x1405c85c0/0x1405c85d0 = camera_get_view_width/height,
+// 0x1405c8ce0 = camera_set_view_pos. Ids per builtin_ids.json:
+// 0x1873b Night_camera, 0x1870b delta_factor, 0x18747 Night_office_rotated,
+// 0x186ea button_alpha (2-element array, cf. the ported Draw), 0x186ed
+// button_y, 0x1872d key_alpha (4-element array), 0x18758
+// Player_rotation_mode, 0x18709/0x1870a cx/cy (object 1 =
+// Obj_Office_Camera_Control per obj_names.json).
+//   1-4. if (mouse_y <= 85.0 (0x4055400000000000 literal; `<=` via the
+//      `r < 1`-exit) || Night_camera == 1.0):
+//        button_alpha[0] = 1.25 (0x3ff4000000000000; index via the
+//          func_0x00014012b840 second arg, cf. the Freddy Alarm port);
+//        button_y = lerp(button_y, <exe const @0x1405c3fa0>,
+//          0.08 * delta_factor) (0.08 = 0x3fb47ae147ae147b literal; MUL
+//          helper 0x1400053f0).
+//   6-9. if (mouse_y > 85.0 && Night_camera == 0 (zeroed-RValue compare)):
+//        button_alpha[0] = 0.5 (0x3fe0000000000000);
+//        button_y = lerp(button_y, <exe const @0x1405c3fb0>,
+//          0.08 * delta_factor).
+//   0xc-0x12. if (mouse_y > 635.0 (0x4083d80000000000 literal) &&
+//      Night_camera == 0) button_alpha[1] = 1.25; else button_alpha[1]
+//      = 0.5. (C shape: `<= 635` -> 0.5-block; `> 635` + `camera != 0` ->
+//      0.5-block; else 1.25-block.)
+//   0x15. x = Obj_Office_Camera_Control.cx (object-tagged read
+//      0x140160480(1, 0x18709)) + camera_get_view_width(view_camera) / 2
+//      (DIV helper 0x14001f910 by .rdata double _UNK_140439e68 = 2.0 —
+//      divsd-verified per the ported Night_Display/Draw; then ADD helper
+//      0x140005290).
+//   0x16. y = Obj_Office_Camera_Control.cy + camera_get_view_height(
+//      view_camera) / 2 (same shape).
+//   0x18. if (Night_office_rotated != 0 (zeroed compare)) -> 0x2f-block:
+//        key_alpha[0..3] = lerp(key_alpha[i], <lerp target>,
+//          0.1 * delta_factor) (0.1 = 0x3fb999999999999a literal) with
+//        targets: [0] <rt @0x140655790>, [1] <rt @0x140655790>,
+//        [2] <exe const @0x1405c3fe0>, [3] <rt @0x140655790>.
+//      else (0x1a): switch (Obj_Office_Camera_Control.Player_rotation_mode)
+//        on pool cases 1.0/2.0/3.0 (@0x1406557a0/7b4/7c8; values literal in
+//        the guarded init). The label table @0x1406557b0 is runtime, so the
+//        case->branch mapping is assumed identity (same convention as the
+//        ported Freddy Alarm / Office_Front_Middle Step):
+//          case 1 (0x1c-0x20): targets [0] <rt @0x140655790>,
+//            [1] <exe @0x1405c3fc0>, [2] <exe @0x1405c3fc0>,
+//            [3] <rt @0x140655790>.
+//          case 2 (0x21-0x25): targets [0] <exe @0x1405c3fc0>,
+//            [1] <exe @0x1405c3fc0>, [2] <rt @0x140655790>,
+//            [3] <rt @0x140655790>.
+//          case 3 (0x26-0x2a): targets [0] <exe @0x1405c3fd0>,
+//            [1] <rt @0x140655790>, [2] <rt @0x140655790>,
+//            [3] <exe @0x1405c3fc0>.
+//        (Each key_alpha[i] assignment goes through the array-element
+//        boilerplate — 1479b0/147990/147980 length/index checks — elided,
+//        as in the ported Draw.)
+//   0x35. if (Night_camera == 1.0):
+//        camera_set_view_pos(view_camera, <exe const @0x1405c3ff0>,
+//          <rt @0x140655790>).
+// TODO(calibrate): every @0x1405c3xxx exe const (below the EXE-CONSTANTS
+// dump range — emitted as 0) and every @0x140655xxx runtime const
+// (BSS-zero convention: 0 below); rotation-mode table @0x1406557b0 mapping;
+// 0.08/0.1 lerp factors are literals — verify in-game.
+// Ported: Obj_Night_UI_Camera_Button / Step_0
+if (mouse_y <= 85 || Night_camera == 1) {
+    button_alpha[0] = 1.25;
+    button_y = lerp(button_y, 0 /* TODO(calibrate): exe const @0x1405c3fa0 */, 0.08 * delta_factor);
+}
+if (mouse_y > 85 && Night_camera == 0) {
+    button_alpha[0] = 0.5;
+    button_y = lerp(button_y, 0 /* TODO(calibrate): exe const @0x1405c3fb0 */, 0.08 * delta_factor);
+}
+if (mouse_y > 635 && Night_camera == 0) {
+    button_alpha[1] = 1.25;
+} else {
+    button_alpha[1] = 0.5;
+}
+x = Obj_Office_Camera_Control.cx + camera_get_view_width(view_camera) / 2; // TODO(calibrate): /2 via _UNK_140439e68 (= 2.0 per Night_Display/Draw)
+y = Obj_Office_Camera_Control.cy + camera_get_view_height(view_camera) / 2; // TODO(calibrate): same divisor
+if (Night_office_rotated != 0) {
+    key_alpha[0] = lerp(key_alpha[0], 0 /* TODO(calibrate): runtime const @0x140655790 */, 0.1 * delta_factor);
+    key_alpha[1] = lerp(key_alpha[1], 0 /* TODO(calibrate): runtime const @0x140655790 */, 0.1 * delta_factor);
+    key_alpha[2] = lerp(key_alpha[2], 0 /* TODO(calibrate): exe const @0x1405c3fe0 */, 0.1 * delta_factor);
+    key_alpha[3] = lerp(key_alpha[3], 0 /* TODO(calibrate): runtime const @0x140655790 */, 0.1 * delta_factor);
+} else {
+    switch (Obj_Office_Camera_Control.Player_rotation_mode) {
+        case 1: // TODO(calibrate): table @0x1406557b0 mapping assumed identity — verify in-game
+            key_alpha[0] = lerp(key_alpha[0], 0 /* TODO(calibrate): runtime const @0x140655790 */, 0.1 * delta_factor);
+            key_alpha[1] = lerp(key_alpha[1], 0 /* TODO(calibrate): exe const @0x1405c3fc0 */, 0.1 * delta_factor);
+            key_alpha[2] = lerp(key_alpha[2], 0 /* TODO(calibrate): exe const @0x1405c3fc0 */, 0.1 * delta_factor);
+            key_alpha[3] = lerp(key_alpha[3], 0 /* TODO(calibrate): runtime const @0x140655790 */, 0.1 * delta_factor);
+            break;
+        case 2: // TODO(calibrate): same table
+            key_alpha[0] = lerp(key_alpha[0], 0 /* TODO(calibrate): exe const @0x1405c3fc0 */, 0.1 * delta_factor);
+            key_alpha[1] = lerp(key_alpha[1], 0 /* TODO(calibrate): exe const @0x1405c3fc0 */, 0.1 * delta_factor);
+            key_alpha[2] = lerp(key_alpha[2], 0 /* TODO(calibrate): runtime const @0x140655790 */, 0.1 * delta_factor);
+            key_alpha[3] = lerp(key_alpha[3], 0 /* TODO(calibrate): runtime const @0x140655790 */, 0.1 * delta_factor);
+            break;
+        case 3: // TODO(calibrate): same table
+            key_alpha[0] = lerp(key_alpha[0], 0 /* TODO(calibrate): exe const @0x1405c3fd0 */, 0.1 * delta_factor);
+            key_alpha[1] = lerp(key_alpha[1], 0 /* TODO(calibrate): runtime const @0x140655790 */, 0.1 * delta_factor);
+            key_alpha[2] = lerp(key_alpha[2], 0 /* TODO(calibrate): runtime const @0x140655790 */, 0.1 * delta_factor);
+            key_alpha[3] = lerp(key_alpha[3], 0 /* TODO(calibrate): exe const @0x1405c3fc0 */, 0.1 * delta_factor);
+            break;
+    }
+}
+if (Night_camera == 1) {
+    camera_set_view_pos(view_camera, 0 /* TODO(calibrate): exe const @0x1405c3ff0 */, 0 /* TODO(calibrate): runtime const @0x140655790 */);
+}
+
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).

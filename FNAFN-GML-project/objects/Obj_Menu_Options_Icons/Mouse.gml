@@ -5,9 +5,18 @@
 // 1 sub-event(s): Mouse_4  (one reference block each; port a sub-event by
 //  editing its ---- header to PORTED and inserting GML above its block)
 
-// ---- sub-event Mouse_4 — NOT YET PORTED ----
+// ---- sub-event Mouse_4 — PORTED from C ----
 // ground truth: gml_Object_Obj_Menu_Options_Icons_Mouse_4 (967 B @0x1400da150)
+// Reads image_index (slot 0x1405c7aa8, EXE-REGISTRY.md) and two-case
+// compares it (func_0x00014015be60) against runtime consts @0x140656d60 /
+// @0x140656d74 with label table @0x140656d70 (all in .data zero-tail,
+// unmapped = runtime). iVar1 == 1 branch opens @0x1405c5750 (patreon),
+// == 0 branch opens @0x1405c5720 (gamejolt); slot 0x1405c8fc0 = url_open
+// (EXE-REGISTRY.md). Best-fit mapping: image_index 0 -> gamejolt,
+// 1 -> patreon.
 // Ported: Obj_Menu_Options_Icons / Mouse_4
+// TODO(calibrate): case consts @0x140656d60/@0x140656d74 + table @0x140656d70
+// are runtime — confirm in-game that image_index 0/1 map as below.
 if (image_index == 0) { url_open("https://gamejolt.com/games/FNAF-N/148097"); }
 else if (image_index == 1) { url_open("https://www.patreon.com/HStudiosDev"); }
 

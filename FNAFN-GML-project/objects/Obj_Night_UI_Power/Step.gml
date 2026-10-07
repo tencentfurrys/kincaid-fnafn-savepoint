@@ -1,7 +1,71 @@
-/// @description FNAFN Obj_Night_UI_Power / Step - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Night_UI_Power / Step — PORTED from C
+// Ground truth: gml_Object_Obj_Night_UI_Power_Step_0
+// Power-bar opacity driver. power_bar_opacity (id 0x1875a) is an ARRAY —
+// indexed 0/1/2 for the three bar segments (same as Create/Draw).
+// Decoded control flow (line markers uStack_48 in parens):
+//   (1) game[0] element read via the func_0x000140147980(array, index)
+//     accessor idiom, compared (3-way helper 0x14015be60, r == 0 means ==)
+//     against the runtime case const @0x140655630.
+//   if branch (3-4,13): Night_power_amount (id 0x18748) = clamp(
+//     Night_power_amount, <min @0x140655620>, 2.0) [slot 0x1405c8a00 = clamp
+//     via EXE-REGISTRY.md; max @0x1405c3e10 = 2.0 via exe_strings.py]; then
+//     a two-threshold dispatch on Night_power_amount (@0x140655650 /
+//     @0x140655664) selects row 0/1 of the runtime table @0x140655660, and
+//     the row value picks the opacity triple: 1 -> (1,1,1); 0 -> (1,0.25,0);
+//     otherwise (0.25,0.25,0). No threshold matches -> (0.25,0.25,0).
+//   else branch (14-15,28): same clamp with max 3.0 (@0x1405c3e20); then a
+//     three-threshold dispatch (@0x140655680/@0x140655694/@0x1406556a8, plus
+//     the @0x1406556b4 flag == 2 check) selects a row of the runtime table
+//     @0x140655690: 2 -> (1,1,1); 1 -> (1,1,0.25); 0 -> (1,0.25,0.25);
+//     otherwise (0.25,0.25,0.25).
+// TODO(calibrate): every @0x14065xxxx const above lives in BSS (runtime-
+//   populated switch tables, outside the mapped exe image), so the exact
+//   threshold values must be confirmed in-game; the opacity triples and the
+//   clamp bounds 2.0/3.0 are exact. Dropped: array bounds-check fallbacks,
+//   one-shot BSS static-init guards, RValue destructors.
+if (game[0] == 0 /* TODO(calibrate): case const @0x140655630 (BSS, unreadable offline) */) {
+    Night_power_amount = clamp(Night_power_amount, 0 /* TODO(calibrate): min @0x140655620 (BSS) */, 2);
+    var _sel_a = -1;
+    if (Night_power_amount == 0 /* TODO(calibrate): case @0x140655650 (BSS) */) _sel_a = 0 /* TODO(calibrate): row of table @0x140655660 (BSS) */;
+    else if (Night_power_amount == 0 /* TODO(calibrate): case @0x140655664 (BSS) */) _sel_a = 0 /* TODO(calibrate): row of table @0x140655660 (BSS) */;
+    if (_sel_a == 1) {
+        power_bar_opacity[0] = 1;
+        power_bar_opacity[1] = 1;
+        power_bar_opacity[2] = 1;
+    } else if (_sel_a == 0) {
+        power_bar_opacity[0] = 1;
+        power_bar_opacity[1] = 0.25;
+        power_bar_opacity[2] = 0;
+    } else {
+        power_bar_opacity[0] = 0.25;
+        power_bar_opacity[1] = 0.25;
+        power_bar_opacity[2] = 0;
+    }
+} else {
+    Night_power_amount = clamp(Night_power_amount, 0 /* TODO(calibrate): min @0x140655620 (BSS) */, 3);
+    var _sel_b = -1;
+    if (Night_power_amount == 0 /* TODO(calibrate): case @0x140655680 (BSS) */) _sel_b = 0 /* TODO(calibrate): row of table @0x140655690 (BSS) */;
+    else if (Night_power_amount == 0 /* TODO(calibrate): case @0x140655694 (BSS) */) _sel_b = 0 /* TODO(calibrate): row of table @0x140655690 (BSS) */;
+    else if (Night_power_amount == 0 /* TODO(calibrate): case @0x1406556a8 (BSS) */) _sel_b = 0 /* TODO(calibrate): row of table @0x140655690 (BSS) */;
+    if (_sel_b == 2) {
+        power_bar_opacity[0] = 1;
+        power_bar_opacity[1] = 1;
+        power_bar_opacity[2] = 1;
+    } else if (_sel_b == 1) {
+        power_bar_opacity[0] = 1;
+        power_bar_opacity[1] = 1;
+        power_bar_opacity[2] = 0.25;
+    } else if (_sel_b == 0) {
+        power_bar_opacity[0] = 1;
+        power_bar_opacity[1] = 0.25;
+        power_bar_opacity[2] = 0.25;
+    } else {
+        power_bar_opacity[0] = 0.25;
+        power_bar_opacity[1] = 0.25;
+        power_bar_opacity[2] = 0.25;
+    }
+}
+
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) Globals starting with '_' overlap smaller symbols at the same address
 // - literal slash-star form removed: it would close a GML block comment early.

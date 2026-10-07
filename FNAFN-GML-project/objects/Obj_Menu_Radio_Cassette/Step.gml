@@ -1,4 +1,39 @@
-/// @description FNAFN Obj_Menu_Radio_Cassette / Step - NOT YET PORTED
+/// @description FNAFN Obj_Menu_Radio_Cassette / Step — PORTED from C
+// Ground truth: gml_Object_Obj_Menu_Radio_Cassette_Step_0
+// Decoded, in order (uStack_70 = GML line markers):
+//   1. arrow_size[0] = lerp(arrow_size[0], 1, 0.3 * delta_factor)
+//      (id 0x186e2 arrow_size, element 0 via the length-check/index dance;
+//      1.0 = exe const @0x1405c5b60; 0.3 = 0x3fd3333333333333 literal via
+//      the PROVEN MUL helper func_0x0001400053f0 with delta_factor id
+//      0x1870b; lerp = slot 0x1405c8cc0, registry).
+//   2. arrow_size[1] = lerp(arrow_size[1], 1, 0.3 * delta_factor) (same,
+//      element 1).
+//   4. track_select switch (id 0x18794; 1.0 literal, 10.0 = 0x4024000000000000
+//      literal; `<=` via `r < 1`, `>=` via `0 < r`, `==` via `r == 0` per
+//      PORTING.md compare calibration):
+//        if (track_select > 1 && track_select < 10):
+//          arrow_alpha[0] = 1; arrow_alpha[1] = 1 (id 0x186e1);
+//        else (track_select <= 1 || track_select >= 10):
+//          if (track_select == 1): arrow_alpha[1] = 0.5; arrow_alpha[0] = 1;
+//          if (track_select == 10): arrow_alpha[0] = 0.5; arrow_alpha[1] = 1.
+//      (0.5 = 0x3fe0000000000000 literal; edge arrows dim the inactive side.)
+// Ported: Obj_Menu_Radio_Cassette / Step
+arrow_size[0] = lerp(arrow_size[0], 1, 0.3 * delta_factor);
+arrow_size[1] = lerp(arrow_size[1], 1, 0.3 * delta_factor);
+if (track_select > 1 && track_select < 10) {
+    arrow_alpha[0] = 1;
+    arrow_alpha[1] = 1;
+} else {
+    if (track_select == 1) {
+        arrow_alpha[1] = 0.5;
+        arrow_alpha[0] = 1;
+    }
+    if (track_select == 10) {
+        arrow_alpha[0] = 0.5;
+        arrow_alpha[1] = 1;
+    }
+}
+
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).

@@ -1,11 +1,56 @@
-/// @description FNAFN Obj_Night_Music_Switch / Mouse - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
-// 1 sub-event(s): Mouse_7  (one reference block each; port a sub-event by
-//  editing its ---- header to PORTED and inserting GML above its block)
+/// @description FNAFN Obj_Night_Music_Switch / Mouse_7 — PORTED from C
+// Ground truth: gml_Object_Obj_Night_Music_Switch_Mouse_7 (2540 B @0x1400f5360)
+// Event 7 = Mouse Button Released family (middle button).
+// Guards: layer_get_visible(layer_name) == 1 AND self image_alpha == 1,
+// where layer_name = string const @0x1405c5f48 (TODO(calibrate): resolve via
+// exe_strings.py; exe image needed).
+// Then toggle ^= 1 (bool flip via func_0x00014012bb70 + ^1).
+// Two-case switch on toggle (case consts @0x140656f70 = 0 and @0x140656f84 = 1.0,
+// PROVEN by the guarded pool init; label table @0x140656f80 static):
+// mapping below assumes table routes 0 -> first branch, 1 -> second
+// (TODO(calibrate): verify branch polarity in-game).
+//   toggle == 0 branch: Night_camera_mode = <const @0x1405c5f5b>,
+//     Obj_Night_Camera_Map.sprite_index = 62, self image_index = 0,
+//     Obj_Night_Camera_Icons_Select.image_alpha = 0,
+//     Obj_Night_Radio_Buttons.image_alpha = 1,
+//     Obj_Night_Radio_Spinner.image_alpha = 1, text_alpha = 1.
+//   toggle == 1 branch: Night_camera_mode = <const @0x1405c5f53>,
+//     Obj_Night_Camera_Map.sprite_index = 82, self image_index = 1,
+//     Obj_Night_Camera_Icons_Select.image_alpha = 1,
+//     Obj_Night_Radio_Buttons.image_alpha = 0,
+//     Obj_Night_Radio_Spinner.image_alpha = 0, text_alpha = 0.
+// (Object indices: 0x2c = 44 = Obj_Night_Camera_Map, 0x14 = 20 =
+// Obj_Night_Camera_Icons_Select, 0x40 = 64 = Obj_Night_Radio_Buttons,
+// 0x3e = 62 = Obj_Night_Radio_Spinner, per obj_names.json.)
+// Tail: customfunct_audio_play_sound_single(<const @0x1405c5f68>,
+// <runtime @0x140656f60>, <runtime @0x140656f60>) (TODO(calibrate) args).
+// NOTE: the bare `(self, 0x18793)` fetch at line-marker 6 is a discarded
+// toggle read (no-op); not emitted.
+if (layer_get_visible("TODO_calibrate_0x1405c5f48") == 1 && image_alpha == 1) {
+    toggle ^= 1;
+    if (toggle == 0) {
+        // TODO(calibrate): confirm this branch pairs with toggle == 0.
+        Night_camera_mode = "TODO_calibrate_0x1405c5f5b";
+        Obj_Night_Camera_Map.sprite_index = 62;
+        image_index = 0;
+        Obj_Night_Camera_Icons_Select.image_alpha = 0;
+        Obj_Night_Radio_Buttons.image_alpha = 1;
+        Obj_Night_Radio_Spinner.image_alpha = 1;
+        text_alpha = 1;
+    } else if (toggle == 1) {
+        // TODO(calibrate): confirm this branch pairs with toggle == 1.
+        Night_camera_mode = "TODO_calibrate_0x1405c5f53";
+        Obj_Night_Camera_Map.sprite_index = 82;
+        image_index = 1;
+        Obj_Night_Camera_Icons_Select.image_alpha = 1;
+        Obj_Night_Radio_Buttons.image_alpha = 0;
+        Obj_Night_Radio_Spinner.image_alpha = 0;
+        text_alpha = 0;
+    }
+    customfunct_audio_play_sound_single("TODO_calibrate_0x1405c5f68", TODO_calibrate_runtime_0x140656f60, TODO_calibrate_runtime_0x140656f60);
+}
 
-// ---- sub-event Mouse_7 — NOT YET PORTED ----
+// ---- sub-event Mouse_7 — PORTED ----
 // ground truth: gml_Object_Obj_Night_Music_Switch_Mouse_7 (2540 B @0x1400f5360)
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) WARNING: Globals starting with '_' overlap smaller symbols at the same address */

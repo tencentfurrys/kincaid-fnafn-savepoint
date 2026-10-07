@@ -1,12 +1,104 @@
-/// @description FNAFN Obj_Night_Camera_Flash / Mouse - NOT YET PORTED
+/// @description FNAFN Obj_Night_Camera_Flash / Mouse_4 — PORTED from C
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
 // 1 sub-event(s): Mouse_4  (one reference block each; port a sub-event by
 //  editing its ---- header to PORTED and inserting GML above its block)
 
-// ---- sub-event Mouse_4 — NOT YET PORTED ----
+// ---- sub-event Mouse_4 — PORTED from C ----
 // ground truth: gml_Object_Obj_Night_Camera_Flash_Mouse_4 (3902 B @0x14011e670)
+// Ported: Obj_Night_Camera_Flash / Mouse_4
+// Decoded, in order (uStack_98 = GML line markers 1..0x3d; ids via
+// builtin_ids.json, slots via EXE-REGISTRY.md, objects via obj_names.json,
+// doubles verified big-endian, strings via exe_strings.py):
+//   1. if (layer_get_visible("Camera_HUD") == 1) [funcid slot
+//      0x1405c86b0 = layer_get_visible (cf. the ported
+//      Obj_Night_Camera_Icons/Mouse); arg "Camera_HUD" @0x1405c6920 via
+//      the 0x1401441e0 const load; `== 0`-exit on compare vs 1.0].
+//   3. if (image_alpha == 0.95) [slot 0x1405c7b98 READ via 0x14015f1a0;
+//      0x3fee666666666666 = 0.95].
+//      if (sprite_index == Spr_Night_Camera_Flash) [slot 0x1405c7be8;
+//      0x4033000000000000 = 19.0 = SPRT 19 Spr_Night_Camera_Flash].
+//      if (recharge <= 0) [id 0x1875e; `<=` via the `(r != -2) && (r < 1)`
+//      test per PORTING.md calibration]:
+//   5-6. click blips 18.0 @0x1405c6930 and 48.0 @0x1405c6940 via
+//      customfunct_audio_play_sound_single (trailing priority/loop are the
+//      same runtime const @0x1406574c0 twice).
+//   7-9. with (Obj_Night_Camera_Screen_Flash) [with-loop bound
+//      0x4050400000000000 = 65.0 = object 65 per obj_names.json; PORTING.md
+//      with-block rule]: switch (Night_mangle_location) (id 0x18745) on
+//      runtime-pool cases 5.0/5.1/5.2/5.3 (@0x1406574d0/4e4/4f8/50c;
+//      guarded init shows 5.0 = 0x4014000000000000 etc. — same cases as
+//      the ported Obj_Night_1_5_Mangle_AI/Alarm). Each matched case jumps
+//      to its handler and returns directly (jumptable @0x14011feec
+//      unrecoverable), so branch bodies are `exit` + TODO.
+//      Fallthrough (uVar8 >> 0x20 >= 4):
+//   0xf. image_index = 4 (0x4010000000000000; slot 0x1405c7aa8 self-write).
+//   0x13. Obj_Night_Camera_Screen_Flash.image_alpha = 1 [object-tagged
+//      write 0x14015fea0(0x41, image_alpha slot, 1.0); 0x41 = 65].
+//   0x14. recharge = 60 (0x404e000000000000).
+//   0x15. sprite_index = Spr_Night_Camera_Flash_Recharge
+//      (0x4057c00000000000 = 95.0 = SPRT 95).
+//   0x16. if (Night_mangle_location != 5.4) [0x401599999999999a = 5.4]:
+//      with (Obj_Night_1_5_Mangle_AI) [bound 0x404a000000000000 = 52.0 =
+//      object 52]:
+//   0x1a.   if (Night_mangle_location != 5.0):
+//   0x1c.     Night_mangle_location -= 0.1 (0x3fb999999999999a; -= helper
+//           0x14000bdb0).
+//   0x1d.     Scr_Camera_Update(39) (direct script call, exe const 39.0
+//           @0x1405c6950 — same call as the ported Camera_Icons/Mouse).
+//   0x1e.     Time_without_move (id 0x18792) = irandom_range(20, 27) -
+//           Mangle_AI_Level (id 0x18735, hoisted pre-loop into uStack_1f0)
+//           * 0.7 [func_0x000140168970 best-fit irandom_range per the
+//           ported Mangle_Alarm; func_0x00014001fa10 best-fit MUL;
+//           0.7 = _UNK_14043db98 .rdata double (LE bytes 66*6/E6/3F) via
+//           exe_strings.py; -= helper 0x14000bdb0].
+//   0x1f.     Scr_Camera_Update[0] = 30 (0x403e000000000000; array-store
+//           shape with the 0x28795 boilerplate write — identical to the
+//           ported Mangle_Alarm case 0).
+// TODO(calibrate): switch case values/branch bodies (@0x1406574d0... pool
+// and jumptable @0x14011feec are outside the mapped exe image) and the
+// audio priority/loop runtime const @0x1406574c0 — verify in-game.
+if (layer_get_visible("Camera_HUD") == 1) {
+    if (image_alpha == 0.95) {
+        if (sprite_index == Spr_Night_Camera_Flash) { // SPRT 19
+            if (recharge <= 0) {
+                customfunct_audio_play_sound_single(18, 0 /* TODO(calibrate): runtime const @0x1406574c0 */, false /* TODO(calibrate): runtime const @0x1406574c0 */);
+                customfunct_audio_play_sound_single(48, 0 /* TODO(calibrate): runtime const @0x1406574c0 */, false /* TODO(calibrate): runtime const @0x1406574c0 */);
+                with (Obj_Night_Camera_Screen_Flash) {
+                    switch (Night_mangle_location) {
+                        case 5.0: // TODO(calibrate): runtime pool @0x1406574d0; jumptable branch — verify in-game
+                            // TODO(calibrate): branch body unrecoverable (jumptable @0x14011feec); C returns here
+                            exit;
+                        case 5.1: // TODO(calibrate): runtime pool @0x1406574e4
+                            // TODO(calibrate): branch body unrecoverable; C returns here
+                            exit;
+                        case 5.2: // TODO(calibrate): runtime pool @0x1406574f8
+                            // TODO(calibrate): branch body unrecoverable; C returns here
+                            exit;
+                        case 5.3: // TODO(calibrate): runtime pool @0x14065750c
+                            // TODO(calibrate): branch body unrecoverable; C returns here
+                            exit;
+                    }
+                    image_index = 4;
+                }
+                Obj_Night_Camera_Screen_Flash.image_alpha = 1;
+                recharge = 60;
+                sprite_index = Spr_Night_Camera_Flash_Recharge; // SPRT 95
+                if (Night_mangle_location != 5.4) {
+                    with (Obj_Night_1_5_Mangle_AI) {
+                        if (Night_mangle_location != 5) {
+                            Night_mangle_location -= 0.1;
+                            Scr_Camera_Update(39);
+                            Time_without_move = irandom_range(20, 27) - Mangle_AI_Level * 0.7;
+                            Scr_Camera_Update[0] = 30;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 

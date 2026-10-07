@@ -1,4 +1,128 @@
-/// @description FNAFN Obj_Night_1_5_Foxy_AI / Alarm - NOT YET PORTED
+/// @description FNAFN Obj_Night_1_5_Foxy_AI / Alarm — PORTED from C
+// Ground truth: gml_Object_Obj_Night_1_5_Foxy_AI_Alarm_0 (4558 B @0x1400acf50)
+// Same AI family as Bonnie/Chica/Mangle Alarm but the location-switch
+// branches are explicit if/else (recoverable — no jumptable), and the gate
+// shape differs. Decoded, in order (uStack_a8 = GML line markers):
+//   3. if (Night_camera (id 0x1873b) == 4.0 (literal) &&
+//      Night_camera_location (id 0x1873c) == 4.0 (literal))
+//        movement = irandom_range(0, 125) (0,0x7d best-fit);
+//      else movement = irandom_range(0, 30) (0,0x1e) (0x9).
+//      (id 0x18738; func_0x000140168970 best-fit irandom_range).
+//   0xb. if (Time_without_move (id 0x18792) >= -30) (`>=` via `r >= 0`):
+//        if (movement <= Foxy_AI_Level (id 0x1871b) && Time_without_move <= 0
+//          (both `<=` via the `r < 1` test — note: `<=`, not `<`, unlike
+//          Bonnie/Chica/Mangle) -> movement opportunity;
+//        else Time_without_move -= 1 (0x34; -= with 1.0 literal).
+//      else -> forced movement opportunity; no-opportunity path (0x34)
+//      jumps straight to the alarm_type tail (code_r0x0001400add17).
+//      Movement opportunity (label code_r0x0001400ad1d8):
+//        switch (Night_foxy_location) (id 0x18743) on pool cases
+//        4.0/4.1/4.2 (@0x140656340/354/368; 4.0 = 0x4010000000000000,
+//        4.1 = 0x4010666666666666, 4.2 = 0x4010cccccccccccd — values literal
+//        in the guarded init). Two-level dispatch via the runtime label
+//        table @0x140656350, so the case->branch mapping below is assumed
+//        (natural 4.0->4.1->4.2->leave progression, cf. the ported Freddy
+//        Alarm) — the branch BODIES are explicit (no jumptable):
+//          case 4.0 (0x10-0x12): Night_foxy_location = 4.1;
+//            Scr_Camera_Update(<exe const @0x1405c4e38>); alarm_type = 0.
+//          case 4.1 (0x14-0x16): Night_foxy_location = 4.2; same script call;
+//            alarm_type = 0.
+//          case 4.2 (0x18-0x1b): Night_foxy_location = "<string @0x1405c4e30>"
+//            (string-const loader 0x1401441e0 into the location slot, same
+//            shape as a const assignment); same script call;
+//            Scr_Camera_Update[1] = 185 (0x4067200000000000);
+//            customfunct_audio_play_sound_directional_single(Foxy_emitter,
+//              <exe const @0x1405c4e48>, <rt @0x140656330>, <rt @0x140656330>)
+//              (id 0x1871c; arg shape per Obj_Office_Front_Left/Mouse).
+//        Fallthrough / after the switch (0x21):
+//        if (Night_foxy_location != "<same string @0x1405c4e30>")
+//          (0x21 string load + `!=` compare):
+//          0x23. _s = irandom_range(1, 4);
+//          switch (_s) on 1.0/2.0/3.0/4.0 (pool @0x140656380..@0x1406563bc,
+//          identity table @0x140656390). Jumptable @0x1400ad9f0
+//          unrecoverable — each branch returns directly.
+//          Fallthrough:
+//            0x2c. audio_emitter_pitch(Foxy_emitter, random_range(...))
+//                    (slot 0x1405c8f40).
+//            0x2d. customfunct_audio_play_sound_directional_single(
+//                    Foxy_emitter, 0, <rt @0x140656330>, <rt @0x140656330>).
+//   0x30. Time_without_move = irandom_range(23, 30) - Foxy_AI_Level * 0.1
+//         (0x17,0x1e best-fit — same range as the ported Foxy Create; MUL
+//         with .rdata double _UNK_14043bf50, 0.1 assumed by family with the
+//         Create's _UNK_14043bf18 = 0.1 — different symbol, so flagged).
+//   0x37. if (alarm_type (id 0x186d8) == 0) Scr_Camera_Update[0] = 30
+//         (0x403e000000000000). Single-case check: the case const
+//         @0x1406563e0 is PROVEN 0.0 (the guarded init writes literal 0),
+//         so no mapping TODO here.
+// TODO(calibrate): func_0x000140168970 best-fit irandom_range;
+// func_0x000140168cf0 best-fit random_range (.rdata args
+// _UNK_140439ea0/_UNK_14043ba80); location-switch table @0x140656350
+// mapping; string const @0x1405c4e30 + numeric consts @0x1405c4e38/
+// @0x1405c4e48 (below the EXE-CONSTANTS dump range — emitted as ""/0);
+// runtime consts @0x140656330 (BSS-zero convention: 0/false below);
+// _UNK_14043bf50 factor (0.1 assumed); second-switch jumptable bodies —
+// verify in-game.
+// Ported: Obj_Night_1_5_Foxy_AI / Alarm_0
+if (Night_camera == 4 && Night_camera_location == 4) {
+    movement = irandom_range(0, 125);
+} else {
+    movement = irandom_range(0, 30);
+}
+var _move = false;
+var _s = 0;
+if (Time_without_move >= -30) {
+    if (movement <= Foxy_AI_Level && Time_without_move <= 0) {
+        _move = true;
+    } else {
+        Time_without_move -= 1;
+    }
+} else {
+    _move = true;
+}
+if (_move) {
+    switch (Night_foxy_location) {
+        case 4.0: // TODO(calibrate): table @0x140656350; assumes 4.0 -> advance to 4.1
+            Night_foxy_location = 4.1;
+            Scr_Camera_Update(0 /* TODO(calibrate): exe const @0x1405c4e38 — verify in-game */);
+            alarm_type = 0;
+            break;
+        case 4.1: // TODO(calibrate): table @0x140656350; assumes 4.1 -> advance to 4.2
+            Night_foxy_location = 4.2;
+            Scr_Camera_Update(0 /* TODO(calibrate): exe const @0x1405c4e38 — verify in-game */);
+            alarm_type = 0;
+            break;
+        case 4.2: // TODO(calibrate): table @0x140656350; assumes 4.2 -> leave
+            Night_foxy_location = ""; // TODO(calibrate): string const @0x1405c4e30 (below dump range) — verify in-game
+            Scr_Camera_Update(0 /* TODO(calibrate): exe const @0x1405c4e38 — verify in-game */);
+            Scr_Camera_Update[1] = 185;
+            customfunct_audio_play_sound_directional_single(Foxy_emitter, 0 /* TODO(calibrate): exe const @0x1405c4e48 */, 0 /* TODO(calibrate): runtime const @0x140656330 */, false /* TODO(calibrate): runtime const @0x140656330 */);
+            break;
+    }
+    if (Night_foxy_location != "") { // TODO(calibrate): compares against the same string const @0x1405c4e30
+        _s = irandom_range(1, 4);
+        switch (_s) {
+            case 1: // TODO(calibrate): pool @0x140656380; jumptable branch — verify in-game
+                // TODO(calibrate): branch body unrecoverable (jumptable @0x1400ad9f0); C returns here
+                exit;
+            case 2: // TODO(calibrate): pool @0x140656394
+                // TODO(calibrate): branch body unrecoverable; C returns here
+                exit;
+            case 3: // TODO(calibrate): pool @0x1406563a8
+                // TODO(calibrate): branch body unrecoverable; C returns here
+                exit;
+            case 4: // TODO(calibrate): pool @0x1406563bc
+                // TODO(calibrate): branch body unrecoverable; C returns here
+                exit;
+        }
+        audio_emitter_pitch(Foxy_emitter, random_range(0, 0)); // TODO(calibrate): random args are .rdata doubles _UNK_140439ea0/_UNK_14043ba80 — verify in-game
+        customfunct_audio_play_sound_directional_single(Foxy_emitter, 0, 0 /* TODO(calibrate): runtime const @0x140656330 */, false /* TODO(calibrate): runtime const @0x140656330 */);
+    }
+    Time_without_move = irandom_range(23, 30) - Foxy_AI_Level * 0.1; // TODO(calibrate): factor is _UNK_14043bf50 (0.1 assumed) — verify in-game
+}
+if (alarm_type == 0) { // case const @0x1406563e0 proven 0.0 by the guarded pool init
+    Scr_Camera_Update[0] = 30;
+}
+
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).

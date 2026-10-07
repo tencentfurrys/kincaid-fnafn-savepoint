@@ -1,8 +1,41 @@
-/// @description FNAFN Obj_Night_UI_Camera_Button / Draw - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
-// ground truth: gml_Object_Obj_Night_UI_Camera_Button_Draw_75 (2194 B @0x1400670a0)
+/// @description FNAFN Obj_Night_UI_Camera_Button / Draw_75 — PORTED from C
+// Ground truth: gml_Object_Obj_Night_UI_Camera_Button_Draw_75 (2194 B @0x1400670a0)
+// Sprite ids are SPRT indices (sprite_names.json): 0x11 = 17 =
+// Spr_Night_UI_Camera_Button, 99 = Spr_Night_UI_Freddy_Alert,
+// 0x66 = 102 = Spr_Night_UI_Key_Hints.
+// button_alpha is a 2-element array ([0] = main button alpha, [1] = bottom
+// hint-bar alpha); key_alpha is a 4-element array. Array-index boilerplate
+// (1479b0/147990/147980) elided.
+// 1. draw_sprite_ext(Spr_Night_UI_Camera_Button, button_index,
+//        <x @UNK_14043b000>, button_y, 1, 1, 0, c_white, button_alpha[0])
+//    (TODO(calibrate): x const — runtime float outside the mapped image).
+// 2. draw_sprite_ext(Spr_Night_UI_Freddy_Alert,
+//        Obj_Night_1_5_Freddy_AI.image_index,  // object 0x2f = 47, tagged read
+//        <x @UNK_14043b000>, button_y + 15, 0.7, 0.7, 0, c_white, alert_alpha)
+//    (0x3f333333 f32 ~= 0.7; += helper 0x14000bf90 for the +15.)
+// 3. if (Night_camera != 0) stop (require Night_camera == 0).
+// 4. draw_sprite_ext(Spr_Night_UI_Key_Hints, 0, <x @UNK_14043b004>, 670,
+//        1, 1, 0, c_white, key_alpha[0])
+//    draw_sprite_ext(Spr_Night_UI_Key_Hints, 1, <x @UNK_14043b008>, 670,
+//        1, 1, 0, c_white, key_alpha[1])
+//    draw_sprite_ext(Spr_Night_UI_Key_Hints, 2, <x @UNK_14043b004>, 670,
+//        1, 1, 0, c_white, key_alpha[2])
+//    draw_sprite_ext(Spr_Night_UI_Key_Hints, 2, <x @UNK_14043b008>, 670,
+//        1, 1, 0, c_white, key_alpha[3])
+//    (0x44278000 f32 = 670.0; x consts TODO(calibrate); note the last two
+//    both use subimg 2 — as in the C, not a typo.)
+// 5. draw_sprite_ext(Spr_Night_UI_Camera_Button, 0, <x @UNK_14043b00c>, 679,
+//        1, 1, 0, c_white, button_alpha[1])  (0x4429c000 f32 = 679.0).
+draw_sprite_ext(Spr_Night_UI_Camera_Button, button_index, TODO_calibrate_14043b000, button_y, 1, 1, 0, c_white, button_alpha[0]);
+draw_sprite_ext(Spr_Night_UI_Freddy_Alert, Obj_Night_1_5_Freddy_AI.image_index, TODO_calibrate_14043b000, button_y + 15, 0.7, 0.7, 0, c_white, alert_alpha);
+if (Night_camera == 0) {
+    draw_sprite_ext(Spr_Night_UI_Key_Hints, 0, TODO_calibrate_14043b004, 670, 1, 1, 0, c_white, key_alpha[0]);
+    draw_sprite_ext(Spr_Night_UI_Key_Hints, 1, TODO_calibrate_14043b008, 670, 1, 1, 0, c_white, key_alpha[1]);
+    draw_sprite_ext(Spr_Night_UI_Key_Hints, 2, TODO_calibrate_14043b004, 670, 1, 1, 0, c_white, key_alpha[2]);
+    draw_sprite_ext(Spr_Night_UI_Key_Hints, 2, TODO_calibrate_14043b008, 670, 1, 1, 0, c_white, key_alpha[3]);
+    draw_sprite_ext(Spr_Night_UI_Camera_Button, 0, TODO_calibrate_14043b00c, 679, 1, 1, 0, c_white, button_alpha[1]);
+}
+
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 

@@ -1,12 +1,121 @@
-/// @description FNAFN Obj_Night_UI_Camera_Button / KeyPress - NOT YET PORTED
+/// @description FNAFN Obj_Night_UI_Camera_Button / KeyPress — PORTED from C
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
-// 2 sub-event(s): KeyPress_83, KeyPress_87  (one reference block each; port a sub-event by
-//  editing its ---- header to PORTED and inserting GML above its block)
+// 2 sub-event(s): KeyPress_83, KeyPress_87 — both PORTED (one GML block each
+// above its reference block; per-sub-event ---- headers marked PORTED)
 
-// ---- sub-event KeyPress_83 — NOT YET PORTED ----
+// ---- sub-event KeyPress_83 — PORTED from C ----
 // ground truth: gml_Object_Obj_Night_UI_Camera_Button_KeyPress_83 (6657 B @0x140069870)
+// Decoded, in order (uStack_a0 = GML line markers). Slots per
+// EXE-REGISTRY.md: 0x1405c89d0 = layer_set_visible, 0x1405c8e30 =
+// audio_emitter_position, 0x1405c8960 = audio_stop_sound, 0x1405c8e40 =
+// audio_sound_pitch, 0x1405c8970 = audio_play_sound. Ids per
+// builtin_ids.json: 0x1873b Night_camera, 0x186ec button_toggle (array),
+// 0x18747 Night_office_rotated, 0x18758 Player_rotation_mode. Objects per
+// obj_names.json: 1 = Obj_Office_Camera_Control, 28 =
+// Obj_Night_1_5_Bonnie_AI, 34 = Obj_Night_1_5_Foxy_AI, 30 =
+// Obj_Night_1_5_Chica_AI, 16 = Obj_Office_Front_Left, 61 =
+// Obj_Office_Front_Right (emitter-var ownership per obj_var_ownership.md).
+//   1. if (Night_camera != 0) exit (compare-`!= 0` early exit).
+//   3. Obj_Office_Camera_Control.x = 3160.0 (0x40a8b00000000000 literal;
+//      object-tagged property write 0x14015fea0(1, x-slot)).
+//   4. Obj_Office_Camera_Control.fade_alpha (id 0x18718) = 1.0
+//      (object-tagged var write 0x140160b90(1, ...)).
+//   5. button_toggle[1] ^= 1 (bool flip via func_0x00014012bb70 + ^1, cf.
+//      the ported Music_Switch; index 1 via the accessor second arg).
+//   6. switch on the button_toggle[1] copy: cases 0 / 1.0 are CERTAIN
+//      (pool @0x140655860 = 0 / @0x140655874 = 1.0, values literal in the
+//      guarded init). The label table @0x140655870 is runtime, so the
+//      case->branch mapping is assumed identity (1 -> on-branch,
+//      0 -> off-branch — same convention as the ported Freddy Alarm):
+//      case 1 (0x14-0x1f):
+//        layer_set_visible("<layer @0x1405c4088>", <rt @0x140655850>);
+//        layer_set_visible("<layer @0x1405c4095>", <exe @0x1405c40a8>);
+//        audio_emitter_position(Obj_Night_1_5_Bonnie_AI.Bonnie_emitter,
+//          <exe @0x1405c40c8>, <exe @0x1405c40b8>, <rt @0x140655850>);
+//        audio_emitter_position(Obj_Night_1_5_Foxy_AI.Foxy_emitter,
+//          same consts);
+//        audio_emitter_position(Obj_Night_1_5_Chica_AI.Chica_emitter,
+//          <rt @0x140655850>, <exe @0x1405c40b8>, <rt @0x140655850>);
+//        audio_emitter_position(Obj_Office_Front_Left.door_emitter,
+//          <exe @0x1405c40e8>, <exe @0x1405c40b8>, <rt @0x140655850>);
+//        audio_emitter_position(Obj_Office_Front_Right.door_emitter,
+//          <exe @0x1405c40d8>, <exe @0x1405c40b8>, <rt @0x140655850>);
+//        Night_office_rotated = 1.0;
+//        Obj_Office_Camera_Control.Player_rotation_mode = 2.0.
+//      case 0 (0x8-0x12): mirror image — layer consts swapped
+//        (("@0x1405c4088", @0x1405c40a8) / ("@0x1405c4095", rt)),
+//        Bonnie/Chica first-consts swapped (Bonnie rt, Chica exe),
+//        door first-consts swapped (Left @0x1405c40d8, Right @0x1405c40e8),
+//        Night_office_rotated = 0.
+//   0x23-0x28. audio_stop_sound(<exe @0x1405c40f8>);
+//      audio_stop_sound(<exe @0x1405c4108>);
+//      audio_stop_sound(<exe @0x1405c4118>);
+//      audio_stop_sound(<exe @0x1405c4128>).
+//   0x29. _s = irandom_range(1, 4) (func_0x000140168970 best-fit);
+//      switch (_s) on 1.0/2.0/3.0/4.0 (pool @0x140655890..@0x1406558cc
+//      literal in the guarded init; identity table @0x1406558a0).
+//      Jumptable @0x14006ad45 unrecoverable — each branch calls through
+//      and returns directly.
+//      Fallthrough:
+//        0x30. audio_sound_pitch(0, random_range(...)) (uStack_c0 literal
+//               0; func_0x000140168cf0 best-fit random_range with .rdata
+//               args _UNK_14043b070/_UNK_14043b078).
+//        0x31. audio_play_sound(0, <rt @0x140655850>, <rt @0x140655850>).
+// TODO(calibrate): toggle-switch table @0x140655870 mapping; layer-name
+// strings + numeric consts @0x1405c40xx (below the EXE-CONSTANTS dump
+// range — emitted as "TODO_calibrate_..." / 0); runtime consts @0x140655850
+// (BSS-zero convention: 0/false below); random_range .rdata args;
+// second-switch jumptable bodies — verify in-game.
+// Ported: Obj_Night_UI_Camera_Button / KeyPress_83
+if (Night_camera != 0) {
+    exit;
+}
+Obj_Office_Camera_Control.x = 3160;
+Obj_Office_Camera_Control.fade_alpha = 1;
+button_toggle[1] ^= 1;
+if (button_toggle[1] == 1) { // TODO(calibrate): table @0x140655870 mapping assumed identity — verify in-game
+    layer_set_visible("TODO_calibrate_0x1405c4088", 0 /* TODO(calibrate): runtime const @0x140655850 */);
+    layer_set_visible("TODO_calibrate_0x1405c4095", 0 /* TODO(calibrate): exe const @0x1405c40a8 */);
+    audio_emitter_position(Obj_Night_1_5_Bonnie_AI.Bonnie_emitter, 0 /* TODO(calibrate): exe const @0x1405c40c8 */, 0 /* TODO(calibrate): exe const @0x1405c40b8 */, 0 /* TODO(calibrate): runtime const @0x140655850 */);
+    audio_emitter_position(Obj_Night_1_5_Foxy_AI.Foxy_emitter, 0 /* TODO(calibrate): exe const @0x1405c40c8 */, 0 /* TODO(calibrate): exe const @0x1405c40b8 */, 0 /* TODO(calibrate): runtime const @0x140655850 */);
+    audio_emitter_position(Obj_Night_1_5_Chica_AI.Chica_emitter, 0 /* TODO(calibrate): runtime const @0x140655850 */, 0 /* TODO(calibrate): exe const @0x1405c40b8 */, 0 /* TODO(calibrate): runtime const @0x140655850 */);
+    audio_emitter_position(Obj_Office_Front_Left.door_emitter, 0 /* TODO(calibrate): exe const @0x1405c40e8 */, 0 /* TODO(calibrate): exe const @0x1405c40b8 */, 0 /* TODO(calibrate): runtime const @0x140655850 */);
+    audio_emitter_position(Obj_Office_Front_Right.door_emitter, 0 /* TODO(calibrate): exe const @0x1405c40d8 */, 0 /* TODO(calibrate): exe const @0x1405c40b8 */, 0 /* TODO(calibrate): runtime const @0x140655850 */);
+    Night_office_rotated = 1;
+    Obj_Office_Camera_Control.Player_rotation_mode = 2;
+} else if (button_toggle[1] == 0) { // TODO(calibrate): same table
+    layer_set_visible("TODO_calibrate_0x1405c4088", 0 /* TODO(calibrate): exe const @0x1405c40a8 */);
+    layer_set_visible("TODO_calibrate_0x1405c4095", 0 /* TODO(calibrate): runtime const @0x140655850 */);
+    audio_emitter_position(Obj_Night_1_5_Bonnie_AI.Bonnie_emitter, 0 /* TODO(calibrate): runtime const @0x140655850 */, 0 /* TODO(calibrate): exe const @0x1405c40b8 */, 0 /* TODO(calibrate): runtime const @0x140655850 */);
+    audio_emitter_position(Obj_Night_1_5_Foxy_AI.Foxy_emitter, 0 /* TODO(calibrate): runtime const @0x140655850 */, 0 /* TODO(calibrate): exe const @0x1405c40b8 */, 0 /* TODO(calibrate): runtime const @0x140655850 */);
+    audio_emitter_position(Obj_Night_1_5_Chica_AI.Chica_emitter, 0 /* TODO(calibrate): exe const @0x1405c40c8 */, 0 /* TODO(calibrate): exe const @0x1405c40b8 */, 0 /* TODO(calibrate): runtime const @0x140655850 */);
+    audio_emitter_position(Obj_Office_Front_Left.door_emitter, 0 /* TODO(calibrate): exe const @0x1405c40d8 */, 0 /* TODO(calibrate): exe const @0x1405c40b8 */, 0 /* TODO(calibrate): runtime const @0x140655850 */);
+    audio_emitter_position(Obj_Office_Front_Right.door_emitter, 0 /* TODO(calibrate): exe const @0x1405c40e8 */, 0 /* TODO(calibrate): exe const @0x1405c40b8 */, 0 /* TODO(calibrate): runtime const @0x140655850 */);
+    Night_office_rotated = 0;
+}
+audio_stop_sound(0 /* TODO(calibrate): exe const @0x1405c40f8 */);
+audio_stop_sound(0 /* TODO(calibrate): exe const @0x1405c4108 */);
+audio_stop_sound(0 /* TODO(calibrate): exe const @0x1405c4118 */);
+audio_stop_sound(0 /* TODO(calibrate): exe const @0x1405c4128 */);
+var _s83 = irandom_range(1, 4);
+switch (_s83) {
+    case 1: // TODO(calibrate): pool @0x140655890; jumptable branch — verify in-game
+        // TODO(calibrate): branch body unrecoverable (jumptable @0x14006ad45); C returns here
+        exit;
+    case 2: // TODO(calibrate): pool @0x1406558a4
+        // TODO(calibrate): branch body unrecoverable; C returns here
+        exit;
+    case 3: // TODO(calibrate): pool @0x1406558b8
+        // TODO(calibrate): branch body unrecoverable; C returns here
+        exit;
+    case 4: // TODO(calibrate): pool @0x1406558cc
+        // TODO(calibrate): branch body unrecoverable; C returns here
+        exit;
+}
+audio_sound_pitch(0, random_range(0, 0)); // TODO(calibrate): random args are .rdata doubles _UNK_14043b070/_UNK_14043b078 — verify in-game
+audio_play_sound(0, 0 /* TODO(calibrate): runtime const @0x140655850 */, false /* TODO(calibrate): runtime const @0x140655850 */);
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
@@ -647,8 +756,118 @@ code_r0x00014006afdb:
 }
 END DECOMPILED REFERENCE */
 
-// ---- sub-event KeyPress_87 — NOT YET PORTED ----
+// ---- sub-event KeyPress_87 — PORTED from C ----
 // ground truth: gml_Object_Obj_Night_UI_Camera_Button_KeyPress_87 (4991 B @0x140067c70)
+// Decoded, in order (uStack_88 = GML line markers). Slots per
+// EXE-REGISTRY.md: 0x1405c8d90 = instance_create_layer, 0x1405c89d0 =
+// layer_set_visible, 0x1405c8e40 (unused here), 0x1405c8970 is NOT used —
+// sounds go through the script customfunct_audio_play_sound_single
+// (snd, priority, loop) per scripts/ported/
+// customfunct_audio_play_sound_single.gml. Helpers per PORTING.md:
+// 0x14017c0e0 = instance_exists(N), 0x14017c070 = instance_destroy() inside
+// the with() loop (repeat-const 4.0 = OBJECT INDEX 4 =
+// Obj_Night_Camera_Tablet per obj_names.json). Ids per builtin_ids.json:
+// 0x18749 Night_recording, 0x186ec button_toggle (array), 0x18748
+// Night_power_amount (global), 0x1873b Night_camera (global), 0x186eb
+// button_index, 0x18758 Player_rotation_mode (obj 1), 0x1877e
+// Tablet_Sprite_Speed (obj 4 = Obj_Night_Camera_Tablet), 0x1875b
+// power_threshold, 0x18747 Night_office_rotated. Object 0x41 = 65 =
+// Obj_Night_Camera_Screen_Flash; image_alpha slot 0x1405c7b98.
+//   1. if (Night_recording != 0) exit.
+//   3. button_toggle[0] ^= 1 (bool flip, cf. Music_Switch; index 0).
+//   5. switch on the button_toggle[0] copy: cases 0 / 1.0 are CERTAIN
+//      (pool @0x1406557f0 = 0 / @0x140655804 = 1.0 literal in the guarded
+//      init). Label table @0x140655800 runtime — mapping assumed identity
+//      (0 -> off-branch, 1 -> on-branch):
+//      case 0 (0x7-0x19):
+//        0x7. Night_power_amount -= 1 (the line-0x7 id-0x186ec fetch is
+//             discarded — the -= lands on the id-0x18748 global slot,
+//             same YYC idiom as the Freddy Step 0x21 write).
+//        0x8. Night_camera = 0.
+//        0x9. customfunct_audio_play_sound_single(<exe @0x1405c4028>,
+//             <rt @0x1406557e0>, <rt @0x1406557e0>).
+//        0xa/0xc. if (instance_exists(Obj_Night_Camera_Tablet)) {
+//                   with (Obj_Night_Camera_Tablet) { instance_destroy(); } }.
+//        0x11. button_index = 0.
+//        0x12. Obj_Night_Camera_Screen_Flash.image_alpha = 0
+//              (object-tagged property write 0x14015fea0(0x41, ...)).
+//        0x13. instance_create_layer(<rt @0x1406557e0>, <rt @0x1406557e0>,
+//              "<layer @0x1405c4000>", <obj const @0x1405c4038>).
+//        0x14. Obj_Night_Camera_Tablet.image_index = 18 (0x4032000000000000).
+//        0x15. Obj_Night_Camera_Tablet.Tablet_Sprite_Speed = -0.99
+//              (0xbfefae147ae147ae literal).
+//        0x16. audio_stop_sound(<exe @0x1405c4048>).
+//        0x17. func_0x00014017bda0(self, 49) (0x31) — unknown helper,
+//              comment-only (cf. the ported Foxy Step jumpscare tail).
+//        0x18. layer_set_visible("<layer @0x1405c4004>", <rt @0x1406557e0>).
+//        0x19. switch on Night_office_rotated: cases 0 / 1.0 CERTAIN
+//              (pool @0x140655820/@0x140655834 literal in the init); table
+//              @0x140655830 runtime — assumed identity:
+//              case 0: layer_set_visible("<@0x1405c400f>", <exe @0x1405c4058>);
+//                      layer_set_visible("<@0x1405c401c>", <rt @0x1406557e0>).
+//              case 1: layer_set_visible("<@0x1405c400f>", <rt @0x1406557e0>);
+//                      layer_set_visible("<@0x1405c401c>", <exe @0x1405c4058>).
+//      case 1 (0x24-0x31):
+//        0x24. if (Night_power_amount >= power_threshold) (`>=` via `r >= 0`):
+//          0x35. customfunct_audio_play_sound_single(<exe @0x1405c4078>,
+//                <rt>, <rt>); button_toggle[0] = 0.
+//        else (0x26): Night_power_amount += 1 (+= helper 0x14000bf90);
+//          0x27. customfunct_audio_play_sound_single(<exe @0x1405c4068>,
+//                <rt>, <rt>);
+//          0x28. if (instance_exists(Obj_Night_Camera_Tablet)) {
+//                  with (Obj_Night_Camera_Tablet) { instance_destroy(); } }.
+//          0x2f. instance_create_layer(<rt>, <rt>, "<layer @0x1405c4000>",
+//                <obj const @0x1405c4038>) (same consts as 0x13).
+//          0x30. Obj_Night_Camera_Tablet.image_index = 0.
+//          0x31. Obj_Night_Camera_Tablet.Tablet_Sprite_Speed = 0.99
+//                (0x3fefae147ae147ae literal).
+// TODO(calibrate): toggle-switch table @0x140655800 + rotated-switch table
+// @0x140655830 mappings; layer-name strings + numeric consts @0x1405c40xx
+// (below dump range — "TODO_calibrate_..." / 0); obj const @0x1405c4038
+// (0 assumed); runtime consts @0x1406557e0 (BSS-zero: 0/false);
+// func_0x00014017bda0 identity; random/pitch .rdata values — verify in-game.
+// Ported: Obj_Night_UI_Camera_Button / KeyPress_87
+if (Night_recording != 0) {
+    exit;
+}
+button_toggle[0] ^= 1;
+if (button_toggle[0] == 0) { // TODO(calibrate): table @0x140655800 mapping assumed identity — verify in-game
+    Night_power_amount -= 1;
+    Night_camera = 0;
+    customfunct_audio_play_sound_single(0 /* TODO(calibrate): exe const @0x1405c4028 */, 0 /* TODO(calibrate): runtime const @0x1406557e0 */, false /* TODO(calibrate): runtime const @0x1406557e0 */);
+    if (instance_exists(Obj_Night_Camera_Tablet)) {
+        with (Obj_Night_Camera_Tablet) { instance_destroy(); }
+    }
+    button_index = 0;
+    Obj_Night_Camera_Screen_Flash.image_alpha = 0;
+    instance_create_layer(0 /* TODO(calibrate): runtime const @0x1406557e0 */, 0 /* TODO(calibrate): runtime const @0x1406557e0 */, "TODO_calibrate_0x1405c4000", 0 /* TODO(calibrate): obj const @0x1405c4038 */);
+    Obj_Night_Camera_Tablet.image_index = 18;
+    Obj_Night_Camera_Tablet.Tablet_Sprite_Speed = -0.99;
+    audio_stop_sound(0 /* TODO(calibrate): exe const @0x1405c4048 */);
+    // TODO(calibrate): func_0x00014017bda0(self, 49) (0x31) — unknown helper, verify in-game
+    layer_set_visible("TODO_calibrate_0x1405c4004", 0 /* TODO(calibrate): runtime const @0x1406557e0 */);
+    if (Night_office_rotated == 0) { // TODO(calibrate): table @0x140655830 mapping assumed identity — verify in-game
+        layer_set_visible("TODO_calibrate_0x1405c400f", 0 /* TODO(calibrate): exe const @0x1405c4058 */);
+        layer_set_visible("TODO_calibrate_0x1405c401c", 0 /* TODO(calibrate): runtime const @0x1406557e0 */);
+    } else if (Night_office_rotated == 1) { // TODO(calibrate): same table
+        layer_set_visible("TODO_calibrate_0x1405c400f", 0 /* TODO(calibrate): runtime const @0x1406557e0 */);
+        layer_set_visible("TODO_calibrate_0x1405c401c", 0 /* TODO(calibrate): exe const @0x1405c4058 */);
+    }
+} else if (button_toggle[0] == 1) { // TODO(calibrate): same table
+    if (Night_power_amount >= power_threshold) {
+        customfunct_audio_play_sound_single(0 /* TODO(calibrate): exe const @0x1405c4078 */, 0 /* TODO(calibrate): runtime const @0x1406557e0 */, false /* TODO(calibrate): runtime const @0x1406557e0 */);
+        button_toggle[0] = 0;
+    } else {
+        Night_power_amount += 1;
+        customfunct_audio_play_sound_single(0 /* TODO(calibrate): exe const @0x1405c4068 */, 0 /* TODO(calibrate): runtime const @0x1406557e0 */, false /* TODO(calibrate): runtime const @0x1406557e0 */);
+        if (instance_exists(Obj_Night_Camera_Tablet)) {
+            with (Obj_Night_Camera_Tablet) { instance_destroy(); }
+        }
+        instance_create_layer(0 /* TODO(calibrate): runtime const @0x1406557e0 */, 0 /* TODO(calibrate): runtime const @0x1406557e0 */, "TODO_calibrate_0x1405c4000", 0 /* TODO(calibrate): obj const @0x1405c4038 */);
+        Obj_Night_Camera_Tablet.image_index = 0;
+        Obj_Night_Camera_Tablet.Tablet_Sprite_Speed = 0.99;
+    }
+}
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 

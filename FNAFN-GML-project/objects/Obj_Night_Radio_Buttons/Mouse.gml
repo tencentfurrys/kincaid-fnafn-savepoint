@@ -1,12 +1,166 @@
-/// @description FNAFN Obj_Night_Radio_Buttons / Mouse - NOT YET PORTED
+/// @description FNAFN Obj_Night_Radio_Buttons / Mouse_4 — PORTED from C
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
 // 1 sub-event(s): Mouse_4  (one reference block each; port a sub-event by
 //  editing its ---- header to PORTED and inserting GML above its block)
 
-// ---- sub-event Mouse_4 — NOT YET PORTED ----
+// ---- sub-event Mouse_4 — PORTED from C ----
 // ground truth: gml_Object_Obj_Night_Radio_Buttons_Mouse_4 (10026 B @0x14010c5b0)
+// Ported: Obj_Night_Radio_Buttons / Mouse_4
+// Decoded, in order (uStack_98 = GML line markers 1..0x3d; ids via
+// builtin_ids.json, slots via EXE-REGISTRY.md, objects via obj_names.json,
+// doubles verified big-endian, strings/consts via exe_strings.py):
+//   1. if (image_alpha == 1) [slot 0x1405c7b98 READ via 0x14015f1a0;
+//      `!=`-exit skips to the trailing 0x3d block]:
+//      image_index here is the button-bank state (slot 0x1405c7aa8).
+//   3-8. if (image_index == 1): track-forward button.
+//   5.   if (Obj_Night_Music_Switch.selection < 11) [object-tagged read
+//        0x140160480(0x3c, 0x1876f); 0x3c = 60 = Obj_Night_Music_Switch;
+//        0x4026000000000000 = 11.0; `<` via the `r < 0` test]:
+//   7.     Obj_Night_Music_Switch.selection += 1 [+= helper 0x14000bf90
+//        with immediate 1; write-back via 0x140160b90(0x3c, 0x1876f)].
+//   8.     customfunct_audio_play_sound_single(27, <rt>, <rt>) [exe const
+//        27.0 @0x1405c6490].
+//   0xb-0x12. if (image_index == 2): play button.
+//        if (image_xscale > 0.95) [slot 0x1405c7c18; 0x3fee666666666666
+//        = 0.95; `>` via `0 < r`]:
+//   0xd.     audio_stop_sound(46) [slot 0x1405c8960; exe const 46.0
+//          @0x1405c64a0].
+//   0xe.     customfunct_audio_play_sound_single(53, <rt>, <rt>) [53.0
+//          @0x1405c64b0].
+//   0xf.     customfunct_audio_play_sound_single(48, <rt>, <rt>) [48.0
+//          @0x1405c64c0].
+//   0x10.    playing = 1 (id 0x18759; direct +0x10 slot write).
+//   0x11.    Obj_Night_Radio_Spinner.turn = 1 [0x3e = 62 =
+//          Obj_Night_Radio_Spinner; id 0x18798; 1.0 literal].
+//   0x12.    for (var i = array_length(custom_music) - 1; i >= 0; i -= 1)
+//            audio_stop_sound(custom_music[i]) [custom_music id 0x186fc;
+//          array_length = slot 0x1405c8ba0; bound shape
+//          func_0x00014002fc60(dst, src, 1) = src - 1 per the ported
+//          Obj_Menu_Night_Display/Draw helper note (so init is len - 1;
+//          NOTE this differs from the sibling Obj_Menu_Radio_Play/Mouse
+//          port, which elides the -1 — verify in-game); `i >= 0` via the
+//          `r < 0`-break; `i -= 1` via the typed-decrement switch on
+//          dVar1 = -1.0 (_UNK_14043a218 .rdata double); element-accessor
+//          boilerplate (0x14012cd90 int cast + 0x14002fbe0 + bounds
+//          guards) elided per the Radio_Play convention].
+//   0x16.    switch (Obj_Night_Music_Switch.selection) on runtime-pool
+//          cases 1.0..10.0 (@0x1406572c0/@0x1406572d4/@0x1406572e8/
+//          @0x1406572fc/@0x140657310/@0x140657324/@0x140657338/
+//          @0x14065734c/@0x140657360/@0x140657374; guarded init shows
+//          1.0 = 0x3ff0... through 10.0 = 0x4024...; branch-index mapping
+//          assumed identity per the ported Camera_Button convention).
+//          Each matched case jumps to its handler and returns directly
+//          (jumptable @0x14010f29c unrecoverable), so bodies are `exit` +
+//          TODO. Fallthrough (no case matched):
+//   0x23.      audio_play_sound_on(Obj_Office_Front_Middle.music_emitter,
+//            song_choice, 1, <rt>) [0x2a = 42 = Obj_Office_Front_Middle,
+//            id 0x18739 read via 0x140160480; song_choice id 0x18771 self
+//            fetch; 1.0 = exe const @0x1405c64d0; trailing arg is runtime
+//            const @0x1406572b0; slot 0x1405c8980 = audio_play_sound_on,
+//            argc=4, return discarded].
+//   0x24.      image_index = 1.
+//   0x26-0x2e. if (image_index == 1):
+//        if (image_xscale < 0.95) [`<` via `(r != -2) && (r < 0)`]:
+//   0x28.      audio_stop_sound(53).
+//   0x29.      customfunct_audio_play_sound_single(48, <rt>, <rt>).
+//   0x2a.      customfunct_audio_play_sound_single(46, <rt>, <rt>).
+//   0x2b.      playing = 0.
+//   0x2c.      Obj_Night_Radio_Spinner.turn = 0.
+//   0x2d.      image_index = 2.
+//   0x2e.      same custom_music stop-loop as 0x12.
+//   0x33-0x38. if (image_index == 3): track-back button.
+//   0x35.    if (Obj_Night_Music_Switch.selection > 1):
+//   0x37.      Obj_Night_Music_Switch.selection -= 1 [-= helper
+//          0x14000bdb0 with 1.0 RValue; write-back].
+//   0x38.      customfunct_audio_play_sound_single(27, <rt>, <rt>).
+//   0x3d (ALWAYS runs, even when image_alpha != 1 — the L1 early-exit
+//      jumps here, and the main body falls through):
+//        Obj_Night_Music_Switch.selection =
+//          audio_play_sound_on(Obj_Night_Music_Switch.selection, 1, 10)
+//        [1.0 = @0x1405c64d0, 10.0 = @0x1405c64e0 literals; the
+//        0x140160290(0x3c) push is with-target boilerplate — dotted form
+//        per the PORTING.md object-tagged rule].
+// TODO(calibrate): every runtime const @0x14065xxx (audio priority/loop
+// @0x1406572b0, switch pool @0x1406572c0..., outer 4-arg play_on trailing
+// arg) is outside the mapped exe image; the 10 switch-branch bodies
+// (jumptable @0x14010f29c) and the audio_play_sound_on arg meanings —
+// verify in-game.
+if (image_alpha == 1) {
+    if (image_index == 1) {
+        if (Obj_Night_Music_Switch.selection < 11) {
+            Obj_Night_Music_Switch.selection += 1;
+            customfunct_audio_play_sound_single(27, 0 /* TODO(calibrate): runtime const @0x1406572b0 */, false /* TODO(calibrate): runtime const @0x1406572b0 */);
+        }
+    }
+    if (image_index == 2) {
+        if (image_xscale > 0.95) {
+            audio_stop_sound(46);
+            customfunct_audio_play_sound_single(53, 0 /* TODO(calibrate): runtime const @0x1406572b0 */, false /* TODO(calibrate): runtime const @0x1406572b0 */);
+            customfunct_audio_play_sound_single(48, 0 /* TODO(calibrate): runtime const @0x1406572b0 */, false /* TODO(calibrate): runtime const @0x1406572b0 */);
+            playing = 1;
+            Obj_Night_Radio_Spinner.turn = 1;
+            for (var i = array_length(custom_music) - 1; i >= 0; i -= 1) {
+                audio_stop_sound(custom_music[i]);
+            }
+            switch (Obj_Night_Music_Switch.selection) {
+                case 1: // TODO(calibrate): runtime pool @0x1406572c0; jumptable branch — verify in-game
+                    // TODO(calibrate): branch body unrecoverable (jumptable @0x14010f29c); C returns here
+                    exit;
+                case 2: // TODO(calibrate): runtime pool @0x1406572d4
+                    // TODO(calibrate): branch body unrecoverable; C returns here
+                    exit;
+                case 3: // TODO(calibrate): runtime pool @0x1406572e8
+                    // TODO(calibrate): branch body unrecoverable; C returns here
+                    exit;
+                case 4: // TODO(calibrate): runtime pool @0x1406572fc
+                    // TODO(calibrate): branch body unrecoverable; C returns here
+                    exit;
+                case 5: // TODO(calibrate): runtime pool @0x140657310
+                    // TODO(calibrate): branch body unrecoverable; C returns here
+                    exit;
+                case 6: // TODO(calibrate): runtime pool @0x140657324
+                    // TODO(calibrate): branch body unrecoverable; C returns here
+                    exit;
+                case 7: // TODO(calibrate): runtime pool @0x140657338
+                    // TODO(calibrate): branch body unrecoverable; C returns here
+                    exit;
+                case 8: // TODO(calibrate): runtime pool @0x14065734c
+                    // TODO(calibrate): branch body unrecoverable; C returns here
+                    exit;
+                case 9: // TODO(calibrate): runtime pool @0x140657360
+                    // TODO(calibrate): branch body unrecoverable; C returns here
+                    exit;
+                case 10: // TODO(calibrate): runtime pool @0x140657374
+                    // TODO(calibrate): branch body unrecoverable; C returns here
+                    exit;
+            }
+            audio_play_sound_on(Obj_Office_Front_Middle.music_emitter, song_choice, 1, 0 /* TODO(calibrate): runtime const @0x1406572b0 */);
+            image_index = 1;
+        }
+    }
+    if (image_index == 1) {
+        if (image_xscale < 0.95) {
+            audio_stop_sound(53);
+            customfunct_audio_play_sound_single(48, 0 /* TODO(calibrate): runtime const @0x1406572b0 */, false /* TODO(calibrate): runtime const @0x1406572b0 */);
+            customfunct_audio_play_sound_single(46, 0 /* TODO(calibrate): runtime const @0x1406572b0 */, false /* TODO(calibrate): runtime const @0x1406572b0 */);
+            playing = 0;
+            Obj_Night_Radio_Spinner.turn = 0;
+            image_index = 2;
+            for (var i = array_length(custom_music) - 1; i >= 0; i -= 1) {
+                audio_stop_sound(custom_music[i]);
+            }
+        }
+    }
+    if (image_index == 3) {
+        if (Obj_Night_Music_Switch.selection > 1) {
+            Obj_Night_Music_Switch.selection -= 1;
+            customfunct_audio_play_sound_single(27, 0 /* TODO(calibrate): runtime const @0x1406572b0 */, false /* TODO(calibrate): runtime const @0x1406572b0 */);
+        }
+    }
+}
+Obj_Night_Music_Switch.selection = audio_play_sound_on(Obj_Night_Music_Switch.selection, 1, 10);
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 

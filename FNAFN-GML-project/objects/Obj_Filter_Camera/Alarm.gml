@@ -1,7 +1,70 @@
-/// @description FNAFN Obj_Filter_Camera / Alarm - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Filter_Camera / Alarm_0 — PORTED from C
+// Ground truth: gml_Object_Obj_Filter_Camera_Alarm_0 (3986 B @0x140115c60)
+// Full-quality OLD-TV filter preset (see Obj_Filter_Camera/Create which
+// fires ev_alarm 0 when game_settings[0] == "full"; sibling Step lerps the
+// same vars). All ids via builtin_ids.json; slots via EXE-REGISTRY.md.
+// Decoded, in order (uStack_60 = GML line markers):
+//   2. game_lines = display_get_height() formatted [0-arg slot 0x1405c8d30
+//      = display_get_height, then helper 0x14001fa10(dst, h, _UNK_14043c440)].
+//   5. noise_enabled = 1; 6. noise_pattern = sprite_get_texture(30,
+//      <runtime>) [slot 0x1405c8bc0; exe const 0x1405c6780 = 30.0 =
+//      sprNoise1 (sprite_names.json index 30)].
+//   7. noise_magnetude = 0.03 (0x3f9eb851eb851eb8); 8. static_pattern =
+//      sprite_get_texture(52,<runtime>) [0x1405c6790 = 52.0 =
+//      Spr_Static_Custom]; 9. static_magnetude = 0.05; 10. static_scale = 1;
+//   11. static_offset = 0.1; 12. dirt_pattern = sprite_get_texture(30,
+//      <runtime>); 13. dirt_magnetude = 0.1; 16-19. composite_enabled = 1;
+//      composite_secondpass_enabled = 1; composite_distortion = 1;
+//      composite_artifact = 0.3; 20-21. composite_fringing = 0.5;
+//      composite_bleeding = 1; 24-28. television_enabled = 1;
+//      television_brightness = 0; television_contrast = 0;
+//      television_saturation = 0.5; television_sharpness = 0;
+//   31. chromatic_enabled = 0; 32. chromatic_pattern =
+//      sprite_get_texture(68,<runtime>) [0x1405c67a0 = 68.0 =
+//      sprChromatic1]; 33. chromatic_magnetude = 0.1; 36-37.
+//      scanline_enabled = 1; scanline_count = 360.0 (0x4076800000000000);
+//   38. scanline_pattern = sprite_get_texture(<runtime>,<runtime>);
+//   39. scanline_magnetude = 0.5; 42-43. tube_enabled = 1; tube_mask =
+//      sprite_get_texture(90,<runtime>) [0x1405c67b0 = 90.0 =
+//      sprMaskWide1]; 44. tube_distortion = 0.15 (0x3fc3333333333333).
+//   47. script_execute(<idx>) [slot 0x1405c8e50; arg = (double)iRam
+//      @0x1405c8e70].
+// TODO(calibrate): formatter string _UNK_14043c440; subimg/index runtime
+//   consts @0x140657440 (all sprite_get_texture 2nd args + scanline_pattern
+//   both args); script index iRam @0x1405c8e70.
+game_lines = string(display_get_height()); // TODO(calibrate): formatted via helper 0x14001fa10 with fmt _UNK_14043c440
+noise_enabled = 1;
+noise_pattern = sprite_get_texture(sprNoise1, 0 /* TODO(calibrate): subimg @0x140657440 */);
+noise_magnetude = 0.03;
+static_pattern = sprite_get_texture(Spr_Static_Custom, 0 /* TODO(calibrate): subimg @0x140657440 */);
+static_magnetude = 0.05;
+static_scale = 1;
+static_offset = 0.1;
+dirt_pattern = sprite_get_texture(sprNoise1, 0 /* TODO(calibrate): subimg @0x140657440 */);
+dirt_magnetude = 0.1;
+composite_enabled = 1;
+composite_secondpass_enabled = 1;
+composite_distortion = 1;
+composite_artifact = 0.3;
+composite_fringing = 0.5;
+composite_bleeding = 1;
+television_enabled = 1;
+television_brightness = 0;
+television_contrast = 0;
+television_saturation = 0.5;
+television_sharpness = 0;
+chromatic_enabled = 0;
+chromatic_pattern = sprite_get_texture(sprChromatic1, 0 /* TODO(calibrate): subimg @0x140657440 */);
+chromatic_magnetude = 0.1;
+scanline_enabled = 1;
+scanline_count = 360;
+scanline_pattern = sprite_get_texture(/* TODO(calibrate): spr @0x140657440 */ 0, /* TODO(calibrate): subimg @0x140657440 */ 0);
+scanline_magnetude = 0.5;
+tube_enabled = 1;
+tube_mask = sprite_get_texture(sprMaskWide1, 0 /* TODO(calibrate): subimg @0x140657440 */);
+tube_distortion = 0.15;
+script_execute(/* TODO(calibrate): index iRam @0x1405c8e70 */ 0);
+
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) Globals starting with '_' overlap smaller symbols at the same address
 // - literal slash-star form removed: it would close a GML block comment early.

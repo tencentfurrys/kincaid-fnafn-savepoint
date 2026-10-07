@@ -1,12 +1,68 @@
-/// @description FNAFN Obj_Menu_Main_Title / Mouse - NOT YET PORTED
+/// @description FNAFN Obj_Menu_Main_Title / Mouse - Mouse_53 PORTED from C
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
 // 1 sub-event(s): Mouse_53  (one reference block each; port a sub-event by
 //  editing its ---- header to PORTED and inserting GML above its block)
 
-// ---- sub-event Mouse_53 — NOT YET PORTED ----
+// ---- sub-event Mouse_53 — PORTED from C ----
 // ground truth: gml_Object_Obj_Menu_Main_Title_Mouse_53 (4506 B @0x140102d20)
+// Event 53 = Mouse Left Released (same as Obj_Menu_Pause/Mouse_53, PORTED).
+// Outer gate (line 1): if (draw_alpha > 0.975) (id 0x18712 vs
+// 0x3fef333333333333 = 0.975, 3-way compare with flag 1, branch on >).
+// Three text buttons, each hit-tested through the named script
+// customfunct_ui_button_detection(x1, y1, x2, y2, x1b) — same 5-arg
+// shape as Pause/Mouse: (94, y, 94 + string_width(text_menu[i]),
+// yBottom, 94), compared == 1:
+//   button 0 ("new game", y 340/380): play blip (22, runtime, runtime),
+//      instance_create_layer(<runtime>, <runtime>, "Fade",
+//      Obj_Menu_Transition) (layer "Fade" @0x1405c62b0, obj 2.0
+//      @0x1405c6300), then Obj_Menu_Transition.Room_to_go_to = 5
+//      (Rm_Loading — room_names.json).
+//   button 1 ("continue", y 385/425): instance_create_layer(<runtime>,
+//      <runtime>, "Main_menu", Obj_Menu_Continue) (layer @0x1405c62b5,
+//      obj 3.0 @0x1405c6330), then with (Obj_Menu_Main_Options) {
+//      instance_destroy(); } with (Obj_Menu_Main_Music) {
+//      instance_destroy(); } instance_destroy(); (repeat consts 76.0 =
+//      Obj_Menu_Main_Options, 55.0 = Obj_Menu_Main_Music).
+//   button 2 ("customize", y 430/470): instance_create_layer(<runtime>,
+//      <runtime>, "Main_menu", Obj_Menu_Customize) (obj 53.0
+//      @0x1405c6360), then the same two with-destroys + self destroy.
+// ("extras"/text_menu[3] has no button block in this event.)
+// Exe consts (exe_strings.py): 0x1405c62c0 = 94.0, 0x1405c62d0 = 340.0,
+// 0x1405c62e0 = 380.0, 0x1405c6310 = 385.0, 0x1405c6320 = 425.0,
+// 0x1405c6340 = 430.0, 0x1405c6350 = 470.0, 0x1405c62f0 = 22.0.
+// TODO(calibrate): draw_alpha threshold exact value (0.975 assumed from
+// the double bits); instance_create_layer x/y are runtime const
+// @0x140657158 (assumed 0, 0); audio priority/loop same runtime const.
+if (draw_alpha > 0.975) {
+    if (customfunct_ui_button_detection(94, 340, 94 + string_width(text_menu[0]), 380, 94) == 1) {
+        customfunct_audio_play_sound_single(22, 0, false); // TODO(calibrate): priority/loop are runtime const @0x140657158
+        instance_create_layer(0, 0, "Fade", Obj_Menu_Transition); // TODO(calibrate): x/y are runtime const @0x140657158
+        Obj_Menu_Transition.Room_to_go_to = 5; // Rm_Loading (room_names.json)
+    }
+    if (customfunct_ui_button_detection(94, 385, 94 + string_width(text_menu[1]), 425, 94) == 1) {
+        instance_create_layer(0, 0, "Main_menu", Obj_Menu_Continue); // TODO(calibrate): x/y are runtime const @0x140657158
+        with (Obj_Menu_Main_Options) {
+            instance_destroy();
+        }
+        with (Obj_Menu_Main_Music) {
+            instance_destroy();
+        }
+        instance_destroy();
+    }
+    if (customfunct_ui_button_detection(94, 430, 94 + string_width(text_menu[2]), 470, 94) == 1) {
+        instance_create_layer(0, 0, "Main_menu", Obj_Menu_Customize); // TODO(calibrate): x/y are runtime const @0x140657158
+        with (Obj_Menu_Main_Options) {
+            instance_destroy();
+        }
+        with (Obj_Menu_Main_Music) {
+            instance_destroy();
+        }
+        instance_destroy();
+    }
+}
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Menu_Main_Title_Mouse_53(longlong *param_1,undefined8 param_2)
 

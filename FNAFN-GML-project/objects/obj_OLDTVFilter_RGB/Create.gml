@@ -1,7 +1,51 @@
-/// @description FNAFN obj_OLDTVFilter_RGB / Create - NOT YET PORTED
+/// @description FNAFN obj_OLDTVFilter_RGB / Create — PORTED from C
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+// Ported: obj_OLDTVFilter_RGB / Create
+// Ground truth: gml_Object_obj_OLDTVFilter_RGB_Create_0
+// RGB filter preset. Same decode shape as the BW preset (see
+// obj_OLDTVFilter_BW/Create): script_execute(scr_OLDTVFilter_Settings),
+// plain assignments, sprite_get_texture pattern vars [slot 0x1405c8bc0;
+// exe sprite idx @0x1405c69b0 = 30 = sprNoise1, @0x1405c69c0 = 12 =
+// sprStatic1, @0x1405c69d0 = 68 = sprChromatic1, @0x1405c69e0 = 90 =
+// sprMaskWide1; subimg BSS @0x1406575b0], script_execute(
+// scr_OLDTVFilter_Setup). NOTE: 0x406c000000000000 = 224.0 exactly.
+script_execute(scr_OLDTVFilter_Settings);
+oldtvfilter_enabled = 1;
+game_lines = 224;
+noise_enabled = 0;
+noise_pattern = sprite_get_texture(sprNoise1, 0 /* TODO(calibrate): subimg @0x1406575b0 (BSS, unreadable offline) */);
+noise_magnetude = -0.2;
+static_pattern = sprite_get_texture(sprStatic1, 0 /* TODO(calibrate): subimg @0x1406575b0 (BSS, unreadable offline) */);
+static_magnetude = 0;
+static_scale = 1;
+static_offset = 0;
+dirt_pattern = sprite_get_texture(sprNoise1, 0 /* TODO(calibrate): subimg @0x1406575b0 (BSS, unreadable offline) */);
+dirt_magnetude = 0;
+composite_enabled = 0;
+composite_secondpass_enabled = 0;
+composite_distortion = 0.25;
+composite_artifact = 0.07;
+composite_fringing = 0.4;
+composite_bleeding = 1;
+television_enabled = 1;
+television_brightness = 0;
+television_contrast = 0;
+television_saturation = 0.5;
+television_sharpness = 0.3;
+chromatic_enabled = 1;
+chromatic_pattern = sprite_get_texture(sprChromatic1, 0 /* TODO(calibrate): subimg @0x1406575b0 (BSS, unreadable offline) */);
+chromatic_magnetude = 0.1;
+scanline_enabled = 1;
+scanline_count = 224;
+scanline_pattern = sprite_get_texture(/* TODO(calibrate): spr @0x1406575b0 (BSS) */ 0, /* TODO(calibrate): subimg @0x1406575b0 (BSS) */ 0);
+scanline_magnetude = 0.75;
+tube_enabled = 1;
+tube_mask = sprite_get_texture(sprMaskWide1, 0 /* TODO(calibrate): subimg @0x1406575b0 (BSS, unreadable offline) */);
+tube_distortion = 0.15;
+script_execute(scr_OLDTVFilter_Setup);
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_obj_OLDTVFilter_RGB_Create_0(undefined8 param_1,undefined8 param_2)
 

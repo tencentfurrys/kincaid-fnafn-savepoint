@@ -1,4 +1,73 @@
-/// @description FNAFN Obj_Office_Camera_Control / Step - NOT YET PORTED
+/// @description FNAFN Obj_Office_Camera_Control / Step_0 — PORTED from C
+// Ground truth: gml_Object_Obj_Office_Camera_Control_Step_0 (3D YYC office
+// camera pan). Globals: delta_factor (0x1870b), Night_camera (0x1873b),
+// Night_office_rotated (0x18747). Self: fade_alpha (0x18718),
+// Player_rotation_mode (0x18758), cx (0x18709), cy (0x1870a),
+// Player_rotate_cooldown (0x18756), Player_rotating (0x18757), x/y,
+// view_camera (slot 0x1405c7bf8), mouse_x/mouse_y (slots 0x1405c7bc8/0x1405c7bd8).
+// Create seeds Player_rotation_mode = 2, rotating/cooldown = 0, fade_alpha = 1.
+// Helpers/slots (EXE-REGISTRY.md): 0x1405c8cc0 = lerp, 0x1405c8a00 = clamp,
+// 0x1405c85a0/0x1405c85b0 = camera_get_view_x/y,
+// 0x1405c85c0/0x1405c85d0 = camera_get_view_width/height,
+// 0x1405c8ce0 = camera_set_view_pos, 0x1405c8cf0 = audio_listener_position,
+// 0x1405c8cd0 = audio_listener_orientation (Create), 0x14000bf90 = +=,
+// 0x14000bdb0 = -=.
+// TODO(calibrate): every @0x1406554xx runtime-pool const (fade target, clamp
+// bounds @0x1405c38f0/@0x1405c3900 are exe consts below the dump range too)
+// + every @0x1405c38xx/@0x1405c39xx exe const (below EXE-CONSTANTS range).
+// Inline factors decoded: 0.1/0.4/0.05/0.975-ish not here; 25 (0x19) and
+// 1255 (0x4e7) screen-edge margins; 15.0 (0x402e...) cooldown reset.
+// 1. Ease fade + clamp rotation mode every step:
+fade_alpha = lerp(fade_alpha, /* TODO(calibrate runtime): @0x1406554c0 */ 0, 0.1 * delta_factor);
+Player_rotation_mode = clamp(Player_rotation_mode, /* TODO @0x1405c38f0 */ 0, /* TODO @0x1405c3900 */ 0);
+if (Night_camera == 0) {
+    // 2. Project mouse into world: cx/cy track the view, offset by half the
+    // view size (/-2.0 via _UNK_140439e68 divisor, as in Night_Display/Draw).
+    cx = camera_get_view_x(view_camera);
+    cy = camera_get_view_y(view_camera);
+    cx = lerp(x, mouse_x, /* TODO @0x1405c3910 factor */ 0) - camera_get_view_width(view_camera) / 2;
+    cy = lerp(y, mouse_y, /* TODO @0x1405c3920 factor */ 0) - camera_get_view_height(view_camera) / 2;
+    camera_set_view_pos(view_camera, cx, cy);
+    // 3. Per-mode x drift (switch on Player_rotation_mode via runtime consts
+    // @0x1406554d0 = 1.0 / @0x1406554e4 = 2.0 / @0x1406554f8 = 3.0, table
+    // @0x1406554e0 + count @0x140655504; TODO calibrate mapping):
+    if (Player_rotation_mode == /* TODO(runtime) 1 */ 1) {
+        x = lerp(x, /* TODO @0x1405c3940 */ 0, 0.4 * delta_factor);
+    } else if (Player_rotation_mode == /* TODO(runtime) 2 */ 2) {
+        x = lerp(x, /* TODO @0x1405c3950 */ 0, 0.4 * delta_factor);
+    } else {
+        // case 0: uses both cx and cy reads (dual-fetch in C).
+        x = lerp(x, /* TODO @0x1405c3930 */ 0, 0.4 * delta_factor);
+    }
+}
+// 4. Rotation cooldown: count down while > 0, clear rotating at <= 0.
+if (Player_rotate_cooldown > 0) {
+    Player_rotate_cooldown -= 1 * delta_factor;
+}
+if (Player_rotate_cooldown <= 0) {
+    Player_rotating = 0;
+}
+// 5. Listener follows the projected point:
+audio_listener_position(cx, cy, /* TODO(runtime) @0x1406554c0 z */ 0);
+if (Night_office_rotated == 0) {
+    // 6. Screen-edge rotation triggers (25px left margin, 1255px right margin):
+    if (mouse_x < cx + 25) {
+        if (Player_rotating == 0 && Night_camera == 0) {
+            Player_rotate_cooldown = 15;
+            Player_rotation_mode -= 1;
+            Player_rotating = 1;
+        }
+    }
+    if (mouse_x > cx + 1255) {
+        // Right-edge mirror (C re-checks rotating == 0 + camera == 0, then
+        // cooldown = 15, mode += 1, rotating = 1).
+        if (Player_rotating == 0 && Night_camera == 0) {
+            Player_rotate_cooldown = 15;
+            Player_rotation_mode += 1;
+            Player_rotating = 1;
+        }
+    }
+}
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).

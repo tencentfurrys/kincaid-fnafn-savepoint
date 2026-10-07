@@ -1,7 +1,70 @@
-/// @description FNAFN Obj_Menu_Options_Preview / Alarm - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Menu_Options_Preview / Alarm_0 — PORTED from C
+// Ground truth: gml_Object_Obj_Menu_Options_Preview_Alarm_0
+// The preview instance refreshes itself from the options state each alarm
+// tick. Decoded (uStack_78 = GML line markers):
+//   1. menu = Obj_Menu_Options.menu (object-tagged read 0x140160480:
+//      object 0x11 = 17 = Obj_Menu_Options, var id 0x18737 = menu). Outer dispatch is a string switch on menu:
+//      "video" (exe-string @0x1405c53b0 via guarded const @0x1406567e0)
+//      vs "audio" (@0x1405c53b6 via @0x1406567f4); anything else = done.
+//   "video" branch (line 3): switch (Obj_Menu_Options.select) over the
+//      guarded doubles 1.0..5.0 (@0x140656810/@0x140656824/@0x140656838
+//      /@0x14065684c/@0x140656860 — values proven from the pool init
+//      block). Each case ends in an indirect jump-table call
+//      (Ghidra: table near @0x1400ca73c, unrecoverable) — bodies ported
+//      as TODO stubs below; no match = done.
+//   "audio" branch (line 0x3d): switch (Obj_Menu_Options.select) over
+//      guarded 1.0 (@0x140656980) / 2.0 (@0x140656994):
+//      select == 1 (quieter-ambience toggle preview):
+//          image_alpha = 0; select_min = 0; select_max = 1;
+//          select = (game_settings[8] == "enabled") ? 1 : 0
+//            ("disabled" @0x1405c53bc / "enabled" @0x1405c53ce via
+//            guarded @0x1406569b0/@0x1406569c4; no-match falls into the
+//            "disabled" slot, ported as else);
+//          text = game_settings[8]; arrow_alpha = 1.
+//      select == 2 (master-volume slider preview):
+//          image_alpha = 0; select_min = 0; select_max = 100;
+//          select = game_settings[9]; text = game_settings[9];
+//          arrow_alpha = 1.
+//   All writes in the audio branch are SELF (self id-fetch / self
+//   property write 0x140160140 on slot image_alpha); game_settings is
+//   the runner global (id 0x18727, +8 fetch), indexed 8/9 with the
+//   standard array bounds checks.
+// Reading: the preview panel shows the current value of whichever
+// option row is selected (toggle state or slider value) as text, with
+// the select range narrowed to match (0/1 toggle vs 0..100 volume).
+// TODO(calibrate): video-branch case bodies (jump-table targets — needs
+// in-game disassembly); menu/select const addresses are guarded-pool
+// (@0x14065xxxx) but their VALUES are proven above from the pool init.
+if (Obj_Menu_Options.menu == "video") {
+    switch (Obj_Menu_Options.select) {
+        case 1: break; // TODO(calibrate): video preview body 1 (jump-table target, unrecoverable offline)
+        case 2: break; // TODO(calibrate): video preview body 2 (same)
+        case 3: break; // TODO(calibrate): video preview body 3 (same)
+        case 4: break; // TODO(calibrate): video preview body 4 (same)
+        case 5: break; // TODO(calibrate): video preview body 5 (same)
+    }
+} else if (Obj_Menu_Options.menu == "audio") {
+    if (Obj_Menu_Options.select == 1) {
+        image_alpha = 0;
+        select_min = 0;
+        select_max = 1;
+        if (game_settings[8] == "enabled") {
+            select = 1;
+        } else {
+            select = 0;
+        }
+        text = game_settings[8];
+        arrow_alpha = 1;
+    } else if (Obj_Menu_Options.select == 2) {
+        image_alpha = 0;
+        select_min = 0;
+        select_max = 100;
+        select = game_settings[9];
+        text = game_settings[9];
+        arrow_alpha = 1;
+    }
+}
+
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) Globals starting with '_' overlap smaller symbols at the same address
 // - literal slash-star form removed: it would close a GML block comment early.

@@ -1,7 +1,43 @@
-/// @description FNAFN Obj_Office_Front_Middle / Create - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Office_Front_Middle / Create — PORTED from C
+// Ground truth: gml_Object_Obj_Office_Front_Middle_Create_0
+// Ambience controller init. Opens with the standard 12-timer disable sweep
+// (PROVEN shape in Night_Time/Create; bound 0x4028000000000000 = 12.0,
+// body 0xc059000000000000 = -100.0 sentinel; id 0x186d5 =
+// Scr_Camera_Update is an ARRAY per 2026-10-06 proof):
+//   for (var i = 0; i < 12; i += 1) Scr_Camera_Update[i] = -100;
+// then arms timer 0: Scr_Camera_Update[0] = irandom_range(3, 5)
+// (func_0x000140168970 best-fit irandom_range, same helper/shape as
+// Front_Middle/Alarm_0 — TODO prove via disassembly).
+// Then two 3D audio emitters (slots via EXE-REGISTRY.md: 0x1405c8e80 =
+// audio_emitter_create, 0x1405c8e90 = audio_falloff_set_model, 0x1405c8e30
+// = audio_emitter_position, 0x1405c8ea0 = audio_emitter_falloff,
+// 0x1405c8eb0 = audio_emitter_gain, 0x1405c8980 = audio_play_sound_on;
+// ids 0x1874f = office_emitter, 0x18739 = music_emitter, 0x186dc =
+// animate_speed per builtin_ids.json):
+//   office_emitter = audio_emitter_create() + falloff/position/falloff;
+//   music_emitter = audio_emitter_create() + falloff/position/falloff;
+//   animate_speed = 0; audio_emitter_gain(office_emitter, animate_speed);
+//   audio_play_sound_on(office_emitter, ...) x2 (two looping ambience
+//   sounds on the office emitter).
+//   TODO(calibrate): all @0x1405c50xx exe-numeric consts (falloff model,
+//   positions, sound args — below the EXE-CONSTANTS.md dump range) and the
+//   @0x1406565b0 runtime const. NOTE the animate_speed registry name is
+//   suspect here (it feeds audio_emitter_gain; neighbor id 0x186dd is
+//   ambient_gain) — true name TODO.
+for (var i = 0; i < 12; i += 1) { Scr_Camera_Update[i] = -100; }
+Scr_Camera_Update[0] = irandom_range(3, 5); // TODO: prove 0x140168970 = irandom_range
+office_emitter = audio_emitter_create();
+audio_falloff_set_model(0); // TODO(calibrate): exe-numeric const @0x1405c50a8
+audio_emitter_position(office_emitter, 0, 0, 0); // TODO(calibrate): consts @0x1405c50b8/@0x1406565b0/@0x1406565b0
+audio_emitter_falloff(office_emitter, 0, 0, 0); // TODO(calibrate): consts @0x1405c50b8/@0x1405c50c8/@0x1405c50d8
+music_emitter = audio_emitter_create();
+audio_falloff_set_model(0); // TODO(calibrate): const @0x1405c50a8 again
+audio_emitter_position(music_emitter, 0, 0, 0); // TODO(calibrate): consts @0x1405c50e8/@0x1406565b0/@0x1406565b0
+audio_emitter_falloff(music_emitter, 0, 0, 0); // TODO(calibrate): consts @0x1405c50e8/@0x1405c50f8/@0x1405c50d8
+animate_speed = 0; // TODO: id 0x186dc true name suspect (feeds gain below; 0x186dd is ambient_gain)
+audio_emitter_gain(office_emitter, animate_speed);
+audio_play_sound_on(office_emitter, 0, 0, 0); // TODO(calibrate): sound/loop/priority consts @0x1405c5108/@0x1405c5118/@0x1406565b0
+audio_play_sound_on(office_emitter, 0, 0, 0); // TODO(calibrate): consts @0x1405c5128/@0x1405c5118/@0x1406565b0
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) Globals starting with '_' overlap smaller symbols at the same address
 // - literal slash-star form removed: it would close a GML block comment early.

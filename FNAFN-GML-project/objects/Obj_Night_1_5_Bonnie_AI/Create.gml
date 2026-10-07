@@ -1,4 +1,37 @@
-/// @description FNAFN Obj_Night_1_5_Bonnie_AI / Create - NOT YET PORTED
+/// @description FNAFN Obj_Night_1_5_Bonnie_AI / Create — PORTED from C
+// Ground truth: gml_Object_Obj_Night_1_5_Bonnie_AI_Create_0
+// Decoded, in order (uStack_a8 = GML line markers):
+//   3. for i in 0..11: Scr_Camera_Update[i] = -100 (bound 12.0 literal
+//      0x4028000000000000; counter shape = `i += 1` per PORTING.md).
+//   9. if (Bonnie_AI_Level > 0) Scr_Camera_Update[0] = 30
+//      (0x403e000000000000; id 0x186e6, global fetch).
+//   0xd. Time_without_move = irandom_range(20, 27) - Bonnie_AI_Level * 0.5.
+//   0xe. movement = 0 (id 0x18738); 0xf. alarm_type = 0 (id 0x186d8).
+//   0x11. Bonnie_emitter = audio_emitter_create() (slot 0x1405c8e80).
+//   0x12. audio_falloff_set_model(5) (slot 0x1405c8e90, exe const 5.0).
+//   0x13. audio_emitter_position(Bonnie_emitter, <runtime>, 360, <runtime>)
+//        (slot 0x1405c8e30; middle arg exe const 360.0).
+//   0x15. audio_emitter_falloff(Bonnie_emitter, 640, 2560, 0.1)
+//        (slot 0x1405c8ea0; all exe consts resolved).
+// TODO(calibrate): func_0x000140168970 best-fit irandom_range (per
+// Obj_Office_Front_Middle Alarm port); func_0x00014001fa10(dst, a, b)
+// best-fit a * b (fractional consts 0.5/0.25/0.75/0.1 at all such sites —
+// prove via disassembly); runtime consts @0x140655da8 (emitter x/z,
+// outside the mapped exe image) — verify in-game.
+for (var i = 0; i < 12; i += 1) {
+    Scr_Camera_Update[i] = -100;
+}
+if (Bonnie_AI_Level > 0) {
+    Scr_Camera_Update[0] = 30;
+}
+Time_without_move = irandom_range(20, 27) - Bonnie_AI_Level * 0.5;
+movement = 0;
+alarm_type = 0;
+Bonnie_emitter = audio_emitter_create();
+audio_falloff_set_model(5);
+audio_emitter_position(Bonnie_emitter, 0, 360, 0); // TODO(calibrate): x/z are runtime const @0x140655da8
+audio_emitter_falloff(Bonnie_emitter, 640, 2560, 0.1);
+
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).

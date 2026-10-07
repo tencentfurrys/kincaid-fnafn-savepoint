@@ -1,4 +1,43 @@
-/// @description FNAFN Obj_Night_1_5_Foxy_AI / Step - NOT YET PORTED
+/// @description FNAFN Obj_Night_1_5_Foxy_AI / Step — PORTED from C
+// Ground truth: gml_Object_Obj_Night_1_5_Foxy_AI_Step_0
+// Camera-timer sweep, same array_length/round/-100/event_perform shape as
+// the ported Bonnie/Chica/Mangle Steps, Foxy variant (no explicit 1.0 * MUL
+// in the countdown — direct `-= delta_factor`, like the ported Mangle Step).
+// Decoded:
+//   for i over array_length(Scr_Camera_Update) (slot 0x1405c8ba0):
+//     if (Scr_Camera_Update[i] <= 0):
+//       if (round(Scr_Camera_Update[i]) <= 0):            // slot 0x1405c89b0
+//         if (round(Scr_Camera_Update[i]) > -100):       // -100 = fired sentinel
+//           Scr_Camera_Update[i] = -100;
+//           event_perform(ev_alarm, i);                  // helper 0x140181c50, TYPE 2
+//     else Scr_Camera_Update[i] -= delta_factor;
+//   Loop increment shape = `i += 1` per PORTING.md.
+//   0x15. if (door_wait_count > 0) (id 0x18711):
+//     door_wait_count -= 1 * delta_factor (explicit 1.0 * MUL node
+//       func_0x0001400053f0 with delta_factor id 0x1870b, then -= helper
+//       func_0x00014000bdb0).
+//     0x18. if (Night_door_left == 0) (id 0x18741):
+//       show_message("Jumpscared by Foxy!") (exe const @0x1405c4ea0 via
+//         string loader 0x1401441e0, slot 0x1405c8f80 show_message);
+//       func_0x00014017bd60(0, 0) — unknown; TODO(calibrate).
+// TODO(calibrate): func_0x00014017bd60(0,0) identity (single site repo-wide;
+//   runs right after the Foxy jumpscare message) — verify in-game.
+// Ported: Obj_Night_1_5_Foxy_AI / Step
+for (var i = 0; i < array_length(Scr_Camera_Update); i += 1) {
+    if (Scr_Camera_Update[i] <= 0) {
+        if (round(Scr_Camera_Update[i]) <= 0) {
+            if (round(Scr_Camera_Update[i]) > -100) { Scr_Camera_Update[i] = -100; event_perform(ev_alarm, i); }
+        }
+    } else { Scr_Camera_Update[i] -= delta_factor; }
+}
+if (door_wait_count > 0) {
+    door_wait_count -= 1 * delta_factor;
+    if (Night_door_left == 0) {
+        show_message("Jumpscared by Foxy!");
+        // TODO(calibrate): func_0x00014017bd60(0, 0) — unknown helper after jumpscare message, verify in-game
+    }
+}
+
 // Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
 // machine-level semantics recovered by Ghidra. Porting task: express this
 // in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
