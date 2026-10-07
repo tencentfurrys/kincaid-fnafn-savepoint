@@ -6,8 +6,9 @@
 //      state setter on a font id: best fit draw_set_font().
 //   2. builtin func_0x0001401756a0(0xff,0,0x6e) = make_color_rgb(255,0,110)
 //      -> builtin func_0x00014018d100(result): draw_set_color().
-//   3. builtin func_0x000140175530(0) — 1-arg draw state setter, 0:
-//      best fit draw_set_alpha(0) (or halign; TODO calibrate).
+//   3. builtin func_0x000140175530(0) — PROVEN 2026-10-07 to be
+//      draw_set_halign (disassembly: thunks to the 0/1/2 enum setter at
+//      0x1402a8670; see Obj_Menu_Loading/Draw), so draw_set_halign(fa_left).
 //   4. if surface_exists(back_surface) (1-arg funcid slot 0x1405c8a50):
 //      4-arg call slot 0x1405c8d40, args = (position state read from slot
 //      uRam00000001405c7bf8 via func_0x00014015ef90, back_surface,
@@ -50,7 +51,7 @@
 // — not resolvable offline (see SLOT-MAP.md).
 draw_set_font(game_font[1]);
 draw_set_color(make_color_rgb(255, 0, 110));
-draw_set_alpha(0); // TODO(calibrate): builtin 0x140175530(0)
+draw_set_halign(fa_left); // 0x140175530(0) — PROVEN 2026-10-07: draw_set_halign (see Obj_Menu_Loading/Draw)
 
 // REGISTRY-CONFIRMED (EXE-REGISTRY.md):
 //   slot 0x1405c8a50 = surface_exists; slot 0x1405c8d40 = surface_copy;

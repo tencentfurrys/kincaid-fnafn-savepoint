@@ -1,7 +1,30 @@
-/// @description FNAFN Obj_Menu_Loading / Alarm - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Menu_Loading / Alarm_0 — PORTED from C
+// Ground truth: gml_Object_Obj_Menu_Loading_Alarm_0 (1013 B @0x1400908d0)
+// The load-step alarm: the Step event fires event_perform(ev_alarm, 0)
+// whenever Load_Cooldown counts down to <= 0, and this event advances the
+// asset load by one. uStack_a0 = 1..10 are GML source-line markers.
+//   line 1: bound = array_length(Load_Asset) (slot 0x1405c8ba0) minus 1 —
+//     func_0x00014002fc60(dest, src, N) is PROVEN (disassembly: it copies
+//     src into dest, converts N to a double, then tail-calls the -= helper
+//     0x14000bdb0) => dest = src - N. So the completion test is
+//     Load_Increment >= array_length(Load_Asset) - 1 (the LAST index).
+//   line 10 (done): fading (id 0x18719) = 1 — starts the Step's fade-out,
+//     which ends in room_goto(Room_to_go_to) / instance_destroy().
+//   line 3: sprite_prefetch(Load_Asset[Load_Increment]) — slot 0x1405c8f10
+//     = sprite_prefetch (registry-confirmed): the whole point of the load
+//     loop, one sprite asset per alarm tick.
+//   line 4: Load_Increment += 1 (func_0x00014000bf90 = the += helper).
+//   line 6: Load_Bar_Timer = 1.5 * sprite_get_number(Load_Asset[
+//     Load_Increment]) — 0x3ff8000000000000 = 1.5; the bar timer is
+//     rescaled per asset from its subimage count (same shape as Create).
+if (Load_Increment >= array_length(Load_Asset) - 1) {
+    fading = 1;
+} else {
+    sprite_prefetch(Load_Asset[Load_Increment]);
+    Load_Increment += 1;
+    Load_Bar_Timer = 1.5 * sprite_get_number(Load_Asset[Load_Increment]);
+}
+
 /* BEGIN DECOMPILED REFERENCE
 void gml_Object_Obj_Menu_Loading_Alarm_0(longlong *param_1,undefined8 param_2)
 

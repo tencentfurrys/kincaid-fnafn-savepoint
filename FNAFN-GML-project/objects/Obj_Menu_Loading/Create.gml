@@ -1,7 +1,41 @@
-/// @description FNAFN Obj_Menu_Loading / Create - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
+/// @description FNAFN Obj_Menu_Loading / Create — PORTED from C
+// Ground truth: gml_Object_Obj_Menu_Loading_Create_0 (1531 B @0x14008ff60)
+// The loading-screen controller, part 1. uStack_98 = 3..0x17 are GML source
+// line markers. Decoded in order:
+//   line 3: Loading (id 0x18733) = 0
+//   line 5: Load_Asset (id 0x1872f — an ARRAY) [0] = 0. Array-element write
+//     shape: fetch array, func_0x00014012b840(array, index) = the element
+//     accessor, then a plain store (same shape as Scr_Camera_Update[i]).
+//   line 6: Load_Increment (0x18732) = 0
+//   line 7: Load_Cooldown (0x18731) = 0
+//   line 7b: Load_Bar_Timer (0x18730) = 2 * sprite_get_number(Load_Asset[
+//     Load_Increment]). Slot 0x1405c8c30 = sprite_get_number (registry),
+//     the index is Load_Increment read via func_0x00014012cd90, MUL helper
+//     0x1400053f0 (2.0 = 0x4000000000000000), result stored into the
+//     fetched Load_Bar_Timer slot.
+//   lines 12-14: for (var i = 0; i < 12; i += 1) Scr_Camera_Update[i] = -100
+//     — the standard for-loop shape (bound 0x4028000000000000 = 12.0;
+//     0xc059000000000000 = -100.0 is the "disabled timer" sentinel, the
+//     same convention as Obj_Night_Time/Create).
+//   line 18: spinner_angle (0x18772) = 0
+//   line 20: alpha (0x186da) = 0
+//   line 21: fading (0x18719) = 0
+//   line 23: Scr_Camera_Update[1] = 250 (0x406f400000000000) — arms timer
+//     1; the Step event counts it down by delta_factor and fires
+//     event_perform(ev_alarm, 1) when it expires.
+Loading = 0;
+Load_Asset[0] = 0;
+Load_Increment = 0;
+Load_Cooldown = 0;
+Load_Bar_Timer = 2 * sprite_get_number(Load_Asset[Load_Increment]);
+for (var i = 0; i < 12; i += 1) {
+    Scr_Camera_Update[i] = -100;
+}
+spinner_angle = 0;
+alpha = 0;
+fading = 0;
+Scr_Camera_Update[1] = 250;
+
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) Globals starting with '_' overlap smaller symbols at the same address
 // - literal slash-star form removed: it would close a GML block comment early.

@@ -1,18 +1,50 @@
-# Session progress (updated 2026-10-06)
+# Session progress (updated 2026-10-07)
 
 Snapshot for machine handoff — read this first on a new RDP box.
 
 ## Numbers
-- Ported: **150 / 350 tracked .gml files** carry the "PORTED from C"
+- Ported: **155 / 350 total .gml files** carry the "PORTED from C"
   marker (recount with
   `Get-ChildItem FNAFN-GML-project -Recurse -Filter *.gml | Select-String "PORTED from C" -List | Measure-Object`
-  — note: pwsh on this box, `grep -rl` works too). Up from 146 at the last
-  commit: +4 = the whole Obj_Night_Time object (Create, Step, Draw, both
-  Alarms).
-- Remaining: 192 files still carrying a "NOT YET PORTED" marker — mostly
+  — note: pwsh on this box, `grep -rl` works too). Up from 150 at the
+  2026-10-06 commit: +5 = Obj_Menu_Loading whole object (Create, Step, Draw,
+  Alarm_1) + Obj_Menu_Night_Display/Draw.
+- Remaining: 187 files still carrying a "NOT YET PORTED" marker — mostly
   the big gameplay Step/Alarm/Draw events + heavy logic scripts. Many of
   those now carry their decompiled C reference body (fill_empty_stubs.py
   backfill, see below), so they are ready to port.
+- Marker-audit (2026-10-07): 350 total = 155 PORTED + 187 NOT YET PORTED
+  with exactly 1 overlap (Obj_Menu_Continue/Mouse.gml carries both) and 9
+  files carrying neither — 8 are the ported action_*/customfunct_* scripts
+  in scripts/ported/ (hand-written, no marker) plus scripts/_unclassified.gml.
+
+## Session 2026-10-07
+- **Obj_Menu_Loading FULLY PORTED** — the loading-screen controller, all 4
+  events (Create 1531 B, Step 3228 B, Draw, Alarm_1):
+  - **Create**: `Loading = 0`, `Load_Asset[0] = 0` (Load_Asset is an ARRAY —
+    element accessor func_0x00014012b840, same shape as Scr_Camera_Update),
+    `Load_Increment = 0`, `Load_Cooldown = 0`,
+    `Load_Bar_Timer = 2 * sprite_get_number(Load_Asset[Load_Increment])`
+    (slot 0x1405c8c30 = sprite_get_number), the standard
+    `for (var i = 0; i < 12; i += 1) Scr_Camera_Update[i] = -100` disable
+    sweep, `spinner_angle = 0`, `alpha = 0`, `fading = 0`, then arms
+    `Scr_Camera_Update[1] = 250`.
+  - **Step**: the SAME timer sweep as Obj_Night_Time/Step (count down by
+    delta_factor, fire `event_perform(ev_alarm, i)` on expiry, skip the -100
+    sentinel). Then the load-tick: `if (Loading == 1) { Load_Cooldown -=
+    delta_factor; if (Load_Cooldown <= 0) event_perform(ev_alarm, 0); }`.
+    Two-case switch on `fading` lerps `alpha` (case consts @0x140655cd0 /
+    @0x140655ce4, table at 0x140655ce0).
+  - **Draw**: the loading bar + spinner; sprite ids named via
+    sprite_names.json (14 = Spr_Menu_Loading_Spinner).
+  - **Alarm_1**: the fade/handoff half of the sequence.
+- **Obj_Menu_Night_Display/Draw PORTED** — the night-number display
+  (sprite 78 = Spr_UI_Night_Number).
+- **NEW HELPER PROVEN — func_0x000140175530 = draw_set_halign**: 1-arg draw
+  state setter; disassembly shows it thunks to the 0/1/2 (fa_left/center/
+  right) enum setter at 0x1402a8670. Correction applied to
+  Obj_Menu_Pause/Draw: `draw_set_alpha(0)` TODO -> `draw_set_halign(fa_left)`.
+  This was the last unidentified 1-arg draw-state setter in the menu ports.
 
 ## Session 2026-10-06 (continued)
 - **SPRT BREAKTHROUGH — sprite_names.json**: data.win's SPRT chunk holds
@@ -273,9 +305,11 @@ Snapshot for machine handoff — read this first on a new RDP box.
 ## Next moves
 1. ~~Sweep `fading` slot rename~~ — DONE (2026-10-02).
 2. Finish the menu chain: Obj_Menu_Options {Create (5580 B), Draw (21253 B),
-   KeyPress_65/68 (WASD), Mouse_53}. Obj_Menu_Continue is now COMPLETE
+   KeyPress_65/68 (WASD), Mouse_53}. Obj_Menu_Continue is COMPLETE
    (all 8 events ported this session incl. Step + KeyPress_69). The
    Options Create/Draw C references are in place (stub filler ran).
+   Obj_Menu_Loading and Obj_Menu_Night_Display/Draw are now DONE too
+   (2026-10-07).
 3. ~~Re-audit the ~200 object-tagged helper call sites~~ — DONE (2026-10-02):
    `obj_var_ownership.py` -> `obj_var_ownership.md` (278 sites: 231 writes /
    47 reads, 42 (object,var) pairs). All 7 `fea0` property slots resolved:
@@ -286,12 +320,13 @@ Snapshot for machine handoff — read this first on a new RDP box.
 4. ~~customfunct_ui_button_detection~~ — DONE this session (scripts/ported/,
    5-arg box test). All named scripts are now ported.
 5. ~~Port the 19 backfilled events~~ — STARTED: Obj_Night_Time {Create,
-   Step, Draw, Alarm_0, Alarm_1} is DONE (whole object, this session).
-   Remaining: postprocess/Draw (2418 B, the OLDTVFilter composite),
-   Obj_Menu_Loading {Step, Draw}, Obj_Night_UI_{Power,Camera_Button}/Draw,
+   Step, Draw, Alarm_0, Alarm_1} is DONE (whole object, 2026-10-06);
+   Obj_Menu_Loading (all 4 events) + Obj_Menu_Night_Display/Draw DONE
+   (2026-10-07). Remaining: postprocess/Draw (2418 B, the OLDTVFilter
+   composite), Obj_Night_UI_{Power,Camera_Button}/Draw,
    Obj_Office_Camera_Control/Draw, Obj_RoundedRoom{,Deactivated}/Draw,
-   Obj_Night_Shift_End/Draw, Obj_Menu_Night_Display/Draw,
-   obj_OLDTVFilter_PresetBase/Draw, Obj_System_{RAM_Usage,Stats_Check}/Draw,
+   Obj_Night_Shift_End/Draw, obj_OLDTVFilter_PresetBase/Draw,
+   Obj_System_{RAM_Usage,Stats_Check}/Draw,
    Obj_Office_Front_{Middle,Left,Right}. Their C references are all in-file.
    NOTE: sprite ids in every Draw are now nameable via sprite_names.json.
 6. With sprite_names.json proven, sweep the remaining Draw events: the

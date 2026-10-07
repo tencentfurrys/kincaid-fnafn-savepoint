@@ -1,8 +1,61 @@
-/// @description FNAFN Obj_Menu_Loading / Draw - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
-// ground truth: gml_Object_Obj_Menu_Loading_Draw_75 (2887 B @0x140092560)
+/// @description FNAFN Obj_Menu_Loading / Draw — PORTED from C
+// Ground truth: gml_Object_Obj_Menu_Loading_Draw_75 (2887 B @0x140092560)
+// The loading screen: rotating spinner + "n/m" progress label, both pinned
+// near the bottom of the screen. uStack_108 = 1..9 are GML source-line
+// markers. Decoded in order:
+//   line 1: make_color_rgb(225, 0, 220) — func_0x0001401756a0(r,g,b)
+//     (PROVEN in Obj_Menu_Pause/Draw). 0xe1=225, 0xdc=220. Computed once
+//     and reused as c1..c4, so it is a local in the port.
+//   line 2: func_0x000140175520(0) = draw_set_font(0). DISASSEMBLY-CONFIRMED
+//     2026-10-07: 0x140175520 thunks to 0x1402a8630, which validates the id
+//     via the resource check and stores it (else -1) — exactly draw_set_font.
+//   lines 3-4: func_0x000140175530(1) / 0x140175540(1) = the two draw
+//     ALIGNMENT setters — DISASSEMBLY-CONFIRMED: both thunk to tiny routines
+//     that map 0/1/2 to 0/1/2 written into two adjacent enum dwords in the
+//     draw state (@0x140891fb0 / @0x140891fb4). They sit in the runner's
+//     table immediately after draw_set_font, matching the manual order
+//     draw_set_font / draw_set_halign / draw_set_valign, and the (1,1) then
+//     (0,0) set/reset mirrors the manual's fa_center/fa_middle example:
+//       0x140175530 = draw_set_halign (0=fa_left, 1=fa_center, 2=fa_right)
+//       0x140175540 = draw_set_valign (0=fa_top, 1=fa_middle, 2=fa_bottom)
+//     (halign-vs-valign assignment is by table order; TODO(calibrate) if a
+//     reader of the two dwords is ever found.)
+//   line 5: draw_sprite_ext(Spr_Menu_Loading_Spinner, 0, 80, y, 1, 1,
+//     spinner_angle, c_white, alpha). Sprite id 0xe = 14 = SPRT chunk index
+//     14 (sprite_names.json). x = the f32 const at 0x14043b894 = 80.0
+//     (stored in .rdata 4 bytes before this function's profiler-name
+//     string). y = surface_get_height(application_surface) - 84:
+//     application_surface = slot 0x1405c7ba8 read via the property-read
+//     helper, surface_get_height = slot 0x1405c8af0, and the subtract-
+//     constant helper func_0x00014002fc60(dest, src, N) = dest = src - N
+//     (PROVEN by disassembly: copies src, converts N, tail-calls the -=
+//     helper). N = 0x54 = 84.
+//   line 6: draw_text_transformed_colour(84, surface_get_height(
+//     application_surface) - 84, <string>, 0.7, 0.7, <angle>, _col, _col,
+//     _col, _col, alpha). ARGUMENT ORDER NOTE (PROVEN 2026-10-07): the
+//     manual's signature is draw_text_transformed_colour(x, y, string,
+//     xscale, yscale, angle, c1, c2, c3, c4, alpha) — the string is THIRD,
+//     not first. This was cross-checked against three call sites
+//     (this one, Obj_Night_Music_Switch/Draw draw_text_colour, and
+//     Obj_Menu_Options/Draw draw_text_transformed) and the instance_create_
+//     layer arg-chain convention (the call performer 0x1401445d0 collects
+//     args ascending from the head pointer, so head[0] is arg1).
+//     The string = string(Load_Increment) + "/" + string(array_length(
+//     Load_Asset) - 1) — the "/" string const @0x1405c49a8 plus two string()
+//     calls (slot 0x1405c8840) joined by the ADD helper 0x140005290 (= +
+//     for strings). 0.7 = the double @0x1405c49c0; the angle is runtime
+//     pool const @0x140655d00 (TODO(calibrate)).
+//   lines 7-9: draw_set_halign(fa_left) + draw_set_valign(fa_top) — the
+//     state reset (0x140175530(0) / 0x140175540(0)).
+var _col = make_color_rgb(225, 0, 220);
+draw_set_font(0);
+draw_set_halign(fa_center);
+draw_set_valign(fa_middle);
+draw_sprite_ext(Spr_Menu_Loading_Spinner, 0, 80, surface_get_height(application_surface) - 84, 1, 1, spinner_angle, c_white, alpha);
+draw_text_transformed_colour(84, surface_get_height(application_surface) - 84, string(Load_Increment) + "/" + string(array_length(Load_Asset) - 1), 0.7, 0.7, 0 /* TODO(calibrate): runtime const @0x140655d00 (text angle) */, _col, _col, _col, _col, alpha);
+draw_set_halign(fa_left);
+draw_set_valign(fa_top);
+
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 

@@ -1,8 +1,68 @@
-/// @description FNAFN Obj_Menu_Loading / Step - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
-// ground truth: gml_Object_Obj_Menu_Loading_Step_1 (3228 B @0x140091220)
+/// @description FNAFN Obj_Menu_Loading / Step — PORTED from C
+// Ground truth: gml_Object_Obj_Menu_Loading_Step_1 (3228 B @0x140091220)
+// The loading-screen controller, part 2. uStack_a0 = 3..0x37 are GML source
+// line markers; delta_factor (id 0x1870b) is read once into uStack_110.
+//   lines 6-14: the SAME timer sweep as Obj_Night_Time/Step:
+//     for (var i = 0; i < array_length(Scr_Camera_Update); i += 1). A
+//     timer still > 0 counts down by delta_factor (func_0x00014000bdb0 =
+//     the -= op helper); a timer that has reached <= 0 (round()ed) and is
+//     not the -100 "disabled" sentinel is set to -100 and fires
+//     event_perform(ev_alarm, i) (func_0x000140181c50, PROVEN 2026-10-06).
+//     array_length (0x1405c8ba0) + round (0x1405c89b0) are registry-
+//     confirmed. This drives the loading screen's own timed sequence
+//     (Create arms Scr_Camera_Update[1] = 250).
+//   lines 20-21: if (Loading == 1) { Load_Cooldown -= delta_factor; if
+//     (Load_Cooldown <= 0) event_perform(ev_alarm, 0); } — the load-tick:
+//     compare flags 0 + result == 0 for Loading vs 1.0, flags 1 +
+//     result < 1 (=> <=) for Load_Cooldown vs 0.
+//   lines 25-31: two-case switch on fading (id 0x18719), case constants
+//     0 (pool const @0x140655cd0) and 1.0 (@0x140655ce4) with the case
+//     table at 0x140655ce0 (table[1] = 1 written explicitly => table[0] =
+//     0), the same guarded-pool shape as Obj_Night_Time/Step:
+//     fading == 0: alpha = lerp(alpha, 1, 0.015*delta) — the fade-IN
+//       target is the .data double @0x1405c4998 = 1.0 (0x3f8eb851eb851eb8
+//       = 0.015; lerp = slot 0x1405c8cc0).
+//     fading == 1: alpha = lerp(alpha, <runtime pool const @0x140655cc0>,
+//       0.015*delta) — the fade-OUT target is seeded at load time, not
+//       readable from the exe: TODO(calibrate) (a fade-out, so 0 is the
+//       likely value). Then if (alpha < 0.005) (0x3f747ae147ae147b):
+//       Switches_to_room (0x1877d) == 1 -> room_goto(Room_to_go_to)
+//       (0x18760; slot 0x1405c8cb0), else instance_destroy()
+//       (func_0x00014017c070, PROVEN 2026-10-06).
+//   line 0x37 (last): spinner_angle (0x18772) -= 15 (0x402e000000000000)
+//     — unconditional, spins the loading spinner sprite every step.
+for (var i = 0; i < array_length(Scr_Camera_Update); i += 1) {
+    if (Scr_Camera_Update[i] <= 0) {
+        if (round(Scr_Camera_Update[i]) <= 0) {
+            if (round(Scr_Camera_Update[i]) > -100) {
+                Scr_Camera_Update[i] = -100;
+                event_perform(ev_alarm, i);
+            }
+        }
+    } else {
+        Scr_Camera_Update[i] -= delta_factor;
+    }
+}
+if (Loading == 1) {
+    Load_Cooldown -= delta_factor;
+    if (Load_Cooldown <= 0) {
+        event_perform(ev_alarm, 0);
+    }
+}
+if (fading == 0) {
+    alpha = lerp(alpha, 1, 0.015 * delta_factor);
+} else if (fading == 1) {
+    alpha = lerp(alpha, 0 /* TODO(calibrate): runtime const @0x140655cc0 (fade-out target) */, 0.015 * delta_factor);
+    if (alpha < 0.005) {
+        if (Switches_to_room == 1) {
+            room_goto(Room_to_go_to);
+        } else {
+            instance_destroy();
+        }
+    }
+}
+spinner_angle -= 15;
+
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 

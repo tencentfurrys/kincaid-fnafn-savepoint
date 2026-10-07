@@ -1,8 +1,28 @@
-/// @description FNAFN Obj_Menu_Night_Display / Draw - NOT YET PORTED
-// Original GML was YYC-compiled into FNAFN.exe. The C below is the exact
-// machine-level semantics recovered by Ghidra. Porting task: express this
-// in GML. Call graph and names are intact (see gml_all_414_decompiled.c).
-// ground truth: gml_Object_Obj_Menu_Night_Display_Draw_75 (899 B @0x1400599a0)
+/// @description FNAFN Obj_Menu_Night_Display / Draw — PORTED from C
+// Ground truth: gml_Object_Obj_Menu_Night_Display_Draw_75 (899 B @0x1400599a0)
+// Draws the "Night N" number sprite dead-center of the screen:
+//   draw_sprite_ext(Spr_UI_Night_Number, image_index, w/2, h/2, 1, 1, 0,
+//     c_white, alpha).
+//   - sprite id 0x4e = 78 = SPRT chunk index 78 = Spr_UI_Night_Number
+//     (sprite_names.json — the id passed to func_0x0001401755c0 IS the SPRT
+//     chunk index, PROVEN 2026-10-06).
+//   - subimg = image_index, read via the property-read helper
+//     func_0x00014015f1a0 on slot 0x1405c7aa8 = image_index.
+//   - x = surface_get_width(application_surface) / 2, y =
+//     surface_get_height(application_surface) / 2. The two half-screen
+//     values come from a NEW helper pair PROVEN by disassembly 2026-10-07:
+//       func_0x00014001f910(dest, src, N) = dest = src / N
+//     It copies the src RValue into dest, stages N as a double, then
+//     tail-calls func_0x14001fc10 — the generic binary-op helper whose
+//     double path is `divsd` (verified at 0x14001fcf9). N here is the
+//     .rdata double _UNK_140439e68 = 2.0. (Compare func_0x00014002fc60 =
+//     the same shape but with the -= helper => src - N.)
+//   - surface_get_width = slot 0x1405c8ae0, surface_get_height = slot
+//     0x1405c8af0, application_surface = slot 0x1405c7ba8 (registry).
+//   - xscale/yscale = 1.0 (0x3f800000), rot = 0, colour = 0xffffff =
+//     c_white, alpha = the instance var alpha (id 0x186da).
+draw_sprite_ext(Spr_UI_Night_Number, image_index, surface_get_width(application_surface) / 2, surface_get_height(application_surface) / 2, 1, 1, 0, c_white, alpha);
+
 /* BEGIN DECOMPILED REFERENCE
 // (Ghidra note) WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
