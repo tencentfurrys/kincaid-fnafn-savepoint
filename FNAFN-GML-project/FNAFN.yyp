@@ -1,12 +1,624 @@
 {
   "name": "FNAFN",
   "types": "GMProject2",
-  "resources": [],
+  "resources": [
+    {
+      "id": "d8a7f093-6faf-4c31-8093-dc80420d5bf7",
+      "resourcePath": "objects/Obj_Camera_Static/Obj_Camera_Static.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "717cdcdd-0c49-425e-a12d-88e59db24063",
+      "resourcePath": "objects/Obj_Filter_Camera/Obj_Filter_Camera.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "3bbd09d2-4f7d-4520-af38-9bbbc8d5f5f3",
+      "resourcePath": "objects/Obj_Filter_Menus/Obj_Filter_Menus.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "1f50a378-d8ac-426e-b590-35f39f0e7ed1",
+      "resourcePath": "objects/Obj_Game_Over/Obj_Game_Over.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "7491faf2-a2d7-4525-b72d-fed29f524f0d",
+      "resourcePath": "objects/Obj_Game_Over_Tablet/Obj_Game_Over_Tablet.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "65211ce7-5ebc-43c2-9c27-3b1da264a42d",
+      "resourcePath": "objects/Obj_Jumpscare/Obj_Jumpscare.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "c66824cb-f68f-431d-9a43-38abdbd400d2",
+      "resourcePath": "objects/Obj_Menu_CN_Control/Obj_Menu_CN_Control.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "cadc3112-cc12-48cb-b0a4-9a7eed8ea98f",
+      "resourcePath": "objects/Obj_Menu_CN_Images/Obj_Menu_CN_Images.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "2c562cdd-b601-4f53-ac60-84a03b0efa0d",
+      "resourcePath": "objects/Obj_Menu_Continue/Obj_Menu_Continue.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "f25293e8-92c2-4b16-8ece-6c3acaedf760",
+      "resourcePath": "objects/Obj_Menu_Customize/Obj_Menu_Customize.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "91ef51bd-225e-422a-bf23-c7838191bbe7",
+      "resourcePath": "objects/Obj_Menu_Disclaimer/Obj_Menu_Disclaimer.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "38f608cf-bb96-4ca8-b00f-66877d3f8a29",
+      "resourcePath": "objects/Obj_Menu_Fade/Obj_Menu_Fade.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "060d3d02-7190-4ab9-b68c-e08104533eb9",
+      "resourcePath": "objects/Obj_Menu_Loading/Obj_Menu_Loading.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "0d23920f-e6e5-4281-aee1-5d20dff949ce",
+      "resourcePath": "objects/Obj_Menu_Main_Back/Obj_Menu_Main_Back.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "c06c36fc-a2cd-4ff1-b67d-e3d2a946e1eb",
+      "resourcePath": "objects/Obj_Menu_Main_Music/Obj_Menu_Main_Music.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "355f01cc-745b-496a-bc50-20830e15f96f",
+      "resourcePath": "objects/Obj_Menu_Main_Options/Obj_Menu_Main_Options.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "877fc6b2-48a5-4826-8696-5834ab83f3b6",
+      "resourcePath": "objects/Obj_Menu_Main_Title/Obj_Menu_Main_Title.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "0aab619a-071f-4640-a197-eff3fc83df9e",
+      "resourcePath": "objects/Obj_Menu_Night_Display/Obj_Menu_Night_Display.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "1f8a4058-fa18-412d-bddb-3cb60ece9fea",
+      "resourcePath": "objects/Obj_Menu_Options/Obj_Menu_Options.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "695fac61-5bc4-4f6d-b442-f3467e212a3c",
+      "resourcePath": "objects/Obj_Menu_Options_Icons/Obj_Menu_Options_Icons.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "d996d8bb-2646-42a0-b503-1f773b71645b",
+      "resourcePath": "objects/Obj_Menu_Options_Preview/Obj_Menu_Options_Preview.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "1c8068f2-d078-4e0b-b657-0c78ae0d2877",
+      "resourcePath": "objects/Obj_Menu_Options_Selector/Obj_Menu_Options_Selector.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "d492f7ce-472d-46da-8d57-27709cff977b",
+      "resourcePath": "objects/Obj_Menu_Pause/Obj_Menu_Pause.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "18171a2b-5117-4893-bffc-3c0ce02ba782",
+      "resourcePath": "objects/Obj_Menu_Radio_Cassette/Obj_Menu_Radio_Cassette.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "e43d515d-38e9-4caa-9e73-a14282bd035e",
+      "resourcePath": "objects/Obj_Menu_Radio_Play/Obj_Menu_Radio_Play.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "454cfdef-9d7d-4325-a020-da2104ebd070",
+      "resourcePath": "objects/Obj_Menu_Selector/Obj_Menu_Selector.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "49df5c76-6d39-42af-a26e-09cb42a8eeb3",
+      "resourcePath": "objects/Obj_Menu_Static/Obj_Menu_Static.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "81234ce0-2726-4971-bcde-94c460d7d314",
+      "resourcePath": "objects/Obj_Menu_Transition/Obj_Menu_Transition.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "f5353226-fe9b-422d-aac3-7e8deaea08af",
+      "resourcePath": "objects/Obj_Menu_Warning/Obj_Menu_Warning.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "74b97456-c96c-4ad9-830e-b0c38c946730",
+      "resourcePath": "objects/Obj_Night_1_5_Bonnie_AI/Obj_Night_1_5_Bonnie_AI.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "06d30032-acb4-4345-aa95-01c02379e4e4",
+      "resourcePath": "objects/Obj_Night_1_5_Chica_AI/Obj_Night_1_5_Chica_AI.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "b6be131f-0363-4d26-baed-d2abfe9952f7",
+      "resourcePath": "objects/Obj_Night_1_5_Foxy_AI/Obj_Night_1_5_Foxy_AI.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "40071691-e321-425d-8f21-4a950dfdd93f",
+      "resourcePath": "objects/Obj_Night_1_5_Freddy_AI/Obj_Night_1_5_Freddy_AI.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "abb42111-5a3a-47e7-bbc5-9109b48bb69d",
+      "resourcePath": "objects/Obj_Night_1_5_Mangle_AI/Obj_Night_1_5_Mangle_AI.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "18b9d139-8c0b-487f-b2d5-96c475773cb4",
+      "resourcePath": "objects/Obj_Night_Camera_Flash/Obj_Night_Camera_Flash.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "6dd6dffb-fa99-4765-a7a3-6f0345be3bb3",
+      "resourcePath": "objects/Obj_Night_Camera_Icons/Obj_Night_Camera_Icons.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "4f3397a0-9635-4357-97d0-1039e0cb3f97",
+      "resourcePath": "objects/Obj_Night_Camera_Icons_Select/Obj_Night_Camera_Icons_Select.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "48164cb4-ce14-42b6-a351-c7791c05a9bc",
+      "resourcePath": "objects/Obj_Night_Camera_Map/Obj_Night_Camera_Map.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "984a969c-ce3b-4187-b630-511c867b89ed",
+      "resourcePath": "objects/Obj_Night_Camera_Record/Obj_Night_Camera_Record.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "090c4967-d17e-4ca5-81a6-2af9965cd369",
+      "resourcePath": "objects/Obj_Night_Camera_Screen/Obj_Night_Camera_Screen.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "325365c8-acfb-481b-8af3-20e261ba2f3c",
+      "resourcePath": "objects/Obj_Night_Camera_Screen_Flash/Obj_Night_Camera_Screen_Flash.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "e004abe6-b15a-4f4c-bde5-0f6a94de8a03",
+      "resourcePath": "objects/Obj_Night_Camera_Switch/Obj_Night_Camera_Switch.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "65d2e097-f999-43d7-9e06-97ac711b978d",
+      "resourcePath": "objects/Obj_Night_Camera_Tablet/Obj_Night_Camera_Tablet.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "d5165959-587c-4aaf-b4db-9b12243005f5",
+      "resourcePath": "objects/Obj_Night_Camera_Tether_Lock/Obj_Night_Camera_Tether_Lock.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "d33c20d5-dc0d-4856-9791-d3a9db0e10f9",
+      "resourcePath": "objects/Obj_Night_Music_Switch/Obj_Night_Music_Switch.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "ba775e48-da29-467e-8daf-d111629b10d3",
+      "resourcePath": "objects/Obj_Night_Radio_Buttons/Obj_Night_Radio_Buttons.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "b57234d6-9bd0-48b4-afb2-762f26609448",
+      "resourcePath": "objects/Obj_Night_Radio_Spinner/Obj_Night_Radio_Spinner.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "98cb6a8b-151d-47d6-9796-2b34f80c495d",
+      "resourcePath": "objects/Obj_Night_Shift_End/Obj_Night_Shift_End.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "fddb91c7-314d-484c-8701-f0dc54c9d5b7",
+      "resourcePath": "objects/Obj_Night_Time/Obj_Night_Time.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "49f55bb1-330c-4899-8814-a4a5a1f12b4d",
+      "resourcePath": "objects/Obj_Night_UI_Camera_Button/Obj_Night_UI_Camera_Button.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "edfef08d-9adf-4895-81b8-5df2a429ca0f",
+      "resourcePath": "objects/Obj_Night_UI_Power/Obj_Night_UI_Power.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "9d972870-0fc6-41b0-b512-3425f8f64ce3",
+      "resourcePath": "objects/Obj_Night_Vent_Icons/Obj_Night_Vent_Icons.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "08a5efbf-d629-4bbe-bb59-c7ad8b1b472b",
+      "resourcePath": "objects/Obj_Office_Back/Obj_Office_Back.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "ecbee64b-33bf-450f-9331-1bfbf4fb1b02",
+      "resourcePath": "objects/Obj_Office_Back_Flashlight/Obj_Office_Back_Flashlight.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "1bb43a5d-3d73-449d-aa75-0a9b1d0d5af2",
+      "resourcePath": "objects/Obj_Office_Camera_Control/Obj_Office_Camera_Control.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "254eb498-0fdb-4c97-a788-5a8d7719695d",
+      "resourcePath": "objects/Obj_Office_Front_Buttons_Red/Obj_Office_Front_Buttons_Red.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "aa866698-2635-4a77-b44b-5bf4872ce3ae",
+      "resourcePath": "objects/Obj_Office_Front_Figurines/Obj_Office_Front_Figurines.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "cd27aff8-b617-416e-8e44-64f3b088af97",
+      "resourcePath": "objects/Obj_Office_Front_Left/Obj_Office_Front_Left.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "c58969ef-79cb-45fd-a48c-57a9432a5a44",
+      "resourcePath": "objects/Obj_Office_Front_Middle/Obj_Office_Front_Middle.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "39183401-e134-405e-a3fa-679df6f990b2",
+      "resourcePath": "objects/Obj_Office_Front_Right/Obj_Office_Front_Right.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "4351ff09-a857-46d7-9de9-b031e231854c",
+      "resourcePath": "objects/Obj_Office_Light_Back/Obj_Office_Light_Back.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "7b81d3ef-c743-472e-8e0e-8b56f345aa1e",
+      "resourcePath": "objects/obj_OLDTVFilter_BW/obj_OLDTVFilter_BW.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "804a1be3-d010-4b0e-ab8e-e812fd740010",
+      "resourcePath": "objects/obj_OLDTVFilter_Composite/obj_OLDTVFilter_Composite.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "3079944a-b380-4f10-afb5-42ebdfa0b444",
+      "resourcePath": "objects/obj_OLDTVFilter_PresetBase/obj_OLDTVFilter_PresetBase.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "14fc1b0f-b121-40b6-aa08-db5c5bead059",
+      "resourcePath": "objects/obj_OLDTVFilter_RGB/obj_OLDTVFilter_RGB.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "19fac49d-8932-4c74-94c7-fe8fc7b34a17",
+      "resourcePath": "objects/obj_OLDTVFilter_Scanline_Only/obj_OLDTVFilter_Scanline_Only.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "bd2a99c4-95ae-40bc-bf3c-43670d8a1497",
+      "resourcePath": "objects/obj_OLDTVFilter_SVideo/obj_OLDTVFilter_SVideo.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "845d3879-8f1f-4f7b-8a6a-778bdf840d4d",
+      "resourcePath": "objects/obj_OLDTVFilter_Tube_Only/obj_OLDTVFilter_Tube_Only.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "1a1305e7-473e-4859-9772-4ebc5313b669",
+      "resourcePath": "objects/obj_OLDTVFilter_VHS/obj_OLDTVFilter_VHS.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "086cfbdf-d6bf-45cc-a080-960163b9f4a3",
+      "resourcePath": "objects/Obj_Pause/Obj_Pause.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "6abd3fcf-a13b-423d-b3f6-39d8383bf5e7",
+      "resourcePath": "objects/Obj_RoundedRoom/Obj_RoundedRoom.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "d68945e1-62b3-42dd-a1a2-523d98b00f8f",
+      "resourcePath": "objects/Obj_RoundedRoomDeactivated/Obj_RoundedRoomDeactivated.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "94d5b644-27dd-4b29-8952-33f4b7f5eb38",
+      "resourcePath": "objects/Obj_System_Delta_Time/Obj_System_Delta_Time.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "ab6e3fbc-58ac-494c-bef6-96d3997e3e32",
+      "resourcePath": "objects/Obj_System_RAM_Usage/Obj_System_RAM_Usage.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "8a151d26-8f5b-414c-a66f-01f0bae3d20c",
+      "resourcePath": "objects/Obj_System_Stats_Check/Obj_System_Stats_Check.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "5e79400d-bdd5-4bba-80e2-ed644fe07915",
+      "resourcePath": "objects/postprocess/postprocess.yy",
+      "resourceType": "GMObject"
+    },
+    {
+      "id": "70c049cb-ad41-43a6-bbfb-2b98f9e1d03e",
+      "resourcePath": "scripts/Animation.yy",
+      "resourceType": "GMScript"
+    },
+    {
+      "id": "f461c306-19f3-4875-934c-7700b9d751dd",
+      "resourcePath": "scripts/Audio.yy",
+      "resourceType": "GMScript"
+    },
+    {
+      "id": "b87d72e0-c0c1-4ef2-aefe-5dcc779d924f",
+      "resourcePath": "scripts/Camera.yy",
+      "resourceType": "GMScript"
+    },
+    {
+      "id": "c24a1dfe-e776-4387-843a-ae593328bcfb",
+      "resourcePath": "scripts/Game_Save_And_Load.yy",
+      "resourceType": "GMScript"
+    },
+    {
+      "id": "4352918d-bb2c-43c9-a35e-6448a147e85c",
+      "resourcePath": "scripts/Scr_Camera_Update.yy",
+      "resourceType": "GMScript"
+    },
+    {
+      "id": "aaab034b-b9d8-4a3a-a374-d65aa404e557",
+      "resourcePath": "scripts/UI.yy",
+      "resourceType": "GMScript"
+    },
+    {
+      "id": "19edc838-02ea-4382-b630-c05f1a1cd7d4",
+      "resourcePath": "scripts/Update.yy",
+      "resourceType": "GMScript"
+    },
+    {
+      "id": "1f59b4a1-26a8-4b76-9268-b5d4c81bbd1e",
+      "resourcePath": "scripts/__background_get_element.yy",
+      "resourceType": "GMScript"
+    },
+    {
+      "id": "9838d681-191a-47c3-8a24-4834c3da821c",
+      "resourcePath": "scripts/__background_get_internal.yy",
+      "resourceType": "GMScript"
+    },
+    {
+      "id": "cb299c92-0586-4546-929f-ecd7466e796a",
+      "resourcePath": "scripts/__background_set.yy",
+      "resourceType": "GMScript"
+    },
+    {
+      "id": "694c2353-78a1-4454-944d-e86249385734",
+      "resourcePath": "scripts/__background_set_element.yy",
+      "resourceType": "GMScript"
+    },
+    {
+      "id": "786afb82-150f-471a-bbdc-6861e0083121",
+      "resourcePath": "scripts/__background_set_internal.yy",
+      "resourceType": "GMScript"
+    },
+    {
+      "id": "8b159e72-59ab-42ed-ba60-fec700d2836a",
+      "resourcePath": "scripts/__init_action.yy",
+      "resourceType": "GMScript"
+    },
+    {
+      "id": "a0e9a927-4472-4c13-bf7a-408fd0f96527",
+      "resourcePath": "scripts/__init_background.yy",
+      "resourceType": "GMScript"
+    },
+    {
+      "id": "a887c89f-e040-48f5-9b86-f50b9b6f1d26",
+      "resourcePath": "scripts/__init_global.yy",
+      "resourceType": "GMScript"
+    },
+    {
+      "id": "2f3c2058-fa53-4511-a241-92853220e4ae",
+      "resourcePath": "scripts/__init_view.yy",
+      "resourceType": "GMScript"
+    },
+    {
+      "id": "8a17a3ba-ba48-4ad2-8bd0-8e806db7c0c6",
+      "resourcePath": "scripts/__view_get.yy",
+      "resourceType": "GMScript"
+    },
+    {
+      "id": "ee53031c-ec05-45fa-8688-118dc0bdec32",
+      "resourcePath": "scripts/action_draw_sprite.yy",
+      "resourceType": "GMScript"
+    },
+    {
+      "id": "921acab3-a123-4421-a3e8-cc55125eaca6",
+      "resourcePath": "scripts/action_if_next_room.yy",
+      "resourceType": "GMScript"
+    },
+    {
+      "id": "8852029a-ca9a-4cbd-b70f-427ffe41184a",
+      "resourcePath": "scripts/action_next_room.yy",
+      "resourceType": "GMScript"
+    },
+    {
+      "id": "0d6ac80a-1f60-4716-abdb-0cf910eb98f4",
+      "resourcePath": "scripts/customfunct_audio_play_sound_directional_single.yy",
+      "resourceType": "GMScript"
+    },
+    {
+      "id": "cd3a1000-1c2e-4318-8b27-076d1d4ae550",
+      "resourcePath": "scripts/customfunct_audio_play_sound_single.yy",
+      "resourceType": "GMScript"
+    },
+    {
+      "id": "29183166-d64f-4ed1-a3e2-7ac9a9af7003",
+      "resourcePath": "scripts/customfunct_game_create_music_stream.yy",
+      "resourceType": "GMScript"
+    },
+    {
+      "id": "6b4df87d-e203-4c91-9b6e-f60e90d933e9",
+      "resourcePath": "scripts/customfunct_game_load.yy",
+      "resourceType": "GMScript"
+    },
+    {
+      "id": "e123ccaa-4843-4146-ad95-06879c26a492",
+      "resourcePath": "scripts/customfunct_game_load_music.yy",
+      "resourceType": "GMScript"
+    },
+    {
+      "id": "09b60a0e-c41f-4581-9696-ddd5845cb517",
+      "resourcePath": "scripts/customfunct_game_music_clear.yy",
+      "resourceType": "GMScript"
+    },
+    {
+      "id": "d2d8a940-cde1-4c9c-b936-40c7edca3dca",
+      "resourcePath": "scripts/customfunct_game_save.yy",
+      "resourceType": "GMScript"
+    },
+    {
+      "id": "dea6a18e-4adc-4a91-957b-3a6e6a07004b",
+      "resourcePath": "scripts/customfunct_game_save_music.yy",
+      "resourceType": "GMScript"
+    },
+    {
+      "id": "f33476a5-be5a-4bbe-957f-5f7a364b8cbc",
+      "resourcePath": "scripts/customfunct_image_speed_delta.yy",
+      "resourceType": "GMScript"
+    },
+    {
+      "id": "53ff9e58-c1a8-43ab-a56b-3c7d8a00c59b",
+      "resourcePath": "scripts/customfunct_options_update.yy",
+      "resourceType": "GMScript"
+    },
+    {
+      "id": "a88d9e8f-2810-4fdd-812a-ed9b29f5a7d3",
+      "resourcePath": "scripts/customfunct_ui_button_detection.yy",
+      "resourceType": "GMScript"
+    },
+    {
+      "id": "0a8163a7-6f9f-409a-9d21-717f29ae641d",
+      "resourcePath": "scripts/customfunct_ui_button_detection_x.yy",
+      "resourceType": "GMScript"
+    },
+    {
+      "id": "161c860a-2d58-405d-b605-1e4cbf4c78f5",
+      "resourcePath": "scripts/draw_lensflare.yy",
+      "resourceType": "GMScript"
+    },
+    {
+      "id": "adc366a6-c091-4b33-9123-d64a1d3c4560",
+      "resourcePath": "scripts/draw_set_blend_mode.yy",
+      "resourceType": "GMScript"
+    },
+    {
+      "id": "6e45c1e2-08e5-46ca-842a-e1ffd82a5c33",
+      "resourcePath": "scripts/scr_OLDTVFilter_Draw.yy",
+      "resourceType": "GMScript"
+    },
+    {
+      "id": "6468dddb-36aa-4ab0-96a6-234546c934c4",
+      "resourcePath": "scripts/scr_OLDTVFilter_Settings.yy",
+      "resourceType": "GMScript"
+    },
+    {
+      "id": "c7ed2b38-3cf7-4e26-8342-4f2acd4ff29b",
+      "resourcePath": "scripts/scr_OLDTVFilter_Setup.yy",
+      "resourceType": "GMScript"
+    },
+    {
+      "id": "4a668d99-3eb1-4b34-bdad-27239886030c",
+      "resourcePath": "rooms/Rm_Menu_Custom_Night/Rm_Menu_Custom_Night.yy",
+      "resourceType": "GMRoom"
+    },
+    {
+      "id": "64efcb2c-1371-4aec-8112-c006781e1e5b",
+      "resourcePath": "rooms/Rm_Menu/Rm_Menu.yy",
+      "resourceType": "GMRoom"
+    },
+    {
+      "id": "d03b9310-9f53-468a-96d2-2ab1899f1335",
+      "resourcePath": "rooms/Rm_NightEnd/Rm_NightEnd.yy",
+      "resourceType": "GMRoom"
+    },
+    {
+      "id": "85d04092-37fe-490f-aec1-39dc0f5e6257",
+      "resourcePath": "rooms/Rm_Debug/Rm_Debug.yy",
+      "resourceType": "GMRoom"
+    },
+    {
+      "id": "d57e482c-f8e6-40d4-9ba8-a70b122221bb",
+      "resourcePath": "rooms/Rm_Office/Rm_Office.yy",
+      "resourceType": "GMRoom"
+    },
+    {
+      "id": "a0af0c34-83d6-4e26-b4b5-2b42fcf87a59",
+      "resourcePath": "rooms/Rm_Loading/Rm_Loading.yy",
+      "resourceType": "GMRoom"
+    },
+    {
+      "id": "b39d5c1b-0263-44c9-afef-5717189225c3",
+      "resourcePath": "rooms/Rm_Warning/Rm_Warning.yy",
+      "resourceType": "GMRoom"
+    },
+    {
+      "id": "5cbd4bbc-1b1e-4810-941a-b06716832267",
+      "resourcePath": "rooms/Rm_Jumpscare/Rm_Jumpscare.yy",
+      "resourceType": "GMRoom"
+    },
+    {
+      "id": "b57f602f-72b7-4404-94f9-8bee7b9f8e4a",
+      "resourcePath": "rooms/Rm_Initialize/Rm_Initialize.yy",
+      "resourceType": "GMRoom"
+    }
+  ],
   "RoomGenerationSettings": {},
   "MetaFiles": [],
   "Options": [],
   "isDnDProject": false,
   "projectType": "gmproj",
   "CompressionLevel": 0,
-  "resourceType": "GMProject"
+  "resourceType": "GMProject",
+  "resourceVersion": "2.0"
 }
